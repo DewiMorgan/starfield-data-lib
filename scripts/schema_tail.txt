@@ -1,0 +1,8 @@
+
+// Tags that are universal to almost all records
+inline std::map<std::string, TagInfo> g_CommonTags = {
+    {"EDID", {"Editor ID", FieldType::String}},
+    {"FULL", {"Full Name", FieldType::String}},
+};
+
+#endif

@@ -1,0 +1,21 @@
+# Binaries & Build
+starfield_reader
+sdl_search
+bin/
+vendor/
+*.o
+*.out
+
+# Game Data
+*.esm
+*.esp
+*.esl
+*.ba2
+
+# DB Dumps
+# (Keep schema.sql, but ignore actual data dumps)
+dump_*.sql
+
+# IDEs
+.vscode/
+.idea/

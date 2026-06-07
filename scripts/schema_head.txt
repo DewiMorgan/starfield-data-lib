@@ -1,0 +1,26 @@
+#ifndef SCHEMA_H
+#define SCHEMA_H
+
+#include <string>
+#include <vector>
+#include <map>
+
+enum class FieldType {
+    String,
+    Int32,
+    Float,
+    FormID,
+    Unknown
+};
+
+struct TagInfo {
+    std::string label;
+    FieldType type;
+};
+
+struct RecordSchema {
+    std::string label;
+    std::map<std::string, TagInfo> tags;
+};
+
+// Global schema mapping Record Signatures (e.g., "WEAP") to their metadata
