@@ -113,14 +113,14 @@ void MySQLClient::commitBatch() {
     if (!record_batch_.empty()) {
         std::string q = "INSERT IGNORE INTO records (source_id, offset, formid, signature, size) VALUES ";
         for (size_t i = 0; i < record_batch_.size(); ++i) {
-            q += record_batch[i] + (i == record_batch.size() - 1 ? "" : ",");
+            q += record_batch_[i] + (i == record_batch_.size() - 1 ? "" : ",");
         }
         executeQuery(q);
     }
     if (!edid_batch_.empty()) {
         std::string q = "INSERT IGNORE INTO edids (source_id, offset, edid) VALUES ";
-        for (size_t i = 0; i < edid_batch.size(); ++i) {
-            q += edid_batch[i] + (i == edid_batch.size() - 1 ? "" : ",");
+        for (size_t i = 0; i < edid_batch_.size(); ++i) {
+            q += edid_batch_[i] + (i == edid_batch_.size() - 1 ? "" : ",");
         }
         executeQuery(q);
     }
