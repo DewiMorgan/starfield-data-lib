@@ -11,18 +11,31 @@ TOOLS_DIR = src/tools
 # Object files
 CORE_OBJS = $(CORE_DIR)/parser.o $(CORE_DIR)/indexer.o
 DB_OBJS = $(DB_DIR)/mysql_client.o
-TOOL_OBJS = $(TOOLS_DIR)/sdl_bulk_dump.o
 
 # Target binaries
-TARGETS = $(BIN_DIR)/sdl_bulk_dump
+TARGETS = $(BIN_DIR)/sdl_bulk_dump $(BIN_DIR)/sdl_search $(BIN_DIR)/starfield_reader $(BIN_DIR)/dump_record $(BIN_DIR)/header_dump
 
 .PHONY: all clean test
 
-all: sdl_bulk_dump
+all: $(TARGETS)
 
-sdl_bulk_dump: $(BIN_DIR)/sdl_bulk_dump
+$(BIN_DIR)/sdl_bulk_dump: $(TOOLS_DIR)/sdl_bulk_dump.o $(CORE_OBJS) $(DB_OBJS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 
-$(BIN_DIR)/sdl_bulk_dump: $(TOOL_OBJS) $(CORE_OBJS) $(DB_OBJS)
+$(BIN_DIR)/sdl_search: $(TOOLS_DIR)/sdl_search.o $(CORE_OBJS) $(DB_OBJS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
+
+$(BIN_DIR)/starfield_reader: $(TOOLS_DIR)/starfield_reader.o $(CORE_OBJS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
+
+$(BIN_DIR)/dump_record: $(TOOLS_DIR)/dump_record.o $(CORE_OBJS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
+
+$(BIN_DIR)/header_dump: $(TOOLS_DIR)/header_dump.o
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 

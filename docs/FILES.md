@@ -5,6 +5,13 @@ This document describes the purpose and role of the files within the `./starfiel
 ## Root Directory
 - `README.md`: Project overview, current status, and roadmap.
 - `.gitignore`: Git exclusion rules.
+- `Makefile`: Build system for the project.
+  - Usage: `make <target>`
+  - Common Targets:
+    - `make all`: Builds all project binaries.
+    - `make sdl_bulk_dump` (etc): Builds a specific tool.
+    - `make clean`: Removes all object files and binaries.
+    - `make test`: Builds and runs the parser unit tests.
 
 ## /bin (Compiled Binaries)
 *Note: These are the compiled results of the source code in `/src`.*

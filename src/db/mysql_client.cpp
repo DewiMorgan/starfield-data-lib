@@ -27,6 +27,30 @@ void MySQLClient::executeQuery(const std::string& query) {
     }
 }
 
+std::vector<std::vector<std::string>> MySQLClient::query(const std::string& query) {
+    if (dryRun_) return {};
+    if (mysql_query(conn_, query.c_str())) {
+        std::cerr << "MySQL Error: " << mysql_error(conn_) << "\nQuery: " << query << std::endl;
+        return {};
+    }
+
+    MYSQL_RES* res = mysql_store_result(conn_);
+    if (!res) return {};
+
+    std::vector<std::vector<std::string>> results;
+    MYSQL_ROW row;
+    while ((row = mysql_fetch_row(res))) {
+        std::vector<std::string> row_data;
+        unsigned int num_fields = mysql_num_fields(res);
+        for (unsigned int i = 0; i < num_fields; ++i) {
+            row_data.push_back(row[i] ? row[i] : "");
+        }
+        results.push_back(row_data);
+    }
+    mysql_free_result(res);
+    return results;
+}
+
 void MySQLClient::clearDatabase() {
     executeQuery("SET FOREIGN_KEY_CHECKS = 0");
     executeQuery("TRUNCATE TABLE edids");

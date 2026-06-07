@@ -20,6 +20,7 @@ public:
     void clearDatabase();
     
     void executeQuery(const std::string& query);
+    std::vector<std::vector<std::string>> query(const std::string& query);
     void insertAsset(int source_id, const std::string& virtual_path, const std::string& literal_path, const std::string& internal_path, int64_t size);
     
     void beginRecordBatch();
