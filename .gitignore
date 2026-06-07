@@ -19,3 +19,4 @@ dump_*.sql
 # IDEs
 .vscode/
 .idea/
+db.conf

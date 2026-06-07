@@ -59,6 +59,9 @@ The source is organized into functional layers:
 ## /test (Testing)
 - `test_parser.cpp`: A suite of unit tests designed to verify the correctness of the TLV parser against known data samples.
 
+## /third_party (External Libraries)
+- `doctest/doctest.h`: A fast, single-header C++ unit testing framework used for the project's test suite.
+
 ## /docs (Documentation)
 - `FILES.md`: This file.
 - `TECHNICAL_SPEC.md`: Detailed architectural overview, binary format specifications, and implementation details.

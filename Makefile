@@ -7,6 +7,8 @@ BIN_DIR = bin
 CORE_DIR = src/core
 DB_DIR = src/db
 TOOLS_DIR = src/tools
+TEST_DIR = test
+DOCTEST_DIR = third_party/doctest
 
 # Object files
 CORE_OBJS = $(CORE_DIR)/parser.o $(CORE_DIR)/indexer.o
@@ -14,6 +16,9 @@ DB_OBJS = $(DB_DIR)/mysql_client.o
 
 # Target binaries
 TARGETS = $(BIN_DIR)/sdl_bulk_dump $(BIN_DIR)/sdl_search $(BIN_DIR)/starfield_reader $(BIN_DIR)/dump_record $(BIN_DIR)/header_dump
+
+# Test configuration
+TEST_CXXFLAGS = $(CXXFLAGS) -I$(DOCTEST_DIR) -I$(CORE_DIR) -I$(DB_DIR)
 
 .PHONY: all clean test
 
@@ -47,8 +52,22 @@ clean:
 	rm -f $(CORE_DIR)/*.o $(DB_DIR)/*.o $(TOOLS_DIR)/*.o
 	rm -rf $(BIN_DIR)
 
+# Run a specific test: e.g., make test-smoke, make test-parser
+test-%: all
+	@echo "Running test suite: $*"
+	@mkdir -p $(BIN_DIR)
+	@FILE=$$(find $(TEST_DIR) -name "*$**.cpp" | head -n 1); \
+	if [ -z "$$FILE" ]; then echo "Test suite '$*' not found in $(TEST_DIR)"; exit 1; fi; \
+	bin=$(BIN_DIR)/test_$*; \
+	$(CXX) $(TEST_CXXFLAGS) $$FILE $(CORE_OBJS) $(DB_OBJS) $(LDFLAGS) -o $$bin && ./$$bin
+
 test: all
-	@echo "Running tests..."
-	# For now, just check if binaries exist and run a dry-run if possible
-	# Real test integration would go here
-	./$(BIN_DIR)/sdl_bulk_dump --help || echo "Tests failing or help not implemented"
+	@if [ -n "$(TEST)" ]; then \
+		$(MAKE) test-$(TEST); \
+	else \
+		echo "Running all tests..."; \
+		for file in $$(find $(TEST_DIR) -name "*.cpp"); do \
+			name=$$(basename $$file .cpp); \
+			$(MAKE) test-$$name; \
+		done; \
+	fi
