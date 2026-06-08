@@ -12,7 +12,7 @@ TEST_DIR = test
 DOCTEST_DIR = third_party/doctest
 
 # Object files
-CORE_OBJS = $(CORE_DIR)/parser.o $(CORE_DIR)/indexer.o
+CORE_OBJS = $(CORE_DIR)/parser.o $(CORE_DIR)/indexer.o $(CORE_DIR)/extractor.o $(CORE_DIR)/record.o $(CORE_DIR)/record_writer.o $(CORE_DIR)/esm_writer.o
 DB_OBJS = $(DB_DIR)/mysql_client.o
 
 # Target binaries
@@ -66,7 +66,7 @@ coverage: clean
 	gcov -s $(CORE_DIR)/*.cpp $(DB_DIR)/*.cpp
 
 # Run a specific test: e.g., make test-smoke, make test-parser
-test-%: all
+test-%:
 	@echo "Running test suite: $*"
 	@mkdir -p $(BIN_DIR)
 	@FILE=$$(find $(TEST_DIR) -name "*$**.cpp" | head -n 1); \
@@ -74,7 +74,7 @@ test-%: all
 	bin=$(BIN_DIR)/test_$*; \
 	$(CXX) $(TEST_CXXFLAGS) $$FILE $(CORE_OBJS) $(DB_OBJS) $(LDFLAGS) -o $$bin && ./$$bin
 
-test: all
+test:
 	@if [ -n "$(TEST)" ]; then \
 		$(MAKE) test-$(TEST); \
 	else \

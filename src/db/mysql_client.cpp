@@ -23,6 +23,8 @@ DbConfig MySQLClient::loadConfig() {
                 }
             }
         }
+    } else {
+        std::cerr << "[Config] Warning: Could not open db.conf, using defaults." << std::endl;
     }
     
     const char* env_host = getenv("MYSQL_HOST");

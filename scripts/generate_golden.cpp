@@ -23,6 +23,9 @@ void writeTlvFloat(std::ofstream& os, const std::string& tag, float val) {
 int main() {
     std::ofstream os("test/core/golden_test.esm", std::ios::binary);
     
+    // Write ESM file header
+    os.write("TES4", 4);
+    
     std::vector<uint8_t> data;
     auto writeBufTlv = [&](const std::string& tag, const std::string& val) {
         for(char c : tag) data.push_back(c);
