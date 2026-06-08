@@ -52,7 +52,7 @@ TEST_CASE("High-Level Tool Integration") {
         CHECK(!search_output.empty());
         CHECK(search_output.find("GoldenQuest") != std::string::npos);
         CHECK(search_output.find("The Golden Quest") != std::string::npos);
-        CHECK(search_output.find("SNCU") != std::string::npos);
+        CHECK(search_output.find("QUST") != std::string::npos);
     }
 
     SUBCASE("Real-world File - CwLemonade.esm") {

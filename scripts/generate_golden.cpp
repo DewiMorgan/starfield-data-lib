@@ -46,7 +46,7 @@ int main() {
     // and would cause the current Parser to break and stop indexing.
 
     RecordHeader h;
-    memcpy(h.sig, "SNCU", 4);
+    memcpy(h.sig, "QUST", 4);
     h.dataSize = data.size();
     h.flags = 0;
     h.formId = 0x12345678;

@@ -54,7 +54,11 @@ public:
             if (readBytes < sizeof(RecordHeader)) break;
 
             std::string sig(header.sig, 4);
-            if (g_RecordSchemas.find(sig) == g_RecordSchemas.end()) break;
+            if (g_RecordSchemas.find(sig) == g_RecordSchemas.end()) {
+                current_offset += sizeof(RecordHeader) + header.dataSize;
+                stream->seek(current_offset);
+                continue;
+            }
 
             std::vector<uint8_t> data(header.dataSize);
             if (stream->read(data.data(), header.dataSize) < header.dataSize) break;
