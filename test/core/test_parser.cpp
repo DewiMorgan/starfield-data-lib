@@ -95,14 +95,14 @@ TEST_CASE("Starfield Parser: Edge Cases & Robustness") {
     SUBCASE("Empty buffer") {
         std::vector<uint8_t> buffer = {};
         StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
-        CHECK(rec.tlvs.empty());
+        CHECK(rec.tlvFields.empty());
         CHECK(rec.subRecords.empty());
     }
 
     SUBCASE("Buffer too small for TLV header") {
         std::vector<uint8_t> buffer = { 'T', 'A', 'G' }; // Only 3 bytes, need 6
         StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
-        CHECK(rec.tlvs.empty());
+        CHECK(rec.tlvFields.empty());
     }
 
     SUBCASE("Malformed TLV: Length exceeds remaining buffer") {
@@ -110,7 +110,7 @@ TEST_CASE("Starfield Parser: Edge Cases & Robustness") {
         std::vector<uint8_t> buffer = { 'T', 'E', 'S', 'T', 0x64, 0x00, 1, 2, 3, 4 };
         StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
         
-        CHECK(rec.tlvs.empty());
+        CHECK(rec.tlvFields.empty());
         REQUIRE(rec.subRecords.size() == 1);
         CHECK(rec.subRecords[0].sig == "TEST");
     }
@@ -120,7 +120,7 @@ TEST_CASE("Starfield Parser: Edge Cases & Robustness") {
         std::vector<uint8_t> buffer = { 'T', '@', 'G', '!', 0x04, 0x00, 1, 2, 3, 4 };
         StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
         
-        CHECK(rec.tlvs.empty());
+        CHECK(rec.tlvFields.empty());
         REQUIRE(rec.subRecords.size() == 1);
         CHECK(rec.subRecords[0].sig == "T@G!");
     }
