@@ -24,6 +24,7 @@ struct RecordSchema {
 };
 
 // Global schema mapping Record Signatures (e.g., "WEAP") to their metadata
+
 inline std::map<std::string, RecordSchema> g_RecordSchemas = {
     {"AACT", {"'Action'", {
         {"DNAM", {"DNAM", FieldType::String}},

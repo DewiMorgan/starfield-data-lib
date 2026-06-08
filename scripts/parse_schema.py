@@ -1,5 +1,7 @@
 import re
 import sys
+import os
+import argparse
 
 def parse_pas_file(file_path):
     with open(file_path, 'r', encoding='utf-8', errors='ignore') as f:
@@ -18,9 +20,6 @@ def parse_pas_file(file_path):
     struct_pattern = re.compile(r"wbStruct(?:SK|ExSK)?\s*\(\s*([^,)]+)\s*,\s*([^,)]+)\s*,\s*\[(.*?)\]\s*\)", re.DOTALL)
     
     # Pattern for wbRecord (does NOT use [ ... ])
-    # This captures the signature, label, and the body. 
-    # Since bodies can be multi-line and nested, we capture until we see a closing ')' that is followed by a comma or newline (heuristically).
-    # A better way is to find the start and then find the matching closing parenthesis.
     record_starts = []
     for m in re.finditer(r"wbRecord\s*\(\s*([^,)]+)\s*,\s*([^,)]+)\s*,", content):
         record_starts.append((m.start(), m.end(), m.group(1), m.group(2)))
@@ -59,7 +58,6 @@ def parse_pas_file(file_path):
 
     # Process wbRecords
     for start_pos, end_pos, sig_raw, label_raw in record_starts:
-        # Find matching closing parenthesis
         bracket_level = 1
         current_pos = end_pos
         while current_pos < len(content) and bracket_level > 0:
@@ -92,8 +90,6 @@ def parse_pas_file(file_path):
             tags.append((tag, label_text, cpp_type))
             seen_tags.add(tag)
         
-        # Always add the record to the schema, even if no recognized fields were found,
-        # so that the indexer doesn't stop when it encounters this record type.
         results.append((sig, label_raw, tags))
             
     return results
@@ -117,6 +113,41 @@ def generate_cpp(results):
     output.append("};")
     return "\n".join(output)
 
+def main():
+    parser = argparse.ArgumentParser(description="Parse PAS definitions into C++ schema")
+    parser.add_argument("--source", 
+                        default=os.path.join(os.path.dirname(__file__), '..', 'vendor', 'tes5edit', 'Core', 'wbDefinitionsSF1.pas'),
+                        help="Path to the source .pas file")
+    parser.add_argument("--dest", 
+                        default=os.path.join(os.path.dirname(__file__), '..', 'src', 'core', 'schema.hpp'),
+                        help="Path to the output .hpp file")
+    args = parser.parse_args()
+
+    # 1. Parse the PAS file
+    results = parse_pas_file(args.source)
+    
+    # 2. Generate the C++ map snippet
+    schema_mid = generate_cpp(results)
+    
+    # 3. Handle concatenation
+    head_path = os.path.join(os.path.dirname(__file__), 'schema_head.txt')
+    tail_path = os.path.join(os.path.dirname(__file__), 'schema_tail.txt')
+    
+    try:
+        with open(head_path, 'r') as f:
+            head = f.read()
+        with open(tail_path, 'r') as f:
+            tail = f.read()
+    except FileNotFoundError as e:
+        print(f"Error: Required template file not found: {e}", file=sys.stderr)
+        sys.exit(1)
+        
+    final_content = head + "\n" + schema_mid + "\n" + tail
+    
+    with open(args.dest, 'w', encoding='utf-8') as f:
+        f.write(final_content)
+    
+    print(f"Successfully generated {args.dest}")
+
 if __name__ == "__main__":
-    results = parse_pas_file("../vendor/tes5edit/Core/wbDefinitionsSF1.pas")
-    print(generate_cpp(results))
+    main()
