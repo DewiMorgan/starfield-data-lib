@@ -4,7 +4,7 @@
 #include <filesystem>
 #include <vector>
 #include <set>
-#include "vfs.h"
+#include "vfs.hpp"
 
 class IIndexListener {
 public:

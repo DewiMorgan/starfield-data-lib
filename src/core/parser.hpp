@@ -5,7 +5,7 @@
 #include <vector>
 #include <map>
 #include <cstdint>
-#include "schema.h"
+#include "schema.hpp"
 
 struct RecordHeader {
     char sig[4];

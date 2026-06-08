@@ -1,5 +1,5 @@
-#include "indexer.h"
-#include "ba2_stream.h"
+#include "indexer.hpp"
+#include "ba2_stream.hpp"
 #include <iostream>
 
 namespace fs = std::filesystem;

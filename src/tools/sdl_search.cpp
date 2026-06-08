@@ -3,10 +3,10 @@
 #include <string>
 #include <iomanip>
 #include <memory>
-#include "core/parser.h"
-#include "core/schema.h"
-#include "core/vfs.h"
-#include "db/mysql_client.h"
+#include "core/parser.hpp"
+#include "core/schema.hpp"
+#include "core/vfs.hpp"
+#include "db/mysql_client.hpp"
 
 int main(int argc, char** argv) {
     if (argc < 3) {
@@ -16,12 +16,7 @@ int main(int argc, char** argv) {
 
     std::string edid = argv[2];
 
-    DbConfig config = {
-        getenv("MYSQL_HOST") ? getenv("MYSQL_HOST") : "localhost",
-        getenv("MYSQL_USER") ? getenv("MYSQL_USER") : "root",
-        getenv("MYSQL_PASS") ? getenv("MYSQL_PASS") : "root",
-        getenv("MYSQL_DB") ? getenv("MYSQL_DB") : "starfield"
-    };
+    DbConfig config = MySQLClient::loadConfig();
 
     MySQLClient db(config);
     if (!db.connect()) {

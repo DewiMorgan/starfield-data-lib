@@ -1,6 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include "../../src/core/ba2_stream.h"
+#include "../../src/core/ba2_stream.hpp"
 #include <fstream>
 #include <vector>
 #include <filesystem>

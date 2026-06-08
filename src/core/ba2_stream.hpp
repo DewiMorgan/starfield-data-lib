@@ -1,6 +1,6 @@
 #pragma once
 
-#include "vfs.h"
+#include "vfs.hpp"
 #include <vector>
 #include <string>
 #include <fstream>

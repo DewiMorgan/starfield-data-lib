@@ -23,9 +23,8 @@ def parse_pas_file(file_path):
         label_raw = match.group(2).strip().strip("'").strip('"')
         fields_block = match.group(3)
         sig = constants.get(sig_raw, sig_raw)
-        if len(sig) != 4 and sig not in ['NPC_', 'SCOL']:
-             if not sig.isupper():
-                 continue
+        if len(sig) != 4 or not sig.isupper():
+            continue
         field_pattern = re.compile(r"wb(Integer|Float|String|FormID)\s*\(\s*([^,)]+)\s*(?:,\s*([^,)]+))?\s*\)")
         tags = []
         seen_tags = set()

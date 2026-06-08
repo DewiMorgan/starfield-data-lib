@@ -5,10 +5,10 @@
 #include <ctime>
 #include <iomanip>
 
-#include "db/mysql_client.h"
-#include "core/indexer.h"
-#include "core/parser.h"
-#include "core/schema.h"
+#include "db/mysql_client.hpp"
+#include "core/indexer.hpp"
+#include "core/parser.hpp"
+#include "core/schema.hpp"
 
 namespace fs = std::filesystem;
 
@@ -97,12 +97,7 @@ int main(int argc, char** argv) {
         else target_path = arg;
     }
 
-    DbConfig config = {
-        getenv("MYSQL_HOST") ? getenv("MYSQL_HOST") : "localhost",
-        getenv("MYSQL_USER") ? getenv("MYSQL_USER") : "root",
-        getenv("MYSQL_PASS") ? getenv("MYSQL_PASS") : "",
-        getenv("MYSQL_DB") ? getenv("MYSQL_DB") : "starfield"
-    };
+    DbConfig config = MySQLClient::loadConfig();
 
     MySQLClient db(config, dryRun);
     if (!db.connect()) {

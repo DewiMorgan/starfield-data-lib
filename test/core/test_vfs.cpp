@@ -1,6 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include "../../src/core/vfs.h"
+#include "../../src/core/vfs.hpp"
 #include <vector>
 #include <string>
 #include <fstream>

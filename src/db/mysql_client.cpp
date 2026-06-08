@@ -1,6 +1,41 @@
-#include "mysql_client.h"
+#include "mysql_client.hpp"
 #include <iostream>
 #include <stdexcept>
+#include <fstream>
+#include <sstream>
+
+DbConfig MySQLClient::loadConfig() {
+    DbConfig config = {"localhost", "root", "root", "starfield"};
+    
+    std::ifstream file("db.conf");
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            std::istringstream is_line(line);
+            std::string key;
+            if (std::getline(is_line, key, '=')) {
+                std::string value;
+                if (std::getline(is_line, value)) {
+                    if (key == "host") config.host = value;
+                    else if (key == "user") config.user = value;
+                    else if (key == "pass") config.pass = value;
+                    else if (key == "db") config.db = value;
+                }
+            }
+        }
+    }
+    
+    const char* env_host = getenv("MYSQL_HOST");
+    if (env_host) config.host = env_host;
+    const char* env_user = getenv("MYSQL_USER");
+    if (env_user) config.user = env_user;
+    const char* env_pass = getenv("MYSQL_PASS");
+    if (env_pass) config.pass = env_pass;
+    const char* env_db = getenv("MYSQL_DB");
+    if (env_db) config.db = env_db;
+    
+    return config;
+}
 
 MySQLClient::MySQLClient(const DbConfig& config, bool dryRun) 
     : config_(config), dryRun_(dryRun), conn_(nullptr) {}

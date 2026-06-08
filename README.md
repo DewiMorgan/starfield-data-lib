@@ -1,6 +1,6 @@
 # Starfield Data Library (SDL)
 
-A native C++ toolset for analyzing, indexing, and eventually modifying `.esm` files from the Bethesda game Starfield. 
+A native C++20 toolset for analyzing, indexing, and eventually modifying `.esm` files from the Bethesda game Starfield. 
 
 ## Purpose
 The eventual goal is to provide a headless, high-performance way for an AI or developer to query game data and generate mods from the command line.
@@ -34,3 +34,4 @@ The library can currently "see" and understand the game's data.
 - [x] **Expanded Mapping**: Support for `NPC_`, `ARMO`, `ITEM` and several others are in schema.h: add all others. Prioritize tags that are simple types  (`String`, `Int32`, `Float`, `FormID`).
 - [ ] **The "Hands" (Serializer)**: Implement the ability to write changes back to a new `.esp` file.
 - [ ] **Validation**: Build a suite of tests to verify binary compatibility with xEdit.
+

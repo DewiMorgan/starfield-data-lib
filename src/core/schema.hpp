@@ -23,7 +23,7 @@ struct RecordSchema {
     std::map<std::string, TagInfo> tags;
 };
 
-// Global schema mapping Record Signatures (e.g., "WEAP") to their metadata
+// Global schema mapping Record Signatures (e.g., "DATA") to their metadata
 inline std::map<std::string, RecordSchema> g_RecordSchemas = {
     {"AIDT", {"AI Data", {
         {"Energy Level", {"Energy Level", FieldType::Int32}}
@@ -347,7 +347,7 @@ inline std::map<std::string, RecordSchema> g_RecordSchemas = {
     {"SPIT", {"Data", {
         {"Base Cost", {"Base Cost", FieldType::Int32}}
     }}},
-    {"TIQS", {"Set Parent Quest Stage", {
+    {"SNCU", {"Set Parent Quest Stage", {
         {"On Begin", {"On Begin", FieldType::Int32}},
         {"On End", {"On End", FieldType::Int32}}
     }}},

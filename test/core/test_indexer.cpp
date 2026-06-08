@@ -1,8 +1,8 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include "indexer.h"
-#include "vfs.h"
-#include "ba2_stream.h"
+#include "indexer.hpp"
+#include "vfs.hpp"
+#include "ba2_stream.hpp"
 #include <filesystem>
 #include <fstream>
 #include <vector>

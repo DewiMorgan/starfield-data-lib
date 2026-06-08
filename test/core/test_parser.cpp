@@ -1,6 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
-#include "../../src/core/parser.h"
+#include "../../src/core/parser.hpp"
 #include <vector>
 #include <cmath>
 #include <cstring>

@@ -6,9 +6,9 @@
 #include <algorithm>
 #include <cstdint>
 #include <memory>
-#include "core/schema.h"
-#include "core/parser.h"
-#include "core/vfs.h"
+#include "core/schema.hpp"
+#include "core/parser.hpp"
+#include "core/vfs.hpp"
 
 class StarfieldReader {
 public:

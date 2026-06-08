@@ -1,5 +1,6 @@
 #pragma once
 
+#include "idatabase.hpp"
 #include <string>
 #include <vector>
 #include <mysql/mysql.h>
@@ -11,8 +12,9 @@ struct DbConfig {
     std::string db;
 };
 
-class MySQLClient {
+class MySQLClient : public IDatabase {
 public:
+    static DbConfig loadConfig();
     MySQLClient(const DbConfig& config, bool dryRun = false);
     ~MySQLClient();
 
