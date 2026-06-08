@@ -10,6 +10,7 @@ struct DbConfig {
     std::string user;
     std::string pass;
     std::string db;
+    std::string test_db;
 };
 
 class MySQLClient : public IDatabase {

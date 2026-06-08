@@ -106,4 +106,4 @@ Helper scripts used for codebase maintenance and bulk data ingestion.
 
 ## 0. Other Files
 - `./starfield/vendor/tes5edit/`: A copy of the xEdit repository. Essential reference for all record types and data structures.
-- `/mnt/c/Games/Steam/steamapps/common/Starfield/Data`: The target data directory containing the actual game files.
+- `/home/dewi/.openclaw/workspace/starfield/vendor/Bethesda/`: Useful real-world sample .esm, .esp, and .ba2 files.

@@ -56,7 +56,7 @@ TEST_CASE("High-Level Tool Integration") {
     }
 
     SUBCASE("Real-world File - CwLemonade.esm") {
-        const std::string esm_path = "/mnt/c/Games/Steam/steamapps/common/Starfield/Data/CwLemonade.esm";
+        const std::string esm_path = "/home/dewi/.openclaw/workspace/starfield/vendor/Bethesda/CwLemonade.esm";
         if (!fs::exists(esm_path)) {
             std::string msg = "Skipping CwLemonade.esm tests: file not found at " + esm_path;
             MESSAGE(msg);

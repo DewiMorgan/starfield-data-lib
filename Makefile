@@ -12,18 +12,22 @@ TEST_DIR = test
 DOCTEST_DIR = third_party/doctest
 
 # Object files
-CORE_OBJS = $(CORE_DIR)/parser.o $(CORE_DIR)/indexer.o $(CORE_DIR)/extractor.o $(CORE_DIR)/record.o $(CORE_DIR)/record_writer.o $(CORE_DIR)/esm_writer.o
+CORE_OBJS = $(CORE_DIR)/parser.o $(CORE_DIR)/indexer.o $(CORE_DIR)/extractor.o $(CORE_DIR)/record.o $(CORE_DIR)/record_writer.o $(CORE_DIR)/esm_writer.o $(CORE_DIR)/asset_extractor.o
 DB_OBJS = $(DB_DIR)/mysql_client.o
 
 # Target binaries
-TARGETS = $(BIN_DIR)/sdl_bulk_dump $(BIN_DIR)/sdl_search $(BIN_DIR)/starfield_reader $(BIN_DIR)/dump_record $(BIN_DIR)/header_dump
+TARGETS = $(BIN_DIR)/sdl_bulk_dump $(BIN_DIR)/sdl_search $(BIN_DIR)/starfield_reader $(BIN_DIR)/dump_record $(BIN_DIR)/header_dump $(BIN_DIR)/sdl_modify
 
 # Test configuration
 TEST_CXXFLAGS = $(CXXFLAGS) -I$(DOCTEST_DIR) -I$(CORE_DIR) -I$(DB_DIR)
 
-.PHONY: all clean test coverage
+.PHONY: all clean test coverage setup-test-db
 
 all: $(TARGETS)
+
+setup-test-db: $(BIN_DIR)/sdl_bulk_dump
+	@echo "Populating test database..."
+	USE_TEST_DB=1 $(BIN_DIR)/sdl_bulk_dump test/core/golden_test.esm
 
 $(BIN_DIR)/sdl_bulk_dump: $(TOOLS_DIR)/sdl_bulk_dump.o $(CORE_OBJS) $(DB_OBJS)
 	@mkdir -p $(BIN_DIR)
@@ -42,6 +46,10 @@ $(BIN_DIR)/dump_record: $(TOOLS_DIR)/dump_record.o $(CORE_OBJS)
 	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 
 $(BIN_DIR)/header_dump: $(TOOLS_DIR)/header_dump.o
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
+
+$(BIN_DIR)/sdl_modify: $(TOOLS_DIR)/sdl_modify.o $(CORE_OBJS) $(DB_OBJS)
 	@mkdir -p $(BIN_DIR)
 	$(CXX) $(CXXFLAGS) $^ $(LDFLAGS) -o $@
 
@@ -72,9 +80,9 @@ test-%:
 	@FILE=$$(find $(TEST_DIR) -name "*$**.cpp" | head -n 1); \
 	if [ -z "$$FILE" ]; then echo "Test suite '$*' not found in $(TEST_DIR)"; exit 1; fi; \
 	bin=$(BIN_DIR)/test_$*; \
-	$(CXX) $(TEST_CXXFLAGS) $$FILE $(CORE_OBJS) $(DB_OBJS) $(LDFLAGS) -o $$bin && ./$$bin
+	$(CXX) $(TEST_CXXFLAGS) $$FILE $(CORE_OBJS) $(DB_OBJS) $(LDFLAGS) -o $$bin && USE_TEST_DB=1 ./$$bin
 
-test:
+test: setup-test-db
 	@if [ -n "$(TEST)" ]; then \
 		$(MAKE) test-$(TEST); \
 	else \

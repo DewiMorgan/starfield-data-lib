@@ -25,7 +25,7 @@ int main(int argc, char** argv) {
     RecordHeader header;
     while (file.read(reinterpret_cast<char*>(&header), RecordHeader::SIZE)) {
         if (std::string(header.signature, 4) == "KYWD") {
-            std::cout << "KYWD Record at 0x" << std::hex << file.tellg() - RecordHeader::SIZE << std::endl;
+            std::cout << "KYWD Record at 0x" << std::hex << static_cast<std::streamoff>(file.tellg()) - RecordHeader::SIZE << std::endl;
             
             std::vector<uint8_t> buffer(header.dataSize);
             file.read(reinterpret_cast<char*>(buffer.data()), header.dataSize);

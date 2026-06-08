@@ -14,7 +14,7 @@ TEST_CASE("Starfield Parser: Basic TLV Types") {
             'E', 'D', 'I', 'D', 0x05, 0x00, 'H', 'e', 'l', 'l', 'o' 
         };
         header.dataSize = buffer.size();
-        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header);
+        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
         CHECK(rec.getTlvString("EDID") == "Hello");
     }
 
@@ -26,7 +26,7 @@ TEST_CASE("Starfield Parser: Basic TLV Types") {
         buffer.insert(buffer.end(), valBytes, valBytes + 4);
         
         header.dataSize = buffer.size();
-        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header);
+        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
         CHECK(rec.getTlvUint32("WVAL") == 12345);
     }
 
@@ -38,7 +38,7 @@ TEST_CASE("Starfield Parser: Basic TLV Types") {
         buffer.insert(buffer.end(), valBytes, valBytes + 4);
         
         header.dataSize = buffer.size();
-        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header);
+        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
         CHECK(std::abs(rec.getTlvFloat("WWEI") - 12.34f) < 0.001f);
     }
 }
@@ -59,7 +59,7 @@ TEST_CASE("Starfield Parser: Mixed and Complex Records") {
         buffer.insert(buffer.end(), wB, wB + 4);
 
         header.dataSize = buffer.size();
-        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header);
+        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
         CHECK(rec.getTlvString("EDID") == "Sword");
         CHECK(rec.getTlvUint32("WVAL") == 100);
         CHECK(std::abs(rec.getTlvFloat("WWEI") - 2.0f) < 0.001f);
@@ -81,7 +81,7 @@ TEST_CASE("Starfield Parser: Mixed and Complex Records") {
         buffer.insert(buffer.end(), coB, coB + 4);
 
         header.dataSize = buffer.size();
-        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header);
+        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
         CHECK(rec.getTlvString("EDID") == "NPC");
         CHECK(rec.getTlvFormID("RNAM") == 0x12345678);
         CHECK(rec.getTlvFormID("CNAM") == 0x87654321);
@@ -94,25 +94,23 @@ TEST_CASE("Starfield Parser: Edge Cases & Robustness") {
 
     SUBCASE("Empty buffer") {
         std::vector<uint8_t> buffer = {};
-        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header);
-        CHECK(rec.tlvFields.empty());
+        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
+        CHECK(rec.tlvs.empty());
         CHECK(rec.subRecords.empty());
     }
 
     SUBCASE("Buffer too small for TLV header") {
         std::vector<uint8_t> buffer = { 'T', 'A', 'G' }; // Only 3 bytes, need 6
-        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header);
-        // Since it's < 6, it doesn't enter the loop and’s just returned.
-        CHECK(rec.tlvFields.empty());
+        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
+        CHECK(rec.tlvs.empty());
     }
 
     SUBCASE("Malformed TLV: Length exceeds remaining buffer") {
         // Tag "TEST", Length 100, but only 4 bytes follow
         std::vector<uint8_t> buffer = { 'T', 'E', 'S', 'T', 0x64, 0x00, 1, 2, 3, 4 };
-        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header);
+        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
         
-        // It should fail the `pos + 6 + len <= size` check and treat it as a subrecord
-        CHECK(rec.tlvFields.empty());
+        CHECK(rec.tlvs.empty());
         REQUIRE(rec.subRecords.size() == 1);
         CHECK(rec.subRecords[0].sig == "TEST");
     }
@@ -120,10 +118,9 @@ TEST_CASE("Starfield Parser: Edge Cases & Robustness") {
     SUBCASE("Non-alphanumeric tag") {
         // Tag "T@G!", Length 4, Data [1,2,3,4]
         std::vector<uint8_t> buffer = { 'T', '@', 'G', '!', 0x04, 0x00, 1, 2, 3, 4 };
-        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header);
+        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
         
-        // Non-alphanumeric should be treated as sub-record
-        CHECK(rec.tlvFields.empty());
+        CHECK(rec.tlvs.empty());
         REQUIRE(rec.subRecords.size() == 1);
         CHECK(rec.subRecords[0].sig == "T@G!");
     }
@@ -131,7 +128,7 @@ TEST_CASE("Starfield Parser: Edge Cases & Robustness") {
     SUBCASE("Null-terminated string") {
         // String "Hello\0World" should be truncated to "Hello"
         std::vector<uint8_t> buffer = { 'S', 'T', 'R', 'I', 0x0A, 0x00, 'H', 'e', 'l', 'l', 'o', '\0', 'W', 'o', 'r', 'l', 'd' };
-        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header);
+        StarfieldRecord rec = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
         CHECK(rec.getTlvString("STRI") == "Hello");
     }
 }
@@ -146,8 +143,13 @@ TEST_CASE("StarfieldRecord: Getter Robustness") {
     }
 
     SUBCASE("Request field with insufficient data") {
-        rec.tlvFields["SHORT"] = { 0x01, 0x02 }; // Only 2 bytes, need 4 for Uint32/Float
-        CHECK(rec.getTlvUint32("SHORT") == 0);
-        CHECK(rec.getTlvFloat("SHORT") == 0.0f);
+        // Simulate a record with a tag that is too short for a Uint32
+        RecordHeader header;
+        std::vector<uint8_t> buffer = { 'S', 'H', 'O', 'R', 0x02, 0x00, 0x01, 0x02 };
+        header.dataSize = buffer.size();
+        StarfieldRecord rec_short = Parser::parseRecord(buffer.data(), buffer.size(), header, 0);
+        
+        CHECK(rec_short.getTlvUint32("SHOR") == 0);
+        CHECK(rec_short.getTlvFloat("SHOR") == 0.0f);
     }
 }

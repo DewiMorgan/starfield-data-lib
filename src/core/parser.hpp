@@ -3,7 +3,6 @@
 
 #include <string>
 #include <vector>
-#include <map>
 #include <cstdint>
 #include "schema.hpp"
 
@@ -17,6 +16,12 @@ struct RecordHeader {
     uint16_t vcs2;
 };
 
+struct TlvEntry {
+    std::string tag;
+    size_t offset;
+    size_t length;
+};
+
 struct SubRecord {
     std::string sig;
     std::vector<uint8_t> data;
@@ -26,7 +31,8 @@ class StarfieldRecord {
 public:
     RecordHeader header;
     uint64_t offset;
-    std::map<std::string, std::vector<uint8_t>> tlvFields;
+    std::vector<uint8_t> rawData;
+    std::vector<TlvEntry> tlvFields;
     std::vector<SubRecord> subRecords;
 
     std::string getTlvString(const std::string& tag) const;
@@ -37,7 +43,7 @@ public:
 
 class Parser {
 public:
-    static StarfieldRecord parseRecord(const uint8_t* buffer, size_t size, const RecordHeader& header, uint64_t offset = 0);
+    static StarfieldRecord parseRecord(const uint8_t* buffer, size_t size, const RecordHeader& header, uint64_t offset);
 };
 
 #endif

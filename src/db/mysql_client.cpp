@@ -5,7 +5,7 @@
 #include <sstream>
 
 DbConfig MySQLClient::loadConfig() {
-    DbConfig config = {"localhost", "root", "root", "starfield"};
+    DbConfig config = {"localhost", "root", "root", "starfield", "starfield_test"};
     
     std::ifstream file("db.conf");
     if (file.is_open()) {
@@ -20,11 +20,16 @@ DbConfig MySQLClient::loadConfig() {
                     else if (key == "user") config.user = value;
                     else if (key == "pass") config.pass = value;
                     else if (key == "db") config.db = value;
+                    else if (key == "test_db") config.test_db = value;
                 }
             }
         }
     } else {
         std::cerr << "[Config] Warning: Could not open db.conf, using defaults." << std::endl;
+    }
+
+    if (getenv("USE_TEST_DB")) {
+        config.db = config.test_db;
     }
     
     const char* env_host = getenv("MYSQL_HOST");
@@ -177,6 +182,7 @@ void MySQLClient::commitBatch() {
             q += record_batch_[i] + (i == record_batch_.size() - 1 ? "" : ",");
         }
         executeQuery(q);
+        record_batch_.clear();
     }
     if (!edid_batch_.empty()) {
         std::string q = "INSERT IGNORE INTO edids (source_id, offset, edid) VALUES ";
@@ -184,5 +190,6 @@ void MySQLClient::commitBatch() {
             q += edid_batch_[i] + (i == edid_batch_.size() - 1 ? "" : ",");
         }
         executeQuery(q);
+        edid_batch_.clear();
     }
 }

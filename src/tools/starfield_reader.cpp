@@ -79,7 +79,15 @@ public:
                 schema = &g_RecordSchemas[sig];
             }
 
-            for (auto const& [tag, data] : rec.tlvFields) {
+            for (const auto& entry : rec.tlvFields) {
+                const std::string& tag = entry.tag;
+                // To maintain compatibility with the existing print logic, 
+                // we create a temporary vector from the raw data.
+                std::vector<uint8_t> data;
+                if (entry.offset + entry.length <= rec.rawData.size()) {
+                    data.assign(rec.rawData.begin() + entry.offset, rec.rawData.begin() + entry.offset + entry.length);
+                }
+
                 std::string label = "";
                 FieldType type = FieldType::Unknown;
 
