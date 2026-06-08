@@ -6,6 +6,11 @@ vendor/
 *.o
 *.out
 
+# Coverage
+*.gcda
+*.gcno
+*.gcov
+
 # Game Data
 *.esm
 *.esp

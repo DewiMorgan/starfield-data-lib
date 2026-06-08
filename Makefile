@@ -1,5 +1,6 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -O3 -Isrc
+COVERAGE_FLAGS = -std=c++20 -O0 --coverage -Isrc
 LDFLAGS = -lmysqlclient -lz
 
 # Directories
@@ -20,7 +21,7 @@ TARGETS = $(BIN_DIR)/sdl_bulk_dump $(BIN_DIR)/sdl_search $(BIN_DIR)/starfield_re
 # Test configuration
 TEST_CXXFLAGS = $(CXXFLAGS) -I$(DOCTEST_DIR) -I$(CORE_DIR) -I$(DB_DIR)
 
-.PHONY: all clean test
+.PHONY: all clean test coverage
 
 all: $(TARGETS)
 
@@ -51,6 +52,18 @@ $(BIN_DIR)/header_dump: $(TOOLS_DIR)/header_dump.o
 clean:
 	rm -f $(CORE_DIR)/*.o $(DB_DIR)/*.o $(TOOLS_DIR)/*.o
 	rm -rf $(BIN_DIR)
+	find src -name "*.gc*" -delete
+	rm -f *.gcda *.gcno *.gcov
+
+coverage: clean
+	@echo "Building with coverage..."
+	$(MAKE) all CXXFLAGS="$(COVERAGE_FLAGS)"
+	@echo "Running all tests..."
+	$(MAKE) test CXXFLAGS="$(COVERAGE_FLAGS)" TEST_CXXFLAGS="$(COVERAGE_FLAGS) -I$(DOCTEST_DIR) -I$(CORE_DIR) -I$(DB_DIR)"
+	@echo "Generating coverage reports..."
+	gcov $(CORE_DIR)/*.cpp $(DB_DIR)/*.cpp
+	@echo "--- Coverage Summary ---"
+	gcov -s $(CORE_DIR)/*.cpp $(DB_DIR)/*.cpp
 
 # Run a specific test: e.g., make test-smoke, make test-parser
 test-%: all
