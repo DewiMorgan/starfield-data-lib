@@ -34,8 +34,8 @@ TEST_CASE("High-Level Tool Integration") {
     REQUIRE(fs::exists(bulk_bin));
 
     // Pre-flight: Ensure the test database exists
-    // We use the credentials from db.conf (root/root)
-    exec("mysql -u root -proot -e 'CREATE DATABASE IF NOT EXISTS starfield_test;'");
+    // We use the credentials from ~/.my.cnf
+    exec("mysql -e 'CREATE DATABASE IF NOT EXISTS starfield_test;'");
 
     SUBCASE("Golden File - End-to-End") {
         const std::string golden_esm = "test/core/golden_test.esm";
