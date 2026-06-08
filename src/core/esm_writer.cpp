@@ -4,9 +4,8 @@
 namespace starfield::core {
 
 void ESMWriter::writeHeader(std::ostream& os) {
-    // Based on observed Starfield ESM files:
-    // The file starts with the "TES4" magic identifier.
-    os.write("TES4", 4);
+    // The ESM file header is simply the first record (TES4 record).
+    // No additional magic string is required here.
 }
 
 bool ESMWriter::write(const std::string& path, const std::vector<std::shared_ptr<Record>>& records) {

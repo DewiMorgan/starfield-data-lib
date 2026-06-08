@@ -37,8 +37,8 @@ TEST_CASE("ESM Packing - Bit-Identical Round Trip") {
     REQUIRE(!originalBytes.empty());
 
     // 2. Parse all records from the original file
-    // The file starts with a 4-byte header ("TES4")
-    size_t currentPos = 4;
+    // The file consists of a series of records, the first of which is the "TES4" header record.
+    size_t currentPos = 0;
     std::vector<std::shared_ptr<Record>> parsedRecords;
 
     while (currentPos + sizeof(RecordHeader) <= originalBytes.size()) {
@@ -46,8 +46,17 @@ TEST_CASE("ESM Packing - Bit-Identical Round Trip") {
         RecordHeader header;
         std::memcpy(&header, &originalBytes[currentPos], sizeof(RecordHeader));
         
+        char sig[5] = {0};
+        std::memcpy(sig, &originalBytes[currentPos], 4);
+
         uint32_t recordTotalSize = sizeof(RecordHeader) + header.dataSize;
+        std::cerr << "[Debug] Pos: " << currentPos 
+                  << " | Sig: " << sig 
+                  << " | DataSize: " << header.dataSize 
+                  << " | Total: " << recordTotalSize << std::endl;
+
         if (currentPos + recordTotalSize > originalBytes.size()) {
+            std::cerr << "[Debug] Record exceeds file boundary. Skipping." << std::endl;
             break; // Truncated record
         }
 
@@ -59,13 +68,16 @@ TEST_CASE("ESM Packing - Bit-Identical Round Trip") {
 
         auto recordOpt = Record::parse(recordBlob);
         if (recordOpt) {
+            std::cerr << "[Debug] Successfully parsed record: " << sig << std::endl;
             parsedRecords.push_back(std::make_shared<Record>(*recordOpt));
         } else {
-            MESSAGE("Failed to parse record at offset " << currentPos);
+            std::cerr << "[Debug] Failed to parse record at offset " << currentPos << std::endl;
         }
 
         currentPos += recordTotalSize;
     }
+
+    std::cerr << "[Debug] Total records parsed: " << parsedRecords.size() << std::endl;
 
     REQUIRE(parsedRecords.size() > 0);
 
