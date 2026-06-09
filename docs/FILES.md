@@ -93,6 +93,7 @@ The testing suite mirrors the `/src` layout to provide comprehensive coverage ac
 - `schema.sql`: SQL schema definitions for indexing the extracted ESM data into a MySQL database. Update if adding/changing SQL tables.
 - `FUTURE_PLANS.md`: Roadmap and upcoming feature requests.
 - `ROADMAP.md`: TDD roadmap for the Extract & Serialize milestone.
+- `esm_structure.md`: Technical specification of the .esm file layout.
 
 ## /scripts (Development Scripts)
 Helper scripts used for codebase maintenance and bulk data ingestion.
