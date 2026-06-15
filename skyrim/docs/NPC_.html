@@ -1,0 +1,775 @@
+
+<div><p><b>NPC_</b> records describe Non Player Characters.
+</p><p>Note: set of 4 at the bottom are optional but must come together if present and repeat often.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td>Editor ID
+</td></tr>
+<tr>
+<td>-</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>Script Info</td>
+<td>struct</td>
+<td>Script info
+</td></tr>
+<tr>
+<td>+</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds</td>
+<td>struct</td>
+<td>Always 12 bytes, even if 0
+</td></tr>
+<tr>
+<td>+</td>
+<td>ACBS</td>
+<td>Character Base Stats</td>
+<td>struct</td>
+<td>24-byte struct
+<dl><dd>uint32 Flags
+<dl><dd>0x01 - Female</dd>
+<dd>0x02 - Essential</dd>
+<dd>0x04 - Is CharGen Face Preset</dd>
+<dd>0x08 - Respawn</dd>
+<dd>0x10 - Auto calc stats</dd>
+<dd>0x20 - Unique</dd>
+<dd>0x40 - Doesn't affect stealth meter</dd>
+<dd>0x80 - PC Level Mult</dd>
+<dd>0x100 - Audio template? (not displayed in CK)</dd>
+<dd>0x800 - Protected</dd>
+<dd>0x4000 - Summonable</dd>
+<dd>0x10000 - Doesn't Bleed</dd>
+<dd>0x40000 - owned/follow? (<i>Horses, Atronachs, NOT Shadowmere</i>; not displayed in CK)</dd>
+<dd>0x80000 - Opposite Gender Anims</dd>
+<dd>0x100000 - Simple Actor</dd>
+<dd>0x200000 - looped script? <i>AAvenicci, Arcadia, Silvia, Afflicted, TortureVictims</i></dd>
+<dd>0x10000000 - looped audio? <i>AAvenicci, Arcadia, Silvia, DA02 Cultists, Afflicted, TortureVictims</i></dd>
+<dd>0x20000000 - Ghost/non-interactable (Ghosts, Nocturnal)</dd>
+<dd>0x80000000 - Invulnerable</dd></dl></dd>
+<dd>int16 - Magicka Offset</dd>
+<dd>int16 - Stamina Offset</dd>
+<dd>uint16 - Level (if PC Level Mult false) <i>or</i> [PC Level Multiplier]x1000 (if PC Level Mult true)</dd>
+<dd>uint16 - Calc min level</dd>
+<dd>uint16 - Calc max level</dd>
+<dd>uint16 - Speed Multiplier</dd>
+<dd>uint16 - Disposition Base</dd>
+<dd>uint16 - Template Data Flags (controls which parts of NPC Record are overwritten by the template)
+<dl><dd>0x01 - Use traits (Destructible Object; Traits tab, including race, gender, height, weight, voice type, death item; Sounds tab; Animation tab; Character Gen tabs)</dd>
+<dd>0x02 - Use stats (Stats tab, including level, autocalc, skills, health/magicka/stamina, speed, bleedout, class)</dd>
+<dd>0x04 - Use factions (both factions and assigned crime faction)</dd>
+<dd>0x08 - Use spelllist (both spells and perks)</dd>
+<dd>0x10 - Use AI Data (AI Data tab, including aggression/confidence/morality, combat style and gift filter)</dd>
+<dd>0x20 - Use AI Packages (only the basic Packages listed on the AI Packages tab; rest of tab controlled by Def Pack List)</dd>
+<dd>0x40 - (unused?)</dd>
+<dd>0x80 - Use Base Data (including name and short name, and flags for Essential, Protected, Respawn, Summonable, Simple Actor, and Doesn't affect stealth meter)</dd>
+<dd>0x100 - Use inventory (Inventory tab, including all outfits and geared-up item -- but <i>not</i> death item)</dd>
+<dd>0x200 - Use script</dd>
+<dd>0x400 - Use Def Pack List (the dropdown-selected package lists on the AI Packages tab)</dd>
+<dd>0x800 - Use Attack Data (Attack Data tab, including override from behavior graph race, events, and data)</dd>
+<dd>0x1000 - Use keywords</dd></dl></dd>
+<dd>int16 - Health Offset</dd>
+<dd>uint16 - Bleedout Override</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>SNAM</td>
+<td>Faction</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>formid Faction (<a href="FACT.html">FACT</a>)</dd>
+<dd>int8 Rank - <i>Few factions have RNAM entries for factions, so most are 0. Player factions are often -1.</i></dd>
+<dd>int8[3] Unused</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>INAM</td>
+<td>Death Item</td>
+<td>formid</td>
+<td>Death Item (<a href="LVLI.html">LVLI</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>VTCK</td>
+<td>Voice Type</td>
+<td>formid</td>
+<td>Voice Type (<a href="VTYP.html">VTYP</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>TPLT</td>
+<td>Template</td>
+<td>formid</td>
+<td>Base Template (NPC_ or <a href="LVLN.html">LVLN</a>)
+</td></tr>
+<tr>
+<td>+</td>
+<td>RNAM</td>
+<td>Race</td>
+<td>formid</td>
+<td>Race (<a href="RACE.html">RACE</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td><a href="DEST_Field.html">DEST</a></td>
+<td>Destruction Data</td>
+<td>struct</td>
+<td>Destructible object data
+</td></tr>
+<tr>
+<td>-</td>
+<td>SPCT</td>
+<td>Spell Count</td>
+<td>uint32</td>
+<td>Spell Count
+</td></tr>
+<tr>
+<td>*</td>
+<td>SPLO</td>
+<td>Spell</td>
+<td>formid</td>
+<td>Spell (<a href="SPEL.html">SPEL</a>) or shout (<a href="SHOU.html">SHOU</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>WNAM</td>
+<td>Worn Armor</td>
+<td>formid</td>
+<td>Skin <i>(e.g., SkinAtronachFrost, SkinDragonPriest)</i> (<a href="ARMO.html">ARMO</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>ANAM</td>
+<td>Away Model Name</td>
+<td>formid</td>
+<td>Far away model skin (<a href="ARMO.html">ARMO</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>ATKR</td>
+<td>Attack Race</td>
+<td>formid</td>
+<td>Override from Behavior Graph <i>(creatures mostly but some nords etc - prob for unarmed)</i> (<a href="RACE.html">RACE</a>)
+</td></tr>
+<tr>
+<td>*</td>
+<td>ATKD</td>
+<td>Attack Data</td>
+<td>struct</td>
+<td>44-byte struct (same structure as RACE record): override racial attack data for a given attack event
+<dl><dd>float - Damage Mult</dd>
+<dd>float - Attack Chance</dd>
+<dd>formid - Attack Spell</dd>
+<dd>uint32 - flags:
+<dl><dd>0x01 - Ignore Weapon</dd>
+<dd>0x02 - Bash Attack</dd>
+<dd>0x04 - Power Attack</dd>
+<dd>0x08 - Left Attack</dd>
+<dd>0x10 - Rotating Attack</dd></dl></dd>
+<dd>float - Attack Angle</dd>
+<dd>float - Strike Angle</dd>
+<dd>float - Stagger</dd>
+<dd>formid - Attack Type</dd>
+<dd>float - Knockdown</dd>
+<dd>float - Recovery Time</dd>
+<dd>float - Fatigue Mult</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>ATKE</td>
+<td>Attack Event</td>
+<td>zstring</td>
+<td>event name
+</td></tr>
+<tr>
+<td>-</td>
+<td>SPOR</td>
+<td>Spectator Override</td>
+<td>formid</td>
+<td>Spectator Override Package List (<a href="FLST.html">FLST</a>) of (<a href="PACK.html">PACKs</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>OCOR</td>
+<td>Observe Corpse</td>
+<td>formid</td>
+<td>Observe Dead Body Override Package List (<a href="FLST.html">FLST</a>) of (<a href="PACK.html">PACKs</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>GWOR</td>
+<td>Guard Warn Override</td>
+<td>formid</td>
+<td>Guard Warn Override Package List (<a href="FLST.html">FLST</a>) of (<a href="PACK.html">PACKs</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>ECOR</td>
+<td>Combat Override</td>
+<td>formid</td>
+<td>Combat Override Package List (<a href="FLST.html">FLST</a>) of (<a href="PACK.html">PACKs</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>PRKZ</td>
+<td>Perk Count</td>
+<td>uint32</td>
+<td>Count of PRKR records
+</td></tr>
+<tr>
+<td>*</td>
+<td>PRKR</td>
+<td>Perk Record</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>formid (<a href="PERK.html">PERK</a>)</dd>
+<dd>uint8 Rank (no longer in use)</dd>
+<dd>uint8[3] Unused - junk data?</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>COCT</td>
+<td>Count of Container</td>
+<td>uint32</td>
+<td>Start of inventory - number of inventory "container" structures
+</td></tr>
+<tr>
+<td>*</td>
+<td>
+<dl><dd>CNTO</dd></dl>
+</td>
+<td>Container Object</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>formid Any item formid (WEAP/ARMO/ALCH)</dd>
+<dd>uint32 Count</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>
+<dl><dd>COED</dd></dl>
+</td>
+<td>Owner</td>
+<td><a href="COED_Field.html">COED</a></td>
+<td>See COED documentation
+</td></tr>
+<tr>
+<td>+</td>
+<td>AIDT</td>
+<td>AI Data</td>
+<td>struct</td>
+<td>20 byte struct
+<dl><dd>uint8 Aggression
+<dl><dd>0x00 unaggressive</dd>
+<dd>0x01 aggressive</dd>
+<dd>0x02 very aggressive</dd>
+<dd>0x03 frenzied</dd></dl></dd>
+<dd>uint8 Confidence
+<dl><dd>0x00 cowardly</dd>
+<dd>0x01 cautious</dd>
+<dd>0x02 average</dd>
+<dd>0x03 brave</dd>
+<dd>0x04 foolhardy<i></i></dd></dl></dd>
+<dd>uint8 Energy</dd>
+<dd>uint8 Morality
+<dl><dd>0x00 any crime</dd>
+<dd>0x01 violence against enemies</dd>
+<dd>0x02 property crime only <i>cicero at the farm is the only one thus far</i></dd>
+<dd>0x03 no crime</dd></dl></dd>
+<dd>uint8 Mood
+<dl><dd>0x00 Neutral (UNDEFINED)</dd>
+<dd>0x01 Angry</dd>
+<dd>0x02 Fear</dd>
+<dd>0x03 Happy</dd>
+<dd>0x04 Sad</dd>
+<dd>0x05 Surprised</dd>
+<dd>0x06 Puzzled</dd>
+<dd>0x07 Disgusted</dd></dl></dd>
+<dd>uint8 Assistance
+<dl><dd>0x00 helps nobody</dd>
+<dd>0x01 helps allies</dd>
+<dd>0x02 helps friends and allies<i></i></dd></dl></dd>
+<dd>uint8 flags
+<dl><dd>0x01 Aggro Radius Behavior (enables the following three values in the CK)</dd></dl></dd>
+<dd>uint8 unknown - data here sometimes, may be junk</dd>
+<dd>uint32 Warn</dd>
+<dd>uint32 Warn/Attack</dd>
+<dd>uint32 Attack</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>PKID</td>
+<td>AI Package</td>
+<td>formid</td>
+<td>AI package (<a href="PACK.html">PACK</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td><a href="KYWD.html#Including_Keywords">KSIZ</a></td>
+<td>Keyword Count</td>
+<td>uint32</td>
+<td>Count of keywords
+</td></tr>
+<tr>
+<td>-</td>
+<td><a href="KYWD.html#Including_Keywords">KWDA</a></td>
+<td>Keyword Data</td>
+<td>formid[KSIZ]</td>
+<td>Keywords
+</td></tr>
+<tr>
+<td>+</td>
+<td>CNAM</td>
+<td>Class</td>
+<td>formid</td>
+<td>Class (<a href="CLAS.html">CLAS</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>Full Name</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>-</td>
+<td>SHRT</td>
+<td>Short Alias</td>
+<td>lstring</td>
+<td>if present used in Alias=?
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>Marker</td>
+<td>0-length</td>
+<td>0-length, presumably to mark DNAM position
+</td></tr>
+<tr>
+<td>+</td>
+<td>DNAM</td>
+<td>Skill/Stat Data</td>
+<td>struct</td>
+<td>52-byte struct
+<dl><dd>18 × uint8 - Base skills in the following order
+<dl><dd>OneHanded,TwoHanded,Marksman,Block,Smithing,HeavyArmor,</dd>
+<dd>LightArmor,Pickpocket,Lockpicking,Sneak,Alchemy,Speechcraft,</dd>
+<dd>Alteration,Conjuration,Destruction,Illusion,Restoration,Enchanting</dd></dl></dd>
+<dd>18 × uint8 - mod skill, same order as above</dd>
+<dd>uint16 - calculated health (if auto-calc stats is on, otherwise seems to be random)</dd>
+<dd>uint16 - calculated magicka (if auto-calc stats is on, otherwise seems to be random)</dd>
+<dd>uint16 - calculated stamina (if auto-calc stats is on, otherwise seems to be random)</dd>
+<dd>uint16 - unused?</dd>
+<dd>float - Far Away Model Distance</dd>
+<dd>uint8 - Geared Up Weapons</dd>
+<dd>byte[3] - unused?</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>PNAM</td>
+<td>Head Parts</td>
+<td>formid</td>
+<td>Head Part addons (hair, eyes, scars, etc) from <a href="HDPT.html">HDPT</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>HCLF</td>
+<td>Hair Color</td>
+<td>formid</td>
+<td>Hair color (<a href="CLFM.html">CLFM</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>ZNAM</td>
+<td>Combat Style</td>
+<td>formid</td>
+<td>Combat style (<a href="CSTY.html">CSTY</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>GNAM</td>
+<td>Gift Filter</td>
+<td>formid</td>
+<td>Gifts (<a href="FLST.html">FLST</a>)
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM5</td>
+<td>Unknown</td>
+<td>short</td>
+<td>flags or marker, "always" FF-00
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM6</td>
+<td>Height</td>
+<td>float</td>
+<td>NPC Height Multiplier
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM7</td>
+<td>Weight</td>
+<td>float</td>
+<td>NPC Weight Multiplier
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM8</td>
+<td>Sound Level</td>
+<td>uint32</td>
+<td>enum
+<dl><dd>0 - Loud</dd>
+<dd>1 - Normal</dd>
+<dd>2 - Silent</dd>
+<dd>3 - Very Loud</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>CSDT</td>
+<td>Sound Type</td>
+<td>uint32</td>
+<td>enum
+<dl><dd>0 - Idle</dd>
+<dd>1 - Aware</dd>
+<dd>2 - Attack</dd>
+<dd>3 - Hit</dd>
+<dd>4 - Death</dd>
+<dd>5 - Weapon</dd>
+<dd>6 - Movement Loop</dd>
+<dd>7 - Conscious Loop</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>
+<dl><dd>CSDI</dd></dl>
+</td>
+<td>Sound</td>
+<td>formid</td>
+<td>Reference to the sound to play.  Tied to the latest CSDT.
+</td></tr>
+<tr>
+<td>*</td>
+<td>
+<dl><dd>CSDC</dd></dl>
+</td>
+<td>Sound Chance</td>
+<td>uint8</td>
+<td>Always follows a CSDI record.  Chance (0-100) that the sound will play on the triggering event.
+</td></tr>
+<tr>
+<td>-</td>
+<td>CSCR</td>
+<td>Audio Template</td>
+<td>formid</td>
+<td>Inherit Sound From: (<a>NPC_</a>) to use as an audio template
+</td></tr>
+<tr>
+<td>-</td>
+<td>DOFT</td>
+<td>Default Outfit</td>
+<td>formid</td>
+<td>Default Outfit (<a href="OTFT.html">OTFT</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>SOFT</td>
+<td>Sleep Outfit</td>
+<td>formid</td>
+<td>Sleeping Outfit (<a href="OTFT.html">OTFT</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>DPLT</td>
+<td>Default Package List</td>
+<td>formid</td>
+<td>Default Package List (<a href="FLST.html">FLST</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>CRIF</td>
+<td>Crime Faction</td>
+<td>formid</td>
+<td>Crime faction (<a href="FACT.html">FACT</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>FTST</td>
+<td>Face Texture Set</td>
+<td>formid</td>
+<td>Face complexion (<a href="TXST.html">TXST</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>QNAM</td>
+<td>Skin Tone</td>
+<td>struct</td>
+<td>12-byte struct
+<dl><dd>float R / 255</dd>
+<dd>float G / 255</dd>
+<dd>float B / 255</dd></dl>
+</td></tr>
+<tr>
+<td rowspan="20">-</td>
+<td>NAM9</td>
+<td>Face Morph Values</td>
+<td>struct</td>
+<td>76-byte struct - 18 floats + 1 unknown. Listed below in order:
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Nose Long/Short</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Short to 1 Long</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Nose Up/Down</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Down to 1 Up</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Jaw Up/Down</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Up to 1 Down</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Jaw Narrow/Wide</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Narrow to 1 Wide</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Jaw Forward/Back</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Back to 1 Forward</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Cheeks Up/Down</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Down to 1 Up</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Cheeks Forward Back</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Forward to 1 Back</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Eyes Up/Down</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Down to 1 Up</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Eyes In/Out</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 In to 1 Out</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Brows Up/Down</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Down to 1 Up</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Brows In/Out</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 In to 1 Out</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Brows Forward/Back</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Back to 1 Forward</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Lips Up/Down</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Down to 1 Up</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Lips In/Out</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 In to 1 Out</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Chin Thin/Wide</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Thin to 1 Wide</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Chin Up/Down</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Up to 1 Down</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Chin Underbite/Overbite</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Overbite to 1 Underbite</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Eyes Forward/Back</dd></dl>
+</td>
+<td>float</td>
+<td>
+<dl><dd>-1 Forward to 1 Back</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>unknown 4 bytes</dd></dl>
+</td>
+<td>4 Bytes</td>
+<td>
+<dl><dd>Unknown Value: Only ever 00 00 00 00 or FF FF 7F 7F</dd></dl>
+</td></tr>
+<tr>
+<td rowspan="5">*</td>
+<td>NAMA</td>
+<td>Face Parts</td>
+<td>struct</td>
+<td>Face part presets (numeric, starting from 0)
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Nose</dd></dl>
+</td>
+<td>int32</td>
+<td>
+<dl><dd>Nose</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Unknown</dd></dl>
+</td>
+<td>int32?</td>
+<td>
+<dl><dd>Unknown, is set to -1 on most if not all humanoids</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Eyes</dd></dl>
+</td>
+<td>int32</td>
+<td>
+<dl><dd>Eyes</dd></dl>
+</td></tr>
+<tr>
+<td></td>
+<td>
+<dl><dd>Mouth</dd></dl>
+</td>
+<td>int32</td>
+<td>
+<dl><dd>Mouth</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>TINI</td>
+<td>Tint Item</td>
+<td>uint16</td>
+<td>Face Tint Layer (enumeration, values from 1 - 69)
+</td></tr>
+<tr>
+<td>-</td>
+<td>TINC</td>
+<td>Tint Color</td>
+<td>uint8[4] rgba</td>
+<td>Face Tinting Color - one after each TINI. Unclear if last byte is alpha. 00 in most records, FF in some.
+</td></tr>
+<tr>
+<td>-</td>
+<td>TINV</td>
+<td>Tint Value</td>
+<td>int32</td>
+<td>100 * Interpolation Value - one after each TINC
+</td></tr>
+<tr>
+<td>-</td>
+<td>TIAS</td>
+<td>Unknown</td>
+<td>int16</td>
+<td>Unknown - one after each TINV (values from -1 - 1234)
+</td></tr></tbody></table>
+</div>

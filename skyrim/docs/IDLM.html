@@ -1,0 +1,66 @@
+
+<div><p><b>IDLM</b> records contain Idle Marker data.
+</p><p>The flag 0x20000000 in the <a href="index.html#Records">record header flags</a> stands for "Child Can Use".
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always 12 bytes, even if all 0s
+</td></tr>
+<tr>
+<td>-</td>
+<td>IDLF</td>
+<td>flags</td>
+<td>byte</td>
+<td>
+<p>Flags
+</p>
+<dl><dd>0x01 0=Random 1=Run In Sequence</dd>
+<dd>0x02 <i>unused</i></dd>
+<dd>0x04 Do once</dd>
+<dd>0x08 <i>unknown</i> - editing form in CK sets the flag</dd>
+<dd>0x10 Ignored By Sandbox</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>IDLC</td>
+<td>idle count</td>
+<td>byte</td>
+<td>Total idle animation count for IDLA
+</td></tr>
+<tr>
+<td>-</td>
+<td>IDLT</td>
+<td>idle timer</td>
+<td>float</td>
+<td>Idle Timer Setting
+</td></tr>
+<tr>
+<td>-</td>
+<td>IDLA</td>
+<td>idle animations</td>
+<td>formid[]</td>
+<td>Series of <a href="IDLE.html">IDLE</a> formids, total count determined by IDLC
+</td></tr></tbody></table>
+</div>

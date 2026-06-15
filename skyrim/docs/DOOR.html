@@ -1,0 +1,94 @@
+
+<div><p><b>DOOR</b> records contain the data for doors.
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p>
+<dl><dd>0x00010000 - Random Anim Start</dd>
+<dd>0x00800000 - Is Marker</dd></dl>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td>script data</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>Script Data
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>objectBounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds Data
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>full name</td>
+<td>lstring</td>
+<td>In-game name
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODT, MODS
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>Open Sound</td>
+<td>formID</td>
+<td>(<a href="SNDR.html">SNDR</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>ANAM</td>
+<td>Close Sound</td>
+<td>formID</td>
+<td>(<a href="SNDR.html">SNDR</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>BNAM</td>
+<td>Loop Sound</td>
+<td>formID</td>
+<td>(<a href="SNDR.html">SNDR</a>)
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>Flags</td>
+<td>uint8</td>
+<td>Door Flags
+<dl><dd>0x02 Automatic Door</dd>
+<dd>0x04 Hidden</dd>
+<dd>0x08 Minimal Use</dd>
+<dd>0x10 Sliding Door</dd>
+<dd>0x20 Do Not Open in Combat Search</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>TNAM</td>
+<td>Random Teleports</td>
+<td>formID</td>
+<td>If present, a random destination from this list is picked the first time the door is used, then baked into the savegame.
+</td></tr></tbody></table>
+</div>

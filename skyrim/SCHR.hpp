@@ -1,0 +1,19 @@
+#ifndef SCHR_H
+#define SCHR_H
+
+#pragma once
+
+#include "base_types.hpp"
+#include <array>
+#include <vector>
+
+struct SCHR {
+    uint32 Unknown;
+    uint32 Number_of_references_used_script_This_includes_ref_local_variables_and_direct_references__This_should_equal_the_number_of_SCRO_and_SCRV_subrecords_in_the_script;
+    uint32 Size_of_the_compiled_data_;
+    uint32 The_last_local_variable_index_used_in_the_script_For_a_new_script_this_value_will_be_0_For_a_new_script_with_a_single_local_this_will_be_1_This_index_will_always_increase_for_a_single_script_and_never_decrease_For_example_if_you_create_a_new_script_add_a_local_variable_compile_delete_the_local_and_recompile_this_value_will_remain_at_1_If_you_add_another_local_variable_it_will_increase_to_2_This_is_likely_to_prevent_external_references_to_a_local_variable_from_becoming_invalid;
+    uint32 Type_of_script_0x00010000_only_value_seen_on_any_record_type;
+};
+
+
+#endif

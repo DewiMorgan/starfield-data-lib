@@ -1,0 +1,69 @@
+
+<div><p><b>LTEX</b> records are land texture mappings.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>TNAM</td>
+<td>Texture</td>
+<td>formid</td>
+<td>Reference to a <a href="TXST.html">TXST</a>. <i>only 1 without this, LScrub01</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>MNAM</td>
+<td>Material</td>
+<td>formid</td>
+<td>Reference to a <a href="MATT.html">MATT</a>.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>HNAM</td>
+<td></td>
+<td>ubyte[2]</td>
+<td>Havok Data
+<dl><dd>Friction</dd>
+<dd>Restitution</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>SNAM</td>
+<td></td>
+<td>ubyte</td>
+<td>Texture Specular Exponent <i>always 0x1E (30)</i>
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>GNAM</td>
+<td>Grass</td>
+<td>formid</td>
+<td>Not required.  Possible Grass (<a href="GRAS.html">GRAS</a>)
+</td></tr>
+</tbody></table>
+</div>

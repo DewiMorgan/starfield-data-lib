@@ -1,0 +1,59 @@
+
+<div><p><b>CPTH</b> contains the data for a camera "path".
+</p><p>Each camera path is essentially a series of CTDA checks (usually), a small amount of data specific to the path, then output CAMS.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>*</td>
+<td>CTDA</td>
+<td>objectBounds</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>CTDA, presumably checks
+</td></tr>
+<tr>
+<td>-</td>
+<td>CIS1</td>
+<td>ctda variable</td>
+<td>zstring</td>
+<td>eg. Is3rdPKillOnly
+</td></tr>
+<tr>
+<td>+</td>
+<td>ANAM</td>
+<td>unknown</td>
+<td>formid[2]</td>
+<td>Two formids that link camera paths. The first formid points to the parent camera path and the second formid points to a sibling camera path at the same level to create a tree structure as seen in the Camera Paths dialog in Creation Kit.
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>flags</td>
+<td>byte</td>
+<td>0x01
+</td></tr>
+<tr>
+<td>*</td>
+<td>SNAM</td>
+<td>cameras</td>
+<td>formid</td>
+<td><a href="CAMS.html">CAMS</a> - do not line up with CTDA count
+</td></tr></tbody></table>
+</div>

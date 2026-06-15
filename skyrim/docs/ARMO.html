@@ -1,0 +1,299 @@
+
+<div><p>An <b>ARMO</b> record is an individual equippable piece, the most obvious of which is armor but includes shields, jewelry, clothing.
+</p><p>Models as they exist here are specifically referring to ground and inventory models, <a href="ARMA.html">ARMA</a> models cover worn.  
+</p><p>If MOD4 is not present, MOD2 is used for female characters instead.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>editorID</td>
+<td>zstring</td>
+<td>Max ::0x200 bytes, including null terminator.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>VMAD</td>
+<td>scripting info</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>scripting
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always 12 bytes, even if all 0s
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>FULL</td>
+<td>full name</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>EITM</td>
+<td>enchantment</td>
+<td>formid</td>
+<td>Enchanment (<a href="ENCH.html">ENCH</a>).  Note there can be only 1 of these.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>EAMT</td>
+<td>Enchantment Amount</td>
+<td>uint16</td>
+<td>Enchantment Amount
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODB, MODT, MODS, MODD
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>MOD2</td>
+<td>male model</td>
+<td>zstring</td>
+<td>Male Models\ relative .nif
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MO2T</td>
+<td>model data</td>
+<td>struct</td>
+<td>(<a href="Model_Textures_Field.html">MODT</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MO2S</td>
+<td>alternate textures</td>
+<td><a href="Alternate_Textures.html">Alternate Textures</a></td>
+<td>Used when overriding textures in a nif file with texture sets
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ICON</td>
+<td>Inventory Image</td>
+<td>zstring</td>
+<td>Inventory Image Filename
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MICO</td>
+<td>Message Image</td>
+<td>zstring</td>
+<td>Message Image Filename
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MOD4</td>
+<td>female model</td>
+<td>zstring</td>
+<td>Female Models\ relative .nif
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MO4T</td>
+<td>model data</td>
+<td>struct</td>
+<td>(<a href="Model_Textures_Field.html">MODT</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MO4S</td>
+<td>alternate textures</td>
+<td><a href="Alternate_Textures.html">Alternate Textures</a></td>
+<td>Used when overriding textures in a nif file with texture sets
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ICO2</td>
+<td>Inventory Image</td>
+<td>zstring</td>
+<td>Female Inventory Image Filename
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MIC2</td>
+<td>Message Image</td>
+<td>zstring</td>
+<td>Female Message Image Filename
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>BODT</td>
+<td>Body Template</td>
+<td><a href="BODT_Field.html">BODT</a></td>
+<td>8- or 12-byte struct Body Template
+</td></tr>
+<tr>
+<td>+</td>
+<td>1.6.91</td>
+<td>BOD2</td>
+<td>Body Template</td>
+<td><a href="BOD2_Field.html">BOD2</a></td>
+<td>8-byte struct Body Template
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>DEST</td>
+<td>destruction data</td>
+<td><a href="DEST_Field.html">DEST</a></td>
+<td>Includes Fields DSTD, DMDL, DMDT, DMDS
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>YNAM</td>
+<td>pickupSound</td>
+<td>formid</td>
+<td>Sound(<a href="SNDR.html">SNDR</a>) played when picked up
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>ZNAM</td>
+<td>dropSound</td>
+<td>formid</td>
+<td>Sound(<a href="SNDR.html">SNDR</a>) played when dropped
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>BMCT</td>
+<td>Ragdoll</td>
+<td>string</td>
+<td>Ragdoll Constraint Template, not found in original (PC) datafiles
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ETYP</td>
+<td>equip slot</td>
+<td>formid</td>
+<td><a href="EQUP.html">EQUP</a> (only shields)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>BIDS</td>
+<td>bash impact data set</td>
+<td>formid</td>
+<td><a href="IPDS.html">IPDS</a> (only shields)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>BAMT</td>
+<td>bash material</td>
+<td>formid</td>
+<td><a href="MATT.html">MATT</a> (only shields)
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>RNAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td><a href="RACE.html">RACE</a> (0x19 DefaultRace for most except race-specific skins)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>KSIZ</td>
+<td><a href="KYWD.html#Including_Keywords">KSIZ</a></td>
+<td>uint32</td>
+<td>keyword count
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>KWDA</td>
+<td><a href="KYWD.html#Including_Keywords">KWDA</a></td>
+<td>formID[KSIZ]</td>
+<td>KYWD array
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DESC</td>
+<td>description</td>
+<td>lstring</td>
+<td>Usually 0 unless the enchantment isn't standard like Archmage Robes.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>MODL</td>
+<td>armature (model)</td>
+<td>formid</td>
+<td>Armature <a href="ARMA.html">ARMA</a> formid.  Required, can use more than 1 either as options (race options) or to cover multiple slots.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DATA</td>
+<td>data</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>uint32 Base value</dd>
+<dd>float Weight</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DNAM</td>
+<td>armor rating</td>
+<td>uint32</td>
+<td>Base armor rating * 100. (Note: despite being a uint32, only the lower uint16 is used.)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>TNAM</td>
+<td>template</td>
+<td>formID</td>
+<td>Points to another <b>ARMO</b> record to use as a template
+</td></tr></tbody></table>
+<p>The skill in the BODT/BOD2 field determines which skill gets xp added on hits. A higher level in that skill also increases the armor rating. If skill is "None", any value in the DNAM field is ignored and the armor rating is 0 (is that true for NPCs too?).
+</p><p>For unenchanted armor the gold value is found in DATA.Value - called base_value in the following. For enchanted armor the CK shows only the base_value, but that's not what's used ingame:
+</p>
+<pre> gold_value = base_value + [enchantment_cost + 0.5]
+</pre>
+</div>

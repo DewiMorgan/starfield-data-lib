@@ -1,0 +1,244 @@
+
+<div><p>Dialogue Topic Info (<b>INFO</b>) records represent all the game's dialogue topics and possible responses. They appear in a group directly following their associated Dialogue Topic (<a href="DIAL.html">DIAL</a>) record.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a></th>
+<th>Subrecord</th>
+<th>Name</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a></th>
+<th>Info
+</th></tr>
+<tr>
+<td>-</td>
+<td>EDID</td>
+<td>EditorId</td>
+<td>zstring</td>
+<td>Editor ID
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td>ScriptInfo</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>Papyrus script info.
+</td></tr>
+<tr>
+<td colspan="5">DATA and ENAM are exclusive of one another. DATA is seen on record versions 31 and lower, while ENAM is seen on record versions 31 and higher. Record version 31 itself can have either but not both.
+</td></tr>
+<tr>
+<td rowspan="3">-</td>
+<td rowspan="3">DATA</td>
+<td>DialogueTab</td>
+<td>uint16</td>
+<td>Quest dialogue tab. This sub-field is absent altogether in the newer ENAM fields and is presumably unused.
+<dl><dd>0: Player Dialogue</dd>
+<dd>1: Favor Dialogue</dd>
+<dd>2: Scenes</dd>
+<dd>3: Combat</dd>
+<dd>4: Favors</dd>
+<dd>5: Detection</dd>
+<dd>6: Service</dd>
+<dd>7: Misc</dd></dl>
+</td></tr>
+<tr>
+<td>Flags</td>
+<td>uint16</td>
+<td>Flags
+<dl><dd>Bit 0: Goodbye</dd>
+<dd>Bit 1: Random</dd>
+<dd>Bit 2: Say once</dd>
+<dd>Bit 4: On activation</dd>
+<dd>Bit 5: Random end</dd>
+<dd>Bit 6: Invisible continue</dd>
+<dd>Bit 7: Walk away</dd>
+<dd>Bit 8: Walk away invisible in menu</dd>
+<dd>Bit 9: Force subtitle</dd>
+<dd>Bit 10: Can move while greeting</dd>
+<dd>Bit 11: Has <b>no</b> lip file (inverted from CK)</dd>
+<dd>Bit 12: Requires post-processing</dd>
+<dd>Bit 13: Has audio output override</dd>
+<dd>Bit 14: Spends favor points</dd></dl>
+</td></tr>
+<tr>
+<td>ResetTime</td>
+<td>float</td>
+<td>Days until reset. <i>Note difference from ENAM field.</i>
+</td></tr>
+<tr>
+<td rowspan="2">-</td>
+<td rowspan="2">ENAM</td>
+<td>Flags</td>
+<td>uint16</td>
+<td>As above
+</td></tr>
+<tr>
+<td>ResetTime</td>
+<td>uint16</td>
+<td>Hours until reset. Scaled: 0 = 0 hours, 0xFFFF = 24 hours. <i>Note difference from DATA field.</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td>PNAM</td>
+<td>PreviousInfo</td>
+<td>formid</td>
+<td>Previous topic info. Never present in Skyrim.esm; always present in all other files.
+</td></tr>
+<tr>
+<td>-</td>
+<td>CNAM</td>
+<td>FavorLevel</td>
+<td>byte</td>
+<td>Favor Level: None (0) - Large (3)
+</td></tr>
+<tr>
+<td>*</td>
+<td>TCLT</td>
+<td>TopicLinks</td>
+<td>formid</td>
+<td>Follow-up topics after this one. (INFO records)
+</td></tr>
+<tr>
+<td>-</td>
+<td>DNAM</td>
+<td>SharedInfo</td>
+<td>formid</td>
+<td>Show Response Data From Info. If present, responses will be selected from the linked topic rather than from the Responses fields. Some records have both, but the Responses collection appears to be overridden by the shared info.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>Responses</td>
+<td>response[]</td>
+<td>Zero or more responses to the topic, as represented between the thick lines below. Represented in the CK on the "Edit Response" form.
+</td></tr>
+<tr>
+<td rowspan="8">+</td>
+<td rowspan="8">TRDT</td>
+<td>response.EmotionType</td>
+<td>uint32</td>
+<td>Neutral (0), Anger (1), Disgust (2), Fear (3), Sad (4), Happy (5), Surprise (6), Puzzled (7)
+</td></tr>
+<tr>
+<td>response.EmotionValue</td>
+<td>uint32</td>
+<td>0 - 100
+</td></tr>
+<tr>
+<td>response.Unknown1</td>
+<td>int32</td>
+<td>Always 0
+</td></tr>
+<tr>
+<td rowspan="2">response.Id</td>
+<td>uint8</td>
+<td>Response number
+</td></tr>
+<tr>
+<td>uint8[3]</td>
+<td>Junk
+</td></tr>
+<tr>
+<td>response.SoundFile</td>
+<td>formid</td>
+<td>Sound File
+</td></tr>
+<tr>
+<td rowspan="2">response.UseEmoAnim</td>
+<td>uint8</td>
+<td>Use Emotion Animation
+</td></tr>
+<tr>
+<td>uint8[3]</td>
+<td>Junk
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM1</td>
+<td>response.Text</td>
+<td>ilstring</td>
+<td>The dialogue string displayed in game
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM2</td>
+<td>response.Notes</td>
+<td>zstring</td>
+<td>Actor notes (the game doesn't load this)
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM3</td>
+<td>response.Edits</td>
+<td>zstring</td>
+<td>Edits (the game doesn't load this)
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>response.SpeakerIdleAnims</td>
+<td>formid</td>
+<td>Idle Animations: Speaker
+</td></tr>
+<tr>
+<td>-</td>
+<td>LNAM</td>
+<td>response.ListenerIdleAnims</td>
+<td>formid</td>
+<td>Idle Animations: Listener
+</td></tr>
+<tr>
+<td>*</td>
+<td>CTDA</td>
+<td>Conditions</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>List of conditions which must be true for this dialogue to be available
+</td></tr>
+<tr>
+<td rowspan="3">-</td>
+<td>SCHR</td>
+<td></td>
+<td><a href="SCHR_Field.html">SCHR</a></td>
+<td>Old scripting info. If present at all, the fields will always include an SCHR grouping, a NEXT, and another SCHR grouping.
+</td></tr>
+<tr>
+<td>NEXT</td>
+<td></td>
+<td>null</td>
+<td>Marker to separate SCHR fields.
+</td></tr>
+<tr>
+<td>SCHR</td>
+<td></td>
+<td><a href="SCHR_Field.html">SCHR</a></td>
+<td>Old scripting info.
+</td></tr>
+<tr>
+<td>-</td>
+<td>RNAM</td>
+<td>Response</td>
+<td>lstring</td>
+<td>The player's response to a question (INFO with TCLT options). If present, overrides the default text coming from the parent dialogue topic.
+</td></tr>
+<tr>
+<td>-</td>
+<td>ANAM</td>
+<td>Speaker</td>
+<td>formid</td>
+<td>Speaker
+</td></tr>
+<tr>
+<td>-</td>
+<td>TWAT</td>
+<td>WalkAwayTopic</td>
+<td>formid</td>
+<td>Walk Away topic
+</td></tr>
+<tr>
+<td>-</td>
+<td>ONAM</td>
+<td>AudioOutputOverride</td>
+<td>formid</td>
+<td>Audio Output Override
+</td></tr></tbody></table>
+</div>

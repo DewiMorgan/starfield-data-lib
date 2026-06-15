@@ -1,0 +1,33 @@
+
+<div><p><b>IPDS</b> records are impact data sets, which are simply a paired list of MATT/IPCT values.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor ID
+</td></tr>
+<tr>
+<td>*</td>
+<td>PNAM</td>
+<td>pair</td>
+<td>struct</td>
+<td>
+<dl><dd>formid <a href="MATT.html">MATT</a> (Material Type)</dd>
+<dd>formid <a href="IPCT.html">IPCT</a> (generally the same for all)</dd></dl>
+</td></tr>
+</tbody></table>
+</div>

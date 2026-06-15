@@ -1,0 +1,68 @@
+
+<div><p><b>MSTT</b> records contain information on movable static objects.
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p>
+<dl><dd>0x100 - Must Update Anims</dd>
+<dd>0x200 - not On Local Map</dd>
+<dd>0x10000 - Random Anim Start</dd>
+<dd>0x80000 - Has currents</dd>
+<dd>0x2000000 - Obstacle
+<dl><dd>NavMesh Generation Import Option, at most one can be set, defaults to "Collision Geometry"</dd></dl></dd>
+<dd>0x4000000 - Filter</dd>
+<dd>0x8000000 - Bounding Box</dd>
+<dd>0x40000000 - Ground</dd></dl>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODT, MODS,
+</td></tr>
+<tr>
+<td>-</td>
+<td>DEST</td>
+<td>destruction data</td>
+<td><a href="DEST_Field.html">DEST</a></td>
+<td>Includes Fields DSTD, DMDL, DMDT, DSTF
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>flags</td>
+<td>uint8</td>
+<td>flags? <i>values 0x00 through 0x03</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>looping sound</td>
+<td>formID</td>
+<td>Ambient Sound (<a href="SNDR.html">SNDR</a>)
+</td></tr></tbody></table>
+</div>

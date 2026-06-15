@@ -1,0 +1,163 @@
+
+<div>
+<h2><span id="Created_Objects">Created Objects</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>weaponCount
+</td>
+<td>vsval
+</td>
+<td>Number of elements in weaponEnchTable
+</td></tr>
+<tr>
+<td>weaponEnchTable
+</td>
+<td><a href="#Enchantment">Enchantment</a>[weaponCount]
+</td>
+<td>List of all created enchantments that are/were applied to weapons.
+</td></tr>
+<tr>
+<td>armourCount
+</td>
+<td>vsval
+</td>
+<td>Number of elements in armourEnchTable
+</td></tr>
+<tr>
+<td>armourEnchTable
+</td>
+<td><a href="#Enchantment">Enchantment</a>[armourCount]
+</td>
+<td>List of all created enchantments that are/were applied to armour. Not sure which types of armour (Body/Gloves/Boots/Shield/etc) this encompasses.
+</td></tr>
+<tr>
+<td>potionCount
+</td>
+<td>vsval
+</td>
+<td>Number of elements in potionTable
+</td></tr>
+<tr>
+<td>potionTable
+</td>
+<td><a href="#Enchantment">Enchantment</a>[potionCount]
+</td>
+<td>List of all created potions.
+</td></tr>
+<tr>
+<td>poisonCount
+</td>
+<td>vsval
+</td>
+<td>Number of elements in poisonTable
+</td></tr>
+<tr>
+<td>poisonTable
+</td>
+<td><a href="#Enchantment">Enchantment</a>[poisonCount]
+</td>
+<td>List of all created poisons.
+</td></tr></tbody></table>
+<h3><span id="Enchantment">Enchantment</span></h3>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>refID
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>FormID of the enchantment. I've only seen created types, no default or array types.
+</td></tr>
+<tr>
+<td>timesUsed
+</td>
+<td>uint32
+</td>
+<td>Seems to represent the number of times the enchantment is used? However, sometimes using the same enchantment nets two different forms. Could just be a bug in Skyrim.
+</td></tr>
+<tr>
+<td>count
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>effects
+</td>
+<td><a href="#MagicEffect">MagicEffect</a>[count]
+</td></tr></tbody></table>
+<h4><span id="MagicEffect">MagicEffect</span></h4>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>effectID
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>info
+</td>
+<td><a href="#EnchInfo">EnchInfo</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>price
+</td>
+<td>float
+</td>
+<td>Amount this enchantment adds to the base item's price.
+</td></tr></tbody></table>
+<h5><span id="EnchInfo">EnchInfo</span></h5>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>magnitude
+</td>
+<td>float
+</td>
+<td>
+</td></tr>
+<tr>
+<td>duration
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>area
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr></tbody></table>
+</div>

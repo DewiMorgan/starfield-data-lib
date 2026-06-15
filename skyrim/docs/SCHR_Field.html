@@ -1,0 +1,72 @@
+
+<div><p><b>SCHR</b> and related fields represent old scripting code. It is believed that these are all non-functional, but they can occasionally still be found in the game data on records with versions 31 and lower. See Oblivion's <a href="/wiki/Oblivion_Mod:Mod_File_Format/SCPT">SCPT</a> page for more information on how some of these fields work.
+</p><p><b>Note</b>: much of the information on this page is taken from the Oblivion page and may need updating for Skyrim.
+</p>
+<h2><span id="Field_Layout">Field Layout</span></h2>
+<p>Like many of the other common complex field types, old script records can include numerous fields, always starting with an SCHR and sometimes including nothing else.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a></th>
+<th>SubRecord</th>
+<th>Name</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a></th>
+<th>Info
+</th></tr>
+<tr>
+<td rowspan="5">+</td>
+<td rowspan="5">SCHR</td>
+<td>Unknown</td>
+<td>uint32</td>
+<td>Always 0.
+</td></tr>
+<tr>
+<td>RefCount</td>
+<td>uint32</td>
+<td>Number of references used script. This includes 'ref' local variables and direct references (eg: player). This should equal the number of SCRO and SCRV subrecords in the script.
+</td></tr>
+<tr>
+<td>CompiledSize</td>
+<td>uint32</td>
+<td>Size of the compiled data (SCDA subrecord)?
+</td></tr>
+<tr>
+<td>VariableCount</td>
+<td>uint32</td>
+<td>The last local variable index used in the script. For a new script this value will be 0. For a new script with a single local this will be 1. This index will always increase for a single script and never decrease. For example, if you create a new script, add a local variable, compile, delete the local, and recompile this value will remain at 1. If you add another local variable it will increase to 2. This is likely to prevent external references to a local variable from becoming invalid.
+</td></tr>
+<tr>
+<td>Type</td>
+<td>uint32</td>
+<td>Type of script
+<dl><dd>0x00010000 - only value seen on any record type.</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>SCDA</td>
+<td>Data</td>
+<td>byte[]</td>
+<td>Compiled script.
+</td></tr>
+<tr>
+<td>-</td>
+<td>SCTX</td>
+<td>Text</td>
+<td>string</td>
+<td>Script text.
+</td></tr>
+<tr>
+<td>-</td>
+<td>QNAM</td>
+<td>Quest</td>
+<td>formid</td>
+<td>The quest the script belongs to, if appropriate.
+</td></tr>
+<tr>
+<td>-</td>
+<td>SCRO</td>
+<td>Object</td>
+<td>formid</td>
+<td>Object referred to by compiled code (much like CIS* fields in <a href="CTDA_Field.html">CTDA</a> subrecords).
+</td></tr></tbody></table>
+</div>

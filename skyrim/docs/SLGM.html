@@ -1,0 +1,118 @@
+
+<div><p>A <b>SLGM</b> record represents a <a href="/wiki/Skyrim:Soul_Gems">Soul Gem</a>
+</p><p>The flag 0x20000 in the <a href="index.html#Records">record header flags</a> indicates if the gem can hold NPC souls. If so, the CK disables the SLCP field.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>editorID</td>
+<td>zstring</td>
+<td>Record Editor ID
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>OBND</td>
+<td>objectBounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always 12 bytes even if all 0s
+</td></tr>
+<tr>
+<td>-</td>
+<td>40</td>
+<td>FULL</td>
+<td>itemName</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>MODL</td>
+<td>model</td>
+<td>zstring</td>
+<td>Path to .nif
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MODT</td>
+<td>model data</td>
+<td>struct[]</td>
+<td>series of 12-byte structs (assume xyz)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>KSIZ</td>
+<td>numKeywords</td>
+<td><a href="KYWD.html#Including_Keywords">KSIZ</a></td>
+<td>KYWD Count.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>KWDA</td>
+<td>keywords</td>
+<td><a href="KYWD.html#Including_Keywords">KWDA</a></td>
+<td>[KYWD 0x000937A3] VendorItemSoulGem
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>SOUL</td>
+<td>current soul</td>
+<td>ubyte</td>
+<td>Current soul value 0(none) - 5(grand)
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DATA</td>
+<td>data</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>0-3 (uint32) base value</dd>
+<dd>4-7 (float) weight</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>SLCP</td>
+<td>soul capacity</td>
+<td>ubyte</td>
+<td>Capacity soul value 0(none) - 5(grand)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>NAM0</td>
+<td>filled gem</td>
+<td>formid</td>
+<td>SLGM formid of filled gem. This is only used twice, once for an empty Grand and an empty Black Soul Gem which points to the appropriate filled soul gem.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>ZNAM</td>
+<td>sound</td>
+<td>formid</td>
+<td>found in Soul Gems Differ
+</td></tr>
+</tbody></table>
+</div>

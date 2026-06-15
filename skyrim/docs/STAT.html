@@ -1,0 +1,71 @@
+
+<div><p><b>STAT</b> records contain information on static objects.
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p>
+<dl><dd>0x00000040 - Has Tree LOD</dd>
+<dd>0x00000200 - not On Local Map</dd>
+<dd>0x00008000 - Has Distant LOD</dd>
+<dd>0x00020000 - Uses High-Detail LOD Texture</dd>
+<dd>0x00080000 - Has Currents</dd>
+<dd>0x00800000 - Is Marker</dd>
+<dd>0x02000000 - Obstacle</dd>
+<dd>0x10000000 - Show in world map</dd></dl>
+<p>NavMesh Import Options (mutually exclusive, defaults to Collision Geometry)
+</p>
+<dl><dd>0x04000000 - Filter</dd>
+<dd>0x08000000 - Bounding Box</dd>
+<dd>0x40000000 - Ground</dd></dl>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODT, MODS
+</td></tr>
+<tr>
+<td>+</td>
+<td>DNAM</td>
+<td>data</td>
+<td>struct</td>
+<td>8 byte structure
+<dl><dd>float  MaxAngle 30-120 degrees</dd>
+<dd>formID Directional Material - <a href="MATO.html">MATO</a> formID</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>MNAM</td>
+<td>LOD Data</td>
+<td>struct</td>
+<td>1040 byte structure present if the "HasDistanceLOD" flag is set. There is a lot of "junk" data after nul terminated strings (this seems to be confirmed by manually setting all data between strings to 0x00). The first empty string represents the lowest level detail model (i.e., if LODModel2 is empty then 3/4 should be as well).
+<dl><dd>char[260] LODModel1   HighDetail</dd>
+<dd>char[260] LODModel2</dd>
+<dd>char[260] LODModel3</dd>
+<dd>char[260] LODModel4   LowDetail</dd></dl>
+</td></tr></tbody></table>
+</div>

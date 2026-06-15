@@ -1,0 +1,411 @@
+
+<div><p><b>SCEN</b> records contain information on scenes.
+</p>
+<h2><span id="Main_Record">Main Record</span></h2>
+<p>The three lists have no terminator and simply repeat until a field designates that the next block is starting.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td>Editor ID.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>script info</td>
+<td>byte[]</td>
+<td>scripting info
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>FNAM</td>
+<td>Flags</td>
+<td>uint32</td>
+<td>
+<dl><dd>Bit 0 - Begin on quest start.</dd>
+<dd>Bit 1 - Stop quest on end.</dd>
+<dd>Bit 2 - Show all text.</dd>
+<dd>Bit 3 - Repeat while condition block is true.</dd>
+<dd>Bit 4 - Interruptible.</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td></td>
+<td>Phases</td>
+<td>Phases[]</td>
+<td>List of <a href="#Phases">phases</a>.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td></td>
+<td>Actors</td>
+<td>Actors[]</td>
+<td>List of <a href="#Actor_List">actors</a>.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td></td>
+<td>Actions</td>
+<td>Actions[]</td>
+<td>List of <a href="#Actions">actions</a>.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>SCHR</td>
+<td>Old Script</td>
+<td><a href="SCHR_Field.html">SCHR</a></td>
+<td>Old scripting field.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>PNAM</td>
+<td>Parent Quest</td>
+<td>formid</td>
+<td>Parent quest.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>INAM</td>
+<td>Max Action</td>
+<td>uint32</td>
+<td>Highest action number. <i>Note: in rare cases, this may be higher than the highest action number, possibly indicating deleted actions.</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>VNAM</td>
+<td>Behavior Settings</td>
+<td>uint32[4]</td>
+<td>Each uint32 corresponds to the "Set all" check boxes at the top of the Actor Behavior dialogue.
+<dl><dd>0 - Set all Normal.</dd>
+<dd>1 - Set all Pause.</dd>
+<dd>2 - Set all End.</dd>
+<dd>3 - Don't set all.</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>Conditions</td>
+<td>struct</td>
+<td>Scene Data conditions.
+</td></tr></tbody></table>
+<h2><span id="Phases">Phases</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>HNAM</td>
+<td>Start Marker</td>
+<td>0-length</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>NAM0</td>
+<td>Description</td>
+<td>zstring</td>
+<td>Phase description. Always present, even if just a null-terminator.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>Start Conditions</td>
+<td>struct</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>NEXT</td>
+<td>Marker</td>
+<td>0-length</td>
+<td>Delineates start conditions from completion conditions.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>Completion Conditions</td>
+<td>struct</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>SCHR</td>
+<td>Old Script</td>
+<td><a href="SCHR_Field.html">SCHR</a></td>
+<td>Old scripting field.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>NEXT</td>
+<td>Marker</td>
+<td>0-length</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>SCHR</td>
+<td>Old Script</td>
+<td><a href="SCHR_Field.html">SCHR</a></td>
+<td>Old scripting field.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>WNAM</td>
+<td>Width</td>
+<td>uint32</td>
+<td>Display width.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>HNAM</td>
+<td>End Marker</td>
+<td>0-length</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Actors">Actors</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>ALID</td>
+<td>Alias ID</td>
+<td>uint32</td>
+<td>Alias ID of actor.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>LNAM</td>
+<td>Flags</td>
+<td>uint32</td>
+<td>Actor flags.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>DNAM</td>
+<td>Behaviors</td>
+<td>uint32</td>
+<td>Actor behaviors.
+</td></tr></tbody></table>
+<h2><span id="Actions">Actions</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>ANAM</td>
+<td>Type</td>
+<td>uint16</td>
+<td>Start of Action block. Type of action.
+<dl><dd>0 - Dialogue.</dd>
+<dd>1 - Package.</dd>
+<dd>2 - Timer.</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM0</td>
+<td>Description</td>
+<td>zstring</td>
+<td>Action description.
+</td></tr>
+<tr>
+<td>+</td>
+<td>ALID</td>
+<td>Alias ID</td>
+<td>uint32</td>
+<td>Alias ID of actor performing action.
+</td></tr>
+<tr>
+<td>+</td>
+<td>INAM</td>
+<td>Action Num</td>
+<td>uint32</td>
+<td>Action number.
+<p>Note: Two records in Skyrim.esm contain actions with overlapping numbers (<tt>T03WorshippersScene (0x0001C608)</tt> and <tt>DGScene04 (0x0001B113)</tt>). In all other cases, action numbers are unique within any given scene.
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>FNAM</td>
+<td>Flags</td>
+<td>uint32</td>
+<td>Flags.
+<dl><dd>Bit 15 - Face target.</dd>
+<dd>Bit 16 - Looping.</dd>
+<dd>Bit 17 - Head track player.</dd></dl>
+<p>To date, all other flags are unused.
+</p>
+</td></tr>
+<tr>
+<td>+</td>
+<td>SNAM</td>
+<td>Start Phase</td>
+<td>uint32</td>
+<td>Phase action starts at. Zero-based, add one to value to match CK display values.
+</td></tr>
+<tr>
+<td>+</td>
+<td>ENAM</td>
+<td>End Phase</td>
+<td>uint32</td>
+<td>Phase action ends at. Zero-based, add one to value to match CK display values.
+</td></tr>
+<tr>
+<td colspan="6">Dialogue Actions Only
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>Topic</td>
+<td>formid</td>
+<td>Topic ID.
+</td></tr>
+<tr>
+<td>-</td>
+<td>HTID</td>
+<td>Head Tracking ID</td>
+<td>int32</td>
+<td>Head-tracking alias ID. Values range from -1–225, 435 (0x1B3). High bit may be flag.
+</td></tr>
+<tr>
+<td>-</td>
+<td>DMAX</td>
+<td>Looping Max</td>
+<td>float32</td>
+<td>Looping max.
+</td></tr>
+<tr>
+<td>-</td>
+<td>DMIN</td>
+<td>Looping Min</td>
+<td>float32</td>
+<td>Looping min.
+</td></tr>
+<tr>
+<td>-</td>
+<td>DEMO</td>
+<td>Emotion Type</td>
+<td>uint32</td>
+<td>Emotion type.
+<dl><dd>0 - Neutral.</dd>
+<dd>1 - Anger.</dd>
+<dd>2 - Disgust.</dd>
+<dd>3 - Fear.</dd>
+<dd>4 - Sad.</dd>
+<dd>5 - Happy.</dd>
+<dd>6 - Surprise.</dd>
+<dd>7 - Puzzled.</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>DEVA</td>
+<td>Emotion Value</td>
+<td>uint32</td>
+<td>Emotion value.
+</td></tr>
+<tr>
+<td colspan="6">Package Actions Only
+</td></tr>
+<tr>
+<td>*</td>
+<td>PNAM</td>
+<td>Package IDs</td>
+<td>formid</td>
+<td>Package IDs.
+</td></tr>
+<tr>
+<td colspan="6">Timer Actions Only
+</td></tr>
+<tr>
+<td>+</td>
+<td>SNAM</td>
+<td>Duration</td>
+<td>float32</td>
+<td>Duration of timer. <i>Note: SNAM is repurposed within timer actions and appears in addition to the action start phase SNAM field.</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td>SCHR</td>
+<td>Old Script</td>
+<td><a href="SCHR_Field.html">SCHR</a></td>
+<td>Old scripting field.
+</td></tr>
+<tr>
+<td>+</td>
+<td>ANAM</td>
+<td>End Marker</td>
+<td>0-sized</td>
+<td>End of Action block.
+</td></tr></tbody></table>
+</div>

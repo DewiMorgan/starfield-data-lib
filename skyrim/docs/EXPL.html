@@ -1,0 +1,73 @@
+
+<div><p><b>EXPL</b> records contain information on explosion effects.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always 12 bytes, even if all 0s.
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>full name</td>
+<td>lstring</td>
+<td>Full(in-game) name
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td>zstring</td>
+<td>Path to .nif
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODT</td>
+<td>model data</td>
+<td>struct[]</td>
+<td>series of 12-byte structs (assume xyz)
+</td></tr>
+<tr>
+<td>-</td>
+<td>EITM</td>
+<td>enchantment</td>
+<td>formid</td>
+<td>Enchantment  (<a href="ENCH.html">ENCH</a>) formid
+</td></tr>
+<tr>
+<td>-</td>
+<td>MNAM</td>
+<td>modifier</td>
+<td>formid</td>
+<td>Image Space Modifier (<a href="IMAD.html">IMAD</a>) formid
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>data</td>
+<td>struct</td>
+<td>52 bytes  <i>exceptions: FXEmptyObject.nif, 48 w/ EITM, 44 w/o, spider/dragon projectiles 40 w/ 0s OBND</i>
+</td></tr>
+</tbody></table>
+</div>

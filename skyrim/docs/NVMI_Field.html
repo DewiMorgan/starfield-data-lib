@@ -1,0 +1,161 @@
+
+<div><div></div>
+<p><b>NVMI</b> fields contain navmesh data.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>Navmesh</td>
+<td>formid</td>
+<td>
+</td></tr>
+<tr>
+<td>Unknown</td>
+<td>uint32</td>
+<td>Possibly a flag for a data type: 0x00000020 if is island, 0x00000000 if not island but has been modified, 0x00000040 if not island and not modified.
+</td></tr>
+<tr>
+<td>X:</td>
+<td>float32</td>
+<td>X center point of the navmesh.
+</td></tr>
+<tr>
+<td>Y:</td>
+<td>float32</td>
+<td>Y center point of the navmesh.
+</td></tr>
+<tr>
+<td>Z:</td>
+<td>float32</td>
+<td>Z center point of the navmesh.
+</td></tr>
+<tr>
+<td>Preferred Merges Flag</td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>Merged to Count</td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>Merged to</td>
+<td>formid[num]</td>
+<td>
+</td></tr>
+<tr>
+<td>Preferred Merges Count</td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>Preferred Merges</td>
+<td>formid[num]</td>
+<td>
+</td></tr>
+<tr>
+<td>Linked Doors</td>
+<td>struct Door[num]</td>
+<td>Count of door REFR data.
+</td></tr>
+<tr>
+<td>Doors</td>
+<td>struct Door</td>
+<td>Unknown uint32 and Door REFR formid.
+</td></tr>
+<tr>
+<td>Is Island Flag</td>
+<td>uint8</td>
+<td>Is island mesh flag. If it is an island, then a data structure follows.
+</td></tr>
+<tr>
+<th colspan="3">Beginning of data that only appears if the Is Island Flag = TRUE.
+</th></tr>
+<tr>
+<td>X:</td>
+<td>float32</td>
+<td rowspan="3">This is the minimum X,Y and Z coordinate of the navmesh.
+</td></tr>
+<tr>
+<td>Y:</td>
+<td>float32
+</td></tr>
+<tr>
+<td>Z:</td>
+<td>float32
+</td></tr>
+<tr>
+<td>X:</td>
+<td>float32</td>
+<td rowspan="3">This is the maximum X,Y and Z coordinate of the navmesh. This together with the Minimum X,Y and Z coordinate appear to represent a bounding box.
+</td></tr>
+<tr>
+<td>Y:</td>
+<td>float32
+</td></tr>
+<tr>
+<td>Z:</td>
+<td>float32
+</td></tr>
+<tr>
+<td>Triangle count</td>
+<td>struct Triangle[num]</td>
+<td>This is a count of triangles that make an estimated or summary navmesh.
+</td></tr>
+<tr>
+<td>Vertex index 0</td>
+<td>uint16</td>
+<td rowspan="3">struct Triangle: This is a structure made up of 3 vertex indexes. These indexes create a navmesh triangle by pointing into the vertex structure that follows this structure.
+</td></tr>
+<tr>
+<td>Vertex index 1</td>
+<td>uint16
+</td></tr>
+<tr>
+<td>Vertex index 2</td>
+<td>uint16
+</td></tr>
+<tr>
+<td>Vertex count</td>
+<td>struct Vertex[num]</td>
+<td>This is a count of Vertices in the array that follows.
+</td></tr>
+<tr>
+<td>X:</td>
+<td>float32</td>
+<td rowspan="3">struct Vertex: This is a structure of X,Y and Z coordinates that make a vertex. This is the vertex that is referred to by the struct Triangle above.
+</td></tr>
+<tr>
+<td>Y:</td>
+<td>float32
+</td></tr>
+<tr>
+<td>Z:</td>
+<td>float32
+</td></tr>
+<tr>
+<th colspan="3">End of data that only appears if the Is Island Flag = TRUE.
+</th></tr>
+<tr>
+<td>Location Marker?</td>
+<td>uint32</td>
+<td>Appears before location info.
+</td></tr>
+<tr>
+<td>World Space</td>
+<td>formid</td>
+<td>formid of the world space. If World Space = 0x0000003C then the following uint32 contains grid info, otherwise it contains a cell formid.
+</td></tr>
+<tr>
+<td>Cell/Grid</td>
+<td>formid or sint16 &amp; sint16</td>
+<td>formid of the cell unless World Space = 0x0000003C then it is a pair of signed integers that represent grid x and grid y.
+</td></tr></tbody></table>
+</div>

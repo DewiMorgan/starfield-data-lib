@@ -1,0 +1,1236 @@
+
+<div><p>The <b>PERK</b> record is a complex structure of subrecords which must be in the correct order and format to be properly parsed by the game.
+</p>
+<h2><span id="Main_Record">Main Record</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td></td>
+<td>zstring</td>
+<td>EditorID
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td></td>
+<td>struct</td>
+<td>Script data
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td></td>
+<td>lstring</td>
+<td>Perk Name
+</td></tr>
+<tr>
+<td>+</td>
+<td>DESC</td>
+<td></td>
+<td>dlstring</td>
+<td>Description
+</td></tr>
+<tr>
+<td>-</td>
+<td>ICON</td>
+<td></td>
+<td>zstring</td>
+<td>Inventory image filename
+</td></tr>
+<tr>
+<td>*</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td></td>
+<td>struct</td>
+<td>Zero or more condition data subrecords for the perk to be available to the player
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td></td>
+<td>struct</td>
+<td>uint8[5]:
+<ul><li>IsTrait</li>
+<li>Level</li>
+<li>NumRanks</li>
+<li>IsPlayable</li>
+<li>IsHidden</li></ul>
+</td></tr>
+<tr>
+<td>-</td>
+<td>NNAM</td>
+<td></td>
+<td>formid</td>
+<td>If present points to the next PERK
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td></td>
+<td>Perk Sections[]</td>
+<td>See below.
+</td></tr></tbody></table>
+<h2><span id="Perk_Sections">Perk Sections</span></h2>
+<p>What follows are 1 or more perk sections. Each section starts with a PRKE subrecord and ends with a PRKF. The type of the section is indicated by the data bytes of the PRKE field. The subrecord types shared between the different types of perk sections have the following formats. (To reiterate, this is not the layout of any type of perk section; this is just a description of the details of the different forms the subrecords can take, depending on the perk section type.)
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>PRKE</td>
+<td></td>
+<td>uint8[3]</td>
+<td>
+<ul><li>uint8 - Type <i>(See below for more details on the format of each section type)</i>
+<dl><dd>00: perk section is Quest section</dd>
+<dd>01: perk section is Ability section</dd>
+<dd>02: perk section is Complex Entry Point section</dd></dl></li>
+<li>uint8: Rank - Value of 0 = Rank 1</li>
+<li>uint8: Priority - Assumed to be how to order/iterate through perk sections</li></ul>
+</td></tr>
+<tr>
+<td>-</td>
+<td>PRKC</td>
+<td></td>
+<td>uint8</td>
+<td>Type - How to apply the conditions that follow. Has values of 0-2 but the actual values depend on the effect type. See the entry point EffectTypes for details.
+<ul><li>Perk Owner</li>
+<li>Target</li>
+<li>Attacker</li>
+<li>Attacker Weapon</li>
+<li>Spell</li>
+<li>Weapon</li>
+<li>Item</li>
+<li>Enchantment</li>
+<li>Locked Reference</li></ul>
+</td></tr>
+<tr>
+<td>*</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td></td>
+<td>struct</td>
+<td>Condition data for the section
+</td></tr>
+<tr>
+<td>-</td>
+<td>EPFT</td>
+<td></td>
+<td>uint8</td>
+<td>Type - The type of the perk data that follows in EPFD, EPF2, and EPF3 subrecords
+<ul><li>01: EPFD is a float</li>
+<li>02: EPFD is an 8 byte struct (float AV, float Factor)?</li>
+<li>03: EPFD is a formid (?)</li>
+<li>04:    	EPF2 = LString "verb" (feed) (optional)
+<dl><dd>EPF3 = dword? (0=No EPFD? or 3=SPEL EPFD?)</dd>
+<dd>EPFD = formid (optional)</dd></dl></li>
+<li>05: EPFD is a formid (SPEL)</li>
+<li>06: EPFD is a zstring (GMST editorid?)</li>
+<li>07: EPFD is a lstring (verb for custom activate actions)</li></ul>
+</td></tr>
+<tr>
+<td>-</td>
+<td>EPF2<br/>EPF3<br/>EPFD</td>
+<td></td>
+<td></td>
+<td>See EPFT
+</td></tr>
+<tr>
+<td>+</td>
+<td>PRKF</td>
+<td>Marker</td>
+<td>null</td>
+<td>Always the last subrecord in a perk section
+</td></tr></tbody></table>
+<h3><span id="Quest_Section_(0)"></span><span id="Quest_Section_.280.29">Quest Section (0)</span></h3>
+<p>For type 00 sections the data is just setting the stage of a specific quest applied without conditions:
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>PRKE</td>
+<td></td>
+<td>uint8[3]</td>
+<td>Always: 0x00, 0x00, 0x00
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>Quest ID</td>
+<td>uint8[8]</td>
+<td>
+<ul><li>formid: Quest ID</li>
+<li>uint8: Stage</li>
+<li>uint8[3]: Null - Has junk data, presumably unused</li></ul>
+</td></tr>
+<tr>
+<td>+</td>
+<td>PRKF</td>
+<td>Marker</td>
+<td>null</td>
+<td>
+</td></tr></tbody></table>
+<h3><span id="Ability_Section_(1)"></span><span id="Ability_Section_.281.29">Ability Section (1)</span></h3>
+<p>For type 01 sections the data is simply a spell applied without conditions:
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>PRKE</td>
+<td></td>
+<td>uint8[3]</td>
+<td>Always: 0x01, 0x00, 0x00
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>Quest ID</td>
+<td>formid</td>
+<td>Spell ID? - Unsure if it is always a spell
+</td></tr>
+<tr>
+<td>+</td>
+<td>PRKF</td>
+<td>Marker</td>
+<td>null</td>
+<td>
+</td></tr></tbody></table>
+<h3><span id="Complex_Entry_Point_Section_(2)"></span><span id="Complex_Entry_Point_Section_.282.29">Complex Entry Point Section (2)</span></h3>
+<p>For type 02 sections there are one or more conditions which must be met in order to apply a variety of effects:
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>PRKE</td>
+<td></td>
+<td>uint8[3]</td>
+<td>Always: 0x02, 0x00, 0x00
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td></td>
+<td>uint8[3]</td>
+<td>
+<ul><li>EffectType - What effect to apply for the section (see below)</li>
+<li>FunctionType - How to apply the effect? Affects what should be found in the EPFT/EPFD which follow (see below for more details)</li>
+<li>CondTypeCount - Number of different type of conditions to test for (01, 02 or 03). This value is presumably fixed according to the effect type and probably shouldn't be edited.</li></ul>
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td></td>
+<td>Condition Subsections[]</td>
+<td><i>(See below.)</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>EPFT</td>
+<td></td>
+<td>uint8</td>
+<td>DataType - Affects type of data that follows
+</td></tr>
+<tr>
+<td>?</td>
+<td>EPFD</td>
+<td></td>
+<td>variable</td>
+<td>See the above details on EPFT for which subrecords should be found here and their format
+</td></tr>
+<tr>
+<td>?</td>
+<td>EPF2</td>
+<td></td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>?</td>
+<td>EPF3</td>
+<td></td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td>PRKF</td>
+<td>Marker</td>
+<td>null</td>
+<td>
+</td></tr></tbody></table>
+<h4><span id="Condition_Subsection">Condition Subsection</span></h4>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>PRKC</td>
+<td></td>
+<td>uint8</td>
+<td>Condition type
+</td></tr>
+<tr>
+<td>*</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td></td>
+<td>struct</td>
+<td>Condition data for the subsection
+</td></tr></tbody></table>
+<h2><span id="Perk_Effect_Types">Perk Effect Types</span></h2>
+<p>The first byte in a DATA subrecord in a complex entry point section is the type of effect to apply and has the 
+values as listed below. The effect type determines what sort of data follows and in what format.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Effect ID</th>
+<th>Effect Type</th>
+<th>Functions</th>
+<th>Additional Data</th>
+<th>Condition Types</th>
+<th>Condition Type Count
+</th></tr>
+<tr>
+<td>0E</td>
+<td>Activate</td>
+<td>Add Activate Choice</td>
+<td>
+<ul><li>Button Label</li>
+<li>Run Immediately</li>
+<li>Replace Default</li>
+<li>Apply Spell</li>
+<li>Script Fragment?</li></ul>
+</td>
+<td>Perk Owner (0) and Target (1)</td>
+<td>2
+</td></tr>
+<tr>
+<td>09</td>
+<td>Add Level List On Death</td>
+<td>Add Level List</td>
+<td>LevelListID</td>
+<td>Perk Owner and Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>05</td>
+<td>Adjust Book Skill Points 1</td>
+<td>All Value</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>04</td>
+<td>Adjust Limb Damage</td>
+<td>All Value</td>
+<td></td>
+<td>Perk Owner, Attacker, Attacker Weapon</td>
+<td>3
+</td></tr>
+<tr>
+<td>34</td>
+<td>Apply Bashing Spell</td>
+<td>Select Spell</td>
+<td>SpellID</td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>33</td>
+<td>Apply Combat Hit Spell</td>
+<td>Select Spell</td>
+<td>SpellID</td>
+<td>Perk Owner, Weapon, Target</td>
+<td>3
+</td></tr>
+<tr>
+<td>35</td>
+<td>Apply Reanimate Spell</td>
+<td>Select Spell</td>
+<td>SpellID</td>
+<td>Perk Owner, Spell, Target</td>
+<td>3
+</td></tr>
+<tr>
+<td>45</td>
+<td>Apply Sneaking Spell</td>
+<td>Select Spell</td>
+<td>SpellID</td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>43</td>
+<td>Apply Weapon Swing Spell</td>
+<td>Select Spell</td>
+<td>SpellID</td>
+<td>Perk Owner, Attacker, Attacker Weapon</td>
+<td>3
+</td></tr>
+<tr>
+<td>03</td>
+<td>Calculate Mine Explode Chance</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Item</td>
+<td>2
+</td></tr>
+<tr>
+<td>01</td>
+<td>Calculate My Critical Hit Chance</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Weapon, Target</td>
+<td>3
+</td></tr>
+<tr>
+<td>02</td>
+<td>Calculate My Critical Hit Damage</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Weapon, Target</td>
+<td>3
+</td></tr>
+<tr>
+<td>00</td>
+<td>Calculate Weapon Damage</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Weapon, Target</td>
+<td>3
+</td></tr>
+<tr>
+<td>4B</td>
+<td>Can Dual Cast Spell</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell</td>
+<td>2
+</td></tr>
+<tr>
+<td>3D</td>
+<td>Can Pickpocket Equipped Item</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target, Item</td>
+<td>3
+</td></tr>
+<tr>
+<td>4A</td>
+<td>Filter Activation</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>0A</td>
+<td>Get Max Carry Weight</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>07</td>
+<td>Get Should Attack</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Attacker</td>
+<td>2
+</td></tr>
+<tr>
+<td>10</td>
+<td>Ignore Broken Lock</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>0F</td>
+<td>Ignore Running During Detection</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>41</td>
+<td>Make Lockpicks Unbreakable</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>50</td>
+<td>Mod Number of Enchantments Allowed</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>20</td>
+<td>Mod Armor Weight</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Item</td>
+<td>2
+</td></tr>
+<tr>
+<td>23</td>
+<td>Mod Attack Damage</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Weapon, Target</td>
+<td>3
+</td></tr>
+<tr>
+<td>1A</td>
+<td>Mod Bashing Damage</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>2E</td>
+<td>Mod Bribe Amount</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>2F</td>
+<td>Mod Detection Light</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>30</td>
+<td>Mod Detection Movement</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>2D</td>
+<td>Mod Favor Points</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>24</td>
+<td>Mod Incoming Damage</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Attacker, Attacker Weapon</td>
+<td>3
+</td></tr>
+<tr>
+<td>2A</td>
+<td>Mod Incoming Spell Duration</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell</td>
+<td>2
+</td></tr>
+<tr>
+<td>29</td>
+<td>Mod Incoming Spell Magnitude</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell</td>
+<td>2
+</td></tr>
+<tr>
+<td>21</td>
+<td>Mod Incoming Stagger</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Attacker</td>
+<td>2
+</td></tr>
+<tr>
+<td>27</td>
+<td>Mod Percent Blocked</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>2B</td>
+<td>Mod Player Intimidation</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>2C</td>
+<td>Mod Player Reputation</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>53</td>
+<td>Mod Poison Dose Count</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Weapon, Spell</td>
+<td>3
+</td></tr>
+<tr>
+<td>1C</td>
+<td>Mod Power Attack Damage</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Weapon, Target</td>
+<td>3
+</td></tr>
+<tr>
+<td>1B</td>
+<td>Mod Power Attack Stamina</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Weapon</td>
+<td>2
+</td></tr>
+<tr>
+<td>1F</td>
+<td>Mod Secondary Value Weight</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell, Target</td>
+<td>3
+</td></tr>
+<tr>
+<td>28</td>
+<td>Mod Shield Deflect Arrow Chance</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>52</td>
+<td>Mod Shout OK</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>4F</td>
+<td>Mod Soul Gem Enchanting</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Enchantment, Item</td>
+<td>3
+</td></tr>
+<tr>
+<td>31</td>
+<td>Mod Soul Gem Recharge</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Item</td>
+<td>2
+</td></tr>
+<tr>
+<td>37</td>
+<td>Mod Spell Casting Sound Event</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell</td>
+<td>2
+</td></tr>
+<tr>
+<td>26</td>
+<td>Mod Spell Cost</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell</td>
+<td>2
+</td></tr>
+<tr>
+<td>1E</td>
+<td>Mod Spell Duration</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell, Target</td>
+<td>3
+</td></tr>
+<tr>
+<td>1D</td>
+<td>Mod Spell Magnitude</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell, Target</td>
+<td>3
+</td></tr>
+<tr>
+<td>25</td>
+<td>Mod Target Damage Resistance</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Weapon, Target</td>
+<td>3
+</td></tr>
+<tr>
+<td>22</td>
+<td>Mod Target Stagger</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>0B</td>
+<td>Mod Addiction Chance</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>42</td>
+<td>Mod Alchemy Effectiveness</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>55</td>
+<td>Mod Armor Rating</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Item</td>
+<td>2
+</td></tr>
+<tr>
+<td>14</td>
+<td>Mod Bow Zoom</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Weapon</td>
+<td>2
+</td></tr>
+<tr>
+<td>08</td>
+<td>Mod Buy Prices</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>44</td>
+<td>Mod Commanded Actor Limit</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell</td>
+<td>2
+</td></tr>
+<tr>
+<td>39</td>
+<td>Mod Detection Sneak Skill</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>4D</td>
+<td>Mod Enchantment Power</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Enchantment, Item</td>
+<td>3
+</td></tr>
+<tr>
+<td>11</td>
+<td>Mod Enemy Critical Hit Chance</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Weapon, Target</td>
+<td>3
+</td></tr>
+<tr>
+<td>3A</td>
+<td>Mod Falling Damage</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>57</td>
+<td>Mod Ingredients Harvested</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Item</td>
+<td>2
+</td></tr>
+<tr>
+<td>48</td>
+<td>Mod Ingredient Effects Learned</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell</td>
+<td>2
+</td></tr>
+<tr>
+<td>3E</td>
+<td>Mod Lockpick Level Allowed</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>3B</td>
+<td>Mod Lockpick Sweet Spot</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Locked Reference</td>
+<td>2
+</td></tr>
+<tr>
+<td>56</td>
+<td>Mod Lockpick Crime Chance</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Locked Reference</td>
+<td>2
+</td></tr>
+<tr>
+<td>5A</td>
+<td>Mod Lockpick Key Reward Chance (Wax Key)</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Locked Reference</td>
+<td>2
+</td></tr>
+<tr>
+<td>13</td>
+<td>Mod Max Placeable Mines</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>38</td>
+<td>Mod Pickpocket Chance</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target, Item</td>
+<td>3
+</td></tr>
+<tr>
+<td>46</td>
+<td>Mod Player Magic Slowdown</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell</td>
+<td>2
+</td></tr>
+<tr>
+<td>0D</td>
+<td>Mod Positive Chem Duration</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>59</td>
+<td>Mod Potions Created (Create Duplicate Potion)</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell</td>
+<td>2
+</td></tr>
+<tr>
+<td>15</td>
+<td>Mod Recover Arrow Chance</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>06</td>
+<td>Mod Recovered Health</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>3C</td>
+<td>Mod Sell Prices</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>16</td>
+<td>Mod Skill Use</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>12</td>
+<td>Mod Sneak Attack Multiplier</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Weapon, Target</td>
+<td>3
+</td></tr>
+<tr>
+<td>4E</td>
+<td>Mod Soul Percent Captured to Weapon</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target, Item</td>
+<td>3
+</td></tr>
+<tr>
+<td>58</td>
+<td>Mod Spell Range to Location</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell</td>
+<td>2
+</td></tr>
+<tr>
+<td>19</td>
+<td>Mod Telekinesis Damage</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>18</td>
+<td>Mod Telekinesis Damage Multiplier</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>17</td>
+<td>Mod Telekinesis Distance</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>4C</td>
+<td>Mod Tempering Health</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Item</td>
+<td>2
+</td></tr>
+<tr>
+<td>47</td>
+<td>Mod Ward Magic Absorption Percent</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Spell</td>
+<td>2
+</td></tr>
+<tr>
+<td>49</td>
+<td>Purify Alchemy Ingredients</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>51</td>
+<td>Set Activate Label</td>
+<td>SetText</td>
+<td>Text</td>
+<td>Perk Owner, Target</td>
+<td>2
+</td></tr>
+<tr>
+<td>36</td>
+<td>Set Boolean Graph Variable</td>
+<td>SelectText</td>
+<td>Text</td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>3F</td>
+<td>Set Lockpick Start Position</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>40</td>
+<td>Set Progression Picking</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner</td>
+<td>1
+</td></tr>
+<tr>
+<td>32</td>
+<td>Set Sweep Attack</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Weapon</td>
+<td>2
+</td></tr>
+<tr>
+<td>54</td>
+<td>Should Apply Placed Item</td>
+<td>Value Types</td>
+<td></td>
+<td>Perk Owner, Target, Item</td>
+<td>3
+</td></tr></tbody></table>
+<h2><span id="Function_Types">Function Types</span></h2>
+<p>Capitalized variables are input in section data. Each type uses the following format, with the meanings of each field outlined in the table below that.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Function ID</th>
+<th>Function</th>
+<th>New Value</th>
+<th>EPFT</th>
+<th>EPF2</th>
+<th>EPF3</th>
+<th>EPFD
+</th></tr>
+<tr>
+<td>01</td>
+<td>Set Value</td>
+<td>VALUE</td>
+<td>0x01</td>
+<td></td>
+<td></td>
+<td>float VALUE
+</td></tr>
+<tr>
+<td>02</td>
+<td>Add Value</td>
+<td>Value + AMOUNT</td>
+<td>0x01</td>
+<td></td>
+<td></td>
+<td>float AMOUNT
+</td></tr>
+<tr>
+<td>03</td>
+<td>Multiply Value</td>
+<td>Value * FACTOR</td>
+<td>0x01</td>
+<td></td>
+<td></td>
+<td>float AMOUNT
+</td></tr>
+<tr>
+<td>04</td>
+<td>Add Range to Value</td>
+<td>Value + random(MIN, MAX)</td>
+<td>0x02</td>
+<td></td>
+<td></td>
+<td>float MIN, float MAX
+</td></tr>
+<tr>
+<td>05</td>
+<td>Add Actor Value Mult</td>
+<td>Value + AV * FACTOR</td>
+<td>0x02</td>
+<td></td>
+<td></td>
+<td>float AV, float FACTOR
+</td></tr>
+<tr>
+<td>06</td>
+<td>Absolute</td>
+<td>Abs(Value)</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr>
+<td>07</td>
+<td>Negative ABS Value</td>
+<td>-Abs(Value)</td>
+<td></td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr>
+<td>08</td>
+<td>Add Level List (Only EffectType 0x09)</td>
+<td></td>
+<td>0x03</td>
+<td></td>
+<td></td>
+<td>formid LevelListID
+</td></tr>
+<tr>
+<td>09</td>
+<td>Add Activate Choice (Only EffectType 0x0E)</td>
+<td></td>
+<td>0x04</td>
+<td>lstring (button label if present)</td>
+<td>
+<ul><li>uint16 - Flags1:
+<dl><dd>0x01 = Run Immediately (No button label)</dd>
+<dd>0x02 = Replace Default</dd></dl></li>
+<li>uint16 - Flags2:
+<dl><dd>0x03 = Spell?</dd>
+<dd>0x04 = Script Fragment? <i>(Script fragment info added to record VMAD)</i></dd></dl></li></ul>
+</td>
+<td>formid SpellID (if present)
+</td></tr>
+<tr>
+<td>0A</td>
+<td>Select Spell<br/>(Only EffectTypes 0x33, 0x34, 0x35, 0x43, 0x45)</td>
+<td></td>
+<td>0x05</td>
+<td></td>
+<td></td>
+<td>formid SpellID
+</td></tr>
+<tr>
+<td>0B</td>
+<td>Select Text<br/>(Only EffectType 0x36)</td>
+<td></td>
+<td>0x06</td>
+<td>zstring (usually a GMST editor ID?)</td>
+<td></td>
+<td>
+</td></tr>
+<tr>
+<td>0C</td>
+<td>Set AV Mult</td>
+<td>AV * FACTOR</td>
+<td>0x02</td>
+<td></td>
+<td></td>
+<td>float AV, float FACTOR
+</td></tr>
+<tr>
+<td>0D</td>
+<td>Multiply AV Mult</td>
+<td>Value * AV * FACTOR</td>
+<td>0x02</td>
+<td></td>
+<td></td>
+<td>float AV, float FACTOR
+</td></tr>
+<tr>
+<td>0E</td>
+<td>Multiply 1 + AV Mult</td>
+<td>Value * (1 + AV * FACTOR)</td>
+<td>0x02</td>
+<td></td>
+<td></td>
+<td>float AV, float FACTOR
+</td></tr>
+<tr>
+<td>0F</td>
+<td>Set Text<br/>(Only EffectType 0x51)</td>
+<td></td>
+<td>0x07</td>
+<td></td>
+<td></td>
+<td>lstring
+</td></tr></tbody></table>
+</div>

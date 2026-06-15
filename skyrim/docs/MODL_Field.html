@@ -1,0 +1,72 @@
+
+<div><p>This structure is seen in many records, though often with different field names. MODL/MODT/MODS is the most common, and is used in the example below, but destruction data uses DMDL/DMDS/DMDT, RACE records use ANAM/MODT/MODS for some models while others still use the normal naming, and still other records like ARMA and ARMO number the models with naming like MOD2/MO2T/MO2S. Whatever it's named, the first field is required if the model is present at all; the other two are optional.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>MODL</td>
+<td>model</td>
+<td>zstring</td>
+<td>World model filename.
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODT</td>
+<td>Model Texture Data</td>
+<td><a href="Model_Textures_Field.html">MODT</a></td>
+<td>Model Texture Data
+</td></tr>
+<tr>
+<td rowspan="6">-</td>
+<td rowspan="6">MODS</td>
+<td><a href="Alternate_Textures.html">Alternate Textures</a></td>
+<td>list[TextureCount]</td>
+<td>Alternate Textures
+</td></tr>
+<tr>
+<td>
+<dl><dd>TextureCount</dd></dl>
+</td>
+<td>uint32</td>
+<td>Number of entries (remaining fields)
+</td></tr>
+<tr>
+<td>
+<dl><dd><dl><dd>StringLength</dd></dl></dd></dl>
+</td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd><dl><dd>3DName</dd></dl></dd></dl>
+</td>
+<td>char[StringLength]</td>
+<td>3D name
+</td></tr>
+<tr>
+<td>
+<dl><dd><dl><dd>TextureID</dd></dl></dd></dl>
+</td>
+<td>formID</td>
+<td>New Texture (<a href="TXST.html">TXST</a>)
+</td></tr>
+<tr>
+<td>
+<dl><dd><dl><dd>3DIndex</dd></dl></dd></dl>
+</td>
+<td>uint32</td>
+<td>3D Index
+</td></tr></tbody></table>
+</div>

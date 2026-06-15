@@ -1,0 +1,918 @@
+
+<div><p><b>RACE</b> records contain information on character and creature races.
+</p><p>There are a lot of fields here, many in repeating sets, and a lot of markers.  Generally all sets of data are preceded by a gender-specifying marker, MNAM for male, FNAM for female.  There are also markers indicating the presence of certain sets (or not).
+</p><p>General record structure (in order of appearance):
+</p>
+<ul><li>General Data</li>
+<li>Male then female skeletal model separated by MNAM/FNAM</li>
+<li>General Data</li>
+<li>Repeating pairs of ATKD/ATKE (attack data)</li>
+<li>Male then female egt model separated by MNAM/FNAM, preceded by NAM1</li>
+<li>Male then female havok model separated by MNAM/FNAM, preceded by NAM3</li>
+<li>General Data</li>
+<li>32x Body Part Strings - User defined Biped Object Names stord in each NAME Subrecord</li>
+<li>EQUP info</li>
+<li>Repeating pairs of PHTN/PHWT (facial expression data)</li>
+<li>Male then female head data separated by MNAM/FNAM (and NAM0) in the following order:
+<ul><li>Default headparts</li>
+<li>MPAI/MPAV - Morph and Morph Values</li>
+<li>Racial presets</li>
+<li>Hair colors</li>
+<li>Featuresets</li>
+<li>Repeating tint fieldsets (TINI/TINC/TINV/TIRS) optionally with 2nd set (TINT/TINP/TIND)</li></ul></li></ul>
+<p><br/>
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>full name</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>+</td>
+<td>DESC</td>
+<td>description</td>
+<td>lstring</td>
+<td>Description shown in-game when selecting the player's race (or 0)
+</td></tr>
+<tr>
+<td>-</td>
+<td>SPCT</td>
+<td>spellCount</td>
+<td>uint32</td>
+<td>number of SPLO records that follow. If the race has no bonus spells, SPCT and SPLO are not present.
+</td></tr>
+<tr>
+<td>*</td>
+<td>SPLO</td>
+<td>spell</td>
+<td>formID</td>
+<td>Racial <a href="SPEL.html">SPEL</a> or <a href="SHOU.html">SHOU</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>WNAM</td>
+<td>skin</td>
+<td>formid</td>
+<td><a href="ARMO.html">ARMO</a> record
+</td></tr>
+<tr>
+<td>+</td>
+<td>BODT</td>
+<td>body template</td>
+<td>struct</td>
+<td>12-byte struct (same as <a href="ARMO.html">ARMO</a>)
+<dl><dd>uint32 Biped Object Flags</dd>
+<dd>uint32 General Flags (Undetermined)</dd>
+<dd>uint32 Armor Type - Clothing is default if not given</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>KSIZ</td>
+<td><a href="KYWD.html#Including_Keywords">KSIZ</a></td>
+<td>uint32</td>
+<td>keyword count
+</td></tr>
+<tr>
+<td>-</td>
+<td>KWDA</td>
+<td><a href="KYWD.html#Including_Keywords">KWDA</a></td>
+<td>formID</td>
+<td>KYWD array of KSIZ
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>General race stats</td>
+<td>struct</td>
+<td>128-byte struct (v40) or 164-byte struct (v43)
+<dl><dd>uint8 - Skill 1 (Actor list value)</dd>
+<dd>uint8 - Racial bonus for skill 1</dd>
+<dd>uint8 - Skill 2 (Actor list value)</dd>
+<dd>uint8 - Racial bonus for skill 2</dd>
+<dd>uint8 - Skill 3 (Actor list value)</dd>
+<dd>uint8 - Racial bonus for skill 3</dd>
+<dd>uint8 - Skill 4 (Actor list value)</dd>
+<dd>uint8 - Racial bonus for skill 4</dd>
+<dd>uint8 - Skill 5 (Actor list value)</dd>
+<dd>uint8 - Racial bonus for skill 5</dd>
+<dd>uint8 - Skill 6 (Actor list value)</dd>
+<dd>uint8 - Racial bonus for skill 6</dd>
+<dd>uint8 - Skill 7 (Actor list value)</dd>
+<dd>uint8 - Racial bonus for skill 7</dd>
+<dd>uint16 - "Unused (padding)"</dd>
+<dd>float - Height (male)</dd>
+<dd>float - Height (female)</dd>
+<dd>float - Weight (male)</dd>
+<dd>float - Weight (female)</dd>
+<dd>uint32 - Flags.
+<dl><dd>0x00000001 - Playable</dd>
+<dd>0x00000002 - FaceGen Head</dd>
+<dd>0x00000004 - Child</dd>
+<dd>0x00000008 - Tilt Front/Back</dd>
+<dd>0x00000010 - Tilt Left/Right</dd>
+<dd>0x00000020 - No Shadow</dd>
+<dd>0x00000040 - Swims</dd>
+<dd>0x00000080 - Flies</dd>
+<dd>0x00000100 - Walks</dd>
+<dd>0x00000200 - Immobile</dd>
+<dd>0x00000400 - Not Pushable</dd>
+<dd>0x00000800 - No Combat In Water</dd>
+<dd>0x00001000 - No Rotating to Head-Track</dd>
+<dd>0x00002000 - Don't Show Blood Spray</dd>
+<dd>0x00004000 - Don't Show Blood Decal</dd>
+<dd>0x00008000 - Uses Head Track Anims</dd>
+<dd>0x00010000 - Spells Align w/Magic Node</dd>
+<dd>0x00020000 - Use World Raycasts For FootIK</dd>
+<dd>0x00040000 - Allow Ragdoll Collision</dd>
+<dd>0x00080000 - Regen HP In Combat</dd>
+<dd>0x00100000 - Can't Open Doors</dd>
+<dd>0x00200000 - Allow PC Dialogue</dd>
+<dd>0x00400000 - No Knockdowns</dd>
+<dd>0x00800000 - Allow Pickpocket</dd>
+<dd>0x01000000 - Always Use Proxy Controller</dd>
+<dd>0x02000000 - Don't Show Weapon Blood</dd>
+<dd>0x04000000 - Overlay Head Part List {&gt; Only one can be active &lt;}</dd>
+<dd>0x08000000 - Override Head Part List {&gt; Only one can be active &lt;}</dd>
+<dd>0x10000000 - Can Pickup Items</dd>
+<dd>0x20000000 - Allow Multiple Membrane Shaders</dd>
+<dd>0x40000000 - Can Dual Wield</dd>
+<dd>0x80000000 - Avoids Roads</dd></dl></dd>
+<dd>float - Starting Health</dd>
+<dd>float - Starting Magicka</dd>
+<dd>float - Starting Stamina</dd>
+<dd>float - Base Carry Weight</dd>
+<dd>float - Base Mass</dd>
+<dd>float - Acceleration rate</dd>
+<dd>float - Deceleration rate</dd>
+<dd>uint32 - Size (lookup: 0=Small, 1=Medium, 2=Large, 3=Extra Large)</dd>
+<dd>uint32 - Head Biped Object ( lookup: Biped Object Names)</dd>
+<dd>uint32 - Hair Biped Object ( lookup: Biped Object Names)</dd>
+<dd>float - Injured Health Pct ( value ranging from 0 to 1)</dd>
+<dd>uint32 - Shield Biped Object ( lookup: Biped Object Names)</dd>
+<dd>float - Health Regen</dd>
+<dd>float - Magicka Regen</dd>
+<dd>float - Stamina Regen</dd>
+<dd>float - Unarmed Damage</dd>
+<dd>float - Unarmed Reach</dd>
+<dd>uint32 - Body Biped Object ( lookup: Biped Object Names)</dd>
+<dd>float - Aim Angle Tolerance</dd>
+<dd>uint32 - "Unknown"</dd>
+<dd>float - Angular Acceleration Rate</dd>
+<dd>float - Angular Tolerance</dd>
+<dd>uint32 - Flags.  Only identified value is listed
+<dl><dd>0x00000001 - Use Advanced Avoidance</dd>
+<dd>0x00000002 - Non-Hostile</dd>
+<dd>0x00000010 - Allow Mounted Combat</dd></dl></dd>
+<dd>uint32 - Mount Data Offset X</dd>
+<dd>uint32 - Mount Data Offset Y</dd>
+<dd>uint32 - "Unknown" x7</dd></dl>
+<hr/>
+<p>v43 of the record increases the size to 164 bytes. The additional 36 bytes may be an array of floats.
+</p>
+</td></tr>
+<tr>
+<td>+</td>
+<td>MNAM</td>
+<td>male marker</td>
+<td>0-length</td>
+<td>marker for male model info
+</td></tr>
+<tr>
+<td>+</td>
+<td>ANAM</td>
+<td>skeletal model</td>
+<td>zstring</td>
+<td>path to .nif
+</td></tr>
+<tr>
+<td>+</td>
+<td>MODT</td>
+<td>model data</td>
+<td><a href="Model_Textures_Field.html">MODT</a></td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>female marker</td>
+<td>0-length</td>
+<td>marker for female model info
+</td></tr>
+<tr>
+<td>-</td>
+<td>ANAM</td>
+<td>skeletal model</td>
+<td>zstring</td>
+<td>path to .nif (These two fields are missing for some races such as AlduinRace or SprigganSwarmRace)
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODT</td>
+<td>model data</td>
+<td><a href="Model_Textures_Field.html">MODT</a></td>
+<td>unknown
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM2</td>
+<td>marker</td>
+<td>0-length</td>
+<td>marker (Note that the NAM2 field has been removed and no longer exists)
+</td></tr>
+<tr>
+<td>*</td>
+<td>MTNM</td>
+<td>movement type name</td>
+<td>char[4]</td>
+<td>4-letter code for movement types (WALK, RUN1, SNEK, BLD0, SWIM)
+</td></tr>
+<tr>
+<td>+</td>
+<td>VTCK</td>
+<td>default voice types</td>
+<td>formid[2]</td>
+<td><a href="VTYP.html">VTYP</a> male/female
+</td></tr>
+<tr>
+<td>-</td>
+<td>DNAM</td>
+<td>Decapitate armor</td>
+<td>formid[2]</td>
+<td><a href="ARMO.html">ARMO</a> male/female
+</td></tr>
+<tr>
+<td>-</td>
+<td>HCLF</td>
+<td>default hair color</td>
+<td>formid[2]</td>
+<td><a href="CLFM.html">CLFM</a> male/female
+</td></tr>
+<tr>
+<td>-</td>
+<td>TINL</td>
+<td>Tint Index Number</td>
+<td>uint16</td>
+<td>This is the total number of Tints available to this race
+</td></tr>
+<tr>
+<td>+</td>
+<td>PNAM</td>
+<td>FaceGen</td>
+<td>float</td>
+<td>FaceGen - Main clamp
+</td></tr>
+<tr>
+<td>+</td>
+<td>UNAM</td>
+<td>FaceGen</td>
+<td>float</td>
+<td>FaceGen - Face clamp
+</td></tr>
+<tr>
+<td>*</td>
+<td>ATKR</td>
+<td>Attack Race</td>
+<td>formid</td>
+<td>found in one record in Dawnguard
+</td></tr>
+<tr>
+<td>*</td>
+<td>ATKD</td>
+<td>Attack Data</td>
+<td>struct</td>
+<td>44-byte struct, providing data for one mode of attack
+<dl><dd>float - Damage Mult</dd>
+<dd>float - Attack Chance</dd>
+<dd>formid - Attack Spell</dd>
+<dd>uint32 - flags:
+<dl><dd>0x01 - Ignore Weapon</dd>
+<dd>0x02 - Bash Attack</dd>
+<dd>0x04 - Power Attack</dd>
+<dd>0x08 - Left Attack</dd>
+<dd>0x10 - Rotating Attack</dd></dl></dd>
+<dd>float - Attack Angle</dd>
+<dd>float - Strike Angle</dd>
+<dd>float - Stagger</dd>
+<dd>formid - Attack Type</dd>
+<dd>float - Knockdown</dd>
+<dd>float - Recovery Time</dd>
+<dd>float - Fatigue Mult</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>ATKE</td>
+<td>attack event</td>
+<td>zstring</td>
+<td>event name but does not translate to AACT or SMEN/ENAM ex "attackStart_Attack2"
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM1</td>
+<td>marker</td>
+<td>0-length</td>
+<td>marker for start of egt models
+</td></tr>
+<tr>
+<td>+</td>
+<td>MNAM</td>
+<td>marker</td>
+<td>0-length</td>
+<td>start of male model
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>marker</td>
+<td>0-length</td>
+<td>start of female model
+</td></tr>
+<tr>
+<td>+</td>
+<td>INDX</td>
+<td>marker</td>
+<td>uint32</td>
+<td>always 0, precedes both .egt models
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>lighting model</td>
+<td>zstring</td>
+<td>path to .egt, seems to always use UpperBodyHumanMale(1st)/Female(2nd) regardless of race (Dragonborn.esm has records without MODL fields)
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODT</td>
+<td>model texture data</td>
+<td>ubyte[12]</td>
+<td>always 0x02 11-0x00 (Dragonborn.esm has records without MODT fields)
+</td></tr>
+<tr>
+<td>+</td>
+<td>GNAM</td>
+<td>body part data</td>
+<td>formid</td>
+<td><a href="BPTD.html">BPTD</a>, only after 2nd model
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM2</td>
+<td>marker</td>
+<td>0-length</td>
+<td>marker (Note that the NAM2 field has been removed and no longer exists)
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM3</td>
+<td>marker</td>
+<td>0-length</td>
+<td>marker for start of hkx models
+</td></tr>
+<tr>
+<td>+</td>
+<td>MNAM</td>
+<td>marker</td>
+<td>0-length</td>
+<td>start of male model
+</td></tr>
+<tr>
+<td>+</td>
+<td>MODL</td>
+<td>physics model</td>
+<td>zstring</td>
+<td>path to .hkx, points to same for both
+</td></tr>
+<tr>
+<td>+</td>
+<td>MODT</td>
+<td>model texture data</td>
+<td>ubyte[12]</td>
+<td>always 0x02 11-0x00
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>marker</td>
+<td>0-length</td>
+<td>start of female model
+</td></tr>
+<tr>
+<td>+</td>
+<td>MODL</td>
+<td>physics model</td>
+<td>zstring</td>
+<td>path to .hkx, points to same for both
+</td></tr>
+<tr>
+<td>+</td>
+<td>MODT</td>
+<td>model texture data</td>
+<td>ubyte[12]</td>
+<td>always 0x02 11-0x00
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM4</td>
+<td>material type</td>
+<td>formid</td>
+<td><a href="MATT.html">MATT</a> "only 1 record without"
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM5</td>
+<td>impact data set</td>
+<td>formid</td>
+<td>Unarmed <a href="IPDS.html">IPDS</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM7</td>
+<td>decapitation fx</td>
+<td>formid</td>
+<td>Blood FX <a href="ARTO.html">ARTO</a> (only if can be decapitated)
+</td></tr>
+<tr>
+<td>-</td>
+<td>ONAM</td>
+<td>open loot sound</td>
+<td>formid</td>
+<td>Sound <a href="SNDR.html">SNDR</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>LNAM</td>
+<td>close loot sound</td>
+<td>formid</td>
+<td>Sound <a href="SNDR.html">SNDR</a>
+</td></tr>
+<tr>
+<td>*</td>
+<td>NAME</td>
+<td>Biped Object Names</td>
+<td>zstring</td>
+<td>repeats exactly 32 times.  these are body part names as seen in BPTD, for most/humanoids:
+<dl><dd>HEAD,Hair,BODY,Hands,Forearms,Amulet,Ring,Feet,Calves,</dd>
+<dd>SHIELD,TAIL/Spit,LongHair,Circlet,Ears,unknownx6,</dd>
+<dd>DecapitateHead,Decapitate,unknownx9,FX01</dd></dl>
+<p>Probably vestigial - it doesn't appear to matter if these are filled in, Witchlight have no body parts here but have BPTD parts, WerewolfBeastRace has BODY but BPTD refers to "Torso" and so on.
+</p><p>8/8/2012 NOTE: These Values are user defined by clicking in the "Biped Object Names" column and giving it a name.  You could clik 43 and call it Cape to assign that location for capes on Humanoids after also selecting it under First Person.  These values are saved in the Plugin.
+</p>
+</td></tr>
+<tr>
+<td>*</td>
+<td>MTYP</td>
+<td>Movement Override</td>
+<td>formid</td>
+<td>Default Movement Override
+</td></tr>
+<tr>
+<td>*</td>
+<td>SPED</td>
+<td>Override Values</td>
+<td>struct</td>
+<td>Float x 11
+<dl><dd><dl><dd>Left - Walk</dd>
+<dd>Left - Run</dd>
+<dd>Right - Walk</dd>
+<dd>Right - Run</dd>
+<dd>Forward - Walk</dd>
+<dd>Forward - Run</dd>
+<dd>Back - Walk</dd>
+<dd>Back - Run</dd>
+<dd>Rotate - Walk</dd>
+<dd>Rotate - Walk</dd>
+<dd>Unknown</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>VNAM</td>
+<td>Equipment Type Flags</td>
+<td>uint32</td>
+<td>Equipment Flags, Other values are set but not used.  If all are flagged then 4 0xFF
+<dl><dd>uint32 - Flags.  Only identified values are listed
+<dl><dd>0x00000001 - Hand To Hand Melee</dd>
+<dd>0x00000002 - One Hand Sword</dd>
+<dd>0x00000004 - One Hand Dagger</dd>
+<dd>0x00000008 - One Hand Axe</dd>
+<dd>0x00000010 - One Hand Mace</dd>
+<dd>0x00000020 - Two Hand Sword</dd>
+<dd>0x00000040 - Two Hand Axe</dd>
+<dd>0x00000080 - Bow</dd>
+<dd>0x00000100 - Staff</dd>
+<dd>0x00000200 - Spell</dd>
+<dd>0x00000400 - Shield</dd>
+<dd>0x00000800 - Torch</dd>
+<dd>0x00001000 - Crossbow</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>QNAM</td>
+<td>Equip slot</td>
+<td>formid</td>
+<td><a href="EQUP.html">EQUP</a>
+</td></tr>
+<tr>
+<td>+</td>
+<td>UNES</td>
+<td>Unarmed equip slot</td>
+<td>formid</td>
+<td><a href="EQUP.html">EQUP</a>
+</td></tr>
+<tr>
+<td>*</td>
+<td>PHTN</td>
+<td>Phoneme Target Names</td>
+<td>zstring</td>
+<td>These are listed when used in PHWT.  Dragons for example, have different names than humanoids.  Can be listed in .tri files as well.
+</td></tr>
+<tr>
+<td>*</td>
+<td>PHWT</td>
+<td>facial expression weight</td>
+<td>struct</td>
+<td>Usually in .tri files, 16xfloat presumably for 16 points on the face
+<dl><dd>Dragons for example, have only have 8xfloat the names are saved in PHTN</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>WKMV</td>
+<td>Walk</td>
+<td>formid</td>
+<td>A MOVT
+</td></tr>
+<tr>
+<td>+</td>
+<td>RNMV</td>
+<td>Run</td>
+<td>formid</td>
+<td>A MOVT
+</td></tr>
+<tr>
+<td>+</td>
+<td>SWMV</td>
+<td>Swim</td>
+<td>formid</td>
+<td>A MOVT
+</td></tr>
+<tr>
+<td>+</td>
+<td>FLMV</td>
+<td>Fly</td>
+<td>formid</td>
+<td>A MOVT
+</td></tr>
+<tr>
+<td>+</td>
+<td>SNMV</td>
+<td>Sneak</td>
+<td>formid</td>
+<td>A MOVT
+</td></tr>
+<tr>
+<td>+</td>
+<td>SPMV</td>
+<td>Sprint</td>
+<td>formid</td>
+<td>A MOVT
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM0</td>
+<td>marker</td>
+<td>0-length</td>
+<td>marker for start of head data
+</td></tr>
+<tr>
+<td>-</td>
+<td>MNAM</td>
+<td>marker</td>
+<td>0-length</td>
+<td>start of male default/preset data
+</td></tr>
+<tr>
+<td>-</td>
+<td>INDX</td>
+<td>index(ascending)</td>
+<td>uint32</td>
+<td>index (in this list)
+</td></tr>
+<tr>
+<td>-</td>
+<td>HEAD</td>
+<td>default headpart</td>
+<td>uint32</td>
+<td>Default headpart <a href="HDPT.html">HDPT</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>MPAI</td>
+<td>index(ascending)</td>
+<td>uint32</td>
+<td>Available Morph Index, Appears 4 times.
+</td></tr>
+<tr>
+<td>-</td>
+<td>MPAV</td>
+<td>values</td>
+<td>struct</td>
+<td>Available Morph Index Flags, Appears after each MPAI.  These are selected from the "Face Data" tab in the CK
+<dl><dd>MPAI</dd>
+<dd>uint32 - Nose Morph Flags.  Only identified values are listed
+<dl><dd>0x00000001 - NoseType0</dd>
+<dd>0x00000002 - NoseType1</dd>
+<dd>0x00000004 - NoseType2</dd>
+<dd>0x00000008 - NoseType3</dd>
+<dd>0x00000010 - NoseType4</dd>
+<dd>0x00000020 - NoseType5</dd>
+<dd>0x00000040 - NoseType6</dd>
+<dd>0x00000080 - NoseType7</dd>
+<dd>0x00000100 - NoseType8</dd>
+<dd>0x00000200 - NoseType9</dd>
+<dd>0x00000400 - NoseType10</dd>
+<dd>0x00000800 - NoseType11</dd>
+<dd>0x00001000 - NoseType12</dd>
+<dd>0x00002000 - NoseType13</dd>
+<dd>0x00004000 - NoseType14</dd>
+<dd>0x00008000 - NoseType15</dd>
+<dd>0x00010000 - NoseType16</dd>
+<dd>0x00020000 - NoseType17</dd>
+<dd>0x00040000 - NoseType18</dd>
+<dd>0x00080000 - NoseType19</dd>
+<dd>0x00100000 - NoseType20</dd>
+<dd>0x00200000 - NoseType21</dd>
+<dd>0x00400000 - NoseType22</dd>
+<dd>0x00800000 - NoseType23</dd>
+<dd>0x01000000 - NoseType24</dd>
+<dd>0x02000000 - NoseType25</dd>
+<dd>0x03000000 - NoseType26</dd>
+<dd>0x08000000 - NoseType27</dd>
+<dd>0x10000000 - NoseType28</dd>
+<dd>0x20000000 - NoseType29</dd>
+<dd>0x40000000 - NoseType30</dd>
+<dd>0x80000000 - NoseType31</dd></dl></dd>
+<dd>uint32 - "Unknown" x7</dd>
+<dd>MPAI</dd>
+<dd>uint32 - Brow Morph Flags.  Only identified values are listed
+<dl><dd>0x00000001 - BrowType0</dd>
+<dd>0x00000002 - BrowType1</dd>
+<dd>0x00000004 - BrowType2</dd>
+<dd>0x00000008 - BrowType3</dd>
+<dd>0x00000010 - BrowType4</dd>
+<dd>0x00000020 - BrowType5</dd>
+<dd>0x00000040 - BrowType6</dd>
+<dd>0x00000080 - BrowType7</dd>
+<dd>0x00000100 - BrowType8</dd>
+<dd>0x00000200 - BrowType9</dd>
+<dd>0x00000400 - BrowType10</dd>
+<dd>0x00000800 - BrowType11</dd>
+<dd>0x00001000 - BrowType12</dd>
+<dd>0x00002000 - BrowType13</dd>
+<dd>0x00004000 - BrowType14</dd>
+<dd>0x00008000 - BrowType15</dd>
+<dd>0x00010000 - BrowType16</dd>
+<dd>0x00020000 - BrowType17</dd>
+<dd>0x00040000 - BrowType18</dd>
+<dd>0x00080000 - BrowType19</dd>
+<dd>0x00100000 - BrowType20</dd></dl></dd>
+<dd>uint32 - "Unknown" x7</dd>
+<dd>MPAI</dd>
+<dd>uint32 - Eye Morph Flags.  Only identified values are listed
+<dl><dd>0x00000001 - EyesType0</dd>
+<dd>0x00000002 - EyesType1</dd>
+<dd>0x00000004 - EyesType2</dd>
+<dd>0x00000008 - EyesType3</dd>
+<dd>0x00000010 - EyesType4</dd>
+<dd>0x00000020 - EyesType5</dd>
+<dd>0x00000040 - EyesType6</dd>
+<dd>0x00000080 - EyesType7</dd>
+<dd>0x00000100 - EyesType8</dd>
+<dd>0x00000200 - EyesType9</dd>
+<dd>0x00000400 - EyesType10</dd>
+<dd>0x00000800 - EyesType11</dd>
+<dd>0x00001000 - EyesType12</dd>
+<dd>0x00002000 - EyesType13</dd>
+<dd>0x00004000 - EyesType14</dd>
+<dd>0x00008000 - EyesType15</dd>
+<dd>0x00010000 - EyesType16</dd>
+<dd>0x00020000 - EyesType17</dd>
+<dd>0x00040000 - EyesType18</dd>
+<dd>0x00080000 - EyesType19</dd>
+<dd>0x00100000 - EyesType20</dd>
+<dd>0x00200000 - EyesType21</dd>
+<dd>0x00400000 - EyesType22</dd>
+<dd>0x00800000 - EyesType23</dd>
+<dd>0x01000000 - EyesType24</dd>
+<dd>0x02000000 - EyesType25</dd>
+<dd>0x03000000 - EyesType26</dd>
+<dd>0x08000000 - EyesType27</dd>
+<dd>0x10000000 - EyesType28</dd>
+<dd>0x20000000 - EyesType29</dd>
+<dd>0x40000000 - EyesType30</dd>
+<dd>0x80000000 - EyesType31</dd></dl></dd>
+<dd>uint32 - Eye Morph Flags.  Only identified values are listed
+<dl><dd>0x00000001 - EyesType32</dd>
+<dd>0x00000002 - EyesType33</dd>
+<dd>0x00000004 - EyesType34</dd>
+<dd>0x00000008 - EyesType35</dd>
+<dd>0x00000010 - EyesType36</dd>
+<dd>0x00000020 - EyesType37</dd>
+<dd>0x00000040 - EyesType38</dd></dl></dd>
+<dd>uint32 - "Unknown" x6</dd>
+<dd>MPAI</dd>
+<dd>uint32 - Lip Morph Flags.  Only identified values are listed
+<dl><dd>0x00000001 - LipType0</dd>
+<dd>0x00000002 - LipType1</dd>
+<dd>0x00000004 - LipType2</dd>
+<dd>0x00000008 - LipType3</dd>
+<dd>0x00000010 - LipType4</dd>
+<dd>0x00000020 - LipType5</dd>
+<dd>0x00000040 - LipType6</dd>
+<dd>0x00000080 - LipType7</dd>
+<dd>0x00000100 - LipType8</dd>
+<dd>0x00000200 - LipType9</dd>
+<dd>0x00000400 - LipType10</dd>
+<dd>0x00000800 - LipType11</dd>
+<dd>0x00001000 - LipType12</dd>
+<dd>0x00002000 - LipType13</dd>
+<dd>0x00004000 - LipType14</dd>
+<dd>0x00008000 - LipType15</dd>
+<dd>0x00010000 - LipType16</dd>
+<dd>0x00020000 - LipType17</dd>
+<dd>0x00040000 - LipType18</dd>
+<dd>0x00080000 - LipType19</dd>
+<dd>0x00100000 - LipType20</dd>
+<dd>0x00200000 - LipType21</dd>
+<dd>0x00400000 - LipType22</dd>
+<dd>0x00800000 - LipType23</dd>
+<dd>0x01000000 - LipType24</dd>
+<dd>0x02000000 - LipType25</dd>
+<dd>0x03000000 - LipType26</dd>
+<dd>0x08000000 - LipType27</dd>
+<dd>0x10000000 - LipType28</dd>
+<dd>0x20000000 - LipType29</dd>
+<dd>0x40000000 - LipType30</dd>
+<dd>0x80000000 - LipType31</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>RPRM</td>
+<td>Race Presets Male</td>
+<td>formid</td>
+<td>Racial preset <a href="NPC_.html">NPC_</a>
+</td></tr>
+<tr>
+<td>*</td>
+<td>AHCM</td>
+<td>Available Hair Colors Male</td>
+<td>formid</td>
+<td>Hair color <a href="CLFM.html">CLFM</a>
+</td></tr>
+<tr>
+<td>*</td>
+<td>FTSM</td>
+<td>Face Details Texture Set List Male</td>
+<td>formid</td>
+<td>Feature set <a href="TXST.html">TXST</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>DFTM</td>
+<td>Default Face Texture Male</td>
+<td>formid</td>
+<td>Head Feature set <a href="TXST.html">TXST</a>
+</td></tr>
+<tr>
+<td>+</td>
+<td>TINI</td>
+<td>tint index</td>
+<td>short</td>
+<td>ascending record index
+</td></tr>
+<tr>
+<td>-</td>
+<td>TINT</td>
+<td>tint mask</td>
+<td>zstring</td>
+<td>Path to .dds
+</td></tr>
+<tr>
+<td>-</td>
+<td>TINP</td>
+<td>Mask Type</td>
+<td>uint16</td>
+<td>lookup. There is no TINP entry if set to none.
+<dl><dd>1 = Lip Color</dd>
+<dd>2 = Cheek Color</dd>
+<dd>3 = Eyeliner</dd>
+<dd>4 = EyeSocket Upper</dd>
+<dd>5 = EyeSocket Lower</dd>
+<dd>6 = Skin Tone</dd>
+<dd>7 = Paint</dd>
+<dd>8 = Laugh Lines</dd>
+<dd>9 = Cheek Color Lower</dd>
+<dd>10= Nose</dd>
+<dd>11= Chin</dd>
+<dd>12= Neck</dd>
+<dd>13= Forehead</dd>
+<dd>14= Dirt</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>TIND</td>
+<td>Preset Default</td>
+<td>formid</td>
+<td><a href="CLFM.html">CLFM</a> Preset Default.  There is no TIND if a default isn't selected in the CK.
+</td></tr>
+<tr>
+<td>+</td>
+<td>TINC</td>
+<td>Preset</td>
+<td>formid</td>
+<td>The Preset followed by TINV
+</td></tr>
+<tr>
+<td>+</td>
+<td>TINV</td>
+<td>Default Value</td>
+<td>float</td>
+<td>Default Value of the preceding TINC
+</td></tr>
+<tr>
+<td>+</td>
+<td>TIRS</td>
+<td>unknown</td>
+<td>uint16</td>
+<td>This is the number of the Tint.  The total number of Tints is stored in TINL.
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM0</td>
+<td>marker</td>
+<td>0-length</td>
+<td>marker for start of head data
+</td></tr>
+<tr>
+<td>-</td>
+<td>FNAM</td>
+<td>marker</td>
+<td>0-length</td>
+<td>start of female head data
+</td></tr>
+<tr>
+<td>-</td>
+<td colspan="4">Repeat from NAM0/MNAM For Female
+<dl><dd>Available Morphs</dd>
+<dd>RPRF, AHCF, FTSF, DFTF</dd>
+<dd>Tints and Tint Values</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM8</td>
+<td>Morph race</td>
+<td>formid</td>
+<td>RACE record
+</td></tr>
+<tr>
+<td>+</td>
+<td>RNAM</td>
+<td>Armor race</td>
+<td>formid</td>
+<td>RACE record
+</td></tr></tbody></table>
+<h2><span id="Raw_Data_Examples">Raw Data Examples</span></h2>
+<ul><li><a href="/wiki/Skyrim_Mod:Mod_File_Format/Race/Breton">Breton</a></li></ul>
+<h2><span id="Custom_Races">Custom Races</span></h2>
+<p>It is common for modders to create custom races, either something fanciful for the player character (e.g. playable Dremora), or more often a near-identical variant of a vanilla race for a new follower (used to ensure the follower can have entirely custom meshes and textures).
+</p><p>Three important race records for such a situation are:
+</p>
+<ul><li>ATKR (Attack Race)</li>
+<li>NAM8 (Morph Race)</li>
+<li>RNAM (Armor Race)</li></ul>
+<p>Various problems can be avoided by setting these to a vanilla race, such as Nord for a custom variant of Nord.  
+</p><p>The ATKR record will use the specified race as the one that controls default combat behavior. While a custom set of combat data can be made for a race with new abilities, exactly which records and subrecords need to be created to obviate the need for an ATKR subrecord is not entirely clear or well-documented. A safer bet in most cases is to just pick one that's "close enough".  Are players really going to notice that your Moonlight Elves fight like Bosmer?  Do they even notice the difference between default Bosmer and Altmer combat approaches?
+</p><p>NAM8 being empty will cause errors in the Construction Kit if your new race does not have custom <samp>.TRI</samp> mesh-morphing files for body weight adjustments. Every race added to the game either needs a set of these or needs a NAM8 indicating which other race's morph files to use. If the race is just a copy of a vanilla one, setting NAM8 to that vanilla race is a safe "fire and forget" solution. If it's something outlandish like a playable Goblin race, custom <samp>.TRI</samp> files will actually need to be generated with mesh tools and added to the FormID Lists mentioned in the CK errors, so that something like weight 35 or weight 50 can be generated properly from the <samp>*_0.nif</samp> and <samp>*_1.nif</samp> meshes. If the race is unplayable and only for one or a few NPCs at fixed 0 or 100 weights, such that middling weights are never needed, then setting NAM8 to any vanilla race will have no effect on the game but will stop pop-up errors in the CK.
+</p><p>The RNAM record being set to a vanilla race obviates any need to change armor, weapon, and other records to account for the new race.  This is perhaps the most common oversight in race modding.  It is not actually practical to do anything else but set the RNAM to a vanilla race with the same general body/head shape and gear-using capabilities, because there are thousands of armor and clothing mods and you won't be able to add your custom race to all of them, item by item. Even doing it for vanilla gear only would be incredibly tedious and ultimately pointless.  This sort of thing is one reason that custom playable new races for <i>Skyrim</i> are markedly less common for than for <i>Oblivion</i> and <i>Morrowind</i>, which had fewer complications of this sort.  It's simply not immediately obvious to a new modder what to do to make a new race work properly, especially once third-party gear mods are involved.  Fortunately, the RNAM is another situation where "close enough" should work. Most of the vanilla humanoid races are equivalent when it comes to equippability of most gear types. Some exceptions are that various Elven races have specific heads meshes and equip variant headgear meshes (if your new race has a head based on Altmer, don't pick Nord as the RNAM); beast races do as well, and cannot even equip all headgear types at all due to their snouts; and vampire race variants (since <samp>Update.esm</samp>) will no longer equip crossbows, the weapon specialized for hunting them.
+</p><p>The gist of the above applies to creatures as well.  If you design a rideable giant Nix Hound as a mount, it will need: 1) either an ATKR of a comparably semi-fearsome quadruped, or comprehensive custom combat-related records and stats; 2) either custom <samp>.TRI</samp> files and FormID List entries for them, or fixed 0 and 100 weights only, with a dummy NAM8, perhaps for Horse or Sabre Cat; and 3) an RNAM set to the Horse race specifically if you want it to be compatible with saddles and with barding (horse armor) mods, and do not want it capable of equipping humanoid gear (your Thoroughbred Nix probably shouldn't be trying to using a sword).  You may need to do mesh and skeleton adjustment work to make sure your hound-mount's body will actually fit such gear properly (which may not be as hard as it sounds; the basic skeletal armature of the in-game horse is the same as that of a dog and wolf).
+</p>
+</div>

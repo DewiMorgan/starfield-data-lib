@@ -1,0 +1,55 @@
+
+<div><p><b>SHOU</b> records contain information on dragon shouts and other similar abilities such as racial activated powers.
+</p><p>Each SHOU record always ends with 3 SNAM subrecords for each word of power (<a href="WOOP.html">WOOP</a>) and corresponding (<a href="SPEL.html">SPEL</a>) attached.  Powers that are not actual dragon shouts (werewolf, racial) still have the 3 records, they are just all 0s when it doesn't apply. A shout override with fewer than three SNAM subrecords will leak the missing subrecords in from the overridden record, while a shout record with more than three SNAM subrecords will write past the end of the shout data in-memory, causing memory corruption.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>fullName</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>+</td>
+<td>MDOB</td>
+<td>inventoryModel</td>
+<td>formid</td>
+<td>Model (<a href="STAT.html">STAT</a>) shown in inventory
+</td></tr>
+<tr>
+<td>+</td>
+<td>DESC</td>
+<td>description</td>
+<td>lstring</td>
+<td>Description of the shout (0 if none).
+</td></tr>
+<tr>
+<td>*</td>
+<td>SNAM</td>
+<td>shoutData</td>
+<td>struct</td>
+<td>12 bytes, Always 3 of these in each shout
+<dl><dd>formid - Word, Word of Power (<a href="WOOP.html">WOOP</a>)</dd>
+<dd>formid - Spell, actual spell effect (<a href="SPEL.html">SPEL</a>)</dd>
+<dd>float - Recovery Time, for player dragon shouts, this matches the (total) recharge time.  For non- this value is usually some small arbitrary number.</dd></dl>
+</td></tr></tbody></table>
+</div>

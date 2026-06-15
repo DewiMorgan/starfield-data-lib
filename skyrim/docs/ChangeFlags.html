@@ -1,0 +1,2461 @@
+
+<div>
+<h1><span id="Change_Flags">Change Flags</span></h1>
+<ul><li>ChangeFlags are part of the ChangeForm structure in a savefile.</li>
+<li>It's the uint32 that follows the changeFormId for every changeForm in a savefile.</li>
+<li>The changeFormId may influence the amount of data stored per ChangeFlag.</li>
+<li>ChangeFlags have different meanings per ChangeForm type.</li>
+<li>Sizes may also be different for combinations of ChangeFlags</li></ul>
+<table class="wikitable">
+<caption>All Change Flags (As of SkyrimSE 1.5.97)
+</caption>
+<tbody><tr>
+<th>Bit
+</th>
+<th>Value
+</th>
+<th>Constant Name
+</th>
+<th>Pretty Name (In code)
+</th></tr>
+<tr>
+<th colspan="4">All records
+</th></tr>
+<tr>
+<td>0
+</td>
+<td>0x00000001
+</td>
+<td>CHANGE_FORM_FLAGS
+</td>
+<td>Flags
+</td></tr>
+<tr>
+<th colspan="4">CLAS
+</th></tr>
+<tr>
+<td>1
+</td>
+<td>0x00000002
+</td>
+<td>CHANGE_CLASS_TAG_SKILLS
+</td>
+<td>Tag Skills
+</td></tr>
+<tr>
+<th colspan="4">FACT
+</th></tr>
+<tr>
+<td>1
+</td>
+<td>0x00000002
+</td>
+<td>CHANGE_FACTION_FLAGS
+</td>
+<td>Faction Flags
+</td></tr>
+<tr>
+<td>2
+</td>
+<td>0x00000004
+</td>
+<td>CHANGE_FACTION_REACTIONS
+</td>
+<td>Faction Reactions
+</td></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_FACTION_CRIME_COUNTS
+</td>
+<td>Faction Crime Counts
+</td></tr>
+<tr>
+<th colspan="4">ACTI
+</th></tr>
+<tr>
+<td>23
+</td>
+<td>0x00800000
+</td>
+<td>CHANGE_TALKING_ACTIVATOR_SPEAKER
+</td>
+<td>Speaker
+</td></tr>
+<tr>
+<th colspan="4">BOOK
+</th></tr>
+<tr>
+<td>5
+</td>
+<td>0x00000020
+</td>
+<td>CHANGE_BOOK_TEACHES
+</td>
+<td>Teaches Skill
+</td></tr>
+<tr>
+<td>6
+</td>
+<td>0x00000040
+</td>
+<td>CHANGE_BOOK_READ
+</td>
+<td>Read
+</td></tr>
+<tr>
+<th colspan="4">DOOR
+</th></tr>
+<tr>
+<td>!
+</td>
+<td colspan="3">The instructions for this flag appear to be unreachable in SkyrimSE 1.5.97
+</td></tr>
+<tr>
+<td>17
+</td>
+<td>0x00020000
+</td>
+<td>CHANGE_DOOR_EXTRA_TELEPORT
+</td>
+<td>Teleport Extra
+</td></tr>
+<tr>
+<th colspan="4">INGR
+</th></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_INGREDIENT_USE
+</td>
+<td>Ingredient Use
+</td></tr>
+<tr>
+<th colspan="4">NPC_
+</th></tr>
+<tr>
+<td>1
+</td>
+<td>0x00000002
+</td>
+<td>CHANGE_ACTOR_BASE_DATA
+</td>
+<td>Base Data
+</td></tr>
+<tr>
+<td>2
+</td>
+<td>0x00000004
+</td>
+<td>CHANGE_ACTOR_BASE_ATTRIBUTES
+</td>
+<td>Attributes
+</td></tr>
+<tr>
+<td>3
+</td>
+<td>0x00000008
+</td>
+<td>CHANGE_ACTOR_BASE_AIDATA
+</td>
+<td>AI Data
+</td></tr>
+<tr>
+<td>4
+</td>
+<td>0x00000010
+</td>
+<td>CHANGE_ACTOR_BASE_SPELLLIST
+</td>
+<td>Spell List
+</td></tr>
+<tr>
+<td>5
+</td>
+<td>0x00000020
+</td>
+<td>CHANGE_ACTOR_BASE_FULLNAME
+</td>
+<td>Full Name
+</td></tr>
+<tr>
+<td>6
+</td>
+<td>0x00000040
+</td>
+<td>CHANGE_ACTOR_BASE_FACTIONS
+</td>
+<td>Factions
+</td></tr>
+<tr>
+<td>9
+</td>
+<td>0x00000200
+</td>
+<td>CHANGE_NPC_SKILLS
+</td>
+<td>NPC Skills
+</td></tr>
+<tr>
+<td>10
+</td>
+<td>0x00000400
+</td>
+<td>CHANGE_NPC_CLASS
+</td>
+<td>Class
+</td></tr>
+<tr>
+<td>11
+</td>
+<td>0x00000800
+</td>
+<td>CHANGE_NPC_FACE
+</td>
+<td>Face
+</td></tr>
+<tr>
+<td>12
+</td>
+<td>0x00001000
+</td>
+<td>CHANGE_NPC_DEFAULT_OUTFIT
+</td>
+<td>Default Outfit
+</td></tr>
+<tr>
+<td>13
+</td>
+<td>0x00002000
+</td>
+<td>CHANGE_NPC_SLEEP_OUTFIT
+</td>
+<td>Sleep Outfit
+</td></tr>
+<tr>
+<td>24
+</td>
+<td>0x01000000
+</td>
+<td>CHANGE_NPC_GENDER
+</td>
+<td>Gender
+</td></tr>
+<tr>
+<td>25
+</td>
+<td>0x02000000
+</td>
+<td>CHANGE_NPC_RACE
+</td>
+<td>Race
+</td></tr>
+<tr>
+<th colspan="4">LVLN, LVLI, LVSP
+</th></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_LEVELED_LIST_ADDED_OBJECT
+</td>
+<td>Added Object
+</td></tr>
+<tr>
+<th colspan="4">NOTE
+</th></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_NOTE_READ
+</td>
+<td>Note Read
+</td></tr>
+<tr>
+<th colspan="4">CELL
+</th></tr>
+<tr>
+<td>1
+</td>
+<td>0x00000002
+</td>
+<td>CHANGE_CELL_FLAGS
+</td>
+<td>Flags
+</td></tr>
+<tr>
+<td>2
+</td>
+<td>0x00000004
+</td>
+<td>CHANGE_CELL_FULLNAME
+</td>
+<td>Full name
+</td></tr>
+<tr>
+<td>3
+</td>
+<td>0x00000008
+</td>
+<td>CHANGE_CELL_OWNERSHIP
+</td>
+<td>Ownership
+</td></tr>
+<tr>
+<td>28
+</td>
+<td>0x10000000
+</td>
+<td>CHANGE_CELL_EXTERIOR_SHORT
+</td>
+<td>Exterior Short
+</td></tr>
+<tr>
+<td>29
+</td>
+<td>0x20000000
+</td>
+<td>CHANGE_CELL_EXTERIOR_CHAR
+</td>
+<td>Exterior Char
+</td></tr>
+<tr>
+<td>30
+</td>
+<td>0x40000000
+</td>
+<td>CHANGE_CELL_DETACHTIME
+</td>
+<td>Detach Time
+</td></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_CELL_SEENDATA
+</td>
+<td>Seen Data
+</td></tr>
+<tr>
+<th colspan="4">REFR, ACHR, PMIS, PARW, PGRE, PBEA, PFLA, PCON, PBAR, PHZD
+</th></tr>
+<tr>
+<td>1
+</td>
+<td>0x00000002
+</td>
+<td>CHANGE_REFR_MOVE
+</td>
+<td>Moved
+</td></tr>
+<tr>
+<td>2
+</td>
+<td>0x00000004
+</td>
+<td>CHANGE_REFR_HAVOK_MOVE
+</td>
+<td>Havok Moved
+</td></tr>
+<tr>
+<td>3
+</td>
+<td>0x00000008
+</td>
+<td>CHANGE_REFR_CELL_CHANGED
+</td>
+<td>Cell Changed
+</td></tr>
+<tr>
+<td>4
+</td>
+<td>0x00000010
+</td>
+<td>CHANGE_REFR_SCALE
+</td>
+<td>Scale
+</td></tr>
+<tr>
+<td>5
+</td>
+<td>0x00000020
+</td>
+<td>CHANGE_REFR_INVENTORY
+</td>
+<td>Inventory
+</td></tr>
+<tr>
+<td>6
+</td>
+<td>0x00000040
+</td>
+<td>CHANGE_REFR_EXTRA_OWNERSHIP
+</td>
+<td>Ownership Extra
+</td></tr>
+<tr>
+<td>7
+</td>
+<td>0x00000080
+</td>
+<td>CHANGE_REFR_BASEOBJECT
+</td>
+<td>BaseObject
+</td></tr>
+<tr>
+<td>25
+</td>
+<td>0x02000000
+</td>
+<td>CHANGE_REFR_PROMOTED
+</td>
+<td>Promoted
+</td></tr>
+<tr>
+<td>26
+</td>
+<td>0x04000000
+</td>
+<td>CHANGE_REFR_EXTRA_ACTIVATING_CHILDREN
+</td>
+<td>Activating Children
+</td></tr>
+<tr>
+<td>27
+</td>
+<td>0x08000000
+</td>
+<td>CHANGE_REFR_LEVELED_INVENTORY
+</td>
+<td>Leveled Inventory
+</td></tr>
+<tr>
+<td>28
+</td>
+<td>0x10000000
+</td>
+<td>CHANGE_REFR_ANIMATION
+</td>
+<td>Animation
+</td></tr>
+<tr>
+<td>29
+</td>
+<td>0x20000000
+</td>
+<td>CHANGE_REFR_EXTRA_ENCOUNTER_ZONE
+</td>
+<td>Enc Zone Extra
+</td></tr>
+<tr>
+<td>30
+</td>
+<td>0x40000000
+</td>
+<td>CHANGE_REFR_EXTRA_CREATED_ONLY
+</td>
+<td>Created Only Extra
+</td></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_REFR_EXTRA_GAME_ONLY
+</td>
+<td>Game Only Extra
+</td></tr>
+<tr>
+<th>!
+</th>
+<th colspan="3">ACHR only
+</th></tr>
+<tr>
+<td>10
+</td>
+<td>0x00000400
+</td>
+<td>CHANGE_ACTOR_LIFESTATE
+</td>
+<td>Life State
+</td></tr>
+<tr>
+<td>11
+</td>
+<td>0x00000800
+</td>
+<td>CHANGE_ACTOR_EXTRA_PACKAGE_DATA
+</td>
+<td>Package Data Extra
+</td></tr>
+<tr>
+<td>12
+</td>
+<td>0x00001000
+</td>
+<td>CHANGE_ACTOR_EXTRA_MERCHANT_CONTAINER
+</td>
+<td>Merchant Container
+</td></tr>
+<tr>
+<td>17
+</td>
+<td>0x00020000
+</td>
+<td>CHANGE_ACTOR_EXTRA_DISMEMBERED_LIMBS
+</td>
+<td>Dismembered Limbs
+</td></tr>
+<tr>
+<td>18
+</td>
+<td>0x00040000
+</td>
+<td>CHANGE_ACTOR_LEVELED_ACTOR
+</td>
+<td>Leveled Actor
+</td></tr>
+<tr>
+<td>19
+</td>
+<td>0x00080000
+</td>
+<td>CHANGE_ACTOR_DISPOSITION_MODIFIERS
+</td>
+<td>Disp Modifiers
+</td></tr>
+<tr>
+<td>20
+</td>
+<td>0x00100000
+</td>
+<td>CHANGE_ACTOR_TEMP_MODIFIERS
+</td>
+<td>Temp Modifiers
+</td></tr>
+<tr>
+<td>21
+</td>
+<td>0x00200000
+</td>
+<td>CHANGE_ACTOR_DAMAGE_MODIFIERS
+</td>
+<td>Damage Modifiers
+</td></tr>
+<tr>
+<td>22
+</td>
+<td>0x00400000
+</td>
+<td>CHANGE_ACTOR_OVERRIDE_MODIFIERS
+</td>
+<td>Override Modifiers
+</td></tr>
+<tr>
+<td>23
+</td>
+<td>0x00800000
+</td>
+<td>CHANGE_ACTOR_PERMANENT_MODIFIERS
+</td>
+<td>Permanent Modifiers
+</td></tr>
+<tr>
+<th>!
+</th>
+<th colspan="3">All except ACHR
+</th></tr>
+<tr>
+<td>10
+</td>
+<td>0x00000400
+</td>
+<td>CHANGE_OBJECT_EXTRA_ITEM_DATA
+</td>
+<td>Item Data Extra
+</td></tr>
+<tr>
+<td>11
+</td>
+<td>0x00000800
+</td>
+<td>CHANGE_OBJECT_EXTRA_AMMO
+</td>
+<td>Ammo Extra
+</td></tr>
+<tr>
+<td>12
+</td>
+<td>0x00001000
+</td>
+<td>CHANGE_OBJECT_EXTRA_LOCK
+</td>
+<td>Lock Extra
+</td></tr>
+<tr>
+<td>21
+</td>
+<td>0x00200000
+</td>
+<td>CHANGE_OBJECT_EMPTY
+</td>
+<td>Empty
+</td></tr>
+<tr>
+<td>22
+</td>
+<td>0x00400000
+</td>
+<td>CHANGE_OBJECT_OPEN_DEFAULT_STATE
+</td>
+<td>Open Default State
+</td></tr>
+<tr>
+<td>23
+</td>
+<td>0x00800000
+</td>
+<td>CHANGE_OBJECT_OPEN_STATE
+</td>
+<td>Open Dtate
+</td></tr>
+<tr>
+<th colspan="4">INFO
+</th></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_TOPIC_SAIDONCE
+</td>
+<td>Said Once
+</td></tr>
+<tr>
+<th colspan="4">QUST
+</th></tr>
+<tr>
+<td>1
+</td>
+<td>0x00000002
+</td>
+<td>CHANGE_QUEST_FLAGS
+</td>
+<td>Quest Flags
+</td></tr>
+<tr>
+<td>2
+</td>
+<td>0x00000004
+</td>
+<td>CHANGE_QUEST_SCRIPT_DELAY
+</td>
+<td>Quest Script Delay
+</td></tr>
+<tr>
+<td>26
+</td>
+<td>0x04000000
+</td>
+<td>CHANGE_QUEST_ALREADY_RUN
+</td>
+<td>Quest Already Run
+</td></tr>
+<tr>
+<td>27
+</td>
+<td>0x08000000
+</td>
+<td>CHANGE_QUEST_INSTANCES
+</td>
+<td>Quest Instance Data
+</td></tr>
+<tr>
+<td>28
+</td>
+<td>0x10000000
+</td>
+<td>CHANGE_QUEST_RUNDATA
+</td>
+<td>Quest Runtime Data
+</td></tr>
+<tr>
+<td>29
+</td>
+<td>0x20000000
+</td>
+<td>CHANGE_QUEST_OBJECTIVES
+</td>
+<td>Quest Objectives
+</td></tr>
+<tr>
+<td>30
+</td>
+<td>0x40000000
+</td>
+<td>CHANGE_QUEST_SCRIPT
+</td>
+<td>Quest Script
+</td></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_QUEST_STAGES
+</td>
+<td>Quest Stages
+</td></tr>
+<tr>
+<th colspan="4">PACK
+</th></tr>
+<tr>
+<td>30
+</td>
+<td>0x40000000
+</td>
+<td>CHANGE_PACKAGE_WAITING
+</td>
+<td>Waiting Flag
+</td></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_PACKAGE_NEVER_RUN
+</td>
+<td>Never Run Flag
+</td></tr>
+<tr>
+<th colspan="4">FLST
+</th></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_FORM_LIST_ADDED_FORM
+</td>
+<td>Added Form
+</td></tr>
+<tr>
+<th colspan="4">ECZN
+</th></tr>
+<tr>
+<td>1
+</td>
+<td>0x00000002
+</td>
+<td>CHANGE_ENCOUNTER_ZONE_FLAGS
+</td>
+<td>Zone Flags
+</td></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_ENCOUNTER_ZONE_GAME_DATA
+</td>
+<td>Game Data
+</td></tr>
+<tr>
+<th colspan="4">LCTN
+</th></tr>
+<tr>
+<td>30
+</td>
+<td>0x40000000
+</td>
+<td>CHANGE_LOCATION_KEYWORDDATA
+</td>
+<td>KeywordData
+</td></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_LOCATION_CLEARED
+</td>
+<td>Cleared
+</td></tr>
+<tr>
+<th colspan="4">SMQN
+</th></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_QUEST_NODE_TIME_RUN
+</td>
+<td>Time Last Run
+</td></tr>
+<tr>
+<th colspan="4">RELA
+</th></tr>
+<tr>
+<td>1
+</td>
+<td>0x00000002
+</td>
+<td>CHANGE_RELATIONSHIP_DATA
+</td>
+<td>Relationship Data
+</td></tr>
+<tr>
+<th colspan="4">SCEN
+</th></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_SCENE_ACTIVE
+</td>
+<td>Active
+</td></tr>
+<tr>
+<th colspan="4">All records not yet named
+</th></tr>
+<tr>
+<td>1
+</td>
+<td>0x00000002
+</td>
+<td>CHANGE_BASE_OBJECT_VALUE
+</td>
+<td>Object Value
+</td></tr>
+<tr>
+<td>2
+</td>
+<td>0x00000004
+</td>
+<td>CHANGE_BASE_OBJECT_FULLNAME
+</td>
+<td>Object Full Name
+</td></tr></tbody></table>
+<h2><span id="Initial_type">Initial type</span></h2>
+<ul><li>Certain changeforms first have an initial data type and data.</li></ul>
+<ul><li>These are applied in order.</li></ul>
+<p>If change form type is CELL:
+</p>
+<dl><dd>If flag CHANGE_CELL_DETACHTIME is not set, initialType = 0.</dd>
+<dd>Else if flag CHANGE_CELL_EXTERIOR_CHAR is set, initialType = 1.</dd>
+<dd>Else if flag CHANGE_CELL_EXTERIOR_SHORT is set initialType = 2.</dd>
+<dd>Else if flag CHANGE_CELL_DETACHTIME is set initialType = 3.</dd>
+<dd>Else initialType = 0.</dd></dl>
+<p>If change form type is one of these (REFR, ACHR, PMIS, PGRE, PBEA, PFLA, PHZD, PBAR, PCON, PARW):
+</p>
+<dl><dd>If change form is created one (FormId &gt;= FF000000) intialType = 5.</dd>
+<dd>Else if flag CHANGE_REFR_PROMOTED or CHANGE_REFR_CELL_CHANGED is set, initialType is 6.</dd>
+<dd>Else if flag CHANGE_REFR_HAVOK_MOVE or CHANGE_REFR_MOVE is set, initialType = 4.</dd>
+<dd>Else initialType = 0.</dd></dl>
+<p><br/>
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Initial type
+</th>
+<th>Data Size
+</th>
+<th>Data
+</th></tr>
+<tr>
+<td>0
+</td>
+<td>0
+</td>
+<td>none
+</td></tr>
+<tr>
+<td>1
+</td>
+<td>8
+</td>
+<td>uint16 unk<br/>uint8 Cell_X, Cell_Y<br/>uint32 unk2
+</td></tr>
+<tr>
+<td>2
+</td>
+<td>10
+</td>
+<td>uint16 unk<br/>sint16 unk1, unk2<br/>uint32 unk3
+</td></tr>
+<tr>
+<td>3
+</td>
+<td>4
+</td>
+<td>uint32 unk
+</td></tr>
+<tr>
+<td>4
+</td>
+<td>27
+</td>
+<td>RefId Cell / world<br/>float pos[3], rot[3]
+</td></tr>
+<tr>
+<td>5
+</td>
+<td>31
+</td>
+<td>RefId Cell / world<br/>float pos[3], rot[3]<br/>uint8 unk<br/>RefId base object
+</td></tr>
+<tr>
+<td>6
+</td>
+<td>34
+</td>
+<td>RefId Cell / world<br/>float pos[3], rot[3]<br/>RefId starting cell / world?<br/>sint16 unk1, unk2
+</td></tr>
+</tbody></table>
+<h2><span id="Change_form_flags">Change form flags</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th>Type
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>flag
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>
+</p>
+<h2><span id="CELL_change_form_flags">CELL change form flags</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Bit
+</th>
+<th>Value
+</th>
+<th>Name
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>0
+</td>
+<td>0000 0001
+</td>
+<td>CHANGE_FORM_FLAGS
+</td>
+<td>
+</td></tr>
+<tr>
+<td>1
+</td>
+<td>0000 0002
+</td>
+<td>CHANGE_CELL_FLAGS
+</td>
+<td>
+</td></tr>
+<tr>
+<td>2
+</td>
+<td>0000 0004
+</td>
+<td>CHANGE_CELL_FULLNAME
+</td>
+<td>
+</td></tr>
+<tr>
+<td>3
+</td>
+<td>0000 0008
+</td>
+<td>CHANGE_CELL_OWNERSHIP
+</td>
+<td>
+</td></tr>
+<tr>
+<td>28
+</td>
+<td>1000 0000
+</td>
+<td>CHANGE_CELL_EXTERIOR_SHORT
+</td>
+<td>
+</td></tr>
+<tr>
+<td>29
+</td>
+<td>2000 0000
+</td>
+<td>CHANGE_CELL_EXTERIOR_CHAR
+</td>
+<td>
+</td></tr>
+<tr>
+<td>30
+</td>
+<td>4000 0000
+</td>
+<td>CHANGE_CELL_DETACHTIME
+</td>
+<td>
+</td></tr>
+<tr>
+<td>31
+</td>
+<td>8000 0000
+</td>
+<td>CHANGE_CELL_SEENDATA
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>
+</p>
+<h2><span id="QUST_change_form">QUST change form</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Bit
+</th>
+<th>Value
+</th>
+<th>Data Size
+</th>
+<th>Name
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>1
+</td>
+<td>0000 0002
+</td>
+<td>2
+</td>
+<td>CHANGE_QUEST_FLAGS
+</td>
+<td>
+</td></tr>
+<tr>
+<td>26
+</td>
+<td>0400 0000
+</td>
+<td>1
+</td>
+<td>CHANGE_QUEST_ALREADY_RUN
+</td>
+<td>
+</td></tr>
+<tr>
+<td>27
+</td>
+<td>0800 0000
+</td>
+<td>
+</td>
+<td>CHANGE_QUEST_INSTANCES
+</td>
+<td>
+</td></tr>
+<tr>
+<td>28
+</td>
+<td>1000 0000
+</td>
+<td>
+</td>
+<td>CHANGE_QUEST_RUNDATA
+</td>
+<td>
+</td></tr>
+<tr>
+<td>29
+</td>
+<td>2000 0000
+</td>
+<td>
+</td>
+<td>CHANGE_QUEST_OBJECTIVES
+</td>
+<td>
+</td></tr>
+<tr>
+<td>31
+</td>
+<td>8000 0000
+</td>
+<td>
+</td>
+<td>CHANGE_QUEST_STAGES
+</td>
+<td>
+</td></tr>
+</tbody></table>
+<p><br/>
+</p>
+<h2><span id="REFR_change_form">REFR change form</span></h2>
+<h3><span id="Data_Elements">Data Elements</span></h3>
+<p>These are the elements I have so far seen in a REFR change form.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Field
+</th>
+<th>Size
+</th>
+<th>Contents
+</th>
+<th>Notes
+</th></tr>
+<tr>
+<td>cellId
+</td>
+<td>3
+</td>
+<td>refId
+</td>
+<td>Contains a reference to the cell where this object currently is
+</td></tr>
+<tr>
+<td>location
+</td>
+<td>24
+</td>
+<td>float x<br/>float y<br/>float z<br/>float rx<br/>float ry<br/>float rz
+</td>
+<td>Contains the location and orientation of the object
+</td></tr>
+<tr>
+<td>unknown1
+</td>
+<td>1
+</td>
+<td>byte
+</td>
+<td>Always (and only) present in created objects (formId starts with 0xff)
+</td></tr>
+<tr>
+<td>refIdx
+</td>
+<td>3
+</td>
+<td>refId
+</td>
+<td>Only seen on objects with the CHANGE_REFR_PROMOTED flag set and always seems to contain the same refId as the cellId.
+</td></tr>
+<tr>
+<td>unkown2
+</td>
+<td>4
+</td>
+<td>int16 a<br/>int16 b
+</td>
+<td>A tuple containing (moderately) positive or negative numbers
+</td></tr>
+<tr>
+<td>havokData
+</td>
+<td>var
+</td>
+<td>byte[1-3] size<br/>byte[size] data
+</td>
+<td>The two lowest bits of the first byte indicate how many bytes are used to store the size. The other bits indicate the size (bit 3 of the first byte thus indicates a size of one byte, the lowest bit of byte 2 equals 64 bytes).
+</td></tr>
+<tr>
+<td>flags
+</td>
+<td>6
+</td>
+<td>byte[6] flags
+</td>
+<td>Six bytes of flags
+</td></tr>
+<tr>
+<td>scale
+</td>
+<td>4
+</td>
+<td>float
+</td>
+<td>New scale to appplied to the object (not 100% certain about the order of scale and baseId)
+</td></tr>
+<tr>
+<td>baseId
+</td>
+<td>3
+</td>
+<td>refId
+</td>
+<td>A reference to a new base object for this object
+</td></tr>
+<tr>
+<td>gameOnly
+</td>
+<td>var
+</td>
+<td>byte[1-3?] itemCount<br/>per item:<br/>- byte itemType<br/>- [opt] byte itemRepeat<br/>- byte[var] itemData
+</td>
+<td>itemCount should be shifted by two bits to get the count, the other bit probably indicate additional count bytes. The itemType influences what is next, in some cases another count that has to be shifted as well, in some cases a fixed number of bytes. If a count is present, it seems to indicate how many repeats of a certain fixed size are following.
+</td></tr>
+<tr>
+<td>inventory
+</td>
+<td>var
+</td>
+<td>byte[1-3?] itemCount<br/>per item:<br/>- refId item<br/>- uint32 count<br/>- complex
+</td>
+<td>The refId and count are followed by some complex nested structure that's similar to the "gameOnly" field above. I.e. each item can have extra properties from the table below.
+</td></tr>
+<tr>
+<td>animation
+</td>
+<td>var
+</td>
+<td>complex
+</td>
+<td>
+</td></tr></tbody></table>
+<h3><span id="Flags">Flags</span></h3>
+<p>This table lists which fields will be present for which flags. It is incomplete at the moment.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="14">changeFormId = 0x00......
+</th></tr>
+<tr>
+<th>Bit
+</th>
+<th>Value
+</th>
+<th>Name
+</th>
+<th>cellId
+</th>
+<th>location
+</th>
+<th>unknown1
+</th>
+<th>refIdX
+</th>
+<th>unknown2
+</th>
+<th>havokData
+</th>
+<th>flags
+</th>
+<th>scale
+</th>
+<th>baseId
+</th>
+<th>gameOnly
+</th>
+<th>inventory
+</th></tr>
+<tr>
+<td>0
+</td>
+<td>0000 0001
+</td>
+<td>CHANGE_FORM_FLAGS
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>1
+</td>
+<td>0000 0002
+</td>
+<td>CHANGE_REFR_MOVE
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>2
+</td>
+<td>0000 0004
+</td>
+<td>CHANGE_REFR_HAVOK_MOVE
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>3
+</td>
+<td>0000 0008
+</td>
+<td>CHANGE_REFR_CELL_CHANGED
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>4
+</td>
+<td>0000 0010
+</td>
+<td>CHANGE_REFR_SCALE
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>5
+</td>
+<td>0000 0020
+</td>
+<td>CHANGE_REFR_INVENTORY
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td></tr>
+<tr>
+<td>6
+</td>
+<td>0000 0040
+</td>
+<td>CHANGE_REFR_EXTRA_OWNERSHIP
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>7
+</td>
+<td>0000 0080
+</td>
+<td>CHANGE_REFR_BASEOBJECT
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>10
+</td>
+<td>0000 0400
+</td>
+<td>CHANGE_OBJECT_EXTRA_ITEM_DATA
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>
+</td></tr>
+<tr>
+<td>12
+</td>
+<td>0000 1000
+</td>
+<td>CHANGE_OBJECT_EXTRA_LOCK
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>
+</td></tr>
+<tr>
+<td>21
+</td>
+<td>0020 0000
+</td>
+<td>CHANGE_OBJECT_EMPTY
+</td>
+<td colspan="11">no extra data, just a flag
+</td></tr>
+<tr>
+<td>23
+</td>
+<td>0080 0000
+</td>
+<td>CHANGE_OBJECT_OPEN_STATE
+</td>
+<td colspan="11">no extra data, just a flag
+</td></tr>
+<tr>
+<td>25
+</td>
+<td>0200 0000
+</td>
+<td>CHANGE_REFR_PROMOTED
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>
+</td></tr>
+<tr>
+<td>26
+</td>
+<td>0400 0000
+</td>
+<td>CHANGE_REFR_EXTRA_ACTIVATING_CHILDREN
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>27
+</td>
+<td>0800 0000
+</td>
+<td>CHANGE_REFR_LEVELED_INVENTORY
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td></tr>
+<tr>
+<td>28
+</td>
+<td>1000 0000
+</td>
+<td>CHANGE_REFR_ANIMATION
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>29
+</td>
+<td>2000 0000
+</td>
+<td>CHANGE_REFR_EXTRA_ENCOUNTER_ZONE
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>
+</td></tr>
+<tr>
+<td>31
+</td>
+<td>8000 0000
+</td>
+<td>CHANGE_REFR_EXTRA_GAME_ONLY
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>
+</td></tr>
+<tr>
+<th colspan="14">changeFormId = 0xff......
+</th></tr>
+<tr>
+<th>Bit
+</th>
+<th>Value
+</th>
+<th>Name
+</th>
+<th>cellId
+</th>
+<th>location
+</th>
+<th>unknown1
+</th>
+<th>refIdX
+</th>
+<th>unknown2
+</th>
+<th>havokData
+</th>
+<th>flags
+</th>
+<th>scale
+</th>
+<th>baseId
+</th>
+<th>gameOnly
+</th>
+<th>inventory
+</th></tr>
+<tr>
+<td>0
+</td>
+<td>0000 0001
+</td>
+<td>CHANGE_FORM_FLAGS
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>1
+</td>
+<td>0000 0002
+</td>
+<td>CHANGE_REFR_MOVE
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>3
+</td>
+<td>0000 0008
+</td>
+<td>CHANGE_REFR_CELL_CHANGED
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>4
+</td>
+<td>0000 0010
+</td>
+<td>CHANGE_REFR_SCALE
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>10
+</td>
+<td>0000 0400
+</td>
+<td>CHANGE_OBJECT_EXTRA_ITEM_DATA
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>
+</td></tr>
+<tr>
+<td>25
+</td>
+<td>0200 0000
+</td>
+<td>CHANGE_REFR_PROMOTED
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>
+</td></tr>
+<tr>
+<td>31
+</td>
+<td>8000 0000
+</td>
+<td>CHANGE_REFR_EXTRA_GAME_ONLY
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>x
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>
+</td>
+<td>x
+</td>
+<td>
+</td></tr>
+</tbody></table>
+<p>The 0xff000000 type changeFormIds have at least 31 bytes of data in structure called 'Base', containing at least a RefId and the location/rotation fields. In this case the additional data added by the other flags may be different, for example CHANGE_REFR_MOVE and CHANGE_REFR_CELL_CHANGED will not add any data, while CHANGE_REFR_PROMOTED will only add 6 bytes instead of 40. The CHANGE_REFR_MOVE flag appears to be set on every changeForm of this type.
+</p>
+<h3><span id="extraData">extraData</span></h3>
+<p>The extra data starts with the number of items contained in the field. Bit 0 and 1 of the first byte probably indicate how many bytes are used to store the size: 00 = just this byte, 01 = 1 extra byte, 10 = ?, 11 = ?. The count is obtained by reading the bytes and shifting them two bits to the right. 0x04 thus becomes 1, 0x08 becomes 2, ...
+</p><p>The next bytes tell something about the data that follows.
+</p><p>An incomplete list of possible data in the extraData field:
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>fieldType
+</th>
+<th>hasRepeatCount
+</th>
+<th>bytesToFollow
+</th>
+<th>comment
+</th></tr>
+<tr>
+<td>0x1c
+</td>
+<td>
+</td>
+<td>3
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x21
+</td>
+<td>
+</td>
+<td>3
+</td>
+<td>Seen when Extra Item Data flag set, could be owner
+</td></tr>
+<tr>
+<td>0x24
+</td>
+<td>
+</td>
+<td>2
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x25
+</td>
+<td>
+</td>
+<td>4
+</td>
+<td>Appears to be a float
+</td></tr>
+<tr>
+<td>0x28
+</td>
+<td>
+</td>
+<td>4
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x2a
+</td>
+<td>
+</td>
+<td>13
+</td>
+<td>Seen when Lock Extra flag is set. Bytes 0 is the lock level (like XLOC in REFR), byte 1 is unknown, bytes 2-4 are the KEYM RefId to open the lock, bytes 5-12 always zero?
+</td></tr>
+<tr>
+<td>0x2c
+</td>
+<td>
+</td>
+<td>1
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x2e
+</td>
+<td>
+</td>
+<td>5
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x2f
+</td>
+<td>
+</td>
+<td>4
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x31
+</td>
+<td>
+</td>
+<td>29
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x32
+</td>
+<td>
+</td>
+<td>4
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x38
+</td>
+<td>
+</td>
+<td>3
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x48
+</td>
+<td>
+</td>
+<td>3
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x49
+</td>
+<td>
+</td>
+<td>5
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x55
+</td>
+<td>
+</td>
+<td>4
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x58
+</td>
+<td>
+</td>
+<td>7
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x5d
+</td>
+<td>
+</td>
+<td>4
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x70
+</td>
+<td>
+</td>
+<td>3
+</td>
+<td>This is present when the Extra Encounter Zone flag is set. Probably a refId to the zone then
+</td></tr>
+<tr>
+<td>0x78
+</td>
+<td>x
+</td>
+<td>8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x85
+</td>
+<td>
+</td>
+<td>3
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x88
+</td>
+<td>x
+</td>
+<td>7
+</td>
+<td>A QUST RefId, followed by a uint32 equal to one of the ALST fields in that QUST. It probably means this reference is assigned to that alias in that quest.
+</td></tr>
+<tr>
+<td>0x8c
+</td>
+<td>x
+</td>
+<td>3
+</td>
+<td>Present on promoted objects, usually with one item that looks like a refId: 0x40028A
+</td></tr>
+<tr>
+<td>0x8e
+</td>
+<td>
+</td>
+<td>3
+</td>
+<td>A OTFT RefId, probably indicating that this inventory item is part of that outfit.
+</td></tr>
+<tr>
+<td>0x92
+</td>
+<td>
+</td>
+<td>3
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x95
+</td>
+<td>
+</td>
+<td>7
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x98
+</td>
+<td>
+</td>
+<td>14(may vary)
+</td>
+<td>ExtraData_AttachedArrows3D - Appears to always be 14 bytes long, but the first 2 bytes are always 0c 00. If read as a UInt16, this would be 12, which is also the number of bytes that follow. It's unknown what type of data is contained in the remaining bytes, as the only values seen so far are 00 and 02.
+</td></tr>
+<tr>
+<td>0x99
+</td>
+<td>
+</td>
+<td>10+var
+</td>
+<td>When this is in an inventory object and the last 4 bytes are 0xfffffffe, a string follows (2 bytes for the length, then the characters). This is used to store user modified names during enchanting
+</td></tr>
+<tr>
+<td>0x9b
+</td>
+<td>
+</td>
+<td>5
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0x9f
+</td>
+<td>
+</td>
+<td>6
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0xa0
+</td>
+<td>
+</td>
+<td>4
+</td>
+<td>
+</td></tr>
+<tr>
+<td>0xa1
+</td>
+<td>
+</td>
+<td>88
+</td>
+<td>
+</td></tr></tbody></table>
+<p>The fields with a repeat should be interpreted like this: after the fieldType there is a count (again bit 0 and 1 of the first count byte indicate how many extra bytes are used for the count). After the count, count * bytesToFollow will follow. So 0x8c 0x08 .... indicates that 2 (0x08 shifted by 2) records of type 0x8c follow, which are 3 bytes per record, so 6 bytes in total. Frequently 0x88 0x00 is observed, meaning 0 * 7 bytes follow. As another example, 0x88 0x81 0x01 means count is (81&gt;&gt;2 + 1&lt;&lt;6) = 96, so 96 * 7 bytes follow.
+</p>
+<h2><span id="NPC_change_form">NPC_ change form</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Bit
+</th>
+<th>Value
+</th>
+<th>Name
+</th>
+<th>Data Size
+</th>
+<th>Data
+</th></tr>
+<tr>
+<td>0
+</td>
+<td>0000 0001
+</td>
+<td>CHANGE_FORM_FLAGS
+</td>
+<td>6
+</td>
+<td><a href="#Change_form_flags">Change form flags</a>
+</td></tr>
+<tr>
+<td>1
+</td>
+<td>0000 0002
+</td>
+<td>CHANGE_ACTOR_BASE_DATA
+</td>
+<td>24
+</td>
+<td>See ACBS field of <a href="/wiki/Skyrim_Mod:Mod_File_Format/NPC">NPC_</a> record
+</td></tr>
+<tr>
+<td>6
+</td>
+<td>0000 0040
+</td>
+<td>CHANGE_ACTOR_BASE_FACTIONS
+</td>
+<td>var
+</td>
+<td>vsval count
+<p>struct {refID factionID; uint8 rank} [count]
+</p>
+</td></tr>
+<tr>
+<td>4
+</td>
+<td>0000 0010
+</td>
+<td>CHANGE_ACTOR_BASE_SPELLLIST
+</td>
+<td>var
+</td>
+<td>vsval spellCount
+<p>refID spells[spellCount]
+</p><p>vsval leveledspellCount
+</p><p>refID leveledspells[leveledspellCount]
+</p><p>vsval shoutCount
+</p><p>refID shouts[shoutCount] 
+</p>
+</td></tr>
+<tr>
+<td>3
+</td>
+<td>0000 0008
+</td>
+<td>CHANGE_ACTOR_BASE_AIDATA
+</td>
+<td>20
+</td>
+<td>See AIDT field of <a href="/wiki/Skyrim_Mod:Mod_File_Format/NPC">NPC_</a> record
+</td></tr>
+<tr>
+<td>5
+</td>
+<td>0000 0020
+</td>
+<td>CHANGE_ACTOR_BASE_FULLNAME
+</td>
+<td>var
+</td>
+<td>wstring name
+</td></tr>
+<tr>
+<td>9
+</td>
+<td>0000 0200
+</td>
+<td>CHANGE_NPC_SKILLS
+</td>
+<td>52
+</td>
+<td>See DNAM field of <a href="/wiki/Skyrim_Mod:Mod_File_Format/NPC">NPC_</a> record
+</td></tr>
+<tr>
+<td>10
+</td>
+<td>0000 0400
+</td>
+<td>CHANGE_NPC_CLASS
+</td>
+<td>3
+</td>
+<td>refID class
+</td></tr>
+<tr>
+<td>25
+</td>
+<td>0200 0000
+</td>
+<td>CHANGE_NPC_RACE
+</td>
+<td>6
+</td>
+<td>refID race
+<p>refID race2 (?)
+</p>
+</td></tr>
+<tr>
+<td>11
+</td>
+<td>0000 0800
+</td>
+<td>CHANGE_NPC_FACE
+</td>
+<td>var
+</td>
+<td>?
+</td></tr>
+<tr>
+<td>24
+</td>
+<td>0100 0000
+</td>
+<td>CHANGE_NPC_GENDER
+</td>
+<td>1
+</td>
+<td>uint8 gender (0 – male, 1 - female)
+</td></tr>
+<tr>
+<td>12
+</td>
+<td>0000 1000
+</td>
+<td>CHANGE_NPC_DEFAULT_OUTFIT
+</td>
+<td>3
+</td>
+<td>refID defOutfit
+</td></tr>
+<tr>
+<td>12
+</td>
+<td>0000 1000
+</td>
+<td>CHANGE_NPC_SLEEP_OUTFIT
+</td>
+<td>3
+</td>
+<td>refID sleepOutfit
+</td></tr></tbody></table>
+<p>The order of data in changeForm is the same as in the table
+</p><p>Skills/Health, etc are stored in ACHR records (as floats) associated with the NPC (for the player this is formid 0x00000014, refid=0x40 0x00 0x14 and is zlib compressed)
+</p>
+<ul><li>if any of the data <b>is stored in the NPC_ record</b> it seems to be ignored by the game.</li></ul>
+</div>

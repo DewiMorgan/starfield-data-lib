@@ -1,0 +1,138 @@
+
+<div><p>An <b>AMMO</b> record contains data for an arrow.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Subrecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorID</td>
+<td>zstring</td>
+<td>Record Editor ID
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>objectBounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always 12 bytes even if all 0s
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>itemName</td>
+<td>lstring</td>
+<td>Full item name (localized string)
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td>zstring</td>
+<td>World model filename
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODT</td>
+<td>model data</td>
+<td>struct[]</td>
+<td>series of 12-byte structs (assume xyz)
+</td></tr>
+<tr>
+<td>-</td>
+<td>ICON</td>
+<td>Inventory Image</td>
+<td>zstring</td>
+<td>Inventory Image Filename
+</td></tr>
+<tr>
+<td>-</td>
+<td>MICO</td>
+<td>Message Immage</td>
+<td>zstring</td>
+<td>Message Immage Filename
+</td></tr>
+<tr>
+<td>-</td>
+<td>DEST</td>
+<td>destruction data</td>
+<td><a href="DEST_Field.html">DEST</a></td>
+<td>Includes Fields DSTD, DMDL, DMDT, DMDS
+</td></tr>
+<tr>
+<td>-</td>
+<td>YNAM</td>
+<td>pickupSound</td>
+<td>formID</td>
+<td>Sound(<a href="SNDR.html">SNDR</a>) played when picked up
+</td></tr>
+<tr>
+<td>-</td>
+<td>ZNAM</td>
+<td>dropSound</td>
+<td>formID</td>
+<td>Sound(<a href="SNDR.html">SNDR</a>) played when dropped
+</td></tr>
+<tr>
+<td>+</td>
+<td>DESC</td>
+<td>description</td>
+<td>lstring</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td>KSIZ</td>
+<td>numKeywords</td>
+<td><a href="KYWD.html#Including_Keywords">KSIZ</a></td>
+<td>KYWD Count.
+</td></tr>
+<tr>
+<td>-</td>
+<td>KWDA</td>
+<td>keywords</td>
+<td><a href="KYWD.html#Including_Keywords">KWDA</a></td>
+<td>[KYWD 0x000917E7] VendorItemArrow, [KYWD 0x0010D501] WeapTypeBoundArrow
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>Data</td>
+<td>struct</td>
+<td>16 byte struct
+<dl><dd>formID - Projectile ID <a href="PROJ.html">PROJ</a></dd>
+<dd>flags
+<dl><dd>0x00000001 - Ignores Normal Weapon Resistance</dd>
+<dd>0x00000002 - Non-Playable</dd>
+<dd>0x00000004 - Non-Bolt (Arrow/Bolt)</dd></dl></dd>
+<dd>float - Damage</dd>
+<dd>value - Item gold value</dd></dl>
+<p>SSE version: 20 byte struct
+</p>
+<dl><dd>formID - Projectile ID <a href="PROJ.html">PROJ</a></dd>
+<dd>flags
+<dl><dd>0x00000001 - Ignores Normal Weapon Resistance</dd>
+<dd>0x00000002 - Non-Playable</dd>
+<dd>0x00000004 - Non-Bolt (Arrow/Bolt)</dd></dl></dd>
+<dd>float - Damage</dd>
+<dd>value - Item gold value</dd>
+<dd>float - Weight (always 0.1)</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>ONAM</td>
+<td>Short Name</td>
+<td>string</td>
+<td>Short Name
+</td></tr></tbody></table>
+</div>

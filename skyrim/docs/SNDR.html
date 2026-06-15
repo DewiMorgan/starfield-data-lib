@@ -1,0 +1,102 @@
+
+<div><p><b>SNDR</b> records contain data regarding individual sounds.  Sounds belong to a Sound Category (<a href="SNCT.html">SNCT</a>), have one or more physical wav files, and are tied to a Sound Output Marker (<a href="SOPM.html">SOPM</a>)
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>CNAM</td>
+<td>sound descriptor type</td>
+<td>uint32</td>
+<td>CRC32 hash of the class name (i.e. "BGSStandardSoundDef") Note that Bethesda uses a non standard CRC.
+</td></tr>
+<tr>
+<td>+</td>
+<td>GNAM</td>
+<td>category</td>
+<td>formID</td>
+<td>Sound Category (<a href="SNCT.html">SNCT</a>) formid
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>sound</td>
+<td>formID</td>
+<td>reference to another (<a>SNDR</a>) formid
+</td></tr>
+<tr>
+<td>-</td>
+<td>FNAM</td>
+<td>unknown</td>
+<td>dword</td>
+<td>
+</td></tr>
+<tr>
+<td>*</td>
+<td>ANAM</td>
+<td>a track</td>
+<td>zstring</td>
+<td>path to .wav
+</td></tr>
+<tr>
+<td>+</td>
+<td>ONAM</td>
+<td>output model</td>
+<td>formID</td>
+<td>Output Model (<a href="SOPM.html">SOPM</a>) formid
+</td></tr>
+<tr>
+<td>*</td>
+<td>CTDA</td>
+<td>condition data</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>condition data
+</td></tr>
+<tr>
+<td>-</td>
+<td>LNAM</td>
+<td></td>
+<td>struct</td>
+<td>
+<dl><dd>uint16 flags
+<dl><dd>0x0001 ?</dd>
+<dd>0x0002 ? <i>mostly seen with 0x0800</i></dd>
+<dd>0x0800 Looping: Loop</dd>
+<dd>0x1000 Looping: Envelope Fast</dd>
+<dd>0x2000 Looping: Envelope Slow
+<dl><dd>At most one of the looping flags can be set</dd></dl></dd></dl></dd>
+<dd>uint8 - <i>unused</i></dd>
+<dd>uint8 - Rumble Send
+<dl><dd>Small - 7 * Lower 4 bits</dd>
+<dd>Big - 7 * Upper 4 bits</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>BNAM</td>
+<td></td>
+<td>struct</td>
+<td>
+<dl><dd>int8 - % Frequency Shift</dd>
+<dd>uint8 - % Frequency Variance</dd>
+<dd>uint8 - Priority <i>(default 128)</i></dd>
+<dd>uint8 - dB Variance</dd>
+<dd>uint16 - Static Attenuation (dB) <i>Stored value is 100 times actual value</i></dd></dl>
+</td></tr></tbody></table>
+</div>

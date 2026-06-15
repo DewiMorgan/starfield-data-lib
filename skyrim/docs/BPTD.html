@@ -1,0 +1,137 @@
+
+<div><p><b>BPTD</b> records contain body part data.  Each record has base model information followed by a group of fields for each body part, which is repeated for each body part beyond the first (below the thick line).  
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODB, MODT, MODS, MODD
+</td></tr>
+<tr>
+<td>+</td>
+<td>BPTN</td>
+<td>body part name</td>
+<td>lstring</td>
+<td>Body part name (eg 'head').
+</td></tr>
+<tr>
+<td>+</td>
+<td>BPNN</td>
+<td>body part node name</td>
+<td>zstring</td>
+<td>Body part node name it attaches to
+</td></tr>
+<tr>
+<td>+</td>
+<td>BPNT</td>
+<td>body part node title</td>
+<td>zstring</td>
+<td>Body part node title (usually same as BPNN but not always)
+</td></tr>
+<tr>
+<td>+</td>
+<td>BPNI</td>
+<td>body part node info</td>
+<td>zstring</td>
+<td>Usually a path to a .nif but can be blank or a value like '[body]'
+</td></tr>
+<tr>
+<td>+</td>
+<td>BPND</td>
+<td>body part node data</td>
+<td>struct</td>
+<td>84 Byte Struct
+<dl><dd>Float - Damage Mult</dd>
+<dd>uint8 - Flags
+<dl><dd>Severable</dd>
+<dd>IK Data</dd>
+<dd>IK Data - Biped Data</dd>
+<dd>Explodable</dd>
+<dd>IK Data - Is Head</dd>
+<dd>IK Data - Headtracking</dd>
+<dd>To Hit Chance - Absolute</dd></dl></dd>
+<dd>uint8 - Part Type (Lookup)
+<dl><dd>Torso</dd>
+<dd>Head</dd>
+<dd>Eye</dd>
+<dd>LookAt</dd>
+<dd>Fly Grab</dd>
+<dd>Saddle</dd></dl></dd>
+<dd>uint8 - Health Percent</dd>
+<dd>sint8 - Actor Value (Actor Values)</dd>
+<dd>uint8 - To Hit Chance</dd>
+<dd>uint8 - Explodable - Explosion Chance %</dd>
+<dd>uint16 - Explodable - Debris Count</dd>
+<dd>FormID - Explodable - Debris <a href="DEBR.html">DEBR</a></dd>
+<dd>FormID - Explodable - Explosion <a href="EXPL.html">EXPL</a></dd>
+<dd>Float - Tracking Max Angle</dd>
+<dd>Float - Explodable - Debris Scale</dd>
+<dd>sint32 - Severable - Debris Count</dd>
+<dd>FormID - Severable - Debris <a href="DEBR.html">DEBR</a></dd>
+<dd>FormID - Severable - Explosion <a href="EXPL.html">EXPL</a></dd>
+<dd>Float - Severable - Debris Scale</dd>
+<dd>Struct - Gore Effects Positioning
+<dl><dd>Translate
+<dl><dd>Float - X</dd>
+<dd>Float - Y</dd>
+<dd>Float - Z</dd></dl></dd>
+<dd>Rotation
+<dl><dd>Float - X</dd>
+<dd>Float - Y</dd>
+<dd>Float - Z</dd></dl></dd></dl></dd>
+<dd>FormIDCk - Severable - Impact DataSet <a href="IPDS.html">IPDS</a></dd>
+<dd>FormIDCk - Explodable - Impact DataSet <a href="IPDS.html">IPDS</a></dd>
+<dd>uint8 - Severable - Decal Count</dd>
+<dd>uint8 Explodable - Decal Count</dd>
+<dd>uint16 - 'Unknown'</dd>
+<dd>Float - Limb Replacement Scale</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM1</td>
+<td>Limb Replacement Model</td>
+<td>zstring</td>
+<td>Limb Replacement Model
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM4</td>
+<td>Gore Effects</td>
+<td>zstring</td>
+<td>Gore Effects - Target Bone
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM5</td>
+<td>Hashes</td>
+<td>Array</td>
+<td>Texture Files Hashes
+</td></tr>
+<tr>
+<td>-</td>
+<td>RAGA</td>
+<td>Ragdoll</td>
+<td>FormID</td>
+<td><a href="/w/index.php?title=Skyrim_Mod:Mod_File_Format/RGDL&amp;action=edit&amp;redlink=1">RGDL</a>
+</td></tr></tbody></table>
+</div>

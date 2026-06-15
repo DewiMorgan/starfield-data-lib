@@ -1,0 +1,37 @@
+
+<div><p><b>FSTP</b> records contain individual "footstep" sounds, this can be actual footsteps, breathing, clanking, dogs barking.  Footstep sets (<a href="FSTS.html">FSTS</a>) group these up and essentially they are alternated/rotated.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>impact data</td>
+<td>formid</td>
+<td>Impact Data Set (<a href="IPDS.html">IPDS</a>) formids
+</td></tr>
+<tr>
+<td>+</td>
+<td>ANAM</td>
+<td>action name</td>
+<td>zstring</td>
+<td>eg 'FootLeft', 'FootScuffRight' (does not correspond with AACT)
+</td></tr></tbody></table>
+</div>

@@ -1,0 +1,85 @@
+
+<div><p><b>SOPM</b> are "sound output models".  These are presumably boxes in space the sound will be heard in, potentially with modifier data.  Sounds (<a href="SNDR.html">SNDR</a>) always tie to one of these.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM1</td>
+<td>data</td>
+<td>struct<br/>(4 bytes)</td>
+<td>uint8 - Flags
+<dl><dd>0x1 = Attenuates With Distance</dd>
+<dd>0x2 = Allows Rumble</dd></dl>
+<p>uint8[2] - Unknown<br/>
+uint8 - Reverb Send Percentage
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>FNAM</td>
+<td>unused</td>
+<td>uint32</td>
+<td>Left over from earlier version
+</td></tr>
+<tr>
+<td>+</td>
+<td>MNAM</td>
+<td>type</td>
+<td>uint32</td>
+<td>
+<p>0 - Uses HRTF<br/>
+1 - Defined Speaker Output
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>CNAM</td>
+<td>unused</td>
+<td>uint32</td>
+<td>Left over from earlier version
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>unused</td>
+<td>struct<br/>(16 bytes)</td>
+<td>Left over from earlier version
+</td></tr>
+<tr>
+<td>-</td>
+<td>ONAM</td>
+<td>output values</td>
+<td>uint8[8][3]</td>
+<td>Three channels of output values, each channel has eight outputs (L, R, C, LFE, RL, RR, BL, BR)
+</td></tr>
+<tr>
+<td>-</td>
+<td>ANAM</td>
+<td>attenuation values</td>
+<td>struct<br/>(20 bytes)</td>
+<td>uint8[4] - Unknown<br/>
+<p>float32 - Min Distance<br/>
+float32 - Max Distance<br/>
+uint8[5] - Curve<br/>
+uint8[3] - Unknown, probably padding
+</p>
+</td></tr></tbody></table>
+</div>

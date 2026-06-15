@@ -1,0 +1,81 @@
+
+<div><p><b>MESG</b> records are the text messages you directly receive as triggered feedback, mostly tutorial text and activators.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>DESC</td>
+<td>message text</td>
+<td>lstring</td>
+<td>actual text displayed
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>title</td>
+<td>lstring</td>
+<td>optional category name
+</td></tr>
+<tr>
+<td>-</td>
+<td>INAM</td>
+<td>unknown</td>
+<td>uint32</td>
+<td>always 0
+</td></tr>
+<tr>
+<td>-</td>
+<td>QNAM</td>
+<td>quest</td>
+<td>formid</td>
+<td><a href="QUST.html">QUST</a> formid
+</td></tr>
+<tr>
+<td>+</td>
+<td>DNAM</td>
+<td>flags</td>
+<td>uint32</td>
+<td>Flags
+<dl><dd>0x01 - Message Box</dd>
+<dd>0x02 - Auto-Display</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>TNAM</td>
+<td>time</td>
+<td>uint32</td>
+<td>Display Time (disabled by CK if Message Box flag is set)
+</td></tr>
+<tr>
+<td>*</td>
+<td>CTDA</td>
+<td>condition data</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>related to ITXT
+</td></tr>
+<tr>
+<td>*</td>
+<td>ITXT</td>
+<td>response text</td>
+<td>lstring</td>
+<td>Response/Activation text (may be multiple)
+</td></tr></tbody></table>
+</div>

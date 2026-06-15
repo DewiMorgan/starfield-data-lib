@@ -1,0 +1,118 @@
+
+<div><p><b>HDPT</b> records contain head part data.  
+</p><p>Each record has base model information followed by a group of fields for each possible usage (chargen/other) indicating a .tri file.
+</p><p>Finally, it's also a reference to a fixed list (FLST) of possible part data (except a few odd cases like manekins).
+</p><p>NAM0/NAM1 pairs will repeat (in thick lines).
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>name</td>
+<td>lstring</td>
+<td>name string, matches editor ID in most (not all) records
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td>zstring</td>
+<td>Models\ relative .nif
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODT</td>
+<td>model texture data</td>
+<td><a href="Model_Textures_Field.html">MODT</a></td>
+<td>model struct
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>flags</td>
+<td>ubyte</td>
+<td>flags:
+<dl><dd>0x00000001 <i>Playable</i></dd>
+<dd>0x00000002 <i>Male</i></dd>
+<dd>0x00000004 <i>Female</i></dd>
+<dd>0x00000008 <i>Is Extra Part</i></dd>
+<dd>0x00000010 <i>Use Solid Tint</i></dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>PNAM</td>
+<td>Type</td>
+<td>uint32</td>
+<td>Head part type:
+<dl><dd>0 <i>Misc</i></dd>
+<dd>1 <i>Face</i></dd>
+<dd>2 <i>Eyes</i></dd>
+<dd>3 <i>Hair</i></dd>
+<dd>4 <i>Facial Hair</i></dd>
+<dd>5 <i>Scar</i></dd>
+<dd>6 <i>Eyebrows</i></dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>HNAM</td>
+<td>additional part</td>
+<td>formid</td>
+<td>Other <b>HDPT</b> formid attached (e.g. blind right eye to set of both)
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM0</td>
+<td>option type</td>
+<td>uint32</td>
+<td>values:
+<dl><dd>0x00 <i>generic default?</i></dd>
+<dd>0x01 <i>default</i></dd>
+<dd>0x02 <i>chargen</i></dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM1</td>
+<td>.tri file</td>
+<td>zstring</td>
+<td>Path to .tri
+</td></tr>
+<tr>
+<td>-</td>
+<td>TNAM</td>
+<td>base texture</td>
+<td>formid</td>
+<td><a href="TXST.html">TXST</a> formid
+</td></tr>
+<tr>
+<td>-</td>
+<td>RNAM</td>
+<td>resource list</td>
+<td>formid</td>
+<td>Fixed List(<a href="FLST.html">FLST</a>) formid
+</td></tr>
+<tr>
+<td>-</td>
+<td>CNAM</td>
+<td></td>
+<td>formid</td>
+<td>Color (seen in Dawnguard.esm)
+</td></tr></tbody></table>
+</div>

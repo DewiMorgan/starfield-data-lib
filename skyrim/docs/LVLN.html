@@ -1,0 +1,85 @@
+
+<div><p><b>LVLN</b> records contain information on Leveled Actors.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>objectBounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Seems to always be 12 zeroes
+</td></tr>
+<tr>
+<td>+</td>
+<td>LVLD</td>
+<td>chanceNone</td>
+<td>uint8</td>
+<td>Chance for an item on this list to not be spawned at all. Although present in records, it does not appear in the CK, and is always 0.
+</td></tr>
+<tr>
+<td>+</td>
+<td>LVLF</td>
+<td>flags</td>
+<td>uint8</td>
+<td>Flags:
+<dl><dd>0x01=All levels (sets it to calculate for all entries &lt; player level, choosing randomly from all the entries under)</dd>
+<dd>0x02=Each (sets it to repeat a check every time the list is called (if it's called multiple times), otherwise it will use the same result for all counts.)</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>LLCT</td>
+<td>listCount</td>
+<td>uint8</td>
+<td>The number of entries in the list (the number of LVLO entries, essentially).
+</td></tr>
+<tr>
+<td rowspan="4">*</td>
+<td rowspan="3">
+<dl><dd>LVLO</dd></dl>
+</td>
+<td rowspan="3">level</td>
+<td>uint32</td>
+<td>The level set for the entry; compared against a reference level determined by encounter zone, game setting multipliers, and player level.
+</td></tr>
+<tr>
+<td>formID</td>
+<td>The NPC or LVLN used by the entry.
+</td></tr>
+<tr>
+<td>uint32</td>
+<td>How many enemies spawn (not editable in CK, always 1 in records)
+</td></tr>
+<tr>
+<td>
+<dl><dd>COED</dd></dl>
+</td>
+<td>owner</td>
+<td><a href="COED_Field.html">COED</a></td>
+<td>Can appear after each LVLO, only used once (LCharHagravenCompanion)
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Editor Display Model (includes additional fields as specified on MODL page)
+</td></tr></tbody></table>
+</div>

@@ -1,0 +1,84 @@
+
+<div><div></div>
+<p><b>NVPP</b> fields contain navmesh preferred pathing data, and are present in any mod that changes a navmesh.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>Path count</td>
+<td>uint32</td>
+<td>This is the total number of structures. [Formid count, Path formid]
+</td></tr>
+<tr>
+<td>Formid count</td>
+<td>uint32</td>
+<td>This is a path node if Formid count = 1, otherwise it is the count of formids that are part of a preferred path.
+</td></tr>
+<tr>
+<td>Path Formid</td>
+<td>formid</td>
+<td>This is path node formid if Formid count = 1, otherwise it is the formids that contain a preferred path.
+</td></tr>
+<tr>
+<td>Node</td>
+<td>formid</td>
+<td>This the name of the Path node.
+</td></tr>
+<tr>
+<td>Node index</td>
+<td>uint32</td>
+<td>This is the index of the Path node.
+</td></tr></tbody></table>
+<p>The NVPP field is composed of a relational database made up of 2 tables. The "Path count" is the number of structures that create the first table.
+The Formid count acts as a field seperator. If it is = 1, then the formid that follows is an index, otherwise it is the data(formid) that contain a preferred path.
+</p><p>For example, if Formid count = 1 and the following Path formid = 000000AA and if the next Formid count = 3 and is followed by the Path Formids = 000000BB, 000000CC, 000000DD. Then followed by Formid count = 1 and Path formid = 000000ZZ. Then the table would look something like this.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Path Index
+</th>
+<th>Navmesh formids containing a preferred path
+</th></tr>
+<tr>
+<td>000000AA</td>
+<td>000000BB
+</td></tr>
+<tr>
+<td>000000AA</td>
+<td>000000CC
+</td></tr>
+<tr>
+<td>000000AA</td>
+<td>000000DD
+</td></tr>
+<tr>
+<td>000000ZZ</td>
+<td>More Path formids
+</td></tr></tbody></table>
+<p>Once the first table is built by iterating through the structures until the number of structures = Path count, the second table is created.
+The second table is an index table. For example, Node Name would be = 000000AA and it's index would be 0. And would look something like this.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Node Name(formid)
+</th>
+<th>Node index
+</th></tr>
+<tr>
+<td>000000AA</td>
+<td>00000000
+</td></tr>
+<tr>
+<td>000000ZZ</td>
+<td>00000001
+</td></tr>
+</tbody></table>
+<p>This type of data structure could also be represented by tree/root structure as well.
+</p>
+</div>

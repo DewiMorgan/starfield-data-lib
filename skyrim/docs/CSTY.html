@@ -1,0 +1,102 @@
+
+<div><p><b>CSTY</b> records contain information on combat styles.
+</p><p>Some fields may not be present at all or shorter. For this cases the default numbers shown in the CK are documented here.
+Note there is one record called 'TestDefensiveStyle' which uses an unknown field 'CSMD' and almost none of the others.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>CSGD</td>
+<td>general</td>
+<td>float[]</td>
+<td>2, 8 or 10 floats †
+<dl><dd>Offensive Mult</dd>
+<dd>Defensive Mult</dd>
+<dd>Group Offensive Mult (default 1.0)</dd>
+<dd>Melee Equipment Mult (default 1.0)</dd>
+<dd>Magic Equipment Mult (default 1.0)</dd>
+<dd>Ranged Equipment Mult (default 1.0)</dd>
+<dd>Shout Equipment Mult (default 1.0)</dd>
+<dd>Unarmed Mult (default 1.0)</dd>
+<dd>Staff Equipment Mult (default 1.0)</dd>
+<dd>Avoid Threat Chance (default 0.2)</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>CSME</td>
+<td>melee</td>
+<td>float[]</td>
+<td>7 or 8 floats †
+<dl><dd>Attack Staggered Mult (default 1.0)</dd>
+<dd>Power Attack Staggered Mult (default 1.0)</dd>
+<dd>Power Attack Blocking Mult (default 1.0)</dd>
+<dd>Bash Mult (default 1.0)</dd>
+<dd>Bash Recoiled Mult (default 1.0)</dd>
+<dd>Bash Attack Mult (default 1.0)</dd>
+<dd>Bash Power Attack Mult (default 1.0)</dd>
+<dd>Special Attack Mult (default 0.1)</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>CSCR</td>
+<td>close range</td>
+<td>float[]</td>
+<td>2 or 4 floats †
+<dl><dd>Dueling Circle Mult (default 0.2)</dd>
+<dd>Dueling Fallback Mult (default 0.2)</dd>
+<dd>Flank Distance (default 0.2)</dd>
+<dd>Flanking Stalk Time (default 0.2)</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>CSLR</td>
+<td>long range</td>
+<td>float</td>
+<td>Strafe Mult (default 0.2)
+</td></tr>
+<tr>
+<td>-</td>
+<td>CSFL</td>
+<td>flight</td>
+<td>float[]</td>
+<td>1 to 8 floats †
+<dl><dd>Hover Chance (default 0.5)</dd>
+<dd>Dive Bomb Chance (default 1.0)</dd>
+<dd>Ground Attack Chance (default 0.5)</dd>
+<dd>Hover Time (default 0.5)</dd>
+<dd>Ground Attack Time (default 0.5)</dd>
+<dd>Perch Attack Chance (default 0.5)</dd>
+<dd>Perch Attack Time (default 0.5)</dd>
+<dd>Flying Attack Chance (default 0.75)</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>DATA</td>
+<td>flags</td>
+<td>uint32</td>
+<td>Flags, exactly one of either Dueling or Flanking is always set
+<dl><dd>0x1 Dueling</dd>
+<dd>0x2 Flanking</dd>
+<dd>0x4 Allow Dual Wielding</dd></dl>
+</td></tr></tbody></table>
+<p>† These floats are rounded strangely by the CK. CK displayed numbers can be off by as much as 0.05 compared to the floats stored in the game data. After changing some other number in the form and saving, the numbers found in the game data are changed and agree with the numbers shown in the CK.
+</p>
+</div>

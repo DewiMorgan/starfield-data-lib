@@ -1,0 +1,150 @@
+
+<div><div></div>
+<p>Internally, all alchemy items (food, drinks, potions, and poisons), enchantments, ingredients, scrolls and spells derive from the same object, MagicItem, and thus share a similar structure.
+</p><p><b>Auto-calc</b>: The auto-calculated potion value is the total of all effect costs. The CK displays the sum of rounded down costs, while the game uses the rounded down value of the exact sum to determine the gold value of a potion.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>EditorID</td>
+<td>zstring</td>
+<td>Max 0x200 bytes, including null terminator.
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>ObjectBounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always 12 bytes even if all 0s
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>FullName</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>-</td>
+<td>KSIZ</td>
+<td><a href="KYWD.html#Including_Keywords">KSIZ</a></td>
+<td>uint32</td>
+<td>KYWD count
+</td></tr>
+<tr>
+<td>*</td>
+<td>KWDA</td>
+<td><a href="KYWD.html#Including_Keywords">KWDA</a></td>
+<td>formid[KSIZ]</td>
+<td>Array of KYWD formids
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>Model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Ground Model
+</td></tr>
+<tr>
+<td>-</td>
+<td>ICON</td>
+<td>Icon</td>
+<td>zstring</td>
+<td>Inventory icon filename
+</td></tr>
+<tr>
+<td>-</td>
+<td>MICO</td>
+<td>MessageIcon</td>
+<td>zstring</td>
+<td>Message icon filename
+</td></tr>
+<tr>
+<td>-</td>
+<td>YNAM</td>
+<td>PickupSound</td>
+<td>formid</td>
+<td>Pickup <a href="SNDR.html">SNDR</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>ZNAM</td>
+<td>DropSound</td>
+<td>formid</td>
+<td>Drop <a href="SNDR.html">SNDR</a>
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>Weight</td>
+<td>float</td>
+<td>Item weight
+</td></tr>
+<tr>
+<td>+</td>
+<td>ENIT</td>
+<td>EnchantedItem</td>
+<td>struct</td>
+<td>20 bytes
+<dl><dd>uint32 Potion Value</dd></dl>
+<dl><dd>uint32 Flags
+<dl><dd>0x00001 - ManualCalc</dd>
+<dd>0x00002 - Food</dd>
+<dd>0x10000 - Medicine</dd>
+<dd>0x20000 - Poison</dd></dl></dd>
+<dd>formid Addiction - Unknown use</dd>
+<dd>dword AddictionChance</dd>
+<dd>formid UseSound <a href="SNDR.html">SNDR</a></dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>Effects</td>
+<td>Effect[]</td>
+<td>One entry per effect.
+</td></tr>
+<tr>
+<th colspan="6">Effect
+</th></tr>
+<tr>
+<td>+</td>
+<td>EFID</td>
+<td>EffectID</td>
+<td>formid</td>
+<td>Magic Effect <a href="MGEF.html">MGEF</a>
+</td></tr>
+<tr>
+<td>+</td>
+<td>EFIT</td>
+<td>EffectItem</td>
+<td>struct</td>
+<td>12 bytes
+<dl><dd>float Magnitude</dd>
+<dd>uint32 Area of Effect</dd>
+<dd>uint32 Duration (0 = instant)</dd></dl>
+<p>For auto-calc purposes, the game calculates the cost of an effect as:
+</p>
+<pre>effect_base_cost * (Magnitude * Duration / 10) ^ 1.1</pre>
+<p>A Magnitude &lt; 1 is treated as 1, and a Duration of 0 as 10.
+</p>
+</td></tr>
+<tr>
+<td>*</td>
+<td>CTDA</td>
+<td>Conditions</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>Conditions on the effect.
+</td></tr></tbody></table>
+</div>

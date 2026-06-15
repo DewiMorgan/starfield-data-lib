@@ -1,0 +1,46 @@
+
+<div><p><b>REVB</b> are simple records that presumably contain reverb information for sounds.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>editorID</td>
+<td>zstring</td>
+<td>editor ID
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DATA</td>
+<td>data</td>
+<td>struct</td>
+<td>14 bytes
+<dl><dd>uint16  decay time (milliseconds)</dd>
+<dd>uint16  HF reference (Hertz)</dd>
+<dd>int8    room filter</dd>
+<dd>int8    room HF filter</dd>
+<dd>int8    reflections</dd>
+<dd>int8    reverb amp</dd>
+<dd>uint8   decay HF ratio <i>(x100, real value is actually one hundreth of that, e.g. a value of 123 means 1.23)</i></dd>
+<dd>uint8   scaled reflect delay <i>(scaled by approx. 0.83 - value 0x00 maps to 0, 0xF9 maps to 300)</i></dd>
+<dd>uint8   reverb delay (milliseconds)</dd>
+<dd>uint8   diffusion %</dd>
+<dd>uint8   densitiy %</dd>
+<dd>uint8   unknown <i>(seems to be zero in most cases, probably unused?)</i></dd></dl>
+</td></tr></tbody></table>
+</div>

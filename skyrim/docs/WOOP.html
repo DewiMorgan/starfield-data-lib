@@ -1,0 +1,32 @@
+
+<div><p>A <b>WOOP</b> record represents a <a href="/wiki/Skyrim:Word_of_Power">Word of Power</a> and contains the English translation of the word. WOOPs are referenced within <a href="SHOU.html">SHOU</a> records (dragon shout) records (specifically the SNAM subrecord). The spell associated with the word of power is part of the SHOU record, not the WOOP record.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>zstring</td>
+<td>Editor Id
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>lstring</td>
+<td>The record name. For standard words of power (ones accessible by the player), the name of the record is the dragon language name of the word (using numbers to represent vowel combinations, as done in Bethesda's dragon font). For example 'B4' is Bah (which can also be figured out looking at the edid, which spells out the word instead of using dragon font codes).
+</td></tr>
+<tr>
+<td>+</td>
+<td>TNAM</td>
+<td>lstring</td>
+<td>Translation of word into localized language. Although this record always exists, in several cases it is an empty record.
+</td></tr></tbody></table>
+</div>

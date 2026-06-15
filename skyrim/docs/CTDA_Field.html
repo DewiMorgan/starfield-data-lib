@@ -1,0 +1,535 @@
+
+<div><p><b>CTDA</b> fields are widely used in Skyrim records to provide conditions that must be met. The format is similar to that used in Oblivion records, although there are more function indices.
+</p><p>In Skyrim.esm, the following types have CTDA fields: <a href="ALCH.html">ALCH</a>, <a href="COBJ.html">COBJ</a>, <a href="CPTH.html">CPTH</a>, <a href="ENCH.html">ENCH</a>, <a href="FACT.html">FACT</a>, <a href="IDLE.html">IDLE</a>, <a href="INFO.html">INFO</a>, <a href="LSCR.html">LSCR</a>, <a href="MESG.html">MESG</a>, <a href="MGEF.html">MGEF</a>, <a href="MUST.html">MUST</a>, <a href="PACK.html">PACK</a>, <a href="PERK.html">PERK</a>, <a href="QUST.html">QUST</a>, <a href="SCEN.html">SCEN</a>, <a href="SCRL.html">SCRL</a>, <a href="SMBN.html">SMBN</a>, <a href="SMQN.html">SMQN</a>, <a href="SNDR.html">SNDR</a>, <a href="SPEL.html">SPEL</a>.
+</p>
+<h2><span id="Related_Fields">Related Fields</span></h2>
+<p>CTDA fields are often accompanied by several fields.
+</p>
+<ul><li><b>CITC</b> (uint32) is sometimes used as a 'Condition Item Count', or a count of CTDA fields.  Only certain specific cases make use of a CITC field — but in those cases, the CITC field is required, even if there are no CTDA fields (in which case CITC is 0).  Therefore, occurrences of CITC fields correlate poorly with occurrences of CTDA fields.
+<ul><li>Seen in types: <a href="FACT.html">FACT</a>, <a href="PACK.html">PACK</a> (only for procedure-specific conditions, not for overall package conditions), <a href="SMBN.html">SMBN</a>, <a href="SMQN.html">SMQN</a>, <a href="SMEN.html">SMEN</a> (always zero, so there are no CTDA fields), <a href="MUST.html">MUST</a></li></ul></li></ul>
+<ul><li><b>CIS1</b> (zstring) variable name, trails CTDA that uses it, replaces 1st argument in function call (value for param1 is very high, unknown if significant or arbitrary)
+<ul><li>Seen in types: <a href="IDLE.html">IDLE</a>, <a href="PACK.html">PACK</a>, <a href="CPTH.html">CPTH</a>.</li></ul></li></ul>
+<ul><li><b>CIS2</b> (zstring) variable name, trails CTDA that uses it, replaces 2nd argument in function call (value for param2 is very high, unknown if significant or arbitrary)
+<ul><li>Seen in types: <a href="FACT.html">FACT</a>, <a href="ENCH.html">ENCH</a>, <a href="SPEL.html">SPEL</a>, <a href="COBJ.html">COBJ</a>, <a href="QUST.html">QUST</a>, <a href="IDLE.html">IDLE</a>, <a href="PACK.html">PACK</a>, <a href="LSCR.html">LSCR</a>, <a href="PERK.html">PERK</a>, <a href="SMBN.html">SMBN</a>, <a href="SMQN.html">SMQN</a>, <a href="SCEN.html">SCEN</a>, <a href="INFO.html">INFO</a>.</li></ul></li></ul>
+<h2><span id="Field_Layout">Field Layout</span></h2>
+<p>The condition is assembled into a statement of the format:
+</p>
+<dl><dd><code>&lt;Reference&gt;.&lt;Function&gt;(&lt;Param1&gt;, &lt;Param2&gt;) &lt;Operator&gt; &lt;Value&gt;</code></dd></dl>
+<p>For example, 
+</p>
+<dl><dd><code>PlayerRef.GetDistance(MQ304AlduinHideInMistSouthMarker) &gt; 6500</code></dd></dl>
+<p>(Where formids have been translated into EditorIDs to make the statement more intelligible)
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>operator</td>
+<td>uint8</td>
+<td>Condition type where the upper 3 bits contain the compare operator and the lower 5 bits contain flags.
+<dl><dd>Compare operator (upper 3 bits)
+<dl><dd>0=Equal to</dd>
+<dd>1=Not equal to</dd>
+<dd>2=Greater than</dd>
+<dd>3=Greater than or equal to</dd>
+<dd>4=Less than</dd>
+<dd>5=Less than or equal to</dd></dl></dd>
+<dd>Flags (lower 5 bits)
+<dl><dd>0x01=OR (default is to AND conditions together)</dd>
+<dd>0x02=Parameters (use aliases) :  Force function parameters that usually use REFR forms to use a quest's reference alias instead (exclusive with "use pack data")</dd>
+<dd>0x04=Use global</dd>
+<dd>0x08=Use Pack Data : Force function parameters that usually use REFR forms to use pack data instead (exclusive with "use aliases")</dd>
+<dd>0x10=Swap Subject and Target?</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>unknown</td>
+<td>uint8[3]</td>
+<td>Unused data?
+</td></tr>
+<tr>
+<td>ComparisonValue</td>
+<td>formid/float</td>
+<td>Value against which the function result is compared or a GLOB formid if the UseGlobal flag is set
+</td></tr>
+<tr>
+<td>FunctionIndex
+</td>
+<td>uint16</td>
+<td>Function index.  See <a href="http://mod.gib.me/skyrim/functions.html#functions" rel="nofollow">Functions</a> for a list of function indices.  Most of the <a href="/wiki/Oblivion_Mod:Function_Indices">Oblivion</a> indices are still valid, but hundreds of <a href="/wiki/Skyrim_Mod:Function_Indices">new functions</a> have been added. The value in this field is the index given on the above page, minus 4096.
+</td></tr>
+<tr>
+<td>padding
+</td>
+<td>uint8[2]</td>
+<td>Padding (may be non-zero, but the bytes are unused)
+</td></tr>
+<tr>
+<th colspan="3"><b>All Functions Except GetEventData</b>
+</th></tr>
+<tr>
+<td>param1</td>
+<td>formID/int32</td>
+<td>First parameter.  This can be a number or a Form ID depending on the function; zero if no parameters needed. Note that if param1 is a string type then there will be a CIS1 subrecord following the CTDA with the string.
+</td></tr>
+<tr>
+<td>param2</td>
+<td>formID/int32</td>
+<td>Second parameter.  This can be a number of a Form ID depending on the function; zero if second parameter is not needed. Note that if param2 is a string type then there will be a CIS2 subrecord following the CTDA with the string.
+</td></tr>
+<tr>
+<th colspan="3"><b>GetEventData</b>
+</th></tr>
+<tr>
+<td>param1</td>
+<td>uint16</td>
+<td>Event Function. (Enumeration - specifics still need to be documented.)
+</td></tr>
+<tr>
+<td>param2</td>
+<td>char[2]</td>
+<td>Event Member. (See below.)
+</td></tr>
+<tr>
+<td>param3</td>
+<td>formID</td>
+<td>Third parameter.
+</td></tr>
+<tr>
+<td>RunOnType</td>
+<td>uint32</td>
+<td>How to apply the condition
+<dl><dd>0 = Subject</dd>
+<dd>1 = Target</dd>
+<dd>2 = Reference (see next field)</dd>
+<dd>3 = Combat Target</dd>
+<dd>4 = Linked Reference: Use a reference linked to another reference</dd>
+<dd>5 = Quest Alias: Use quest alias data</dd>
+<dd>6 = Package Data:</dd>
+<dd>7 = Event Data: Use radiant event data</dd></dl>
+</td></tr>
+<tr>
+<td>reference</td>
+<td>formID</td>
+<td>Function reference.  For example, if the function is "isDead", the function is applied to the object in the function reference.  Zero if no reference needed.
+</td></tr>
+<tr>
+<td>unknown</td>
+<td>int32</td>
+<td>The index of the package data or quest alias to run on. -1 means "none" and is also used for other run-on types.
+</td></tr></tbody></table>
+<h2><span id="Event_Member">Event Member</span></h2>
+<p>Codes for each event member depend on the event type. Note that some event types are not used, but are present in the game code.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Event Type</th>
+<th>Code</th>
+<th>Value
+</th></tr>
+<tr>
+<td rowspan="3">Actor Dialogue Event</td>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>R1</td>
+<td>Actor 1
+</td></tr>
+<tr>
+<td>R2</td>
+<td>Actor 2
+</td></tr>
+<tr>
+<td rowspan="3">Actor Hello Event</td>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>R1</td>
+<td>Actor 1
+</td></tr>
+<tr>
+<td>R2</td>
+<td>Actor 2
+</td></tr>
+<tr>
+<td rowspan="4">Arrest Event</td>
+<td>R1</td>
+<td><span>ArestingGuard <i><small>[<a href="/wiki/UESPWiki:Spelling#Books_and_Direct_Quotes">sic</a>]</small></i></span>
+</td></tr>
+<tr>
+<td>R2</td>
+<td>Criminal
+</td></tr>
+<tr>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>V1</td>
+<td>iCrimeType
+</td></tr>
+<tr>
+<td rowspan="4">Assault Actor Event</td>
+<td>R1</td>
+<td>Victim
+</td></tr>
+<tr>
+<td>R2</td>
+<td>Attacker
+</td></tr>
+<tr>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>V1</td>
+<td>Crime
+</td></tr>
+<tr>
+<td rowspan="2">Bribe</td>
+<td>R1</td>
+<td>Actor
+</td></tr>
+<tr>
+<td>V1</td>
+<td>Gold Value
+</td></tr>
+<tr>
+<td rowspan="4">Cast Magic Event</td>
+<td>R1</td>
+<td>CastingActor
+</td></tr>
+<tr>
+<td>R2</td>
+<td>SpellTarget
+</td></tr>
+<tr>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>F1</td>
+<td>SpellForm
+</td></tr>
+<tr>
+<td rowspan="3">Change Location Event</td>
+<td>R1</td>
+<td>Actor
+</td></tr>
+<tr>
+<td>L1</td>
+<td>Old Location
+</td></tr>
+<tr>
+<td>L2</td>
+<td>New Location
+</td></tr>
+<tr>
+<td rowspan="4">Change Relationship Rank</td>
+<td>R1</td>
+<td>NPC 1
+</td></tr>
+<tr>
+<td>R2</td>
+<td>NPC 2
+</td></tr>
+<tr>
+<td>V1</td>
+<td>Old Relationship
+</td></tr>
+<tr>
+<td>V2</td>
+<td>New Relationship
+</td></tr>
+<tr>
+<td rowspan="3">Craft Item</td>
+<td>R1</td>
+<td>Workbench
+</td></tr>
+<tr>
+<td>L1</td>
+<td>BenchLocation
+</td></tr>
+<tr>
+<td>O1</td>
+<td>CreatedObject
+</td></tr>
+<tr>
+<td rowspan="5">Crime Gold Event</td>
+<td>R1</td>
+<td>Victim
+</td></tr>
+<tr>
+<td>R2</td>
+<td>Criminal
+</td></tr>
+<tr>
+<td>F1</td>
+<td>Crime Faction
+</td></tr>
+<tr>
+<td>V1</td>
+<td>Gold Value
+</td></tr>
+<tr>
+<td>V2</td>
+<td>iCrimeType
+</td></tr>
+<tr>
+<td rowspan="3">Dead Body</td>
+<td>R1</td>
+<td>Actor
+</td></tr>
+<tr>
+<td>R2</td>
+<td>Dead Actor
+</td></tr>
+<tr>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td rowspan="2">Escape Jail</td>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>F1</td>
+<td>pCrimeGroup
+</td></tr>
+<tr>
+<td>Flatter</td>
+<td>R1</td>
+<td>Actor
+</td></tr>
+<tr>
+<td>Increase Level</td>
+<td>V1</td>
+<td>New Level
+</td></tr>
+<tr>
+<td>Intimidate</td>
+<td>R1</td>
+<td>Actor
+</td></tr>
+<tr>
+<td rowspan="4">Jail Event</td>
+<td>R1</td>
+<td>hGuard
+</td></tr>
+<tr>
+<td>F1</td>
+<td>pCrimeGroup
+</td></tr>
+<tr>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>V1</td>
+<td>Crime Gold
+</td></tr>
+<tr>
+<td rowspan="5">Kill Actor Event</td>
+<td>R1</td>
+<td>Victim
+</td></tr>
+<tr>
+<td>R2</td>
+<td>Killer
+</td></tr>
+<tr>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>V1</td>
+<td>Crime Status
+</td></tr>
+<tr>
+<td>V2</td>
+<td>Relationship Rank to Killer before Death
+</td></tr>
+<tr>
+<td rowspan="2">Lock Pick</td>
+<td>R1</td>
+<td>Actor
+</td></tr>
+<tr>
+<td>R2</td>
+<td>Lock Object
+</td></tr>
+<tr>
+<td rowspan="2">New Voice Power</td>
+<td>R1</td>
+<td>Actor
+</td></tr>
+<tr>
+<td>F1</td>
+<td>Voice Power
+</td></tr>
+<tr>
+<td rowspan="4">Pay Fine Event</td>
+<td>R1</td>
+<td>hCriminal
+</td></tr>
+<tr>
+<td>R2</td>
+<td>hGuard
+</td></tr>
+<tr>
+<td>F1</td>
+<td>pCrimeGroup
+</td></tr>
+<tr>
+<td>V1</td>
+<td>Crime Gold
+</td></tr>
+<tr>
+<td rowspan="2">Player Activate Actor</td>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>R1</td>
+<td>Actor (one extra space is present after name)
+</td></tr>
+<tr>
+<td rowspan="5">Player Add Item</td>
+<td>R1</td>
+<td>OwnerRef
+</td></tr>
+<tr>
+<td>R2</td>
+<td>OriginalContainer
+</td></tr>
+<tr>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>F1</td>
+<td>ObjectForm
+</td></tr>
+<tr>
+<td>V1</td>
+<td><span>AquireType <i><small>[<a href="/wiki/UESPWiki:Spelling#Books_and_Direct_Quotes">sic</a>]</small></i></span>
+</td></tr>
+<tr>
+<td>Player Cured</td>
+<td>F1</td>
+<td>Infection
+</td></tr>
+<tr>
+<td rowspan="2">Player Infected</td>
+<td>R1</td>
+<td>Transmitting Actor
+</td></tr>
+<tr>
+<td>F1</td>
+<td>Infection
+</td></tr>
+<tr>
+<td>Player <span>Recieves <i><small>[<a href="/wiki/UESPWiki:Spelling#Books_and_Direct_Quotes">sic</a>]</small></i></span> Favor</td>
+<td>R1</td>
+<td>Actor
+</td></tr>
+<tr>
+<td rowspan="5">Player Remove Item</td>
+<td>R1</td>
+<td>OwnerRef
+</td></tr>
+<tr>
+<td>R2</td>
+<td>ItemRef
+</td></tr>
+<tr>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>F1</td>
+<td>ObjectForm
+</td></tr>
+<tr>
+<td>V1</td>
+<td>RemoveType
+</td></tr>
+<tr>
+<td>Quest Start</td>
+<td>Q1</td>
+<td>Quest
+</td></tr>
+<tr>
+<td rowspan="6">Script Event</td>
+<td>K1</td>
+<td>Keyword
+</td></tr>
+<tr>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>R1</td>
+<td>Ref 1
+</td></tr>
+<tr>
+<td>R2</td>
+<td>Ref 2
+</td></tr>
+<tr>
+<td>V1</td>
+<td>Value 1
+</td></tr>
+<tr>
+<td>V2</td>
+<td>Value 2
+</td></tr>
+<tr>
+<td rowspan="4">Served Time</td>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>F1</td>
+<td>pCrimeGroup
+</td></tr>
+<tr>
+<td>V1</td>
+<td>Crime Gold
+</td></tr>
+<tr>
+<td>V2</td>
+<td>Days Jail
+</td></tr>
+<tr>
+<td>Skill Increase</td>
+<td>V1</td>
+<td>Skill
+</td></tr>
+<tr>
+<td rowspan="4">Trespass Actor Event</td>
+<td>R1</td>
+<td>Victim
+</td></tr>
+<tr>
+<td>R2</td>
+<td>Trespasser
+</td></tr>
+<tr>
+<td>L1</td>
+<td>Location
+</td></tr>
+<tr>
+<td>V1</td>
+<td>Crime
+</td></tr></tbody></table>
+<h2><span id="Notes">Notes</span></h2>
+<dl><dd><ul><li>See <a href="https://web.archive.org/web/20200221204953/https://forums.bethsoft.com/topic/1286593-tutorial-making-new-smithing-recipes-pre-ck/" rel="nofollow">this forum post</a> for some good details on this subrecord.</li></ul></dd></dl>
+</div>

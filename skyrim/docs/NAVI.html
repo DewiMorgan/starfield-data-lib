@@ -1,0 +1,52 @@
+
+<div><p>There is only one <b>NAVI</b> record in Skyrim.esm.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>NVER</td>
+<td>Version</td>
+<td>uint32</td>
+<td>unknown, value is 0x0C
+</td></tr>
+<tr>
+<td>*</td>
+<td>NVMI</td>
+<td>Navmesh Data</td>
+<td><a href="NVMI_Field.html">NVMI</a></td>
+<td>Navmesh data.
+</td></tr>
+<tr>
+<td>+</td>
+<td>NVPP</td>
+<td>Navmesh Preferred Pathing</td>
+<td><a href="NVPP_Field.html">NVPP</a></td>
+<td>Preferred pathing data.
+</td></tr>
+<tr>
+<td>-</td>
+<td>NVSI</td>
+<td>unknown</td>
+<td>formid[]</td>
+<td>Appears since Dawnguard and seems to be only <a href="NAVM.html">NAVM</a> references.
+</td></tr>
+</tbody></table>
+</div>

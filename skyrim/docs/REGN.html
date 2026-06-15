@@ -1,0 +1,167 @@
+
+<div><p><b>REGN</b> are "regions", but not in the locational sense (those are <a href="LCTN.html">LCTN</a>).  Each region ties together ambient information (weather/music/etc), presumably so they can be dropped into settings and provide a complete ambience.
+</p><p>Between the thick line are repeatable field sets, RPLI/RPLD come in pairs, and every occurrence of the bottom fields is preceded by an RDAT (sole exception: RDM0/RDSA can be under same RDAT).  RDAT can also appear by itself (though rare).
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>RCLR</td>
+<td>region color</td>
+<td>rgb</td>
+<td>Map Color (unknown where used)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>WNAM</td>
+<td>world name</td>
+<td>formid</td>
+<td>World (<a href="WRLD.html">WRLD</a>).
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>RPLI</td>
+<td></td>
+<td>uint32</td>
+<td>Edge Fall-off (World Units)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>RPLD</td>
+<td>data for "pl"?</td>
+<td>struct[]</td>
+<td>series of 8-byte structs, vary in length from 32 to 172 <i>look like floats, coords?</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>RDAT</td>
+<td>data header?</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>uint32 Tab in CK
+<dl><dd>0x02 - Objects</dd>
+<dd>0x03 - Weather</dd>
+<dd>0x04 - Map</dd>
+<dd>0x05 - Landscape <i>(CK will save but not show data entered here)</i></dd>
+<dd>0x06 - Grass</dd>
+<dd>0x07 - Sound</dd></dl></dd>
+<dd>uint8 Flags
+<dl><dd>0x01 - Override</dd></dl></dd>
+<dd>uint8 Priority</dd>
+<dd>uint16 <i>always 0</i></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>RDMO</td>
+<td>music</td>
+<td>formid</td>
+<td>Music (<a href="MUSC.html">MUSC</a>) formid.  Can appear with RDSA under same RDAT or on its own.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>RDSA</td>
+<td>sound data</td>
+<td>struct[]</td>
+<td>12-byte struct, total count arbitrary
+<dl><dd>formid - Sound Reference (<a href="SNDR.html">SNDR</a>)</dd>
+<dd>uint32 - Flags
+<dl><dd>0x01 - Pleasant</dd>
+<dd>0x02 - Cloudy</dd>
+<dd>0x04 - Rainy</dd>
+<dd>0x08 - Snowy</dd></dl></dd>
+<dd>float - Chance</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>RDWT</td>
+<td>weather data</td>
+<td>struct[]</td>
+<td>12-byte struct, total count arbitrary
+<dl><dd>formid - Weather (<a href="WTHR.html">WTHR</a>)</dd>
+<dd>uint32 - percent chance (all should add up to 100)</dd>
+<dd>formid - Global (<a href="GLOB.html">GLOB</a>, not used)</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>RDOT</td>
+<td>Region generator objects</td>
+<td>struct[]</td>
+<td>Used for region generation: always 0 length in game files.
+<p>52-byte struct, total count arbitrary. 
+</p>
+<dl><dd>formid - object to be placed</dd>
+<dd>int16 - Parent Index (-1 for none)</dd>
+<dd>(2-bytes) - Unknown</dd>
+<dd>float - Density</dd>
+<dd>uint8 - Clustering</dd>
+<dd>uint8 - Min Slope (degrees)</dd>
+<dd>uint8 - Max Slope (degrees)</dd>
+<dd>uint8 - Flags
+<dl><dd>0x01 - Conform to slope</dd>
+<dd>0x02 - Paint Vertices</dd>
+<dd>0x04 - Size Variance +/-</dd>
+<dd>0x08 - x +/-</dd>
+<dd>0x10 - y +/-</dd>
+<dd>0x20 - z +/-</dd>
+<dd>0x40 - Tree</dd>
+<dd>0x80 - Huge Rock</dd></dl></dd>
+<dd>uint16 - Radius wrt Parent</dd>
+<dd>uint16 - Radius</dd>
+<dd>float - Min Height</dd>
+<dd>float - Max Height</dd>
+<dd>float - Sink</dd>
+<dd>float - Sink Variance</dd>
+<dd>float - Size Variance</dd>
+<dd>int16 x 3 - Angle Variance. x y z values: -180 to 180</dd>
+<dd>(2-bytes) - Unknown</dd>
+<dd>(3-bytes) - Vertex shading color RGB</dd>
+<dd>uint8 - Shading radius ( 0 - 200) %
+<dl><dd>objects - vertex shading extent as % of object radius</dd>
+<dd>textures - texture radius extent as % of parent object radius</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ICON</td>
+<td>shader?</td>
+<td>zstring</td>
+<td>path to .dds <i>Trees\CanopyShadow.dds</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>RDMP</td>
+<td>Region Name?</td>
+<td>lstring</td>
+<td>Map Name
+</td></tr></tbody></table>
+</div>

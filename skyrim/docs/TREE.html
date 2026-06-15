@@ -1,0 +1,78 @@
+
+<div><p><b>TREE</b> records contain information on trees as well other flora that can be activated.
+</p><p>Records between the dark lines must all be present, or just PFPC.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds
+</td></tr>
+<tr>
+<td>+</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODT
+</td></tr>
+<tr>
+<td>-</td>
+<td>PFIG</td>
+<td>result item</td>
+<td>formID</td>
+<td>FormID of <a href="INGR.html">INGR</a>/<a href="ALCH.html">ALCH</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>use sound</td>
+<td>formID</td>
+<td>FormID of <a href="SNDR.html">SNDR</a> when activated
+</td></tr>
+<tr>
+<td>+</td>
+<td>PFPC</td>
+<td>percent chance?</td>
+<td>ubyte[4]</td>
+<td>Always 0, unless PFIG present then always 64-64-64-64 (100)
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>ingame name</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>+</td>
+<td>CNAM</td>
+<td>data</td>
+<td>struct</td>
+<td>
+<dl><dd>float - Trunk Flexibility</dd>
+<dd>float - Branch Flexibility</dd>
+<dd>float[8] ?</dd>
+<dd>float - Leaf Amplitude</dd>
+<dd>float - Leaf Frequency</dd></dl>
+</td></tr></tbody></table>
+</div>

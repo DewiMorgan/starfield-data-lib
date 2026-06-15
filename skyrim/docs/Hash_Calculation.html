@@ -1,0 +1,267 @@
+
+<div>
+<h2><span id="Overview">Overview</span></h2>
+<p>These are examples of code to calculate the hash used in Tes4Mod and Tes5Mod archive formats. The hash cannot be calculated using / (forward slashes) or upper case characters. Forward slashes must be changed to backslashes and upper case characters must be converted to lower case. Folder hash values must not include leading or trailing slashes. While some folder names contain a file extension (e.g. textures\actors\character\facegendata\facetint\skyrim.esm\), this must not be treated as a file extension in the calculation. Some parts of the algorithm need to perform calculations on the extension separately from the filename. The filename substring must be only the filename with no slashes or extension (e.g. meshes\animbehaviors\doors\doortemplate01.hkx -&gt; doortemplate01). The extension must include the '.' .
+</p>
+<h2><span id="See_also">See also</span></h2>
+<ul><li><a href="/wiki/Oblivion_Mod:BSA_File_Format">Tes4Mod BSA File Format</a></li>
+<li><a href="/wiki/Skyrim_Mod:Archive_File_Format">Tes5Mod Archive File Format</a></li></ul>
+<h2><span id="Pure_C">Pure C</span></h2>
+<p>This was developed by x79 based on the Python version below as well as Ethatron's c++ version in BSAOpt and TimeSlips code in NifTools.
+</p>
+<pre>// pass a filename or a folder path
+// e.g. GenHash("meshes\\animbehaviors\\doors", 1) or
+// GenHash("doortemplate01.hkx", 0)
+
+unsigned long long GenHash(const char *sPath, const int isFolder)
+{
+	unsigned long long hash = 0;
+	unsigned long hash2 = 0;
+
+	char s[255];	// copy into a local array so we don't modify the data that was passed
+	strcpy_s(s, 255, sPath);
+
+	// This is a pointer to the file extension, otherwise NULL
+	char *pExt = (isFolder) ? 0 : strrchr(s, '.');
+
+	// Length of the filename or folder path
+	unsigned int iLen = strnlen_s(s, 0xFF);
+
+	// pointer to the end of the filename or folder path
+	char *pEnd = s + iLen;
+
+	// A single loop converts / to \ and anything else to lower case
+	for (int iLoop = 0; iLoop &lt; iLen; iLoop++)
+		s[iLoop] = (s[iLoop] == '/') ? '\\' : tolower(s[iLoop]);
+
+
+	// Hash 1
+	// If this is a file with an extension
+	if (pExt)
+	{
+		for (char *x = pExt; x &lt; pEnd; x++)
+			hash = (hash * 0x1003f) + *x;
+		// From here on, iLen and pEnd must NOT include the file extension.
+		iLen = pExt - s;
+		pEnd = pExt;
+	}
+
+	for (char *x = s + 1; x &lt; (pEnd - 2) ; x++)
+		hash2 = (hash2 * 0x1003f) + *x;
+	hash += hash2;
+	hash2 = 0;
+
+	// Move Hash 1 to the upper bits
+	hash &lt;&lt;= 32;
+
+
+	//Hash 2
+	hash2 = s[iLen - 1];
+	hash2 |= ((iLen &gt; 2) ? s[iLen - 2] &lt;&lt; 8: 0);
+	hash2 |= (iLen &lt;&lt; 16);
+	hash2 |= (s[0] &lt;&lt; 24);
+
+	if (pExt) {
+		switch (*(unsigned long*)(void*)pExt)	// load these 4 bytes as a long integer
+		{
+			case 0x00666B2E :	// 2E 6B 66 00 == .kf\0
+				hash2 |= 0x80;
+				break;
+			case 0x66696E2E :	// .nif
+				hash2 |= 0x8000;
+				break;
+			case 0x7364642E :	// .dds
+				hash2 |= 0x8080;
+				break;
+			case 0x7661772E :	// .wav
+				hash2 |= 0x80000000;
+		}
+	}
+
+	return hash + hash2;
+}</pre>
+<h2><span id="Python">Python</span></h2>
+<p>Here's a python version of the hash calculation.
+</p>
+<pre>def tesHash(fileName):
+    """Returns tes4's two hash values for filename.
+    Based on TimeSlips code with cleanup and pythonization."""
+    root,ext = os.path.splitext(fileName.lower()) #--"bob.dds" &gt;&gt; root = "bob", ext = ".dds"
+    #--Hash1
+    chars = map(ord,root) #--'bob' &gt;&gt; chars = [98,111,98]
+    hash1 = chars[-1] | (0,chars[-2])[len(chars)&gt;2]&lt;&lt;8 | len(chars)&lt;&lt;16 | chars[0]&lt;&lt;24
+    #--(a,b)[test] is similar to test?a:b in C. (Except that evaluation is not shortcut.)
+    if   ext == '.kf':  hash1 |= 0x80
+    elif ext == '.nif': hash1 |= 0x8000
+    elif ext == '.dds': hash1 |= 0x8080
+    elif ext == '.wav': hash1 |= 0x80000000
+    #--Hash2
+    #--Python integers have no upper limit. Use uintMask to restrict these to 32 bits.
+    uintMask, hash2, hash3 = 0xFFFFFFFF, 0, 0 
+    for char in chars[1:-2]: #--Slice of the chars array
+        hash2 = ((hash2 * 0x1003f) + char ) &amp; uintMask
+    for char in map(ord,ext):
+        hash3 = ((hash3 * 0x1003F) + char ) &amp; uintMask
+    hash2 = (hash2 + hash3) &amp; uintMask
+    #--Done
+    return (hash2&lt;&lt;32) + hash1 #--Return as uint64</pre>
+<h2><span id="C++"></span><span id="C.2B.2B">C++</span></h2>
+<p>This <a href="https://github.com/Ethatron/bsaopt/blob/master/io/bsa.C" rel="nofollow">code</a> comes directly from <a href="https://github.com/Ethatron/bsaopt" rel="nofollow">BSAOpt v2.0</a> by <a href="https://github.com/Ethatron" rel="nofollow">Ethatron</a>
+</p>
+<pre>/* Version: MPL 1.1/LGPL 3.0
+ *
+ * "The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is BSAopt.
+ *
+ * The Initial Developer of the Original Code is
+ * Ethatron &lt;<a data-cfemail="305e59555c437040514251545953551d595e43595758441e4543" href="/cdn-cgi/l/email-protection">[email protected]</a>&gt;. Portions created by The Initial
+ * Developer are Copyright (C) 2011 The Initial Developer.
+ * All Rights Reserved.
+ *
+ * Alternatively, the contents of this file may be used under the terms
+ * of the GNU Library General Public License Version 3 license (the
+ * "LGPL License"), in which case the provisions of LGPL License are
+ * applicable instead of those above. If you wish to allow use of your
+ * version of this file only under the terms of the LGPL License and not
+ * to allow others to use your version of this file under the MPL,
+ * indicate your decision by deleting the provisions above and replace
+ * them with the notice and other provisions required by the LGPL License.
+ * If you do not delete the provisions above, a recipient may use your
+ * version of this file under either the MPL or the LGPL License."
+ */
+
+unsigned int GenOBHashStr(string s) {
+  unsigned int hash = 0;
+
+  for (size_t i = 0; i &lt; s.length(); i++) {
+    hash *= 0x1003F;
+    hash += (unsigned char)s[i];
+  }
+
+  return hash;
+}
+
+unsigned __int64 GenOBHashPair(string fle, string ext) {
+  unsigned __int64 hash = 0;
+
+  if (fle.length() &gt; 0) {
+    hash = (unsigned __int64)(
+      (((unsigned char)fle[fle.length() - 1]) * 0x1) +
+      ((fle.length() &gt; 2 ? (unsigned char)fle[fle.length() - 2] : (unsigned char)0) * 0x100) +
+      (fle.length() * 0x10000) +
+      (((unsigned char)fle[0]) * 0x1000000)
+    );
+
+    if (fle.length() &gt; 3) {
+      hash += (unsigned __int64)(GenOBHashStr(fle.substr(1, fle.length() - 3)) * 0x100000000);
+    }
+  }
+
+  if (ext.length() &gt; 0) {
+    hash += (unsigned __int64)(GenOBHashStr(ext) * 0x100000000LL);
+
+    unsigned char i = 0;
+    if (ext == ".nif") i = 1;
+    if (ext == ".kf" ) i = 2;
+    if (ext == ".dds") i = 3;
+    if (ext == ".wav") i = 4;
+
+    if (i != 0) {
+      unsigned char a = (unsigned char)(((i &amp; 0xfc ) &lt;&lt; 5) + (unsigned char)((hash &amp; 0xff000000) &gt;&gt; 24));
+      unsigned char b = (unsigned char)(((i &amp; 0xfe ) &lt;&lt; 6) + (unsigned char)( hash &amp; 0x000000ff)       );
+      unsigned char c = (unsigned char)(( i          &lt;&lt; 7) + (unsigned char)((hash &amp; 0x0000ff00) &gt;&gt;  8));
+
+      hash -= hash &amp; 0xFF00FFFF;
+      hash += (unsigned int)((a &lt;&lt; 24) + b + (c &lt;&lt; 8));
+    }
+  }
+
+  return hash;
+}
+
+unsigned __int64 GenOBHash(string path, string file) {
+  std::transform(file.begin(), file.end(), file.begin(), ::tolower);
+  std::replace(file.begin(), file.end(), '/', '\\');
+
+  string fle;
+  string ext;
+
+  const char *_fle = file.data();
+  const char *_ext = strrchr(_fle, '.');
+  if (_ext) {
+    ext = file.substr((0 + _ext) - _fle);
+    fle = file.substr(0, ( _ext) - _fle);
+  }
+  else {
+    ext = "";
+    fle = file;
+  }
+
+  if (path.length() &amp;&amp; fle.length())
+    return GenOBHashPair(path + "\\" + fle, ext);
+  else
+    return GenOBHashPair(path +        fle, ext);
+}
+</pre>
+<h2><span id="C#"></span><span id="C.23">C#</span></h2>
+<p>This code is loosely based on <a href="https://www.nexusmods.com/oblivion/mods/2097" rel="nofollow">Oblivion Mod Manager</a> by TimeSlip.
+</p>
+<pre>private static ulong GetHash(string name)
+{
+    name = name.Replace('/', '\\');
+    return GetHash(Path.ChangeExtension(name, null), Path.GetExtension(name));
+}
+
+private static ulong GetHash(string name, string ext)
+{
+    name = name.ToLowerInvariant();
+    ext = ext.ToLowerInvariant();
+    var hashBytes = new byte[]
+    {
+        (byte)(name.Length == 0 ? '\0' : name[name.Length - 1]),
+        (byte)(name.Length &lt; 3 ? '\0' : name[name.Length - 2]),
+        (byte)name.Length,
+        (byte)name[0]
+    };
+    var hash1 = BitConverter.ToUInt32(hashBytes, 0);
+    switch (ext)
+    {
+        case ".kf":
+            hash1 |= 0x80;
+            break;
+        case ".nif":
+            hash1 |= 0x8000;
+            break;
+        case ".dds":
+            hash1 |= 0x8080;
+            break;
+        case ".wav":
+            hash1 |= 0x80000000;
+            break;
+    }
+
+    uint hash2 = 0;
+    for (var i = 1; i &lt; name.Length - 2; i++)
+    {
+        hash2 = hash2 * 0x1003f + (byte)name[i];
+    }
+
+    uint hash3 = 0;
+    for (var i = 0; i &lt; ext.Length; i++)
+    {
+        hash3 = hash3 * 0x1003f + (byte)ext[i];
+    }
+
+    return (((ulong)(hash2 + hash3)) &lt;&lt; 32) + hash1;
+}
+</pre>
+</div>

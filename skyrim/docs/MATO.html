@@ -1,0 +1,63 @@
+
+<div><p><b>MATO</b> are material objects, records are simple and consist of a name, a model (usually) and some structs presumably with dimensional information.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MODL</td>
+<td>model</td>
+<td>zstring</td>
+<td>path to .nif <i>not present seems to = LOD</i>
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>DNAM</td>
+<td>Property Data</td>
+<td>struct</td>
+<td>Very large when present
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DATA</td>
+<td>unknown</td>
+<td>struct</td>
+<td>Usually 48 bytes, small number of 32/28
+<dl><dd>Float - Falloff Scale</dd>
+<dd>Float - Falloff Bias</dd>
+<dd>Float - Noise UV Scale</dd>
+<dd>Float - Material UV Scale</dd>
+<dd>Float - DirProjVector X</dd>
+<dd>Float - DirProjVector Y</dd>
+<dd>Float - DirProjVector Z</dd>
+<dd>Float - Normal Dampener</dd>
+<dd>Float - Single Pass Color R (this # x255)</dd>
+<dd>Float - Single Pass Color G (this # x255)</dd>
+<dd>Float - Single Pass Color B (this # x255)</dd>
+<dd>uint32 - Single Pass (Boolean)</dd></dl>
+</td></tr>
+</tbody></table>
+</div>

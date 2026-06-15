@@ -1,0 +1,39 @@
+
+<div><p><b>ANIO</b> records contain information on animated objects.
+</p><p>These records are extremely simple, containing only an editorID and model information.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODB, MODT, MODS, MODD
+</td></tr>
+<tr>
+<td>-</td>
+<td>BNAM</td>
+<td>Unload Event</td>
+<td>zstring</td>
+<td>Almost always 'AnimObjectUnequip', only 1 record without (0x000B18F2, AnimObjectLog), (AnimObjectSeekerBook (DB) has 'AnimObjUnequip')
+</td></tr>
+</tbody></table>
+</div>

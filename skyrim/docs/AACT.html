@@ -1,0 +1,37 @@
+
+<div><p><b>AACT</b> records hold information about <b>Actions</b>.  The only known use of them at the moment is as the root of <a href="IDLE.html">IDLE</a> record trees.
+</p><p>They may be similar functionality to keywords attached to objects by the engine since some of these "idle" animations check for attacking or similar without any obvious means to actually activate such activity.
+</p><p>Note: In the Skyrim and Dawnguard master files, there is an <b>AACT</b> entry which has zero size, and thus does not have an <b>EDID</b> field. Most <b>AACT</b> records do contain one, though.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>-</td>
+<td>EDID</td>
+<td>Action Name</td>
+<td>zstring</td>
+<td>Editor Id. Most <b>AACT</b> records contain this field.
+</td></tr>
+<tr>
+<td>-</td>
+<td>CNAM</td>
+<td>RGB color</td>
+<td>rgb</td>
+<td>RGB hex color codes of the marker color
+<dl><dd>Red</dd>
+<dd>Green</dd>
+<dd>Blue</dd>
+<dd>Unused - always 0x00</dd></dl>
+</td></tr>
+</tbody></table>
+</div>

@@ -1,0 +1,210 @@
+
+<div><p><b>ACHR</b> records hold information about 'Actors'.  This is a specific <a href="NPC_.html">NPC</a> at a specific location potentially at a specific time (triggered by scripts or otherwise) doing a specific thing at a specified static marker, additionally with optional data like reference types.
+</p><p>For all NPCs, it is the ACHR formID that you are using when you <code>moveto player</code> etc.
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p>
+<dl><dd>0x200 - Starts Dead</dd>
+<dd>0x400 - Persistent Reference (? not shown in the CK)</dd>
+<dd>0x800 - Initially Disabled</dd>
+<dd>0x2000000 - No AI Acquire</dd>
+<dd>0x10000000 - Reflected By Auto Water</dd>
+<dd>0x20000000 - Don't Havok Settle</dd></dl>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>-</td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td>Editor ID
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td>Scripting</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>Scripting info
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAME</td>
+<td>Base NPC</td>
+<td>formid</td>
+<td>Base <a href="NPC_.html">NPC_</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XEZN</td>
+<td>encounterzone</td>
+<td>formid</td>
+<td><a href="ECZN.html">ECZN</a>
+</td></tr>
+<tr>
+<td colspan="5">XPRD, XPPA, INAM, and PDTO are all part of Patrol Data in ACHR records (appears in only 7 records in Skyrim.esm), see <a href="REFR.html">REFR</a> for details.
+</td></tr>
+<tr>
+<td>-</td>
+<td>XPRD</td>
+<td>Patrol Idle</td>
+<td>float</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XPPA</td>
+<td>unknown</td>
+<td>0-length
+</td></tr>
+<tr>
+<td>-</td>
+<td>INAM</td>
+<td>unknown</td>
+<td>formid
+</td></tr>
+<tr>
+<td>-</td>
+<td>PDTO</td>
+<td>Topic Data</td>
+<td>struct</td>
+<td>When Type is a 'Topic Ref' or 0 then 'Topic Subtype' is a FormID otherwise it's a 4 char string
+<dl><dd>uint32 - Type
+<dl><dd>0 = Topic Ref</dd>
+<dd>1 = Topic Subtype</dd></dl></dd>
+<dd>formid/4 Char String - Data/Subtype</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XRGD</td>
+<td>ragdoll?</td>
+<td>struct</td>
+<td>large struct, seems to be coords - sets of 3 or 6 floats followed by a uint32
+</td></tr>
+<tr>
+<td>-</td>
+<td>XRGB</td>
+<td>unknown</td>
+<td>struct</td>
+<td>12-byte struct, appears to be 3 floats
+</td></tr>
+<tr>
+<td>-</td>
+<td>XLCM</td>
+<td>leveled creature data</td>
+<td>uint32</td>
+<td><a href="https://ck.uesp.net/wiki/LeveledCharacter#Leveled_Character_References">Level Modifier</a>:
+<dl><dd>0 - Easy</dd>
+<dd>1 - Medium</dd>
+<dd>2 - Hard</dd>
+<dd>3 - VeryHard</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XAPD</td>
+<td>activation parent flags</td>
+<td>ubyte</td>
+<td>0x01 - Parent Activate Only
+</td></tr>
+<tr>
+<td>-</td>
+<td>XAPR</td>
+<td>activate parent</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>formid - <a href="REFR.html">REFR</a> usually to a <a href="STAT.html">STAT</a></dd>
+<dd>float - Delay</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>XLRT</td>
+<td>location ref type</td>
+<td>formid</td>
+<td><a href="LCRT.html">LCRT</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XHOR</td>
+<td>horseid</td>
+<td>formid</td>
+<td><i>incredibly rare</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XESP</td>
+<td>enable parent</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>formid - Parent reference (Object to take enable state from)</dd>
+<dd>uint32 - Flags
+<dl><dd>0x0001 = Set Enable State to Opposite of Parent</dd>
+<dd>0x0002 = Pop In</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XOWN</td>
+<td>owner</td>
+<td>formid</td>
+<td>usually <a href="FACT.html">FACT</a> but horse/dog has <a href="NPC_.html">NPC_</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XLCN</td>
+<td>location</td>
+<td>formid</td>
+<td><a href="LCTN.html">LCTN</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XLKR</td>
+<td>location route?</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>formid 0 or <a href="KYWD.html">KYWD</a> (usually LinkCarryStart/End)</dd>
+<dd>formid <a href="REFR.html">REFR</a> usually to a <a href="STAT.html">STAT</a> (<a href="FURN.html">FURN</a> also)</dd></dl>
+<p>4 instances of 4 byte struct with just a formid in Skyrim.esm
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XIS2</td>
+<td></td>
+<td></td>
+<td>not found in .esms, zero length, present if "Ignored By Sandbox" is checked
+</td></tr>
+<tr>
+<td>-</td>
+<td>XLRL</td>
+<td></td>
+<td>formid</td>
+<td>LCTN, not found in .esms, added by CK 1.8 when edited
+</td></tr>
+<tr>
+<td>-</td>
+<td>XSCL</td>
+<td>scale</td>
+<td>float</td>
+<td><i>very rare</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>coords</td>
+<td>struct</td>
+<td>24 byte (rotation in radians)
+<dl><dd>X - float</dd>
+<dd>Y - float</dd>
+<dd>Z - float</dd>
+<dd>rX - float</dd>
+<dd>rY - float</dd>
+<dd>rZ - float</dd></dl>
+</td></tr></tbody></table>
+</div>

@@ -1,0 +1,108 @@
+
+<div><p>A <b>KEYM</b> record contains data for a <a href="/wiki/Skyrim:Keys">key</a>.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>editorID</td>
+<td>zstring</td>
+<td>Record Editor ID
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>VMAD</td>
+<td>script data</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>Script Data
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>OBND</td>
+<td>objectBounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always 12 bytes even if all 0s
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>FULL</td>
+<td>itemName</td>
+<td>lstring</td>
+<td>Full (in-game) item name
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MODL</td>
+<td>model</td>
+<td>zstring</td>
+<td>World model filename
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MODT</td>
+<td>model data</td>
+<td>struct[]</td>
+<td>series of 12-byte structs (assume xyz)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>YNAM</td>
+<td>pickupSound</td>
+<td>formid</td>
+<td>Sound (<a href="SNDR.html">SNDR</a>) played when picked up
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ZNAM</td>
+<td>dropSound</td>
+<td>formid</td>
+<td>Sound (<a href="SNDR.html">SNDR</a>) played when dropped
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>KSIZ</td>
+<td>numKeywords</td>
+<td><a href="KYWD.html#Including_Keywords">KSIZ</a></td>
+<td>KYWD Count.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>KWDA</td>
+<td>keywords</td>
+<td><a href="KYWD.html#Including_Keywords">KWDA</a></td>
+<td>[KYWD 0x000914EF] VendorItemKey
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DATA</td>
+<td>item data</td>
+<td>struct</td>
+<td>8 bytes
+<dl><dd>uint32 Value</dd>
+<dd>float Weight</dd></dl>
+</td></tr></tbody></table>
+</div>

@@ -1,0 +1,150 @@
+
+<div><p><b>ACTI</b> records contain information on activators, which seem to be of 2 main types:
+</p>
+<ul><li>Actual objects with models (and/or destruction information)</li>
+<li>Simple triggers with nothing more than a name and <a href="VMAD_Field.html">VMAD</a> information.</li></ul>
+<p>This seems to be an older alternative to <a href="FLOR.html">FLOR</a>/<a href="TREE.html">TREE</a> as most of the harvestables are in those 2 record types but there are several functional types here as well such as Nirnroot.
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p><p>NavMesh Import Options (at most one is set - defaults to Collision Geometry)
+</p>
+<dl><dd>0x04000000 : Filter</dd>
+<dd>0x08000000 : Bounding Box</dd>
+<dd>0x40000000 : Ground</dd></dl>
+<p>Flags not related to the NavMesh
+</p>
+<dl><dd>0x00000040 : Has Tree LOD</dd>
+<dd>0x00000100 : Must Update Anims</dd>
+<dd>0x00000200 : not On Local Map</dd>
+<dd>0x00008000 : Has Distant LOD</dd>
+<dd>0x00010000 : Random Animation Start</dd>
+<dd>0x00020000 : Dangerous. Automatically set when Ignore Object Interaction.  Otherwise it can not be set independently.</dd>
+<dd>0x00100000 : Ignore Object Interaction. Sets Dangerous Automatically.</dd>
+<dd>0x00800000 : Is Marker</dd>
+<dd>0x02000000 : Obstacle</dd>
+<dd>0x20000000 : Child Can Use</dd>
+<dd>0x???????? : Has Platform/Language Specific Textures. <i>Not set in original files, can't be set via CK.</i></dd></dl>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td>script data</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>Script Data
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always 12 bytes, even if all 0s
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>ingame name</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODB, MODT, MODS, MODD
+</td></tr>
+<tr>
+<td>-</td>
+<td>DEST</td>
+<td>destruction data</td>
+<td><a href="DEST_Field.html">DEST</a></td>
+<td>Includes Fields DSTD, DMDL, DMDT, DMDS, DSTF
+</td></tr>
+<tr>
+<td>-</td>
+<td>KSIZ</td>
+<td>count</td>
+<td>uint32</td>
+<td>Number of formids in the following KWDA subrecord
+</td></tr>
+<tr>
+<td>-</td>
+<td>KWDA</td>
+<td>keywords</td>
+<td>formID</td>
+<td>Formid array of keywords
+</td></tr>
+<tr>
+<td>-</td>
+<td>PNAM</td>
+<td>Marker Color</td>
+<td>rgb</td>
+<td>Default Primitive Color
+<dl><dd>Red</dd>
+<dd>Green</dd>
+<dd>Blue</dd>
+<dd>Unused - always 0x00</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>Sound - Looping</td>
+<td>formID</td>
+<td>FormID of <a href="SNDR.html">SNDR</a> <i>nirnroot has the wow-wow sound here</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td>VNAM</td>
+<td>Sound - Activation</td>
+<td>formID</td>
+<td>FormID of <a href="SNDR.html">SNDR</a> when activated
+</td></tr>
+<tr>
+<td>-</td>
+<td>WNAM</td>
+<td>Water Type</td>
+<td>formID</td>
+<td><a href="WATR.html">WATR</a> <i>rare</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td>RNAM</td>
+<td>Activate Text Override</td>
+<td>lstring</td>
+<td>Custom "verb" seen ingame when targeting the activator, e.g. 'Mine', 'Place', etc.
+</td></tr>
+<tr>
+<td>-</td>
+<td>FNAM</td>
+<td>Flags</td>
+<td>uint16</td>
+<td>There are only two flags here.  The rest appear in the header.
+<dl><dd>0x01 = No Displacement (Associated with Water Type)</dd>
+<dd>0x02 = Ignored by Sandbox</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>KNAM</td>
+<td>Interaction Keyword</td>
+<td>formID</td>
+<td><a href="KYWD.html">KYWD</a> formID for interaction purposes
+</td></tr>
+</tbody></table>
+</div>

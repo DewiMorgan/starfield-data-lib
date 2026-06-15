@@ -1,0 +1,660 @@
+
+<div><div>
+</div> <p><b>PACK</b> records describe AI packages, which are used to control the behavior and activities of NPCs.
+</p><p>PACK records use a moderately complex structure, with various fields that occur multiple times and have different meanings depending upon where they occur within the overall structure.  The records also seem to generally contain a large amount of unnecessary and/or obsolete content -- deleted activities never seem to actually be deleted from the game data; some sections are required even though they are entirely empty in 99.9% of the PACK records.  As a result, a large fraction of the data in a given PACK record may not be visible in the CK editor.
+</p>
+<h2><span id="Header">Header</span></h2>
+<p>These fields are always found at the start of the PACK record.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td>script info</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>script info
+</td></tr>
+<tr>
+<td>*</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>conditions</td>
+<td>struct[32]</td>
+<td>Conditions controlling when the package can be active.  CTDA fields can also be found in the <a href="#Procedure_Tree">Procedure Tree</a> section of the record, in which case the conditions are specific to that branch of the procedure tree.
+</td></tr>
+<tr>
+<td>*</td>
+<td>
+<dl><dd>CIS1</dd></dl>
+</td>
+<td>Variable name?</td>
+<td>zstring</td>
+<td>Auxiliary data for CTDA.
+</td></tr>
+<tr>
+<td>*</td>
+<td>
+<dl><dd>CIS2</dd></dl>
+</td>
+<td>Variable name?</td>
+<td>zstring</td>
+<td>Auxiliary data for CTDA.
+</td></tr>
+<tr>
+<td>-</td>
+<td>IDLC</td>
+<td>Idle Count</td>
+<td>uint8</td>
+<td>Number of formids found in subsequent IDLA field
+</td></tr>
+<tr>
+<td>-</td>
+<td>IDLA</td>
+<td>Idle</td>
+<td>formid[IDLC]</td>
+<td>1 or more <a href="IDLE.html">IDLE</a> formids
+</td></tr>
+<tr>
+<td>-</td>
+<td>IDLF</td>
+<td>Idle Flags</td>
+<td>uint8</td>
+<td>Flags:
+<dl><dd>0x01: If set: Run In Sequence. If not set: Random</dd>
+<dd>0x04: Do Once</dd>
+<dd>0x08: <i>Unknown</i></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>IDLT</td>
+<td>Idle Time</td>
+<td>float</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td>QNAM</td>
+<td>Owner Quest</td>
+<td>formid</td>
+<td>QNAM can only appear once in the header section.  However, it can also appear in the <a href="#Begin.2FEnd.2FChange">Begin/End/Change</a> section, with a different format and meaning.
+</td></tr>
+<tr>
+<td rowspan="4">+
+</td>
+<td rowspan="4">PKCU</td>
+<td>PKCU field</td>
+<td>struct[12]</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd><i>Unknown</i></dd></dl>
+</td>
+<td>ulong</td>
+<td>Unknown, possibly flags.  Values range from 1 to 34.
+</td></tr>
+<tr>
+<td>
+<dl><dd>Package Template</dd></dl>
+</td>
+<td>formid</td>
+<td>Formid for another PACK record that is used as a template.  This value can only be provided in records that are identified with Package Type "Package", and only templates with type "Package Template" are valid entries.
+</td></tr>
+<tr>
+<td>
+<dl><dd><i>Unknown</i></dd></dl>
+</td>
+<td>ulong</td>
+<td>Unknown, possibly flags.  Values range from 0 to 29.
+</td></tr>
+<tr>
+<td rowspan="7">+
+</td>
+<td rowspan="7">PKDT</td>
+<td>Package Flags</td>
+<td>struct[12]</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Misc Flags</dd></dl>
+</td>
+<td>uint32</td>
+<td>Only flags that have a visible effect in the CK are listed here.  Many other flags may be set in the game data, but they are probably hold-overs from <a href="/wiki/Oblivion_Mod:Mod_File_Format/PACK">Oblivion</a> that were phased out during development.
+<dl><dd>0x04 = Must Complete</dd>
+<dd>0x08 = Maintain Speed at Goal</dd>
+<dd>0x40 = At Package Start Unlock Doors</dd>
+<dd>0x80 = On Package Change Unlock Doors</dd>
+<dd>0x400 = Once Per Day</dd>
+<dd>0x2000 = Preferred Speed (although choice of Walk/Fast Walk/Jog/Run is stored separately, see below)</dd>
+<dd>0x20000 = Always Sneak</dd>
+<dd>0x40000 = Allow Swimming</dd>
+<dd>0x100000 = Ignore Combat</dd>
+<dd>0x200000 = Weapons Unequipped</dd>
+<dd>0x800000 = Weapon Drawn</dd>
+<dd>0x8000000 = No Combat Alert</dd>
+<dd>0x20000000 = Wear Sleep Outfit</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Package Type</dd></dl>
+</td>
+<td>uint8</td>
+<td>Only the first bit is relevant:
+<dl><dd>0x01 = Package Template (if not set, type is "Package")</dd></dl>
+<p>0x12 is always set.
+</p>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Interrupt Override</dd></dl>
+</td>
+<td>uint8</td>
+<td>Only observed values are 0 (None) and 4 (Combat)
+</td></tr>
+<tr>
+<td>
+<dl><dd>Preferred Speed</dd></dl>
+</td>
+<td>uint8</td>
+<td>This value is only relevant if the Preferred Speed Misc Flag is set (0x2000 above)
+<dl><dd>0 = Walk</dd>
+<dd>1 = Jog</dd>
+<dd>2 = Run</dd>
+<dd>3 = Fast Walk</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd><i>Unknown</i></dd></dl>
+</td>
+<td>uint8</td>
+<td>Possibly padding
+</td></tr>
+<tr>
+<td>
+<dl><dd>Interrupt Flags</dd></dl>
+</td>
+<td>uint32</td>
+<td>
+<dl><dd>0x01 = Hellos to player</dd>
+<dd>0x02 = Random conversations</dd>
+<dd>0x04 = Observe combat behavior</dd>
+<dd>0x08 = Greet corpse behavior</dd>
+<dd>0x10 = Reaction to player actions</dd>
+<dd>0x20 = Friendly fire comments</dd>
+<dd>0x40 = Aggro Radius Behavior</dd>
+<dd>0x80 = Allow Idle Chatter</dd>
+<dd>0x200 = World Interactions</dd></dl>
+<p>The remainder of the bits (0xFC00) can also be set, but they appear to be "extra" interrupt flags: the "Set all interrupt flags" sets the flags to 0xFFFF, and "Clear all interrupt flags" sets them to 0x0000, but the higher bits do not correspond to any displayed flags in the CK editor.
+</p>
+</td></tr>
+<tr>
+<td rowspan="8">+
+</td>
+<td rowspan="8">PSDT
+</td>
+<td>Schedule</td>
+<td>struct[12]</td>
+<td>Information on when package is allowed to be active
+</td></tr>
+<tr>
+<td>
+<dl><dd>Month</dd></dl>
+</td>
+<td>byte</td>
+<td>Any=-1 (only value currently being used in Skyrim)
+</td></tr>
+<tr>
+<td>
+<dl><dd>Day of week</dd></dl>
+</td>
+<td>byte</td>
+<td>Day of week
+<dl><dd>-1=Any</dd>
+<dd>0=Sundas</dd>
+<dd>1=Morndas</dd>
+<dd>2=Tirdas</dd>
+<dd>3=Middas</dd>
+<dd>4=Turdas</dd>
+<dd>5=Fredas</dd>
+<dd>6=Loredas</dd>
+<dd>7=Weekdays: MTMTF</dd>
+<dd>8=Weekends: Loredas, Sundas</dd>
+<dd>9=Morndas, Middas, Fredas</dd>
+<dd>10=Tirdas, Turdas</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Date</dd></dl>
+</td>
+<td>byte</td>
+<td>Date (day of month); Any=0
+</td></tr>
+<tr>
+<td>
+<dl><dd>Hour</dd></dl>
+</td>
+<td>byte</td>
+<td>Start hour (0-23); Any=-1
+</td></tr>
+<tr>
+<td>
+<dl><dd>Minute</dd></dl>
+</td>
+<td>byte</td>
+<td>Start minutes (0-59); Any=-1
+</td></tr>
+<tr>
+<td>
+<dl><dd><i>Unknown</i></dd></dl>
+</td>
+<td>byte[3]</td>
+<td>Probably unused padding (although values are typically not zero)
+</td></tr>
+<tr>
+<td>
+<dl><dd>Duration</dd></dl>
+</td>
+<td>uint32</td>
+<td>Duration in minutes, although the value is displayed in the CK using decimal hours
+</td></tr></tbody></table>
+<h2><span id="Public_Package_Data">Public Package Data</span></h2>
+<p>The section providing the public package data is located after the fields listed for the <a href="#Header">header</a>, and extends until an XNAM field is encountered.  It provides a list of activities and parameters controlling those activities, all of which are listed in the "Public Package Data" section of the CK edit interface.
+</p><p>The section is made up of a series of ANAM fields, each of which is followed by various other fields providing the activity parameters corresponding to that ANAM field.  Then the section contains a series of UNAM fields, each of which provides the activity name corresponding to one of the previous ANAM fields.
+</p><p>Note that ANAM fields are also found in the <a href="#Procedure_Tree">Procedure Tree</a> section, if one exists.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>*</td>
+<td>ANAM</td>
+<td>Activity Type</td>
+<td>zstring</td>
+<td>A string identifying the type of data stored in this activity entry.  Each ANAM field is followed by one field that provides data with the given type.  Possible values in this section, and the associated field, are:
+<ul><li>Bool: CNAM field, CNAM type=uint8</li>
+<li>Float: CNAM field, CNAM type=float</li>
+<li>Int: CNAM field, CNAM type=int32</li>
+<li>Location: PLDT field</li>
+<li>ObjectList: CNAM field, CNAM type=float</li>
+<li>SingleRef: PTDA field</li>
+<li>TargetSelector: PTDA field</li>
+<li>Topic: PDTO field <i>or</i> TPIC field (only one instance of a TPIC field)</li></ul>
+<p>One and only one of the following fields is found after each ANAM field.  (Other values for ANAM are only found in the Procedure Tree section of the record.)
+</p>
+</td></tr>
+<tr>
+<td>-
+</td>
+<td>
+<dl><dd>CNAM</dd></dl>
+</td>
+<td>Numeric Value</td>
+<td>variable</td>
+<td>CNAM is 1-4 bytes in size, and the type of data in CNAM depends upon the previous ANAM field; see above.
+</td></tr>
+<tr>
+<td rowspan="3">-
+</td>
+<td rowspan="3">
+<dl><dd>PDTO</dd></dl>
+</td>
+<td>Topic Value</td>
+<td>struct[8]</td>
+<td>Note that PDTO fields can also occur in the <a href="#Begin.2FEnd.2FChange">Begin/End/Change</a> section
+</td></tr>
+<tr>
+<td>
+<dl><dd>Type</dd></dl>
+</td>
+<td>long</td>
+<td>
+<dl><dd>0 = Dialogue</dd>
+<dd>1 = Topic Subtype</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Topic Value</dd></dl>
+</td>
+<td>formid/char[4]</td>
+<td>Formid for a <a href="DIAL.html">DIAL</a> record when type=0; 4-character string for type=1 (e.g. "HELO" for "Hello" subtype)
+</td></tr>
+<tr>
+<td rowspan="4">-
+</td>
+<td rowspan="4">
+<dl><dd>PLDT</dd></dl>
+</td>
+<td>Location Value</td>
+<td>struct[12]</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Type</dd></dl>
+</td>
+<td>long</td>
+<td>
+<dl><dd>0=Near reference, Location=formid</dd>
+<dd>1=In cell, Location=formid</dd>
+<dd>2=Near package start location, Location=unused</dd>
+<dd>3=Near editor location, Location=unused</dd>
+<dd>6=Near linked reference, Location=formid of a <a href="KYWD.html">KYWD</a> record</dd>
+<dd>8=Alias (reference), Location=uint32 providing an AliasID</dd>
+<dd>9=Alias (location), Location=formid</dd>
+<dd>12=Near Self, Location=unused</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Location</dd></dl>
+</td>
+<td>variable</td>
+<td>Location; always 4 bytes in length, but format depends upon Type as listed above. If Location is unused, then value is empty.
+</td></tr>
+<tr>
+<td>
+<dl><dd>Radius</dd></dl>
+</td>
+<td>long</td>
+<td>Radius
+</td></tr>
+<tr>
+<td rowspan="4">-
+</td>
+<td rowspan="4">
+<dl><dd>PTDA</dd></dl>
+</td>
+<td>Target Value</td>
+<td>struct[12]</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Type</dd></dl>
+</td>
+<td>long</td>
+<td>
+<dl><dd>0=Specific reference, Target=formid</dd>
+<dd>1=Object ID, Target=formid</dd>
+<dd>2=Object Type, Target=uint32</dd>
+<dd>3=Linked Reference, Target=formid</dd>
+<dd>4=Ref Alias, Target=uint32 providing an AliasID</dd>
+<dd>6=Self, Target=unused</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Target</dd></dl>
+</td>
+<td>formid/long</td>
+<td>Target; always 4 bytes in length, but format depends upon Type as listed above. If Location is unused, then value is empty.
+<p>For Object Type, number appears to be a lookup value.  Known values are:
+</p>
+<dl><dd>11 = Weapons: Any</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Count</dd></dl>
+</td>
+<td>long</td>
+<td>Count (0 in all Skyrim records)
+</td></tr>
+<tr>
+<td>-</td>
+<td>
+<dl><dd>TPIC</dd></dl>
+</td>
+<td><i>Unknown</i></td>
+<td>formid</td>
+<td><a href="DIAL.html">DIAL</a> record
+</td></tr>
+<tr>
+<td>*</td>
+<td>UNAM</td>
+<td>Activity ID</td>
+<td>uint8
+</td>
+<td>Each UNAM field provides a numerical ID; that ID can be looked up in the Package Template to determine the Name of the activity as listed in the CK.
+<p>Although the UNAM fields are listed after all of the ANAM fields for this section, each UNAM field provides the name for one of the previous ANAM fields.  The first UNAM field corresponds to the first ANAM field, etc.
+</p>
+</td></tr>
+<tr>
+<td>+</td>
+<td>XNAM</td>
+<td><i>Unknown</i></td>
+<td>int8</td>
+<td>Number ranging from -77 to 99.  There is always one XNAM field in a PACK record, and it is always located at the end of the Public Package Data section.
+</td></tr></tbody></table>
+<h2><span id="Procedure_Tree">Procedure Tree</span></h2>
+<p>This section is the first of two sections that are only found in template packages.  This section defines the structure of the procedure tree used by this template and all packages based upon this template.
+</p><p>As with the <a href="#Public_Package_Data">Public Package Data</a> section, this section is also made up of a series of ANAM fields.  However, a completely different set of ANAM values appear in this section, and each ANAM section contains multiple fields, all of which are different than those found in Public Package Data.
+</p><p>This section ends when a UNAM field is found, signaling the start of the <a href="#Procedure_Data">Procedure Data</a> section.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>*</td>
+<td>ANAM</td>
+<td>Branch Type</td>
+<td>zstring</td>
+<td>A string identifying the type of branch data stored in the following section.  Possible values found in this section are:
+<ul><li>Procedure: Basic element of the tree (only non-branch element).  All individual activities (PKC2 fields) are contained with Procedures.</li>
+<li>Random: Top-level branch that can contain multiple Procedures.</li>
+<li>Sequence: Top-level branch that can contain multiple Procedures.</li>
+<li>Simultaneous: Top-level branch that can contain multiple Procedures.</li>
+<li>Stacked: Top-level branch that can contain multiple Procedures.</li></ul>
+<p>Each ANAM entry is followed by multiple fields.  The count column for the following entries is relative to a given ANAM field -- overall these fields can always occur 0 or many times in a given record.
+</p>
+</td></tr>
+<tr>
+<td>+</td>
+<td>
+<dl><dd>CITC</dd></dl>
+</td>
+<td>Condition Count</td>
+<td>uint32</td>
+<td>Number of conditions (CTDA fields) in this branch.  Can be 0, in which case there are no CTDA fields.
+</td></tr>
+<tr>
+<td>*</td>
+<td>
+<dl><dd><a href="CTDA_Field.html">CTDA</a></dd></dl>
+</td>
+<td>Conditions</td>
+<td>struct[32]</td>
+<td>Conditions controlling when this branch can be active.  Note that conditions relevant to the overall package are provided using CTDA fields that appear in the <a href="#Header">header</a> section.
+</td></tr>
+<tr>
+<td>-</td>
+<td>
+<dl><dd>PRCB</dd></dl>
+</td>
+<td><i>Unknown</i></td>
+<td>struct[8]</td>
+<td>Appears to be two uint32 values
+</td></tr>
+<tr>
+<td>-</td>
+<td>
+<dl><dd>PNAM</dd></dl>
+</td>
+<td>Procedure Type</td>
+<td>zstring</td>
+<td>Note that PNAM fields also appear in the Procedure Data Section, in which case formats other than zstring are possible
+</td></tr>
+<tr>
+<td>-</td>
+<td>
+<dl><dd>FNAM</dd></dl>
+</td>
+<td>Flag</td>
+<td>uint32</td>
+<td>Flag.  Only one bit is in use:
+<dl><dd>0x01=Success Completes Package</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>
+<dl><dd>PKC2</dd></dl>
+</td>
+<td>Activity ID</td>
+<td>uint8</td>
+<td>The PKC2 fields provide a list of all the activity IDs found in this branch.  Note that a given activity ID can occur multiple times within the Procedure Tree Section, in particular if that activity is part of multiple branches.
+</td></tr>
+<tr>
+<td>-</td>
+<td>
+<dl><dd>PFO2</dd></dl>
+</td>
+<td><i>Unknown</i></td>
+<td>struct[16]</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td>
+<dl><dd>PFOR</dd></dl>
+</td>
+<td><i>Unknown</i></td>
+<td>struct[12]</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Procedure_Data">Procedure Data</span></h2>
+<p>This section is also only found in template packages.  It provides the name associated with each activity ID.  It consists of a series of UNAM fields, each followed by one BNAM field and one PNAM field.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>*</td>
+<td>UNAM</td>
+<td>Activity ID</td>
+<td>uint8</td>
+<td>This is the same activity ID provided in both the <a href="#Public_Package_Data">Public Package Data</a> and <a href="#Procedure_Tree">Procedure Tree</a> sections.  However, many additional activity IDs can also possibly appear; any additional IDs correspond to activities that were deleted from the package and are no longer accessible through the CK edit interface.
+</td></tr>
+<tr>
+<td>+</td>
+<td>
+<dl><dd>BNAM</dd></dl>
+</td>
+<td>Activity Name</td>
+<td>zstring</td>
+<td>The activity name as displayed in the CK
+</td></tr>
+<tr>
+<td>+</td>
+<td>
+<dl><dd>PNAM</dd></dl>
+</td>
+<td><i>Unknown</i></td>
+<td>uint32</td>
+<td>Probably a flag: only values are 0 or 1.  Note that the PNAM fields also appear in the Procedure Tree section, but have a completely different format and meaning.
+</td></tr></tbody></table>
+<h2><span id="Begin/End/Change"></span><span id="Begin.2FEnd.2FChange">Begin/End/Change</span></h2>
+<p>This section provides the 'On Begin', 'On End', and 'On Change' actions for this package.  It is always present at the end of all PACK records (for both standard packages and template packages -- even though the CK editor does not display this section for template packages).
+</p><p>It consists of three marker fields (POBA, POEA, POCA), each of which is always followed by an INAM and a PDTO field.  Each marker may also be followed by an old scripting (SCHR) field.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td rowspan="3">+</td>
+<td>POBA <i>or</i></td>
+<td>On Begin</td>
+<td>0-size</td>
+<td>Marks start of 'On Begin' actions
+</td></tr>
+<tr>
+<td>POEA <i>or</i></td>
+<td>On End</td>
+<td>0-size</td>
+<td>Marks start of 'On End' actions
+</td></tr>
+<tr>
+<td>POCA</td>
+<td>On Change</td>
+<td>0-size</td>
+<td>Marks start of 'On Change' actions
+</td></tr>
+<tr>
+<td>+</td>
+<td>INAM</td>
+<td>Idle</td>
+<td>formid</td>
+<td><a href="IDLE.html">IDLE</a> record.  Field is always present but its value is 0 if there is no idle action.
+</td></tr>
+<tr>
+<td>-</td>
+<td>SCHR</td>
+<td>Old Script</td>
+<td><a href="SCHR_Field.html">SCHR</a></td>
+<td>Old scripting field.
+</td></tr>
+<tr>
+<td>-</td>
+<td>TNAM</td>
+<td>Unknown</td>
+<td>int32</td>
+<td>Seen only on a single PACK record ("Say" / 0x0001CB6) - always 0.
+</td></tr>
+<tr>
+<td>+</td>
+<td>PDTO</td>
+<td>Topic</td>
+<td>struct[8]</td>
+<td>Field is always present but is entirely 0 if there is no topic.  Note that PDTO fields also appear in <a href="#Public_Package_Data">Public Package Data</a> section; the same structure is probably used in both cases.
+</td></tr></tbody></table>
+</div>

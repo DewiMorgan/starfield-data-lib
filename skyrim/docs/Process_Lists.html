@@ -1,0 +1,213 @@
+
+<div><h2><span id="Process_Lists">Process Lists</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown
+</td>
+<td>float
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>float
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>float
+</td>
+<td>
+</td></tr>
+<tr>
+<td>nextNum
+</td>
+<td>uint32
+</td>
+<td>This value is assigned to the next process
+</td></tr>
+<tr>
+<td>allCrimes
+</td>
+<td><a href="#CrimeType">CrimeType</a>[7]
+</td>
+<td>Crimes grouped according with their type (see below)
+</td></tr></tbody></table>
+<h2><span id="CrimeType">CrimeType</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>count
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>crimes
+</td>
+<td><a href="#Crime">Crime</a>[count]
+</td>
+<td>
+</td></tr></tbody></table>
+<h3><span id="Crime">Crime</span></h3>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>witnessNum
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>crimeType
+</td>
+<td>uint32
+</td>
+<td>
+<ul><li>0 = Theft</li>
+<li>1 = Pickpocketing</li>
+<li>2 = Trespassing</li>
+<li>3 = Assault</li>
+<li>4 = Murder</li>
+<li>5 =</li>
+<li>6 = Lycanthropy</li></ul>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>quantity
+</td>
+<td>uint32
+</td>
+<td>The number of stolen items (e.g. if you've stolen Gold(7), it would be equals to 7).
+<p>Only for thefts
+</p>
+</td></tr>
+<tr>
+<td>serialNum
+</td>
+<td>uint32
+</td>
+<td>Assigned in accordance with nextNum
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>May be date of crime? Little byte is equal to day
+</td></tr>
+<tr>
+<td>elapsedTime
+</td>
+<td>float
+</td>
+<td>Negative value measured from moment of crime
+</td></tr>
+<tr>
+<td>victimID
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>The killed, forced door, stolen item etc.
+</td></tr>
+<tr>
+<td>criminalID
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>itemBaseID
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>Only for thefts
+</td></tr>
+<tr>
+<td>ownershipID
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>Faction, outfit etc. Only for thefts
+</td></tr>
+<tr>
+<td>count
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>witnesses
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>[count]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>bounty
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>crimeFactionID
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>isCleared
+</td>
+<td>uint8
+</td>
+<td>0 - active crime, 1 - it was atoned
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr></tbody></table>
+</div>

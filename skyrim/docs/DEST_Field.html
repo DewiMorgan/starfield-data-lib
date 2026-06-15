@@ -1,0 +1,203 @@
+
+<div><p><br/>
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td rowspan="6">+</td>
+<td rowspan="6">DEST</td>
+<td>Destruction Data</td>
+<td>struct</td>
+<td>8 byte struct
+</td></tr>
+<tr>
+<td>
+<dl><dd>Health</dd></dl>
+</td>
+<td>uint32</td>
+<td>Health
+</td></tr>
+<tr>
+<td>
+<dl><dd>Count</dd></dl>
+</td>
+<td>uint8</td>
+<td>Number of destruction sections that follow
+</td></tr>
+<tr>
+<td>
+<dl><dd>Flag</dd></dl>
+</td>
+<td>uint8</td>
+<td>0x01 = VATs enabled
+</td></tr>
+<tr>
+<td>
+<dl><dd>?</dd></dl>
+</td>
+<td>uint8</td>
+<td>No known use
+</td></tr>
+<tr>
+<td>
+<dl><dd>?</dd></dl>
+</td>
+<td>uint8</td>
+<td>No known use
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>Stage Data</td>
+<td></td>
+<td>Multiple fields, as outlined below.
+</td></tr></tbody></table>
+<h3><span id="Stage_Data">Stage Data</span></h3>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td rowspan="9">+</td>
+<td rowspan="9">DSTD</td>
+<td>Stage Data</td>
+<td>struct</td>
+<td>20 byte struct
+</td></tr>
+<tr>
+<td>
+<dl><dd>HealthPercent</dd></dl>
+</td>
+<td>uint8</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Index</dd></dl>
+</td>
+<td>uint8</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>DamageStage</dd></dl>
+</td>
+<td>uint8</td>
+<td>0-8
+</td></tr>
+<tr>
+<td>
+<dl><dd>Flags</dd></dl>
+</td>
+<td>uint8</td>
+<td>0x01=Cap Damage, 0x02=Disable Object,  0x04=Destroy Object,  0x08=Ignore External Damage
+</td></tr>
+<tr>
+<td>
+<dl><dd>SelfDamageRate</dd></dl>
+</td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>ExplosionID</dd></dl>
+</td>
+<td>formid</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>DebrisID</dd></dl>
+</td>
+<td>formid</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>DebrisCount</dd></dl>
+</td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td>DMDL</td>
+<td>Replacement Model</td>
+<td>zstring</td>
+<td>Path to .nif
+</td></tr>
+<tr>
+<td>-</td>
+<td>DMDT</td>
+<td>Unknown</td>
+<td>struct[]</td>
+<td>Series of 12-byte structs (possibly alternate texture-related)
+</td></tr>
+<tr>
+<td rowspan="6">-</td>
+<td rowspan="6">DMDS</td>
+<td>Unknown</td>
+<td>list[TextureCount]</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>TextureCount</dd></dl>
+</td>
+<td>uint32</td>
+<td>Number of entries (remaining fields)
+</td></tr>
+<tr>
+<td>
+<dl><dd><dl><dd>StringLength</dd></dl></dd></dl>
+</td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd><dl><dd>3DName</dd></dl></dd></dl>
+</td>
+<td>char[StringLength]
+</td></tr>
+<tr>
+<td>
+<dl><dd><dl><dd>TextureID (TXST)</dd></dl></dd></dl>
+</td>
+<td>formid</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd><dl><dd>Unknown</dd></dl></dd></dl>
+</td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td>DSTF</td>
+<td>End Marker</td>
+<td>null</td>
+<td>Marks end of DSTD section
+</td></tr></tbody></table>
+</div>

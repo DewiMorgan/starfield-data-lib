@@ -1,0 +1,2523 @@
+
+<div>
+<h2><span id="Papyrus">Papyrus</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>header
+</td>
+<td>uint16
+</td>
+<td>-1 for invalid save or Skyrim VM version
+</td></tr>
+<tr>
+<td>strCount
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>strings
+</td>
+<td>wstring[strCount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>scriptCount
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>script
+</td>
+<td><a href="#Script">Script</a>[scriptCount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>scriptInstanceCount
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>scriptInstance
+</td>
+<td><a href="#ScriptInstance">ScriptInstance</a>[scriptInstanceCount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>referenceCount
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference
+</td>
+<td><a href="#References">Reference</a>[referenceCount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>arrayInfoCount
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>arrayInfo
+</td>
+<td><a href="#ArrayInfo">ArrayInfo</a>[arrayInfoCount]
+</td>
+<td>Array type and length
+</td></tr>
+<tr>
+<td>papyrusRuntime
+</td>
+<td>uint32
+</td>
+<td>ID for next active script
+</td></tr>
+<tr>
+<td>activeScriptCount
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>activeScript
+</td>
+<td><a href="#ActiveScripts">ActiveScript</a>[activeScriptCount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>scriptData
+</td>
+<td><a href="#ScriptData">ScriptData</a>[scriptInstanceCount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>referenceData
+</td>
+<td><a href="#ReferenceData">ReferenceData</a>[referenceCount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>arrayData
+</td>
+<td><a href="#ArrayData">ArrayData</a>[arrayInfoCount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>activeScriptData
+</td>
+<td><a href="#ActiveScriptData">ActiveScriptData</a>[activeScriptCount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>FunctionMessageCount
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>FunctionMessages
+</td>
+<td><a href="#FunctionMessage">FunctionMessage</a>[FunctionMessageCount]
+</td>
+<td>To be updated
+</td></tr>
+<tr>
+<td>SuspendedStackCount1
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>SuspendedStacks1
+</td>
+<td><a href="#SuspendedStack">SuspendedStack</a>[SuspendedStackCount1]
+</td>
+<td>To be updated
+</td></tr>
+<tr>
+<td>SuspendedStackCount2
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>SuspendedStacks2
+</td>
+<td><a href="#SuspendedStack">SuspendedStack</a>[SuspendedStackCount2]
+</td>
+<td>To be updated
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>Present only since Skyrim VM version 2 and if the previous field is not null
+</td></tr>
+<tr>
+<td>unknown0Count
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknowns0
+</td>
+<td>uint32[unknown0Count]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>queuedUnbindCount
+</td>
+<td>uint32
+</td>
+<td>Present only since Skyrim VM version 4.
+</td></tr>
+<tr>
+<td>queuedUnbinds
+</td>
+<td><a href="#queudUnbind">queudUnbind</a>[queudUnbindCount]
+</td>
+<td>Present only since Skyrim VM version 4. This is the last field of the first part of the Papyrus data. To be updated
+</td></tr>
+<tr>
+<td>saveFileVersion
+</td>
+<td>sint16
+</td>
+<td>-1 marks an invalid save
+</td></tr>
+<tr>
+<td>ArrayCount1
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array1
+</td>
+<td><a href="#Array1">Array1</a>[ArrayCount1]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount1a
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array1a
+</td>
+<td><a href="#Array1a">Array1a</a>[ArrayCount1a]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount2
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array2
+</td>
+<td><a href="#Array2">Array2</a>[ArrayCount2]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount3
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array3
+</td>
+<td><a href="#Array3">Array3</a>[ArrayCount3]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount4
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array4
+</td>
+<td><a href="#Array4">Array4</a>[ArrayCount4]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ScriptListCount
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ScriptList
+</td>
+<td><a href="#w32string">w32string</a>[ScriptListCount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount4a
+</td>
+<td>uint32
+</td>
+<td>Possibly another array structure counter
+</td></tr>
+<tr>
+<td>ArrayCount4b
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array4b
+</td>
+<td><a href="#Array4b">Array4b</a>[ArrayCount4b]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount4c
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array4c
+</td>
+<td><a href="#Array4c">Array4c</a>[ArrayCount4c]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount4d
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array4d
+</td>
+<td><a href="#Array4d">Array4d</a>[ArrayCount4d]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount5
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array5
+</td>
+<td><a href="#Array5">Array5</a>[ArrayCount5]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount6
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array6
+</td>
+<td><a href="#Array6">Array6</a>[ArrayCount6]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount7
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array7
+</td>
+<td><a href="#Array7">Array7</a>[ArrayCount7]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount8
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array8
+</td>
+<td><a href="#Array8">Array8</a>[ArrayCount8]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount9
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array9
+</td>
+<td>uin32[ArrayCount9]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount10
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array10
+</td>
+<td><a href="#Array10">Array10</a>[ArrayCount10]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount11
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array11
+</td>
+<td><a href="#Array11">Array11</a>[ArrayCount11]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount12
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array12
+</td>
+<td><a href="#Array12">Array12</a>[ArrayCount12]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount13
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array13
+</td>
+<td><a href="#Array13">Array13</a>[ArrayCount13]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount14
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array14
+</td>
+<td><a href="#Array14">Array14</a>[ArrayCount14]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>ArrayCount15
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Array15
+</td>
+<td><a href="#Array15">Array15</a>[ArrayCount15]
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="ArrayData">ArrayData</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>arrayID
+</td>
+<td>uint32
+</td>
+<td>Reference by ScriptData members
+</td></tr>
+<tr>
+<td>data
+</td>
+<td><a href="#Variable">Variable</a>[ArrayLength]
+</td>
+<td>ArrayLength from ArrayInfo with the same arrayID.
+</td></tr></tbody></table>
+<h2><span id="ArrayInfo">ArrayInfo</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>arrayID
+</td>
+<td>uint32
+</td>
+<td>Reference by ScriptData members
+</td></tr>
+<tr>
+<td>type
+</td>
+<td>uint8
+</td>
+<td>
+<pre>1 = RefID
+2 = String
+3 = Integer
+4 = Float
+5 = Boolean
+</pre>
+</td></tr>
+<tr>
+<td>refType
+</td>
+<td>uint16
+</td>
+<td>Only appear when type == 1 otherwise this variable is not present.<br/>String table reference.
+</td></tr>
+<tr>
+<td>length
+</td>
+<td>uint32
+</td>
+<td>Number of elements in the array.
+</td></tr></tbody></table>
+<h2><span id="MemberData">MemberData</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>memberName
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr>
+<tr>
+<td>memberType
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr></tbody></table>
+<h2><span id="Script">Script</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>scriptName
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr>
+<tr>
+<td>type
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr>
+<tr>
+<td>memberCount
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>memberData
+</td>
+<td><a href="#MemberData">MemberData</a>[memberCount]
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="ScriptData">ScriptData</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>scriptID
+</td>
+<td>uint32
+</td>
+<td>Link with script instance ID
+</td></tr>
+<tr>
+<td>flag?
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Type
+</td>
+<td>uint16
+</td>
+<td>String Table Reference
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>Appears only if (flag and 0x04) == 0x04
+</td></tr>
+<tr>
+<td>memberCount
+</td>
+<td>uint32
+</td>
+<td>Number of stored variables
+</td></tr>
+<tr>
+<td>member
+</td>
+<td><a href="#Variable">Variable</a>[memberCount]
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="ReferenceData">ReferenceData</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>ReferenceID
+</td>
+<td>uint32
+</td>
+<td>Link with reference ID
+</td></tr>
+<tr>
+<td>flag?
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Type
+</td>
+<td>uint16
+</td>
+<td>String Table Reference
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>Appears only if (flag and 0x04) == 0x04
+</td></tr>
+<tr>
+<td>memberCount
+</td>
+<td>uint32
+</td>
+<td>Number of stored variables
+</td></tr>
+<tr>
+<td>member
+</td>
+<td><a href="#Variable">Variable</a>[memberCount]
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="ScriptInstance">ScriptInstance</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>scriptID
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>scriptName
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr>
+<tr>
+<td>unknown2bits
+</td>
+<td>uint16
+</td>
+<td>Only the first two bits are used.
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>sint16
+</td>
+<td>The used value is: unknown2bits * 1000 + unknown
+</td></tr>
+<tr>
+<td>RefID
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>Ignored if preceding unknown is -1.
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="References">References</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>referenceID
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>type
+</td>
+<td>uint16
+</td>
+<td>String table reference.
+</td></tr></tbody></table>
+<h2><span id="ActiveScripts">ActiveScripts</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>scriptID
+</td>
+<td>uint32
+</td>
+<td>ID is Papyrus runtime
+</td></tr>
+<tr>
+<td>scriptType
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Variable">Variable</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>type
+</td>
+<td>uint8
+</td>
+<td>
+<pre>0 = Null (4) but not empty (4 bytes of zero)
+1 = RefID (6)
+2 = String (2)
+3 = Integer (4)
+4 = Float (4)
+5 = Boolean (4)
+</pre>
+<pre>11 = RefID Array (6, 2 bytes for type and 4 more bytes for array ID)
+12 = String Array (4)   =&gt; Array ID
+13 = Integer Array (4)  =&gt; Array ID
+14 = Float Array (4)    =&gt; Array ID
+15 = Boolean Array (4)  =&gt; Array ID
+</pre>
+</td></tr>
+<tr>
+<td>data
+</td>
+<td>Depends on type
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="ActiveScriptData">ActiveScriptData</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>scriptID
+</td>
+<td>uint32
+</td>
+<td>Link with active script ID
+</td></tr>
+<tr>
+<td>majorVersion
+</td>
+<td>uint8
+</td>
+<td>3
+</td></tr>
+<tr>
+<td>minorVersion
+</td>
+<td>uint8
+</td>
+<td>1 (Dawnguard, Hearthfire and Dragonborn scripts are 2)
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td><a href="#Variable">Variable</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>flag?
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknownByte
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown2
+</td>
+<td>uint32
+</td>
+<td>Appears only if (flag and 0x01) == 0x01
+</td></tr>
+<tr>
+<td>unknown3
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown4
+</td>
+<td>depends on value of unknown3
+</td>
+<td>Appears only if unknown3 is between 1 - 3
+<pre>1 = uint32 count, char string[count], *
+2 = variable
+3 = uint32 count, char string[count], *, <a href="#Variable">Variable</a>
+</pre>
+<pre>*If string maths one of these, here is more things:
+String:             Data:
+TopicInfo           none
+QuestStage          3 bytes refId, uint16 String table reference, uint8 unknown
+ScenePhaseResults   3 bytes refId, uint32 unknown
+SceneActionResults  3 bytes refId, uint32 unknown
+SceneResults        3 bytes refId
+</pre>
+</td></tr>
+<tr>
+<td>Stackframecount
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Stackframe
+</td>
+<td><a href="#Stackframe">Stackframe</a>[Stackframecount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown5
+</td>
+<td>uint8
+</td>
+<td>Appears only if Stackframecount is not NULL
+</td></tr></tbody></table>
+<h2><span id="Stackframe">Stackframe</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>variablecount
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>flag?
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>function type
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Script name
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr>
+<tr>
+<td>Script base name
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr>
+<tr>
+<td>event
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr>
+<tr>
+<td>status
+</td>
+<td>uint16
+</td>
+<td>String table reference. Appears only if (flag and 0x01) == 0x00, and function type is 0x00
+</td></tr>
+<tr>
+<td>opcode version
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>opcode minor version
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>return type
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr>
+<tr>
+<td>function docstring
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr>
+<tr>
+<td>function user flags
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>function flags
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>function parameter count
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Functionparam
+</td>
+<td><a href="#Functionparam">Functionparam</a>[function parameter count]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>function locals count
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Functionlocal
+</td>
+<td><a href="#Functionlocal">Functionlocal</a>[function locals count]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>opcode count
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>opcodeData
+</td>
+<td><a href="#opcodeData">opcodeData</a>[opcode count]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown3
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td><a href="#Variable">Variable</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td><a href="#Variable">Variable</a>[variablecount]
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="opcodeData">opcodeData</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>opcode
+</td>
+<td>uint8
+</td>
+<td>
+<pre>opcode: type:           paremeters:
+0x00  NOOP
+0x01  Iadd                SII
+0x02  Fadd                SFF
+0x03  Isubtract           SII
+0x04  Fsubtract           SFF
+0x05  IMultiply           SII
+0x06  FMultiply           SFF
+0x07  IDivide             SII
+0x08  FDivide             SFF
+0x09  Imod                SII
+0x0a  Not                 SA
+0x0b  Inegate             SI
+0x0c  Fnegate             SF
+0x0d  Assign              SA
+0x0e  Cast                SA
+0x0f  CompareEQ           SAA
+0x10  CompareLT           SAA
+0x11  CompareLTE          SAA
+0x12  CompareGT           SAA
+0x13  CompareLTE          SAA
+0x14  Jump                L
+0x15  JumpT               AL
+0x16  JumpF               AL
+0x17  CallMethod          NSS*
+0x18  CallParent          NS*
+0x19  CallStatic          NNS*
+0x1a  Return              A
+0x1b  StrCat              SQQ
+0x1c  PropGet             NSS
+0x1d  PropSet             NSA
+0x1e  ArrayCreate         Su
+0x1f  ArrayLength         SS
+0x20  ArrayGetElement     SSI
+0x21  ArraySetElement     SIA
+0x22  ArrayFindelement    SSAI
+0x23  ArrayRFindElement   SSAI
+0x24  INVALID
+</pre>
+<pre>I = integer
+F = float
+S = string
+A = auto?
+* = uint32 extra parameters count
+</pre>
+</td></tr>
+<tr>
+<td>Parameter
+</td>
+<td><a href="#Parameter">Parameter</a>[count]
+</td>
+<td>count depends on opcode type. (eg. 0x01 Iadd SII takes 3 parameters)
+</td></tr></tbody></table>
+<h2><span id="Parameter">Parameter</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>type
+</td>
+<td>uint8
+</td>
+<td>
+<pre>1 and 2 = uint16 string table referece
+3 = uint32
+4 = float
+5 = uint8
+</pre>
+</td></tr>
+<tr>
+<td>data
+</td>
+<td>depends on type
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Functionparam">Functionparam</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>function param name
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr>
+<tr>
+<td>function param type
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr></tbody></table>
+<h2><span id="Functionlocal">Functionlocal</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>function local name
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr>
+<tr>
+<td>function type name
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr></tbody></table>
+<h2><span id="FunctionMessage">FunctionMessage</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint8
+</td>
+<td>If value &gt;2, no id, flag and message are present
+</td></tr>
+<tr>
+<td>id
+</td>
+<td>uint32
+</td>
+<td>Link with active script ID
+</td></tr>
+<tr>
+<td>flag
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>message
+</td>
+<td><a href="#FunctionMessageData">FunctionMessageData</a>
+</td>
+<td>Appears only if flag &gt;0
+</td></tr></tbody></table>
+<h2><span id="FunctionMessageData">FunctionMessageData</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>script name
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr>
+<tr>
+<td>event
+</td>
+<td>uint16
+</td>
+<td>String table reference
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td><a href="#Variable">Variable</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>variablecount
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td><a href="#Variable">Variable</a>[variablecount]
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="SuspendedStack">SuspendedStack</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>id
+</td>
+<td>uint32
+</td>
+<td>Link with active script ID
+</td></tr>
+<tr>
+<td>flag
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>message
+</td>
+<td><a href="#FunctionMessageData">FunctionMessageData</a>
+</td>
+<td>Appears only if flag &gt;0
+</td></tr></tbody></table>
+<h2><span id="queudUnbind">queudUnbind</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>ID
+</td>
+<td>uint32
+</td>
+<td>Link with script instance ID
+</td></tr>
+<tr>
+<td>unknown2
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Array1">Array1</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown1
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown2
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array1<br/>
+</p>
+<p>
+[30 01 00 00 34 13 00 00]<br/>
+[7C 07 00 00 35 13 00 00]<br/>
+[64 00 00 00 88 44 00 00]<br/>
+[11 02 00 00 22 EC 1A 00]<br/>
+[CE 01 00 00 22 EC 1A 00]</p><p><br/>
+</p><p><br/>
+</p>
+<h2><span id="Array1a">Array1a</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown1
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown2
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array1a<br/>
+</p>
+<p>
+[10 00 00 00 BE C5 01 00]<br/>
+[31 00 00 00 F3 C8 02 00]<br/>
+[10 00 00 00 5F E6 01 00]<br/>
+[52 00 00 00 54 36 02 00]<br/>
+[86 00 00 00 C3 A9 00 00]</p><p><br/>
+</p><h2><span id="Array2">Array2</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown1
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown2
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array2<br/>
+</p>
+<p>
+[4C 01 00 00 0E 28 0D 00]<br/>
+[67 00 00 00 72 3D 0D 00]<br/>
+[F4 01 00 00 26 33 08 00]<br/>
+[8C 03 00 00 BC 9B 06 00]</p><p><br/>
+</p><h2><span id="Array3">Array3</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>type
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>string 1
+</td>
+<td>uint16
+</td>
+<td>string reference??
+</td></tr>
+<tr>
+<td>unknown 1
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>string 2
+</td>
+<td>uint16
+</td>
+<td>string reference??
+</td></tr>
+<tr>
+<td>unknown 2
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>flags
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array3<br/>
+</p>
+<p>
+[00 87 00 00 00 88 13 00 00 00 00 FF FF 43 50 2E]<br/>
+[00 D2 02 00 00 88 13 00 00 00 00 FF FF 42 43 0E]<br/>
+[00 69 01 00 00 88 13 00 00 00 00 FF FF 42 E0 EE]<br/>
+[00 79 0B 00 00 88 13 00 00 00 00 FF FF 44 D7 8E]<br/>
+[01 10 01 00 00 E8 03 00 00 00 00 25 00 4F 5B C1]<br/>
+[00 67 03 00 00 88 13 00 00 00 00 FF FF 43 68 D8]</p><p><br/>
+</p><h2><span id="Array4">Array4</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>string 1
+</td>
+<td>uint16
+</td>
+<td>string reference??
+</td></tr>
+<tr>
+<td>unknown 1
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown 2
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>string 2
+</td>
+<td>uint16
+</td>
+<td>string reference??
+</td></tr>
+<tr>
+<td>unknown 3
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>flags
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array4<br/>
+</p>
+<p>
+[01 7C 02 00 00 E8 03 00 00 00 00 FF FF 47 43 45]<br/>
+[01 B5 02 00 00 E8 03 00 00 00 00 FF FF 47 43 4A]<br/>
+[01 7C 02 00 00 E8 03 00 00 00 00 10 00 43 AC DB]<br/>
+[01 B5 02 00 00 E8 03 00 00 00 00 12 00 43 AC DB]<br/>
+[01 23 03 00 00 E8 03 00 00 00 00 FF FF 42 BF 9C]</p><p><br/>
+</p><h2><span id="Array4b">Array4b</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown 1
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown 2
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown 3
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference 1
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference 2
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference 3
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference 4
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array4b<br/>
+</p>
+<p>
+[16 0F 0B 00 00 4B 23 86 80 0C 2A 80 0C 2C 43 2D B7]<br/>
+[16 CB 09 00 00 4B 23 86 80 0D 41 80 0D 3F 43 2D B7]</p><p><br/>
+</p><h2><span id="Array4c">Array4c</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>flag
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>data
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>data 1 array
+</td>
+<td>uint32[3]
+</td>
+<td>exists if flag in [0, 6]
+</td></tr>
+<tr>
+<td>data 2 array
+</td>
+<td>uint32[4]
+</td>
+<td>exists if flag = 0
+</td></tr>
+<tr>
+<td>unk
+</td>
+<td>uint8
+</td>
+<td>exists if flag in [0, 3]
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array4c<br/>
+</p>
+<p>
+[00 5D D4 69 00 80 1C C4 40 00 14 00 00 00 00 00 00 00 00 00 00 7A 44 00 00 00 00 00 00 00 00 00 00 00 00 00 00]<br/>
+[06 32 D4 69 00 80 3C 4F 0D 59 C8 47 CD 34 71 C7 A6 A0 30 46]<br/>
+[03 87 8B 61 00 80 24 78 02]<br/>
+[03 86 8B 61 00 80 24 77 02]</p><p><br/>
+</p><h2><span id="Array4d">Array4d</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>flag1
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>flag2
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array4d<br/>
+</p>
+<p>
+[03 F8 DA 3D 08 03 40 78 02]<br/>
+[03 7B 8B 61 00 80 24 71 02]</p><p><br/>
+</p><h2><span id="Array5">Array5</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown 1
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown 2
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference 1
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference 2
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference 3
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown 3
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array5<br/>
+</p>
+<p>
+[00 00 0D 00 45 0A F1 45 56 49 80 1A 20 00 02]<br/>
+[00 00 0E 00 45 0A F1 45 56 4E 80 1A 20 00 02]<br/>
+[00 00 0F 00 45 0A F1 45 56 4F 80 1A 20 00 02]<br/>
+[00 00 10 00 00 16 A1 80 27 65 40 00 14 00 02]</p><p><br/>
+</p><h2><span id="Array6">Array6</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>flags
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array6<br/>
+</p>
+<p>
+[00 00 FF FF 4F C1 A2]<br/>
+[00 00 FF FF 00 01 96]<br/>
+[00 00 FF FF 4A 2C 94]<br/>
+[00 00 FF FF 00 00 00]<br/>
+[00 00 FF FF 01 0E 5B]</p><p><br/>
+</p><h2><span id="Array7">Array7</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>flags
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array7<br/>
+</p>
+<p>
+[00 00 FF FF 4F C8 5D]</p><p><br/>
+</p><h2><span id="Array8">Array8</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>type
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>count1
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>count2
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference array 1
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>[count1]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference array 2
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>[count2]
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array8<br/>
+</p>
+<p>
+[00 00 0B 00 00 00 00 01 00 00 00 01 00 00 00 48 89 A2 00 00 00]<br/>
+[00 00 02 00 48 99 8D 04 00 00 00 00 00 00 00 43 AD 76 46 85 22 45 16 C8 45 AC E3]<br/>
+[00 00 01 00 45 33 1D 01 00 00 00 00 00 00 00 43 AD 5E]<br/>
+[00 00 FF FF 4F B8 0A 00 00 00 00 01 00 00 00 50 9C 69]<br/>
+[00 00 01 00 45 33 08 03 00 00 00 00 00 00 00 45 9B 86 45 16 C8 42 F4 4C]<br/>
+[00 00 02 00 45 B3 A5 03 00 00 00 00 00 00 00 43 AD 6C 46 85 23 45 AC DE]<br/>
+[00 00 03 00 4D B8 51 02 00 00 00 00 00 00 00 45 7A 7A 44 26 C8]<br/>
+[00 00 22 00 41 8B 4B 06 00 00 00 00 00 00 00 4D 3E 6A 4D 67 4A 4D 66 F9 4D 3E 6B 4D 67 0F 4D 67 2B]<br/>
+[00 00 0A 00 00 13 D2 02 00 00 00 00 00 00 00 00 1F 5C 00 1C 4B]</p><p><br/>
+</p><h2><span id="Array10">Array10</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>array reference
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>count
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>elements
+</td>
+<td><a href="#Array10Element">Array10Element</a>[count]
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array10<br/>
+</p>
+<p>
+[47 1D FC 04 00 00 00 10 00 00 00 MillLogChuteIdle 00 00 00 00 01 00 00 00 00 00 FF FF 47 1D FC 13 00 00 00 DestructionComplete 00 00 00 00 01 00 00 00 00 00 FF FF 47 1D FC 10 00 00 00 MillLogIdleReset 01 00 00 00 01 00 00 00 7F 14 00 00 01 00 00 00 00 00 FF FF 47 1D FC 14 00 00 00 MillLogPileLoadStart 00 00 00 00 01 00 00 00 00 00 FF FF 47 1D FC]<br/>
+[40 00 14 01 00 00 00 1C 00 00 00 SoundPlay . NPCHumanWoodChop 00 00 00 00 03 00 00 00 00 00 FF FF 48 3D 8D 00 00 FF FF 49 9B 49 00 00 FF FF 49 0E 50]<br/>
+[40 00 14 02 00 00 00 0A 00 00 00 weaponDraw 00 00 00 00 02 00 00 00 00 00 29 00 00 00 00 00 00 27 00 00 00 00 1C 00 00 00 SoundPlay . NPCHumanWoodChop 00 00 00 00 02 00 00 00 00 00 FF FF 4C DD 7A 00 00 FF FF 00 00 00]<br/>
+[40 00 14 01 00 00 00 0A 00 00 00 weaponDraw 00 00 00 00 01 00 00 00 00 00 08 00 00 00 00]<br/>
+[46 CF 54 01 00 00 00 05 00 00 00 Begin 00 00 00 00 01 00 00 00 00 00 FF FF 46 CF 54]</p><p><br/>
+</p><h2><span id="Array10Element">Array10Element</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>name
+</td>
+<td><a href="#w32string">w32string</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>count1
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>elements1
+</td>
+<td><a href="#Array10Element1">Array10Element1</a>[count1]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>count2
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>elements2
+</td>
+<td><a href="#Array10Element2">Array10Element2</a>[count2]
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Array10Element1">Array10Element1</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>count
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>elements
+</td>
+<td><a href="#Array10Element1Data">Array10Element1Data</a>[count]
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Array10Element1Data">Array10Element1Data</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>str
+</td>
+<td>uint16
+</td>
+<td>string refererence
+</td></tr>
+<tr>
+<td>flag
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Array10Element2">Array10Element2</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>flag
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Array11">Array11</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>reference
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array11<br/>
+</p>
+<p>
+[83 00 00 00 48 B6 27 00]<br/>
+[4D 00 00 00 B5 EC 93 0C]</p><p><br/>
+</p><h2><span id="Array12">Array12</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>reference
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>count
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>elements
+</td>
+<td><a href="#Array12Element">Array12Element</a>[count]
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array12<br/>
+</p>
+<p>
+[00 00 00 02 00 00 00 00 00 00 00 00 C2 72 03 00 00 00 00 00 00 C5 72 03 00]<br/>
+[00 02 97 01 00 00 00 00 00 00 00 00 C7 C7 00 00]<br/>
+[00 04 8C 01 00 00 00 00 00 00 00 00 58 05 00 00]<br/>
+[00 04 8E 01 00 00 00 00 00 00 00 00 68 09 00 00]<br/>
+[00 00 00 01 00 00 00 01 0A 00 00 00 78 DB A1 0A]<br/>
+[00 52 D9 04 00 00 00 00 00 00 00 00 91 6A 80 00 00 00 00 00 00 14 89 89 00 00 00 00 00 00 B2 13 91 00 00 00 00 00 00 D6 F2 94 00]</p><p><br/>
+</p><h2><span id="Array12Element">Array12Element</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unk1
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unk2
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>str
+</td>
+<td>uint16
+</td>
+<td>string reference?
+</td></tr>
+<tr>
+<td>unk3
+</td>
+<td>uint16
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Array13">Array13</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>reference
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>count
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>elements
+</td>
+<td><a href="#Array13Element">Array13Element</a>[count]
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array13<br/>
+</p>
+<p>
+[00 04 8C 01 00 00 00 0A 00 00 00 01 00 00 00 C9 05 00 00 01 00 00 00 00 00 00 00 00 01 00 00 00]<br/>
+[43 37 2B 01 00 00 00 41 00 00 00 01 00 00 00 2A 07 00 00 01 00 00 00 00 00 00 00 00 01 00 00 00]<br/>
+[00 4D 3C 01 00 00 00 C8 00 00 00 01 00 00 00 8C F2 94 00 02 00 00 00 00 00 00 00 01 01 00 00 00 00 01 00 00 00]<br/>
+[00 4D 23 01 00 00 00 0A 00 00 00 01 00 00 00 9B F2 94 00 01 00 00 00 00 00 00 00 00 01 00 00 00]<br/>
+[00 4D 0E 02 00 00 00 C8 00 00 00 01 00 00 00 67 13 91 00 02 00 00 00 00 00 00 00 00 01 00 00 00 01 01 00 00 00 0A 00 00 00 01 00 00 00 C3 B8 89 00 01 00 00 00 00 00 00 00 00 01 00 00 00]<br/>
+[00 4D 63 02 00 00 00 C8 00 00 00 01 00 00 00 E9 B7 89 00 01 00 00 00 00 00 00 00 00 01 00 00 00 73 00 00 00 01 00 00 00 04 89 89 00 01 00 00 00 00 00 00 00 00 01 00 00 00]<br/>
+[49 54 E1 01 00 00 00 01 00 00 00 01 00 00 00 EB 32 08 00 01 00 00 00 00 00 00 00 00 01 00 00 00]</p><p><br/>
+</p><h2><span id="Array13Element">Array13Element</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unk1
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>count1
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>data1
+</td>
+<td>uint32[count1]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>count2
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>data2
+</td>
+<td><a href="#Array13Element2">Array13Element2</a>[count2]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unk2
+</td>
+<td>uint32
+</td>
+<td>always is 1?
+</td></tr></tbody></table>
+<h2><span id="Array13Element2">Array13Element2</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>data
+</td>
+<td>uint8[5]
+</td>
+<td>bool array? only value 0 &amp; 1 there is observed
+</td></tr></tbody></table>
+<h2><span id="Array14">Array14</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>reference
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>count
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>elements
+</td>
+<td><a href="#Array14Element">Array14Element</a>[count]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>data
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array14<br/>
+</p>
+<p>
+[40 2B 29 01 00 00 00 00 00 00 00 00 F3 32 08 00]</p><p><br/>
+</p><h2><span id="Array14Element">Array14Element</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>data
+</td>
+<td>uint8[5]
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Array15">Array15</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>data
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>count
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>elements
+</td>
+<td>uint32[count]
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>Example data dump - Array15<br/>
+</p>
+<p>
+[5D 8A 00 00 01 00 00 00 0F 98 0D 00]<br/>
+[51 3D 00 00 01 00 00 00 3C 8B 37 00]</p><p><br/>
+</p><h2><span id="w32string">w32string</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>length
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>string
+</td>
+<td>uint8[length]
+</td>
+<td>
+</td></tr></tbody></table>
+</div>

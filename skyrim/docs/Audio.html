@@ -1,0 +1,39 @@
+
+<div><h2><span id="Audio">Audio</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>Only the UIActivateFail sound descriptor has been observed here.
+</td></tr>
+<tr>
+<td>tracksCount
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>tracks
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>[tracksCount]
+</td>
+<td>Seems to contain music tracks (MUST records) that were playing at the time of saving, not including the background music.
+</td></tr>
+<tr>
+<td>bgm
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>Background music at time of saving. Only MUST records have been observed here.
+</td></tr></tbody></table>
+</div>

@@ -1,0 +1,201 @@
+
+<div><h2><span id="Interface">Interface</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>shownHelpMsgCount
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>shownHelpMsg
+</td>
+<td>uint32[count]
+</td>
+<td>
+<ul><li>0xEC	- HelpLockpickingShort</li>
+<li>0xEE	- HelpSmithingShort</li>
+<li>0xEF	- HelpCookingPots</li>
+<li>0xF0	- HelpSmeltingShort</li>
+<li>0xF1	- HelpTanningShort</li>
+<li>0xF3	- HelpEnchantingShort</li>
+<li>0xF4	- HelpGrindstoneShort</li>
+<li>0xF5	- HelpArmorBenchShort</li>
+<li>0xF6	- HelpAlchemyShort</li>
+<li>0xF7	- HelpBarterShortPC</li>
+<li>0xF9	- HelpLevelingShort</li>
+<li>0xFA	- HelpWorldMapShortPC</li>
+<li>0xFB	- HelpJournalShortPC</li>
+<li>0xFF	- HelpJailTutorial</li>
+<li>0x100	- HelpFollowerCommandTutorial</li>
+<li>0x102	- HelpFavoritesPCShort</li></ul>
+<p>etc.
+</p>
+</td></tr>
+<tr>
+<td>unknown0
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>lastUsedWeaponsCount
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>lastUsedWeapons
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>[lastUsedWeaponsCount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>lastUsedSpellsCount
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>lastUsedSpells
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>[lastUsedSpellsCount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>lastUsedShoutsCount
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>lastUsedShouts
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>[lastUsedShoutsCount]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown1
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td><a href="#Unknown0">Unknown0</a>
+</td>
+<td>This value is only present in certain situations. Undetermined when.
+</td></tr></tbody></table>
+<h3><span id="Unknown0">Unknown0</span></h3>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>count1
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td><a href="#Unknown0_0">Unknown0_0</a>[count1]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>count2
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>wstring[count2]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr></tbody></table>
+<h4><span id="Unknown0_0">Unknown0_0</span></h4>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown
+</td>
+<td>wstring
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>wstring
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr></tbody></table>
+</div>

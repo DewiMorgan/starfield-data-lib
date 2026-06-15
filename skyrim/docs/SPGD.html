@@ -1,0 +1,53 @@
+
+<div><p><b>SPGD</b> records contain information on shader particle geometry.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>unknown</td>
+<td>struct</td>
+<td>48-byte struct or 40 without ICON <i>appears to be series of 4-byte values</i>
+<dl><dd>Float - Gravity Velocity</dd>
+<dd>Float - Rotation Velocity</dd>
+<dd>Float - Particle Size X</dd>
+<dd>Float - Particle Size Y</dd>
+<dd>Float - Center Offset Min</dd>
+<dd>Float - Center Offset Max</dd>
+<dd>Float - Initial Rotation Range</dd>
+<dd>uint32 - # of Subtextures X</dd>
+<dd>uint32 - # of Subtextures Y</dd>
+<dd>uint32 - Shader Type (In the CK Dust and Fog is set as Snow)
+<dl><dd>0 - Rain</dd>
+<dd>1 - Snow</dd></dl></dd></dl>
+<p>These bytes are not present when a Particle Texture (ICON) is not assigned.
+</p>
+<dl><dd>uint32 - Box Size <i>defaults to 4096</i></dd>
+<dd>Float - Particle Density <i>defaults to 1</i></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>ICON</td>
+<td>effects</td>
+<td>zstring</td>
+<td>Particle Texture - Path to .dds
+</td></tr></tbody></table>
+</div>

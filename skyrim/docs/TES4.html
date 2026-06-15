@@ -1,0 +1,80 @@
+
+<div><p><b>TES4</b> is the header record for the mod file. It contains info like author, description, file type, and masters list. <a href="index.html#Records">Record flags</a> indicate the following:
+</p>
+<ul><li>0x1: if set, the file is treated as a master, regardless of what the file extension says.</li>
+<li>0x80: whether the file has <a href="String_Table_File_Format.html">localized string tables</a>. If this flag is not set, lstrings are treated as zstrings.</li>
+<li>0x200: if set, the file is treated as a light master.</li></ul>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C">C</a>
+</th>
+<th>Field
+</th>
+<th><a href="File_Format_Conventions.html#Data_Type.23Data_Types">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>HEDR</td>
+<td>struct<br/>(12 bytes)</td>
+<td>Header
+<dl><dd>float32 - Version (0.94 for older files; 1.7 for more recent ones).</dd>
+<dd>uint32 - Number of records and groups (<i>not</i> including TES4 record itself).</dd>
+<dd>uint32 - Next available object ID.</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>CNAM</td>
+<td>zstring</td>
+<td>Author
+<ul><li>Max size: 512 bytes (including terminator).</li></ul>
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>zstring</td>
+<td>Description
+<ul><li>Max size: 512 bytes (including terminator).</li></ul>
+</td></tr>
+<tr>
+<td rowspan="2">*</td>
+<td>MAST</td>
+<td>zstring</td>
+<td>Master filename.
+<ul><li>Each pair of MAST/DATA subrecords represent a single master of the mod file.</li>
+<li>Master files are listed in load order at the time the mod was saved.</li>
+<li>The modindex of <a href="Form_ID.html">formids</a> in the mod file match the order of masters given here.</li></ul>
+</td></tr>
+<tr>
+<td>DATA</td>
+<td>uint64
+</td>
+<td>
+<ul><li>Always 0. <i>May be vestigial.</i></li>
+<li>In Tes3, the file size of the master was recorded here. In Tes4, the size code seems to be in place, but is not functioning and may either be bugged or conditioned out at a low level.</li></ul>
+</td></tr>
+<tr>
+<td>-</td>
+<td>ONAM</td>
+<td>formid[]</td>
+<td>Overridden forms
+<ul><li>This record only appears in ESM flagged files which override their masters' cell children.</li>
+<li>An ONAM subrecord will list, exclusively, FormIDs of overridden cell children (ACHR, LAND, NAVM, PGRE, PHZD, REFR).</li>
+<li>Observed in Update.esm as of Patch 1.5.24.</li>
+<li>Number of records is based solely on field size.</li></ul>
+</td></tr>
+<tr>
+<td>+</td>
+<td>INTV</td>
+<td>uint32</td>
+<td>Number of strings that can be tagified (used only for TagifyMasterfile command-line option of the CK).
+</td></tr>
+<tr>
+<td>-</td>
+<td>INCC</td>
+<td>uint32</td>
+<td>Some kind of counter. Appears to be related to masters.
+<ul><li>Introduced with the Skyrim 1.6 update in Update.esm.</li></ul>
+</td></tr></tbody></table>
+</div>

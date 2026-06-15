@@ -1,0 +1,263 @@
+
+<div><p><br/>
+</p>
+<h2><span id="REFR_change_form">REFR change form</span></h2>
+<ul><li>REFR change flags:</li></ul>
+<dl><dd>0x01 - CHANGE_FORM_FLAGS</dd>
+<dd>0x02 - CHANGE_REFR_MOVE</dd>
+<dd>0x04 - CHANGE_REFR_HAVOK_MOVE</dd>
+<dd>0x08 - CHANGE_REFR_CELL_CHANGED</dd>
+<dd>0x10 - CHANGE_REFR_SCALE</dd>
+<dd>0x20 - CHANGE_REFR_INVENTORY</dd>
+<dd>0x40 - CHANGE_REFR_EXTRA_OWNERSHIP</dd>
+<dd>0x80 - CHANGE_REFR_BASEOBJECT</dd>
+<dd>0x2000000 - CHANGE_REFR_PROMOTED</dd>
+<dd>0x4000000 - CHANGE_REFR_EXTRA_ACTIVATING_CHILDREN</dd>
+<dd>0x8000000 - CHANGE_REFR_LEVELED_INVENTORY</dd>
+<dd>0x10000000 - CHANGE_REFR_ANIMATION</dd>
+<dd>0x20000000 - CHANGE_REFR_EXTRA_ENCOUNTER_ZONE</dd>
+<dd>0x40000000 - CHANGE_REFR_EXTRA_CREATED_ONLY</dd>
+<dd>0x80000000 - CHANGE_REFR_EXTRA_GAME_ONLY</dd></dl>
+<dl><dd>0x400 - CHANGE_OBJECT_EXTRA_ITEM_DATA</dd>
+<dd>0x800 - CHANGE_OBJECT_EXTRA_AMMO</dd>
+<dd>0x1000 - CHANGE_OBJECT_EXTRA_LOCK</dd>
+<dd>0x20000 - CHANGE_DOOR_EXTRA_TELEPORT</dd>
+<dd>0x200000 - CHANGE_OBJECT_EMPTY</dd>
+<dd>0x400000 - CHANGE_OBJECT_OPEN_DEFAULT_STATE</dd>
+<dd>0x800000 - CHANGE_OBJECT_OPEN_STATE</dd></dl>
+<p><br/>
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th>Data
+</th>
+<th>Present if flag set
+</th></tr>
+<tr>
+<td>Initial data
+</td>
+<td><a href="ChangeFlags.html#Initial_type">Initial type</a>
+</td>
+<td>see <a href="ChangeFlags.html#Initial_type">Initial type</a>
+</td></tr>
+<tr>
+<td>Havok data
+</td>
+<td>vsval count
+<p>uint8[count]
+</p>
+</td>
+<td>CHANGE_REFR_HAVOK_MOVE
+</td></tr>
+<tr>
+<td>Flags
+</td>
+<td><a href="ChangeFlags.html#Change_form_flags">Change form flags</a>
+</td>
+<td>CHANGE_FORM_FLAGS
+</td></tr>
+<tr>
+<td>Base object
+</td>
+<td>refId
+</td>
+<td>CHANGE_REFR_BASEOBJECT
+</td></tr>
+<tr>
+<td>scale
+</td>
+<td>float
+</td>
+<td>CHANGE_REFR_SCALE
+</td></tr>
+<tr>
+<td>Extra data
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format/Extra_data">Extra data</a>
+</td>
+<td>if one or more of these is set:
+<p>CHANGE_REFR_EXTRA_OWNERSHIP
+</p><p>CHANGE_OBJECT_EXTRA_LOCK
+</p><p>CHANGE_REFR_EXTRA_ENCOUNTER_ZONE
+</p><p>CHANGE_REFR_EXTRA_GAME_ONLY
+</p><p>CHANGE_OBJECT_EXTRA_AMMO
+</p><p>CHANGE_DOOR_EXTRA_TELEPORT
+</p><p>CHANGE_REFR_PROMOTED
+</p><p>CHANGE_REFR_EXTRA_ACTIVATING_CHILDREN
+</p><p>CHANGE_OBJECT_EXTRA_ITEM_DATA
+</p>
+</td></tr>
+<tr>
+<td>Inventory
+</td>
+<td><a href="#Inventory">Inventory</a>
+</td>
+<td>CHANGE_REFR_INVENTORY or CHANGE_REFR_LEVELED_INVENTORY
+</td></tr>
+<tr>
+<td>Animation
+</td>
+<td>vsval count
+<p>uint8[count]
+</p>
+</td>
+<td>CHANGE_REFR_ANIMATION
+</td></tr>
+<tr>
+<td>Explosion
+</td>
+<td><a href="#Explosion">Explosion</a>
+</td>
+<td>present if initial type == 5 and base object type is EXPL. (last refID from initial data, type can be checked from mod file)
+</td></tr></tbody></table>
+<h2><span id="Inventory">Inventory</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th>Type
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>count
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>items
+</td>
+<td><a href="#Inventory_item">Inventory item</a>[count]
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Inventory_item">Inventory item</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th>Type
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>item
+</td>
+<td>refId
+</td>
+<td>
+</td></tr>
+<tr>
+<td>item count
+</td>
+<td>sint32
+</td>
+<td>eg. player have 1000 gold, then this is 1000.
+</td></tr>
+<tr>
+<td>extra count
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>extra datas
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format/Extra_data">Extra data</a>[extra count]
+</td>
+<td>
+</td></tr></tbody></table>
+<p><br/>
+</p>
+<h2><span id="Explosion">Explosion</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th>Type
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>unks
+</td>
+<td>float[4]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unk1
+</td>
+<td>uint32[2]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unks2
+</td>
+<td>float[2]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unks3
+</td>
+<td>float[3]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unks4
+</td>
+<td>float[3]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unk5
+</td>
+<td>float
+</td>
+<td>
+</td></tr>
+<tr>
+<td>refs
+</td>
+<td>refID[4]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unk6
+</td>
+<td>float
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unk7
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>flag
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>NonActorMagicCaster
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format/Extra_data#NonActorMagicCaster">NonActorMagicCaster</a>
+</td>
+<td>present if flag != 0
+</td></tr></tbody></table>
+</div>

@@ -1,0 +1,76 @@
+
+<div><h2><span id="Effects">Effects</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>count
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>imageSpaceModifiers
+</td>
+<td><a href="#Effect">Effect</a>[count]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>float
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>float
+</td>
+<td>
+</td></tr></tbody></table>
+<h3><span id="Effect">Effect</span></h3>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>strength
+</td>
+<td>float
+</td>
+<td>Value from 0 to 1 (0 is no effect, 1 is full effect)
+</td></tr>
+<tr>
+<td>timestamp
+</td>
+<td>float
+</td>
+<td>Time from effect beginning
+</td></tr>
+<tr>
+<td>unknown
+</td>
+<td>uint32
+</td>
+<td>May be flag. Appears when you аdd a crossfade imagespace modifier to the active list with <b>imodcf</b> command
+</td></tr>
+<tr>
+<td>effectID
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>
+</td></tr></tbody></table>
+</div>

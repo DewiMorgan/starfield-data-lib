@@ -1,0 +1,282 @@
+
+<div><p><b>CELL</b> records contain the data for either interior (CELL top group) or exterior (WRLD top group) cells. They follow the same format in both cases. The CELL record is followed by a <a href="GRUP.html">group</a> containing the references for the cell, organized into subgroups. Persistent references are defined in the 'persistent children' subgroup while temporary references are defined in the 'temporary children' subgroup. The 'persistent children' subgroup must occur before the 'temporary children' subgroup.
+</p><p>The block and sub-block groups for an interior cell can be determined either by the label field of the group headers of the block and sub-block, or by the last two decimal digits of the Form ID. For example, for Form ID 0x138CA, which is 80,074 in decimal, 4 indicates that this is block 4, and the 7 indicates that it's sub-block 7.
+</p><p>The block and sub-block groups for an exterior cell can be determined either by the label filed of the group headers of the block and sub-block, or by the X, Y coordinates of the cell from the XCLC field. Each block contains 16 sub-blocks (4x4) and each sub-block contains 64 cells (8x8). So, to get the sub-block number, divide the coordinates by 8 (rounding down), and the block number can be determined by dividing the sub-block numbers by 4 (again, rounding down). Thus, a cell with the X, Y coordinates 31, 50 would be in floor(31 / 8) = 3, floor(50 / 8) = 6, so sub-block 3, 6. Dividing again, only this time by 4, it would be in block 0, 1.
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p>
+<dl><dd>0x00000400 - Persistent Cell?</dd>
+<dd>0x00020000 - Off Limits</dd>
+<dd>0x00080000 - Can't Wait</dd></dl>
+<table class="wikitable">
+<tbody><tr>
+<th>C
+</th>
+<th>Field
+</th>
+<th><a href="File_Format_Conventions.html">Type</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>-</td>
+<td>EDID</td>
+<td>zstring</td>
+<td>Cell editor ID
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>lstring</td>
+<td>In game name of the cell. Only in interior cells.
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>uint16</td>
+<td>flags - Sometimes the field is only one byte long
+<dl><dd>0x0001 - Interior</dd>
+<dd>0x0002 - Has Water</dd>
+<dd>0x0004 - not Can't Travel From Here - only valid for interior cells</dd>
+<dd>0x0008 - No LOD Water</dd>
+<dd>0x0020 - Public Area</dd>
+<dd>0x0040 - Hand Changed</dd>
+<dd>0x0080 - Show Sky</dd>
+<dd>0x0100 - Use Sky Lighting</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XCLC</td>
+<td>struct</td>
+<td>(X, Y) grid location of the cell followed by flags. Always in exterior cells and never in interior cells.
+<dl><dd>int32 - X</dd>
+<dd>int32 - Y</dd>
+<dd>uint32 - flags (high bits look random)
+<dl><dd>0x1 - Force Hide Land Quad 1</dd>
+<dd>0x2 - Force Hide Land Quad 2</dd>
+<dd>0x4 - Force Hide Land Quad 3</dd>
+<dd>0x8 - Force Hide Land Quad 4</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XCLL</td>
+<td>struct</td>
+<td>92 byte structure - Lighting
+<dl><dd>rgb Ambient</dd>
+<dd>rgb Directional</dd>
+<dd>rgb Fog Near</dd>
+<dd>float Fog Near</dd>
+<dd>float Fog Far</dd>
+<dd>int Rotation XY</dd>
+<dd>int Rotation Z</dd>
+<dd>float Directional Fade</dd>
+<dd>float Fog Clip Dist</dd>
+<dd>float Fog Pow</dd>
+<dd>rgb Ambient X+</dd>
+<dd>rgb Ambient X-</dd>
+<dd>rgb Ambient Y+</dd>
+<dd>rgb Ambient Y-</dd>
+<dd>rgb Ambient Z+</dd>
+<dd>rgb Ambient Z-</dd>
+<dd>rgb Specular Color? <i>not shown in CK - assumed from LGTM</i></dd>
+<dd>float Fresnel Power? <i>not shown in CK, usually 1 - assumed from LGTM</i></dd>
+<dd>rgb Fog Far</dd>
+<dd>float Fog Max</dd>
+<dd>float Light Fade Distances Start</dd>
+<dd>float Light Fade Distances End</dd>
+<dd>uint32 Inherit flags - controls which parts are inherited from Lighting Template
+<dl><dd>0x0001 - Ambient Color</dd>
+<dd>0x0002 - Directional Color</dd>
+<dd>0x0004 - Fog Color</dd>
+<dd>0x0008 - Fog Near</dd>
+<dd>0x0010 - Fog Far</dd>
+<dd>0x0020 - Directional Rot</dd>
+<dd>0x0040 - Directional Fade</dd>
+<dd>0x0080 - Clip Distance</dd>
+<dd>0x0100 - Fog Power</dd>
+<dd>0x0200 - Fog Max</dd>
+<dd>0x0400 - Light Fade Distances</dd></dl></dd></dl>
+<p><i>this field has only 64 bytes in NavMeshGenCellDUPLICATE001</i>
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>TVDT</td>
+<td>684 bytes</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td>MHDT</td>
+<td>1028 bytes</td>
+<td>A 32×32 grid of per-quad height ceilings used by the dragon flight system to determine clearance over the cell's exterior airspace. Not consulted by terrain rendering — LAND.VHGT provides ground geometry separately.<br/><br/><b>Format (1028 bytes):</b><br/>* Bytes 0–3: float32 anchor (vertical reference, typically near the cell's terrain minimum).<br/>* Bytes 4–1027: 32 × 32 signed int8 grid, column-major. The byte at offset <code>4 + (col × 32 + row)</code> covers the 128×128-game-unit quad at (col, row), with col 0 = west edge and row 0 = south edge. (Axis convention matches VHGT; storage order does not — VHGT is row-major.) Each int8 encodes max-height for that quad above the anchor; vanilla cells use roughly 110 game units per int8 step.<br/><br/>Must be manually regenerated in the Creation Kit World-&gt;Generate Max Height Data For Current Cell. LAND terrain and tree-type records contribute observably; narrow statics do not appear to register.</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XCGD</td>
+<td>struct</td>
+<td>Only found in Xbox360 and PS3 official DLC, not supported by CK 1.8.151.0.
+<dl><dd>uint32 - Count of substructures? Seems plausible, but doesn't always seem to match up.</dd>
+<dd>uint32 - String length, including null-terminator (like bzstring, but with a uint32 length)</dd>
+<dd>char[String length] - File name (looks to always be .nif files)</dd>
+<dd>? - Other data here, but unclear what it is or what delineates the next file.</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>LTMP</td>
+<td>formID</td>
+<td>The <a href="LGTM.html">lighting template</a> for this cell.
+</td></tr>
+<tr>
+<td>-</td>
+<td>LNAM</td>
+<td>4 bytes</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td>XCLW</td>
+<td>float</td>
+<td>Non-ocean water-height in cell, is used for rivers, ponds etc., ocean-water is globally defined elsewhere.
+<ul><li>0x7F7FFFFF reserved as ID for "no water present", it is also the maximum positive float.</li>
+<li>0x4F7FFFC9 is a bug in the CK, this is the maximum unsigned integer 2^32-1 cast to a float and means the same as above</li>
+<li>0xCF000000 could be a bug as well, this is the maximum signed negative integer -2^31 cast to a float</li></ul>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XNAM</td>
+<td>1 byte</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XCLR</td>
+<td>formID[]</td>
+<td>Regions containing the cell (assumed from Oblivion).
+</td></tr>
+<tr>
+<td colspan="4">Fields below this line can appear in any order.
+</td></tr>
+<tr>
+<td>-</td>
+<td>XLCN</td>
+<td>formID</td>
+<td>The <a href="LCTN.html">location</a> for (of?) this cell.
+</td></tr>
+<tr>
+<td>-</td>
+<td>XWCS</td>
+<td>uint32</td>
+<td>Size of XWCU/16 - CK changes this into use of XWCN <i>Always has the value three in Skyrim.esm.</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XWCN</td>
+<td>uint32</td>
+<td>Size of XWCU/16 <i>Only one occurrence - 0x04</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XWCU</td>
+<td>struct[]</td>
+<td>Water Current, series of 16 byte structures, minimum 3
+<dl><dd>float X</dd>
+<dd>float Y</dd>
+<dd>float Z</dd>
+<dd>float? <i>unknown</i></dd></dl>
+<p>Unclear how structures are matched up to "Linear Velocity" and "Angular Velocity" shown in CK
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XCWT</td>
+<td>formID</td>
+<td>The <a href="WATR.html">water</a> for (of?) this cell.
+</td></tr>
+<tr>
+<td>-</td>
+<td>XOWN</td>
+<td>formID</td>
+<td>Owner NPC or Faction (assumed from Oblivion). Only in interior cells.
+</td></tr>
+<tr>
+<td>-</td>
+<td>XILL</td>
+<td>formID</td>
+<td>ID of an NPC_ or FLST. Only in interior cells.
+</td></tr>
+<tr>
+<td>-</td>
+<td>XWEM</td>
+<td>zstring</td>
+<td>Water Environment Map <i>only interior cells</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XCCM</td>
+<td>formID</td>
+<td>Climate if interior cell behaves like exterior cell (assumed from Oblivion). Only in interior cells.
+</td></tr>
+<tr>
+<td>-</td>
+<td>XCAS</td>
+<td>formID</td>
+<td>The <a href="ASPC.html">acoustic space</a> for this cell.
+</td></tr>
+<tr>
+<td>-</td>
+<td>XEZN</td>
+<td>formID</td>
+<td>A reference to an <a href="ECZN.html">encounter zone</a>.
+</td></tr>
+<tr>
+<td>-</td>
+<td>XCMO</td>
+<td>formID</td>
+<td>The <a href="MUSC.html">music type</a> for this cell.
+</td></tr>
+<tr>
+<td>-</td>
+<td>XCIM</td>
+<td>formID</td>
+<td>The <a href="IMGS.html">image space</a> for this cell.
+</td></tr></tbody></table>
+<p>The last four bytes in XCLC do not appear to be a form ID. The following values appear 100 or more times in those last four bytes:
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Count
+</th>
+<th>Value
+</th></tr>
+<tr>
+<td>100</td>
+<td>53bd00
+</td></tr>
+<tr>
+<td>279</td>
+<td>53ba00
+</td></tr>
+<tr>
+<td>360</td>
+<td>53d400
+</td></tr>
+<tr>
+<td>586</td>
+<td>0
+</td></tr>
+<tr>
+<td>586</td>
+<td>53d200
+</td></tr>
+<tr>
+<td>5881</td>
+<td>53fd00
+</td></tr>
+<tr>
+<td>8397</td>
+<td>53d100
+</td></tr></tbody></table>
+<p>The less frequent values show a distribution of values that makes them look like a bitmap.
+</p>
+</div>

@@ -1,0 +1,57 @@
+
+<div><p><b>LVSP</b> records contain information on Leveled Spells.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>EditorID</td>
+<td>zstring
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>Bounds</td>
+<td>Data (struct[12 bytes])
+</td></tr>
+<tr>
+<td>+</td>
+<td>LVLD</td>
+<td>% Chance None</td>
+<td>(byte)
+</td></tr>
+<tr>
+<td>+</td>
+<td>LVLF</td>
+<td>Level List Flags</td>
+<td>(byte)</td>
+<td>same as LVLI/LVLN?
+</td></tr>
+<tr>
+<td>+</td>
+<td>LLCT</td>
+<td>Count of LVLO subrecords</td>
+<td>(byte)
+</td></tr>
+<tr>
+<td>+</td>
+<td>LVLO</td>
+<td>List Item</td>
+<td>struct (12 bytes)</td>
+<td>
+<dl><dd>uint32  Level</dd>
+<dd>formid SpellID</dd>
+<dd>uint32  Count</dd></dl>
+</td></tr></tbody></table>
+</div>

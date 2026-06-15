@@ -1,0 +1,142 @@
+
+<div><div></div>
+<p>Internally, all alchemy items (food, drinks, potions, and poisons), enchantments, ingredients, scrolls and spells derive from the same object, MagicItem, and thus share a similar structure.
+</p><p><b>Auto-calc</b>:
+</p>
+<ul><li><b>Charge Time</b>: The longest Casting Time of all of the effects.</li>
+<li><b>Spell Cost</b>: The total of all effect costs.</li></ul>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>EditorID</td>
+<td>zstring</td>
+<td>Max 0x200 bytes, including null terminator.
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>ObjectBounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always 12 bytes even if all 0s
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>FullName</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>-</td>
+<td>MDOB</td>
+<td>MenuIcon</td>
+<td>formid</td>
+<td>Menu display object <a href="STAT.html">STAT</a>
+</td></tr>
+<tr>
+<td>+</td>
+<td>ETYP</td>
+<td>EquipType</td>
+<td>formid</td>
+<td>Equip slot <a href="EQUP.html">EQUP</a>
+</td></tr>
+<tr>
+<td>+</td>
+<td>DESC</td>
+<td>Description</td>
+<td>lstring</td>
+<td>In-game description or 0 if none.
+</td></tr>
+<tr>
+<td>+</td>
+<td>SPIT</td>
+<td>SpellItem</td>
+<td>struct</td>
+<td>36 bytes
+<dl><dd>uint32 - Spell Cost (if auto-calc, game bases cost on the sum of the effect costs)</dd></dl>
+<dl><dd>uint32 - Flags
+<dl><dd>0x00000001 - not Auto-Calculate</dd>
+<dd>0x00010000 - Unknown1 (always set if Unknown2 is set)</dd>
+<dd>0x00020000 - PC Start Spell</dd>
+<dd>0x00040000 - Unknown2 (always set if Unknown1 is set)</dd>
+<dd>0x00080000 - Area Effect Ignores Line of Sight</dd>
+<dd>0x00100000 - Ignore Resistance</dd>
+<dd>0x00200000 - Disallow Spell Absorb/Reflect</dd>
+<dd>0x00400000 - Unknown3</dd>
+<dd>0x00800000 - No Dual Cast Modifications</dd></dl></dd></dl>
+<dl><dd>uint32 - Type
+<dl><dd>0x00 - Spell</dd>
+<dd>0x01 - Disease</dd>
+<dd>0x02 - Power</dd>
+<dd>0x03 - Lesser Power</dd>
+<dd>0x04 - Ability</dd>
+<dd>0x05 - Poison</dd>
+<dd>0x0A - Addiction</dd>
+<dd>0x0B - Voice</dd></dl></dd></dl>
+<dl><dd>float - ChargeTime (if auto-calc, game uses the maximum of the casting times of the effects instead)</dd></dl>
+<dl><dd>uint32 - CastType
+<dl><dd>0x00 - Constant Effect</dd>
+<dd>0x01 - Fire and Forget</dd>
+<dd>0x02 - Concentration</dd></dl></dd></dl>
+<dl><dd>uint32 - Delivery
+<dl><dd>0x00 - Self</dd>
+<dd>0x01 - Contact</dd>
+<dd>0x02 - Aimed</dd>
+<dd>0x03 - Target Actor</dd>
+<dd>0x04 - Target Location</dd></dl></dd>
+<dd>float - Cast Duration - determines minimum duration of a Concentrated spell.</dd>
+<dd>float - Range (valid for Delivery Target Actor or Target Location)</dd>
+<dd>formid - <a href="PERK.html">PERK</a> of half-cost perk</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>Effects</td>
+<td>Effect[]</td>
+<td>One entry per effect.
+</td></tr>
+<tr>
+<th colspan="6">Effect
+</th></tr>
+<tr>
+<td>+</td>
+<td>EFID</td>
+<td>EffectID</td>
+<td>formid</td>
+<td>Magic Effect <a href="MGEF.html">MGEF</a>
+</td></tr>
+<tr>
+<td>+</td>
+<td>EFIT</td>
+<td>EffectItem</td>
+<td>struct</td>
+<td>12 bytes
+<dl><dd>float Magnitude</dd>
+<dd>uint32 Area of Effect</dd>
+<dd>uint32 Duration (0 = instant)</dd></dl>
+<p>For auto-calc purposes, the game calculates the cost of an effect as:
+</p>
+<pre>effect_base_cost * (Magnitude * Duration / 10) ^ 1.1</pre>
+<p>A Magnitude &lt; 1 is treated as 1, and a Duration of 0 as 10. For concentration spells, the Duration is also treated as 10.
+</p>
+</td></tr>
+<tr>
+<td>*</td>
+<td>CTDA</td>
+<td>Conditions</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>Conditions on the effect.
+</td></tr></tbody></table>
+</div>

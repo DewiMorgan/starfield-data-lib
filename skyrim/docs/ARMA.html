@@ -1,0 +1,227 @@
+
+<div><p><b>ARMA</b> records contain armature data, which is how armor (or similar) is displayed on a model.  These also contain information on bare (ie unarmored) models, presumably combined with specific armor/addons.  For creatures, this can be potentially only 1 record.
+</p><p>Each record has the potential for gender-separated models, as well as 1st person vs. 3rd person and also a list of races that this qualifies for.
+</p><p>If MOD3 is not present, MOD2 is both genders, if MOD3 is present then MOD2 is only male.
+If MOD4 is not present, MOD2/3 are all viewpoints, if MOD4 is present, then MOD2/3 are specifically 3rd person while 4/5 are 1st person.
+</p><p>A similar distinction exists with NAM0-3 (base texture) eg NAM0 = male, 3rd person, NAM2 = male, 1st person
+</p><p>Note: there are some with only MOD2/4 or MOD3/5 for gender-specific models as well (eg Astrid)
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>Version
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>pre 1.6.91</td>
+<td>BODT</td>
+<td>Body Template</td>
+<td><a href="BODT_Field.html">BODT</a></td>
+<td>12-byte struct Body Template. Appears to be mutually exclusive with BOD2.
+</td></tr>
+<tr>
+<td>+</td>
+<td>1.6.91</td>
+<td>BOD2</td>
+<td>Body Template</td>
+<td><a href="BOD2_Field.html">BOD2</a></td>
+<td>8-byte struct Body Template. Appears to be mutually exclusive with BODT.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>RNAM</td>
+<td>"primary" race</td>
+<td>formid</td>
+<td><a href="RACE.html">RACE</a> note: there is no preference given for races listed but must have at least this 1.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DNAM</td>
+<td>unknown</td>
+<td>struct</td>
+<td>12 bytes
+<dl><dd>uint8 - Male Priority</dd>
+<dd>uint8 - Female Priority</dd>
+<dd>uint32 - Unknown</dd>
+<dd>uint8 - Detection Sound Value</dd>
+<dd>uint8 - Unknown</dd>
+<dd>float - Weapon Adjust</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>MOD2</td>
+<td>model</td>
+<td>zstring</td>
+<td>Models\ relative .nif
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MO2T</td>
+<td>model data</td>
+<td>struct[]</td>
+<td>(MODT) varying count of repeated 12 byte struct
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>MO2S</td>
+<td>alternate texture sets</td>
+<td>struct</td>
+<td>uint32 number of alternate textures.
+<dl><dd>Followed by sets of:
+<dl><dd>uint32 - string name length</dd>
+<dd>string - Alt texture name</dd>
+<dd>formid - Alt texture formID (TXST)</dd>
+<dd>uint32 - model index</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MOD3</td>
+<td>model</td>
+<td>zstring</td>
+<td>Models\ relative .nif
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MO3T</td>
+<td>model data</td>
+<td>struct[]</td>
+<td>(MODT) varying count of repeated 12 byte struct
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>MO3S</td>
+<td>alternate texture sets</td>
+<td>struct</td>
+<td>Same as MO2S
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MOD4</td>
+<td>model</td>
+<td>zstring</td>
+<td>Models\ relative .nif
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MO4T</td>
+<td>model data</td>
+<td>struct[]</td>
+<td>(MODT) varying count of repeated 12 byte struct
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>MO4S</td>
+<td>alternate texture sets</td>
+<td>struct</td>
+<td>Same as MO2S
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MOD5</td>
+<td>model</td>
+<td>zstring</td>
+<td>Models\ relative .nif
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MO5T</td>
+<td>model data</td>
+<td>struct[]</td>
+<td>(MODT) varying count of repeated 12 byte struct
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>MO5S</td>
+<td>alternate texture sets</td>
+<td>struct</td>
+<td>Same as MO2S
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>NAM0</td>
+<td>base male texture</td>
+<td>formid</td>
+<td>(<a href="TXST.html">TXST</a>) formid - male
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>NAM1</td>
+<td>base female texture</td>
+<td>formid</td>
+<td>(<a href="TXST.html">TXST</a>) formid - female
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>NAM2</td>
+<td>base male 1st texture</td>
+<td>formid</td>
+<td>(<a href="TXST.html">TXST</a>) formid - male 1st person
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>NAM3</td>
+<td>base female 1st texture</td>
+<td>formid</td>
+<td>(<a href="TXST.html">TXST</a>) formid - female 1st person
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>MODL</td>
+<td>included race</td>
+<td>formid</td>
+<td>(<a href="RACE.html">RACE</a>) formid - repeated for each race this is applicable to.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>SNDD</td>
+<td>footstep sound</td>
+<td>formid</td>
+<td>(<a href="FSTS.html">FSTS</a>) formid - mostly creatures
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ONAM</td>
+<td>Art Object</td>
+<td>formid</td>
+<td>(<a href="ARTO.html">ARTO</a>) formid - mostly creatures
+</td></tr>
+</tbody></table>
+</div>

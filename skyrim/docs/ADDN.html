@@ -1,0 +1,70 @@
+
+<div><p><b>ADDN</b> records contain information on "addon nodes".  These appear to be generic visual attachments that can be attached to any object.
+</p><p>NOTE: All fields marked required since all records have them but they may not all be required.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always 12 bytes, even if all 0s
+</td></tr>
+<tr>
+<td>+</td>
+<td>MODL</td>
+<td>model</td>
+<td>zstring</td>
+<td>Path to .nif
+</td></tr>
+<tr>
+<td>+</td>
+<td>MODT</td>
+<td>model data</td>
+<td>struct[]</td>
+<td>series of 12-byte structs (assume xyz)
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>Addon Node Index</td>
+<td>uint32</td>
+<td>Unique integer (within ADDN), may be used instead of formID for reference.
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>Ambient Sound</td>
+<td>FormID</td>
+<td><a href="SOUN.html">SOUN</a> <i>not found in original files</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>DNAM</td>
+<td>flags</td>
+<td>struct</td>
+<td>
+<dl><dd>uint16 - Master Particle System Cap <i>always 0 in original files</i></dd>
+<dd>uint16 - Flags
+<dl><dd>0x0001 : <i>unknown, always set in original files</i></dd>
+<dd>0x0002 : Always Loaded - Camera?  dust spray//blood spray//fire impact (but not frost)</dd></dl></dd></dl>
+</td></tr></tbody></table>
+</div>

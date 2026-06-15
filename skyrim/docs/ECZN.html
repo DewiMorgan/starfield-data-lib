@@ -1,0 +1,77 @@
+
+<div><p><b>ECZN</b> records comprise an "Encounter Zone".  Encounter Zones control the loot found in an area, including the level of the loot and whether or not it resets.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td rowspan="7">+
+</td>
+<td rowspan="7">DATA
+</td>
+<td>data</td>
+<td>struct[12]</td>
+<td>2 Records have length 8 instead of 12, but those 2 records are all zero
+</td></tr>
+<tr>
+<td>
+<dl><dd>owner ID</dd></dl>
+</td>
+<td>formID</td>
+<td>Owner (<a href="NPC_.html">NPC_</a> or <a href="FACT.html">FACT</a>)
+</td></tr>
+<tr>
+<td>
+<dl><dd>location</dd></dl>
+</td>
+<td>formID</td>
+<td>Associated location (<a href="LCTN.html">LCTN</a>)
+</td></tr>
+<tr>
+<td>
+<dl><dd>owner rank</dd></dl>
+</td>
+<td>int8</td>
+<td>Required rank in faction for ownership (either 0 or -1 used if no faction provided)
+</td></tr>
+<tr>
+<td>
+<dl><dd>min level</dd></dl>
+</td>
+<td>uint8</td>
+<td>Minimum level
+</td></tr>
+<tr>
+<td>
+<dl><dd>flags</dd></dl>
+</td>
+<td>uint8</td>
+<td>Flags:
+<dl><dd>0x00 = Never Resets</dd>
+<dd>0x01 = Match PC Below Minimum Level</dd>
+<dd>0x02 = Disable Combat Boundary</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>max level</dd></dl>
+</td>
+<td>uint8</td>
+<td>Maximum level
+</td></tr></tbody></table>
+</div>

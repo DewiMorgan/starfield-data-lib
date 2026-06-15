@@ -1,0 +1,112 @@
+
+<div><p><b>MISC</b> records contain information about <a href="/wiki/Skyrim:Miscellaneous_Items">miscellaneous items</a>.
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p>
+<dl><dd>0x4 - not Playable</dd></dl>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td>script info</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>objectBounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds Data
+</td></tr>
+<tr>
+<td>+</td>
+<td>FULL</td>
+<td>name</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODB, MODT, MODS, MODD
+</td></tr>
+<tr>
+<td>-</td>
+<td>ICON</td>
+<td>Inventory Image</td>
+<td>zstring</td>
+<td>Inventory Image Filename
+</td></tr>
+<tr>
+<td>-</td>
+<td>MICO</td>
+<td>Message Immage</td>
+<td>zstring</td>
+<td>Message Immage Filename
+</td></tr>
+<tr>
+<td>-</td>
+<td>DEST</td>
+<td>destruction data</td>
+<td><a href="DEST_Field.html">DEST</a></td>
+<td>Includes Fields DSTD, DMDL, DMDT, DMDS, DSTF
+</td></tr>
+<tr>
+<td>-</td>
+<td>YNAM</td>
+<td>pickupSound</td>
+<td>formid</td>
+<td>Sound(<a href="SNDR.html">SNDR</a>) played when picked up
+</td></tr>
+<tr>
+<td>-</td>
+<td>ZNAM</td>
+<td>dropSound</td>
+<td>formid</td>
+<td>Sound(<a href="SNDR.html">SNDR</a>) played when dropped
+</td></tr>
+<tr>
+<td>-</td>
+<td>KSIZ</td>
+<td>count</td>
+<td>unit32</td>
+<td>Number of formids in the following KWDA subrecord
+</td></tr>
+<tr>
+<td>-</td>
+<td>KWDA</td>
+<td>keywords</td>
+<td>formid</td>
+<td>Formid array of keywords
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>Value &amp; Weight Data</td>
+<td>struct</td>
+<td>8-Bytes For Value &amp; Weight
+<dl><dd>uint32 - Value (In Gold)</dd>
+<dd>float - Weight</dd></dl>
+</td></tr>
+</tbody></table>
+</div>

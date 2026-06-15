@@ -1,0 +1,64 @@
+
+<div><h2><span id="Misc_Stats">Misc Stats</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>count
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>stats
+</td>
+<td><a href="#Misc_Stat">Misc Stat</a>[count]
+</td>
+<td>
+</td></tr></tbody></table>
+<h3><span id="Misc_Stat">Misc Stat</span></h3>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>name
+</td>
+<td>wstring
+</td>
+<td>
+</td></tr>
+<tr>
+<td valign="top">category
+</td>
+<td valign="top">uint8
+</td>
+<td valign="top">
+<ul><li>0 = General</li>
+<li>1 = Quest</li>
+<li>2 = Combat</li>
+<li>3 = Magic</li>
+<li>4 = Crafting</li>
+<li>5 = Crime</li>
+<li>6 = DLC Stats? Showed up in Skyrim 1.7.7, but nothing shows up in the in-game menu. Four values observed: NumVampirePerks, NumWerewolfPerks (if Dawnguard is installed), SolstheimLocationsDiscovered and StalhrimItemsCrafted (if Dragonborn is installed).</li></ul>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>value
+</td>
+<td>int32
+</td>
+<td>
+</td></tr></tbody></table>
+</div>

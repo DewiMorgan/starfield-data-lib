@@ -1,0 +1,104 @@
+
+<div><p><b>TACT</b> contains the data for a "Talking Activator".  In other words, an object (not an NPC) with which you can start/receive dialog.
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p>
+<dl><dd>0x200 - not On Local Map</dd>
+<dd>0x10000 - Random Anim Start (not used)</dd>
+<dd>0x20000 - Radio Station (not used)</dd></dl>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td>unknown</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>Scripting Info
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>objectBounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object bounds.
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>full name</td>
+<td>lstring</td>
+<td>Name seen ingame (if any)
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODB, MODT, MODS, MODD
+</td></tr>
+<tr>
+<td>-</td>
+<td>DEST</td>
+<td>destruction data</td>
+<td><a href="DEST_Field.html">DEST</a></td>
+<td>Includes Fields DSTD, DMDL, DMDT, DMDS
+</td></tr>
+<tr>
+<td>-</td>
+<td>KSIZ</td>
+<td><a href="KYWD.html#Including_Keywords">KSIZ</a></td>
+<td>uint32</td>
+<td>KYWD count
+</td></tr>
+<tr>
+<td>-</td>
+<td>KWDA</td>
+<td><a href="KYWD.html#Including_Keywords">KWDA</a></td>
+<td>formid[KSIZ]</td>
+<td>Array of KYWD formids
+</td></tr>
+<tr>
+<td>-</td>
+<td>PNAM</td>
+<td>unknown</td>
+<td></td>
+<td>RESET to 0 by CK, assumed legacy
+</td></tr>
+<tr>
+<td>+</td>
+<td>SNAM</td>
+<td>Looping Sound</td>
+<td>formid</td>
+<td>Looping Sound
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>Unknown</td>
+<td></td>
+<td>Unknown, assumed legacy
+</td></tr>
+<tr>
+<td>+</td>
+<td>VNAM</td>
+<td>Voice Type</td>
+<td>formid</td>
+<td>Voice Type (<a href="VTYP.html">VTYP</a>)
+</td></tr></tbody></table>
+</div>

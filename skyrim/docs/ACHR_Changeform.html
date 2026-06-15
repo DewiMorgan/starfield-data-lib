@@ -1,0 +1,405 @@
+
+<div><p><br/>
+</p>
+<h2><span id="ACHR_change_form">ACHR change form</span></h2>
+<p>The ACHR change form contains information about actor instances, including but not limited to their:
+</p>
+<ul><li>Position</li>
+<li>Inventory</li>
+<li>Skill levels</li>
+<li>Perks (<b>Todo:</b> check if accurate)</li>
+<li>Spells (<b>Todo:</b> check if accurate)</li>
+<li>Shouts (<b>Todo:</b> check if accurate)</li></ul>
+<h2><span id="Change_form_flags">Change form flags</span></h2>
+<table class="wikitable">
+<caption>ACHR change form flags
+</caption>
+<tbody><tr>
+<th>Bit
+</th>
+<th>Value
+</th>
+<th>Constant Name
+</th>
+<th>Pretty Name (In code)
+</th></tr>
+<tr>
+<td>1
+</td>
+<td>0x00000002
+</td>
+<td>CHANGE_REFR_MOVE
+</td>
+<td>Moved
+</td></tr>
+<tr>
+<td>2
+</td>
+<td>0x00000004
+</td>
+<td>CHANGE_REFR_HAVOK_MOVE
+</td>
+<td>Havok Moved
+</td></tr>
+<tr>
+<td>3
+</td>
+<td>0x00000008
+</td>
+<td>CHANGE_REFR_CELL_CHANGED
+</td>
+<td>Cell Changed
+</td></tr>
+<tr>
+<td>4
+</td>
+<td>0x00000010
+</td>
+<td>CHANGE_REFR_SCALE
+</td>
+<td>Scale
+</td></tr>
+<tr>
+<td>5
+</td>
+<td>0x00000020
+</td>
+<td>CHANGE_REFR_INVENTORY
+</td>
+<td>Inventory
+</td></tr>
+<tr>
+<td>6
+</td>
+<td>0x00000040
+</td>
+<td>CHANGE_REFR_EXTRA_OWNERSHIP
+</td>
+<td>Ownership Extra
+</td></tr>
+<tr>
+<td>7
+</td>
+<td>0x00000080
+</td>
+<td>CHANGE_REFR_BASEOBJECT
+</td>
+<td>BaseObject
+</td></tr>
+<tr>
+<td>10
+</td>
+<td>0x00000400
+</td>
+<td>CHANGE_ACTOR_LIFESTATE
+</td>
+<td>Life State
+</td></tr>
+<tr>
+<td>11
+</td>
+<td>0x00000800
+</td>
+<td>CHANGE_ACTOR_EXTRA_PACKAGE_DATA
+</td>
+<td>Package Data Extra
+</td></tr>
+<tr>
+<td>12
+</td>
+<td>0x00001000
+</td>
+<td>CHANGE_ACTOR_EXTRA_MERCHANT_CONTAINER
+</td>
+<td>Merchant Container
+</td></tr>
+<tr>
+<td>17
+</td>
+<td>0x00020000
+</td>
+<td>CHANGE_ACTOR_EXTRA_DISMEMBERED_LIMBS
+</td>
+<td>Dismembered Limbs
+</td></tr>
+<tr>
+<td>18
+</td>
+<td>0x00040000
+</td>
+<td>CHANGE_ACTOR_LEVELED_ACTOR
+</td>
+<td>Leveled Actor
+</td></tr>
+<tr>
+<td>19
+</td>
+<td>0x00080000
+</td>
+<td>CHANGE_ACTOR_DISPOSITION_MODIFIERS
+</td>
+<td>Disp Modifiers
+</td></tr>
+<tr>
+<td>20
+</td>
+<td>0x00100000
+</td>
+<td>CHANGE_ACTOR_TEMP_MODIFIERS
+</td>
+<td>Temp Modifiers
+</td></tr>
+<tr>
+<td>21
+</td>
+<td>0x00200000
+</td>
+<td>CHANGE_ACTOR_DAMAGE_MODIFIERS
+</td>
+<td>Damage Modifiers
+</td></tr>
+<tr>
+<td>22
+</td>
+<td>0x00400000
+</td>
+<td>CHANGE_ACTOR_OVERRIDE_MODIFIERS
+</td>
+<td>Override Modifiers
+</td></tr>
+<tr>
+<td>23
+</td>
+<td>0x00800000
+</td>
+<td>CHANGE_ACTOR_PERMANENT_MODIFIERS
+</td>
+<td>Permanent Modifiers
+</td></tr>
+<tr>
+<td>25
+</td>
+<td>0x02000000
+</td>
+<td>CHANGE_REFR_PROMOTED
+</td>
+<td>Promoted
+</td></tr>
+<tr>
+<td>26
+</td>
+<td>0x04000000
+</td>
+<td>CHANGE_REFR_EXTRA_ACTIVATING_CHILDREN
+</td>
+<td>Activating Children
+</td></tr>
+<tr>
+<td>27
+</td>
+<td>0x08000000
+</td>
+<td>CHANGE_REFR_LEVELED_INVENTORY
+</td>
+<td>Leveled Inventory
+</td></tr>
+<tr>
+<td>28
+</td>
+<td>0x10000000
+</td>
+<td>CHANGE_REFR_ANIMATION
+</td>
+<td>Animation
+</td></tr>
+<tr>
+<td>29
+</td>
+<td>0x20000000
+</td>
+<td>CHANGE_REFR_EXTRA_ENCOUNTER_ZONE
+</td>
+<td>Enc Zone Extra
+</td></tr>
+<tr>
+<td>30
+</td>
+<td>0x40000000
+</td>
+<td>CHANGE_REFR_EXTRA_CREATED_ONLY
+</td>
+<td>Created Only Extra
+</td></tr>
+<tr>
+<td>31
+</td>
+<td>0x80000000
+</td>
+<td>CHANGE_REFR_EXTRA_GAME_ONLY
+</td>
+<td>Game Only Extra
+</td></tr></tbody></table>
+<h2><span id="Structure">Structure</span></h2>
+<p>The ACHR change form is much the same format as the <a href="REFR_Changeform.html">REFR change form</a> with a few differences.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th>Data
+</th>
+<th>Present if flag set
+</th></tr>
+<tr>
+<td>Initial data
+</td>
+<td><a href="ChangeFlags.html#Initial_type">Initial type</a>
+</td>
+<td>see <a href="ChangeFlags.html#Initial_type">Initial type</a>
+</td></tr>
+<tr>
+<td>Havok data
+</td>
+<td>vsval count
+<p>uint8[count]
+</p>
+</td>
+<td>CHANGE_REFR_HAVOK_MOVE
+</td></tr>
+<tr>
+<td>Unknown integer
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Unknown data
+</td>
+<td>uint8[4]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Flags
+</td>
+<td><a href="ChangeFlags.html#Change_form_flags">Change form flags</a>
+</td>
+<td>CHANGE_FORM_FLAGS
+</td></tr>
+<tr>
+<td>Base object (<b>TODO:</b> check if this is correct for ACHR)
+</td>
+<td>refId
+</td>
+<td>CHANGE_REFR_BASEOBJECT
+</td></tr>
+<tr>
+<td>scale
+</td>
+<td>float
+</td>
+<td>CHANGE_REFR_SCALE
+</td></tr>
+<tr>
+<td>Extra data
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format/Extra_data">Extra data</a>
+</td>
+<td>if one or more of these is set:
+<p>CHANGE_REFR_EXTRA_OWNERSHIP
+</p><p>CHANGE_REFR_PROMOTED
+</p><p>CHANGE_ACTOR_EXTRA_PACKAGE_DATA
+</p><p>CHANGE_ACTOR_EXTRA_MERCHANT_CONTAINER
+</p><p>CHANGE_ACTOR_EXTRA_DISMEMBERED_LIMBS
+</p><p>CHANGE_REFR_EXTRA_ACTIVATING_CHILDREN
+</p><p>CHANGE_REFR_EXTRA_ENCOUNTER_ZONE
+</p><p>CHANGE_REFR_EXTRA_CREATED_ONLY
+</p><p>CHANGE_REFR_EXTRA_GAME_ONLY
+</p><p>CHANGE_ACTOR_LEVELED_ACTOR
+</p>
+</td></tr>
+<tr>
+<td>Inventory
+</td>
+<td><a href="#Inventory">Inventory</a>
+</td>
+<td>CHANGE_REFR_INVENTORY or CHANGE_REFR_LEVELED_INVENTORY
+</td></tr>
+<tr>
+<td>Animation
+</td>
+<td>vsval count
+<p>uint8[count]
+</p>
+</td>
+<td>CHANGE_REFR_ANIMATION
+</td></tr>
+<tr>
+<td><b>TODO:</b> Parse rest of ACHR form
+</td>
+<td>
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Inventory">Inventory</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th>Type
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>count
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>items
+</td>
+<td><a href="#Inventory_item">Inventory item</a>[count]
+</td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Inventory_item">Inventory item</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th>Type
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>item
+</td>
+<td>refId
+</td>
+<td>
+</td></tr>
+<tr>
+<td>item count
+</td>
+<td>sint32
+</td>
+<td>eg. player have 1000 gold, then this is 1000.
+</td></tr>
+<tr>
+<td>extra count
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>extra datas
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format/Extra_data">Extra data</a>[extra count]
+</td>
+<td>
+</td></tr></tbody></table>
+</div>

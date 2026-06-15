@@ -1,0 +1,63 @@
+
+<div><h2><span id="New_Body_Template">New Body Template</span></h2>
+<p>The name of each body part is dependent upon the wearer's race. It's unclear how Skyrim would handle it if you changed existing names, however, they can be changed. The fields below that say "Body Addon" are listed as "Unnamed" in the CK and can be changed. These values are user defined by clicking in the "Biped Object Names" column and giving it a name. You could click 43 and call it Cape to assign that location for capes on Humanoids after also selecting it under First Person. These values are saved in the Plugin.
+</p><p>This has been seen in records from v1.6.91 of the CK onward, and is used in current versions of Update.esm and Dragonborn.esm.  The BOD2 record is a trimmed down version of BODT with only one uint32 for flags and one for the skill.
+</p><p>Used since Hearthfire for ARMO, but not ARMA, the unplayable flag moved to the record header (0x04).
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>BOD2</td>
+<td>Body Template</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>uint32 - Body part node flags. The following names are those used for the playable races.
+<dl><dd>0x00000001 - Head</dd>
+<dd>0x00000002 - Hair</dd>
+<dd>0x00000004 - Body</dd>
+<dd>0x00000008 - Hands</dd>
+<dd>0x00000010 - Forearms</dd>
+<dd>0x00000020 - Amulet</dd>
+<dd>0x00000040 - Ring</dd>
+<dd>0x00000080 - Feet</dd>
+<dd>0x00000100 - Calves</dd>
+<dd>0x00000200 - Shield</dd>
+<dd>0x00000400 - Tail</dd>
+<dd>0x00000800 - Long Hair</dd>
+<dd>0x00001000 - Circlet</dd>
+<dd>0x00002000 - Ears</dd>
+<dd>0x00004000 - Body AddOn 3</dd>
+<dd>0x00008000 - Body AddOn 4</dd>
+<dd>0x00010000 - Body AddOn 5</dd>
+<dd>0x00020000 - Body AddOn 6</dd>
+<dd>0x00040000 - Body AddOn 7</dd>
+<dd>0x00080000 - Body AddOn 8</dd>
+<dd>0x00100000 - Decapitate Head</dd>
+<dd>0x00200000 - Decapitate</dd>
+<dd>0x00400000 - Body AddOn 9</dd>
+<dd>0x00800000 - Body AddOn 10</dd>
+<dd>0x01000000 - Body AddOn 11</dd>
+<dd>0x02000000 - Body AddOn 12</dd>
+<dd>0x04000000 - Body AddOn 13</dd>
+<dd>0x08000000 - Body AddOn 14</dd>
+<dd>0x10000000 - Body AddOn 15</dd>
+<dd>0x20000000 - Body AddOn 16</dd>
+<dd>0x40000000 - Body AddOn 17</dd>
+<dd>0x80000000 - FX01</dd></dl></dd>
+<dd>uint32 Skill (always 2 for ARMA and RACE records)
+<dl><dd>0 - Light Armor</dd>
+<dd>1 - Heavy Armor</dd>
+<dd>2 - None (no armor value)</dd></dl></dd></dl>
+</td></tr></tbody></table>
+</div>

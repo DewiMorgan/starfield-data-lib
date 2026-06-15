@@ -1,0 +1,91 @@
+
+<div><p><b>IMGS</b> records contain the data for the Imagespaces used in the game.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>ENAM</td>
+<td>unknown</td>
+<td>float[14]</td>
+<td>Alternative to HNAM/CNAM/TNAM fields <i>only 2 occurrences</i>
+<dl><dd>float Eye Adapt Speed</dd>
+<dd>float Bloom Blur Radius</dd>
+<dd>float Bloom Threshold</dd>
+<dd>float Bloom Scale</dd>
+<dd>float Receive Bloom Threshold</dd>
+<dd>float Sunlight Scale</dd>
+<dd>float Sky Scale</dd>
+<dd>float Saturation</dd>
+<dd>float Brightness</dd>
+<dd>float Contrast</dd>
+<dd>float[4] <i>unknown 0</i></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>HNAM</td>
+<td>HDR Parameters</td>
+<td>float[9]</td>
+<td>
+<dl><dd>float Eye Adapt Speed</dd>
+<dd>float Bloom Blur Radius</dd>
+<dd>float Bloom Threshold</dd>
+<dd>float Bloom Scale</dd>
+<dd>float Receive Bloom Threshold</dd>
+<dd>float White</dd>
+<dd>float Sunlight Scale</dd>
+<dd>float Sky Scale</dd>
+<dd>float Eye Adapt Strength</dd></dl>
+<p>Format is a list of floating points - in the order of: Eye Adapt Speed, Bloom Radius, Bloom Threshold, Bloom Scale, Target Luminance #1, Target Luminance #2 (unsure of what these two do - I believe the first is target LUM, what's considered bright, and the second is the upper lum clamp; how many lums the eye will adapt to at a max, but I'm not positive), Sunlight Scale, Sky scale, Eye Adapt Strength.
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>CNAM</td>
+<td>Cinematic Parameters</td>
+<td>float[3]</td>
+<td>
+<dl><dd>float Saturation</dd>
+<dd>float Brightness</dd>
+<dd>float Contrast</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>TNAM</td>
+<td>Tint Parameters</td>
+<td>float[4]</td>
+<td>
+<dl><dd>float Tint Amount</dd>
+<dd>float Red</dd>
+<dd>float Green</dd>
+<dd>float Blue</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>DNAM</td>
+<td>Depth of Field</td>
+<td>float[3] <i>or</i> float[4]</td>
+<td>
+<dl><dd>float Strength</dd>
+<dd>float Distance</dd>
+<dd>float Range</dd>
+<dd>float? <i>unknown, may be missing, seems to influence Blur Radius and the No Sky flag</i></dd></dl>
+</td></tr></tbody></table>
+</div>

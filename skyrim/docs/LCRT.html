@@ -1,0 +1,36 @@
+
+<div><p><b>LCRT</b> records are <a href="LCTN.html">Location</a> reference types.  They are basically a type of keyword that is used in the <a href="LCTN.html">LCTN</a> record's ACSR/LCSR field to create a list of key items in a given location, so that those items can then be cross-referenced by radiant quests.
+</p><p>For example, one LCRT record is BossContainer (<code>0x000130f8</code>).  Most dungeon-type locations include a ACSR/LCSR field with BossContainer as the reference type, and the REFR of that dungeon's boss chest as the reference.  Quests using the dungeon can then easily identify the boss chest when the quest needs to add a quest-specific item to the chest.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>editorID</td>
+<td>zstring</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>CNAM</td>
+<td>color code</td>
+<td>rgb</td>
+<td>RGB Hex color code, last byte always 0x00
+</td></tr>
+</tbody></table>
+</div>

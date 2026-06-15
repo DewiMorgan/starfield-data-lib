@@ -1,0 +1,70 @@
+
+<div><p><b>IDLE</b> records contain information on idle animations/behaviors.
+</p><p>It also appears to dictate some behavior, or at least the animations used, when in combat.  These can be found by tracing the AACT for attacking in the ANAM field of the root and then following those ANAM roots up/down.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>-</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>*</td>
+<td>CTDA</td>
+<td>script</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>script info
+</td></tr>
+<tr>
+<td>-</td>
+<td>DNAM</td>
+<td>havok file</td>
+<td>zstring</td>
+<td>Path to .hkx
+</td></tr>
+<tr>
+<td>-</td>
+<td>ENAM</td>
+<td>Anim Event</td>
+<td>zstring</td>
+<td>eg 'HorseExitSwim', 'NPCshoutStart'
+</td></tr>
+<tr>
+<td>+</td>
+<td>ANAM</td>
+<td>animations</td>
+<td>formid[2]</td>
+<td>2 formids
+<dl><dd>parent, <b>IDLE</b>  formid OR Action(<a href="AACT.html">AACT</a>) for true root</dd>
+<dd>previous <b>IDLE</b></dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>unknown</td>
+<td>struct</td>
+<td>6 bytes, usually 00-00-00/01, 4th byte almost never empty, 00-00
+<dl><dd>uint8 Min Looping Seconds</dd>
+<dd>uint8 Max Looping Seconds
+<dl><dd>If both min and max looping seconds are set to 255 (i.e. maximum value), that means 'loop forever'.</dd></dl></dd>
+<dd>uint8 flags
+<dl><dd>0x02 - Sequence</dd>
+<dd>0x04 - Not attacking</dd>
+<dd>0x08 - Blocking</dd></dl></dd>
+<dd>uint8 unknown</dd>
+<dd>uint16 Replay Delay</dd></dl>
+</td></tr></tbody></table>
+</div>

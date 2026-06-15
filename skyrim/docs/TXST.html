@@ -1,0 +1,125 @@
+
+<div><p><b>TXST</b> records contain information on texture sets.
+</p><p>The TX?? subrecords usually occur in ascending order, starting with TX00. However, there seems to be no need for consecutive numbering. For example, the sequence of subrecords can be TX00, TX01 and TX03, omitting TX02.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>unknown</td>
+<td>ubyte[12]</td>
+<td>Object Boundary
+<dl><dd>int16 - X1</dd>
+<dd>int16 - Y1</dd>
+<dd>int16 - Z1</dd>
+<dd>int16 - X2</dd>
+<dd>int16 - Y2</dd>
+<dd>int16 - Z2</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>TX00</td>
+<td>texture00</td>
+<td>zstring</td>
+<td>texture path, color map
+</td></tr>
+<tr>
+<td>-</td>
+<td>TX01</td>
+<td>texture01</td>
+<td>zstring</td>
+<td>texture path, normal map (tangent- or model-space)
+</td></tr>
+<tr>
+<td>-</td>
+<td>TX02</td>
+<td>texture02</td>
+<td>zstring</td>
+<td>texture path, mask (environment or light)
+</td></tr>
+<tr>
+<td>-</td>
+<td>TX03</td>
+<td>texture03</td>
+<td>zstring</td>
+<td>texture path, tone map (for skins) or glow map (for things)
+</td></tr>
+<tr>
+<td>-</td>
+<td>TX04</td>
+<td>texture04</td>
+<td>zstring</td>
+<td>texture path, detail map (roughness, complexion, age)
+</td></tr>
+<tr>
+<td>-</td>
+<td>TX05</td>
+<td>texture05</td>
+<td>zstring</td>
+<td>texture path, environment map (cubemaps mostly)
+</td></tr>
+<tr>
+<td>-</td>
+<td>TX06</td>
+<td>texture06</td>
+<td>zstring</td>
+<td>texture path Multilayer (does not occur in Skyrim.esm)
+</td></tr>
+<tr>
+<td>-</td>
+<td>TX07</td>
+<td>texture07</td>
+<td>zstring</td>
+<td>texture path, specularity map (for skinny bodies, and for furry bodies)
+</td></tr>
+<tr>
+<td>-</td>
+<td>DODT</td>
+<td></td>
+<td>struct</td>
+<td>Decal Data
+<dl><dd>float - Min Width</dd>
+<dd>float - Max Width</dd>
+<dd>float - Min Height</dd>
+<dd>float - Max Height</dd>
+<dd>float - Depth</dd>
+<dd>float - Shininess</dd>
+<dd>float - Parallax Scale</dd>
+<dd>ubyte - Parallax Passes</dd>
+<dd>ubyte - Flags
+<dl><dd>0x01 - Parallax (enables the Scale and Passes values in the CK)</dd>
+<dd>0x02 - Alpha Blending</dd>
+<dd>0x04 - Alpha Testing</dd>
+<dd>0x08 - not 4 Subtextures</dd></dl></dd>
+<dd>ubyte[2] - <i>unknown but never used</i></dd>
+<dd>rgb - Color</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>DNAM</td>
+<td></td>
+<td>ushort</td>
+<td>flags
+<dl><dd>0x01  - not Has specular map</dd>
+<dd>0x02 - Facegen Textures</dd>
+<dd>0x04 - Has model space normal map</dd></dl>
+</td></tr></tbody></table>
+</div>

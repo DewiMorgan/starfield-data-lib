@@ -1,0 +1,181 @@
+
+<div><p><b>LCTN</b> records are locations.  
+</p><p>Locations are not primarily physical location data (those would be WRLD/CELL), they are a record tying together references of all types (Actor, Items, Places) and are usually assigned to a cell/dungeon/world area.  A location can be as big as an entire hold, or it can be a single campfire in the wilderness.
+</p><p>Since Dawnguard the name of several fields are changed from previously L* to their A* counterpart. The content of those fields seems to be unchanged.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>editorID</td>
+<td>zstring</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ACPR/LCPR</td>
+<td>population refs</td>
+<td>struct[]</td>
+<td>arbitrary total count of 12 byte struct
+<dl><dd>formID <a href="ACHR.html">ACHR</a> (actor reference)</dd>
+<dd>formID <a href="CELL.html">CELL</a> OR <a href="WRLD.html">WRLD</a>(0x3C=Tamriel)</dd>
+<dd>int16/int16 ?</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>RCPR</td>
+<td>population refs</td>
+<td>formID[]</td>
+<td>Actors - there is only one instance of this in the game data, in the Dawnguard version of MilitaryCampRiftImperialLocation
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ACUN/LCUN</td>
+<td>unique refs</td>
+<td>struct[]</td>
+<td>arbitrary total count of 12 byte struct
+<dl><dd>formID <a href="NPC_.html">NPC_</a></dd>
+<dd>formID <a href="ACHR.html">ACHR</a> (actor reference)</dd>
+<dd>formID <a>LCTN</a> (points to itself in most cases)</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ACSR/LCSR</td>
+<td>static refs</td>
+<td>struct[]</td>
+<td>Location Ref Types - arbitrary total count of 16 byte struct
+<dl><dd>formID <a href="LCRT.html">LCRT</a></dd>
+<dd>formID <a href="REFR.html">REFR</a> OR <a href="ACHR.html">ACHR</a></dd>
+<dd>formID <a href="CELL.html">CELL</a> OR <a href="WRLD.html">WRLD</a>(0x3C=Tamriel)</dd>
+<dd>int16/int16 ?</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>ACEC/LCEC</td>
+<td>encounter?</td>
+<td>struct</td>
+<td>
+<dl><dd>formID <a href="WRLD.html">WRLD</a></dd></dl>
+<p>followed by an arbitrary number of int16 pairs
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ACEP/LCEP</td>
+<td>enable points?</td>
+<td>struct[]</td>
+<td>arbitrary total count of 12 byte struct
+<dl><dd>formID <a href="ACHR.html">ACHR</a></dd>
+<dd>formID <a href="REFR.html">REFR</a></dd>
+<dd>ubyte[4] additional data, varies significantly though first byte always 0x00</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ACID/LCID</td>
+<td>unknown</td>
+<td>formID[]</td>
+<td>unknown
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>FULL</td>
+<td>full name</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>KSIZ</td>
+<td>keyword count</td>
+<td><a href="KYWD.html#Including_Keywords">KSIZ</a></td>
+<td>Keyword count
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>KWDA</td>
+<td>keywords</td>
+<td><a href="KYWD.html#Including_Keywords">KWDA</a></td>
+<td>Keywords array
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>PNAM</td>
+<td>parent location</td>
+<td>formID</td>
+<td>Parent <a>LCTN</a> formID.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>NAM1</td>
+<td>music</td>
+<td>formID</td>
+<td><a href="MUSC.html">MUSC</a> formID.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>FNAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Unreported Crime Faction
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MNAM</td>
+<td>marker</td>
+<td>formID</td>
+<td>World Location Marker Ref - reference <a href="REFR.html">REFR</a> formID to a <a href="STAT.html">STAT</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>RNAM</td>
+<td>unknown</td>
+<td>float</td>
+<td>World Location Radius
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>NAM0</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Horse Marker Ref
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>CNAM</td>
+<td>unknown</td>
+<td>rgb</td>
+<td>Color
+</td></tr>
+</tbody></table>
+</div>

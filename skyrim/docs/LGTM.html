@@ -1,0 +1,68 @@
+
+<div><p><b>LGTM</b> records contain information on lighting templates.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>Lighting</td>
+<td>struct</td>
+<td>Lighting
+<dl><dd>rgb - Ambient Color</dd>
+<dd>rgb - Directional Color</dd>
+<dd>rgb - Fog Color Near</dd>
+<dd>float - Fog Near</dd>
+<dd>float - Fog Far</dd>
+<dd>uint32 - Directional Rotation XY</dd>
+<dd>uint32 - Directional Rotation Z</dd>
+<dd>float - Directional Fade</dd>
+<dd>float - Fog Clip Distance</dd>
+<dd>float - Fog Power</dd>
+<dd>uint32 - Unknown</dd>
+<dd>uint32 - Unknown</dd>
+<dd>uint32 - Unknown</dd>
+<dd>uint32 - Unknown</dd>
+<dd>uint32 - Unknown</dd>
+<dd>uint32 - Unknown</dd>
+<dd>uint32 - Unknown</dd>
+<dd>uint32 - Unknown</dd>
+<dd>rgb - Fog Color Far</dd>
+<dd>float - Fog Max</dd>
+<dd>float - Light Fade Start</dd>
+<dd>float - Light Fade End</dd>
+<dd>uint32 - Unknown</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>DALC</td>
+<td>Direct Ambient and Specular Colors</td>
+<td>Struct</td>
+<td>Direct Ambient and Specular Colors
+<dl><dd>rgb - Directional Ambient X+</dd>
+<dd>rgb - Directional Ambient X-</dd>
+<dd>rgb - Directional Ambient Y+</dd>
+<dd>rgb - Directional Ambient Y-</dd>
+<dd>rgb - Directional Ambient Z+</dd>
+<dd>rgb - Directional Ambient Z-</dd>
+<dd>rgb - Specular Color</dd>
+<dd>float - Fresnel Power (0-1)</dd></dl>
+</td></tr></tbody></table>
+</div>

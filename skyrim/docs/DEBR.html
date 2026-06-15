@@ -1,0 +1,42 @@
+
+<div><p><b>DEBR</b> records contain information on "debris".  In Skyrim.esm, there are only 3 records, 'IceFormDebris', 'IceFormDebris14', and 'IceWraithDebris'.
+</p><p>The structure is simple, DATA and MODT repeat many times for the 2 IceFormDebris and just DATA repeats for IceWraithDebris
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>*</td>
+<td>DATA</td>
+<td>directional data?</td>
+<td>struct</td>
+<td>struct - 42 bytes for IceForm (have MODT) and 45 for IceWraith (does not)
+<dl><dd>uint8 Percentage</dd>
+<dd>zstring Model Path</dd>
+<dd>uint8 Flags
+<dl><dd>0x01 - Has Collision Data</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODT</td>
+<td>model data</td>
+<td><a href="Model_Textures_Field.html">MODT</a></td>
+<td>6 12-byte structs (assume xyz)
+</td></tr></tbody></table>
+</div>

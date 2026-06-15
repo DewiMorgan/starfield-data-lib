@@ -1,0 +1,90 @@
+
+<div><p><b>LSCR</b> are <a href="/wiki/Skyrim:Loading_Screens">loading screens</a>. Loading screens are actually fully rendered scenes usually focused on a single object. All loading screens have the foggy effect and black background, but you may change the model or message that is shown. The scale, rotation, and other tweaks apply to the model used in the screen.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DESC</td>
+<td>displayed text</td>
+<td>lstring</td>
+<td>text displayed
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>CTDA</td>
+<td>match conditions</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>presumably for somewhat relevant screens
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>NNAM</td>
+<td>loading screen NIF</td>
+<td>formid</td>
+<td>Static (<a href="STAT.html">STAT</a>).
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>SNAM</td>
+<td>initial scale</td>
+<td>float</td>
+<td><i>typical values roughly between 0.5 and 2</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>RNAM</td>
+<td>initial rotation</td>
+<td>int16[3]</td>
+<td>X, Y, and Z rotation
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>ONAM</td>
+<td>rotation offset constraints</td>
+<td>int16[2]</td>
+<td>Min and Max rotation
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>XNAM</td>
+<td>initial translation offset</td>
+<td>float[3]</td>
+<td>X, Y, and Z translation
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MOD2</td>
+<td>camera path</td>
+<td>zstring</td>
+<td>path to Camera .nif
+</td></tr></tbody></table>
+</div>

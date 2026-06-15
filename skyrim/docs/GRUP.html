@@ -1,0 +1,884 @@
+
+<div><div>
+</div>
+<p><b>Mod files</b> (<b>Plugin files</b>) are collections of <a href="#Records">records</a>, which are further divided into <a href="#Fields">fields</a>.
+</p><p><a href="#Records">Records</a> generally correspond to objects (e.g., a creature, a game setting, a dialog entry), with the fine details of the object (e.g., health of a creature, a dialog entry test) being handled by the <a href="#Fields">fields</a> of the record. Records themselves are organized into <a href="#Groups">groups</a>.
+</p><p>At the highest grouping level, a plugin file is generally:
+</p>
+<ul><li>A single <a href="TES4.html">TES4 record</a> (plugin information).</li>
+<li>A collection of top <a href="#Groups">groups</a>.</li></ul>
+<div></div>
+<h2><span id="Mod_Plugin_Types">Mod Plugin Types</span></h2>
+<p>Mod files take the form of a plugin file in one of the three below formats:
+</p>
+<ul><li>Elder Scrolls Master (ESM, .esm)</li>
+<li>Elder Scrolls Plugin (ESP, .esp)</li>
+<li>Elder Scrolls Light Master (ESL, .esl)</li></ul>
+<p>Elder Scrolls Master and Elder Scrolls Plugin files are similar to each other, except for the difference in that ESMs are pinned to the top of the load order, taking precedence over all non-flagged ESP and ESL plugin files. Elder Scrolls Light Master plugins are unique in that they do not conform to the load order specification of either ESM or ESP plugins, and as such, up to 4096 ESL plugins can exist in the load order, rather than the maximum of 254 plugins when only non-flagged ESM and ESP plugin files are used. The primary limitation of ESL plugins are that they only allow up to 4096 Form ID records whereas ESM and ESP plugins have a significantly higher record limit. Since <a href="/wiki/Skyrim:Special_Edition_Patch#1.6.1130">v1.6.1130</a>, ESL plugins can hold up to 4096 records. Before, the form ID range <code>0x0000</code> to range <code>0x07FF</code> was reserved, resulting in a 2048 record limit.
+</p><p>ESL plugins were introduced with the addition of <a href="/wiki/Skyrim:Creation_Club">Creation Club</a> content known as <a href="/wiki/Skyrim:Creations">Creations</a> in update <a href="/wiki/Skyrim:Special_Edition_Patch#1.5">1.5</a> of the <a href="/wiki/Skyrim:Special_Edition">Special Edition</a>, and are therefore only available for use starting from this update and future updates and versions, including the <a href="/wiki/Skyrim:Anniversary_Edition">Anniversary Edition</a>. Due to this, they will not load or be detected in either the <a href="/wiki/Skyrim:Legendary_Edition">Legendary Edition</a> or earlier versions of the Special Edition prior to update 1.5.
+</p><p>ESM and ESP plugins can be flagged as an ESL if the maximum number of records in the plugin conforms to the 4096 form ID limit and that their form ID records are compacted prior to the flagging of them as an ESL. They can additionally be given the ESM flag to pin them to the top of the load order, similar to the default behavior of non-flagged ESM files.
+</p><p>The position in the load order depends on the file extension (.esm files first, then .esl, then .esp), so what is functionally an ESL file can be given an ESP extension to allow placing them towards the bottom of the load order.
+</p><p>Note that ESP files (which are not flagged as ESL) have a special behavior in which all references they contain are treated as permanent, even if they are temporary references. This means that these references are always loaded and actively processed, regardless of which cells they are in, and they always count towards the maximum reference cap in the engine. For this reason, plain ESP files should be avoided and mods should preferably be released as ESL (or ESL-flagged ESP) if possible, or ESM otherwise.
+</p>
+<h2><span id="Record_Types">Record Types</span></h2>
+<table>
+<tbody><tr>
+<td>
+<table class="wikitable">
+<tbody><tr>
+<th>Type
+</th>
+<th>Data Object
+</th></tr>
+<tr>
+<td><a href="AACT.html">AACT</a></td>
+<td>Action
+</td></tr>
+<tr>
+<td><a href="ACHR.html">ACHR</a></td>
+<td>Actor Reference
+</td></tr>
+<tr>
+<td><a href="ACTI.html">ACTI</a></td>
+<td>Activator
+</td></tr>
+<tr>
+<td><a href="ADDN.html">ADDN</a></td>
+<td>Addon Node
+</td></tr>
+<tr>
+<td><a href="ALCH.html">ALCH</a></td>
+<td>Potion
+</td></tr>
+<tr>
+<td><a href="AMMO.html">AMMO</a></td>
+<td>Ammo
+</td></tr>
+<tr>
+<td><a href="ANIO.html">ANIO</a></td>
+<td>Animation Object
+</td></tr>
+<tr>
+<td><a href="APPA.html">APPA</a></td>
+<td>Apparatus <i>(probably unused)</i>
+</td></tr>
+<tr>
+<td><a href="ARMA.html">ARMA</a></td>
+<td>Armor Addon (Model)
+</td></tr>
+<tr>
+<td><a href="ARMO.html">ARMO</a></td>
+<td>Armor
+</td></tr>
+<tr>
+<td><a href="ARTO.html">ARTO</a></td>
+<td>Art Object
+</td></tr>
+<tr>
+<td><a href="ASPC.html">ASPC</a></td>
+<td>Acoustic Space
+</td></tr>
+<tr>
+<td><a href="ASTP.html">ASTP</a></td>
+<td>Association Type
+</td></tr>
+<tr>
+<td><a href="AVIF.html">AVIF</a></td>
+<td><a href="/wiki/Skyrim_Mod:Actor_Value_Indices#Actor_Value_Codes">Actor Values</a>/Perk Tree Graphics
+</td></tr>
+<tr>
+<td><a href="BOOK.html">BOOK</a></td>
+<td>Book
+</td></tr>
+<tr>
+<td><a href="BPTD.html">BPTD</a></td>
+<td>Body Part Data
+</td></tr>
+<tr>
+<td><a href="CAMS.html">CAMS</a></td>
+<td>Camera Shot
+</td></tr>
+<tr>
+<td><a href="CELL.html">CELL</a></td>
+<td>Cell
+</td></tr>
+<tr>
+<td><a href="CLAS.html">CLAS</a></td>
+<td>Class
+</td></tr>
+<tr>
+<td><a href="CLFM.html">CLFM</a></td>
+<td>Color
+</td></tr>
+<tr>
+<td><a href="CLMT.html">CLMT</a></td>
+<td>Climate
+</td></tr>
+<tr>
+<td><a href="COBJ.html">COBJ</a></td>
+<td>Constructible Object (recipes)
+</td></tr>
+<tr>
+<td><a href="COLL.html">COLL</a></td>
+<td>Collision Layer
+</td></tr>
+<tr>
+<td><a href="CONT.html">CONT</a></td>
+<td>Container
+</td></tr>
+<tr>
+<td><a href="CPTH.html">CPTH</a></td>
+<td>Camera Path
+</td></tr>
+<tr>
+<td><a href="CSTY.html">CSTY</a></td>
+<td>Combat Style
+</td></tr>
+<tr>
+<td><a href="DEBR.html">DEBR</a></td>
+<td>Debris
+</td></tr>
+<tr>
+<td><a href="DIAL.html">DIAL</a></td>
+<td>Dialog Topic
+</td></tr>
+<tr>
+<td><a href="DLBR.html">DLBR</a></td>
+<td>Dialog Branch
+</td></tr>
+<tr>
+<td><a href="DLVW.html">DLVW</a></td>
+<td>Dialog View
+</td></tr>
+<tr>
+<td><a href="DOBJ.html">DOBJ</a></td>
+<td>Default Object Manager
+</td></tr></tbody></table>
+</td>
+<td>
+<table class="wikitable">
+<tbody><tr>
+<th>Type
+</th>
+<th>Data Object
+</th></tr>
+<tr>
+<td><a href="DOOR.html">DOOR</a></td>
+<td>Door
+</td></tr>
+<tr>
+<td><a href="DUAL.html">DUAL</a></td>
+<td>Dual Cast Data (<i>possibly unused</i>)
+</td></tr>
+<tr>
+<td><a href="ECZN.html">ECZN</a></td>
+<td>Encounter Zone
+</td></tr>
+<tr>
+<td><a href="EFSH.html">EFSH</a></td>
+<td>Effect Shader
+</td></tr>
+<tr>
+<td><a href="ENCH.html">ENCH</a></td>
+<td>Enchantment
+</td></tr>
+<tr>
+<td><a href="EQUP.html">EQUP</a></td>
+<td>Equip Slot (flag-type values)
+</td></tr>
+<tr>
+<td><a href="EXPL.html">EXPL</a></td>
+<td>Explosion
+</td></tr>
+<tr>
+<td><a href="EYES.html">EYES</a></td>
+<td>Eyes
+</td></tr>
+<tr>
+<td><a href="FACT.html">FACT</a></td>
+<td>Faction
+</td></tr>
+<tr>
+<td><a href="FLOR.html">FLOR</a></td>
+<td>Flora
+</td></tr>
+<tr>
+<td><a href="FLST.html">FLST</a></td>
+<td>Form List (non-leveled list)
+</td></tr>
+<tr>
+<td><a href="FSTP.html">FSTP</a></td>
+<td>Footstep
+</td></tr>
+<tr>
+<td><a href="FSTS.html">FSTS</a></td>
+<td>Footstep Set
+</td></tr>
+<tr>
+<td><a href="FURN.html">FURN</a></td>
+<td>Furniture
+</td></tr>
+<tr>
+<td><a href="GLOB.html">GLOB</a></td>
+<td>Global Variable
+</td></tr>
+<tr>
+<td><a href="GMST.html">GMST</a></td>
+<td>Game Setting
+</td></tr>
+<tr>
+<td><a href="GRAS.html">GRAS</a></td>
+<td>Grass
+</td></tr>
+<tr>
+<td><a href="#Groups">GRUP</a></td>
+<td>Form Group
+</td></tr>
+<tr>
+<td><a href="HAZD.html">HAZD</a></td>
+<td>Hazard
+</td></tr>
+<tr>
+<td><a href="HDPT.html">HDPT</a></td>
+<td>Head Part
+</td></tr>
+<tr>
+<td><a href="IDLE.html">IDLE</a></td>
+<td>Idle Animation
+</td></tr>
+<tr>
+<td><a href="IDLM.html">IDLM</a></td>
+<td>Idle Marker
+</td></tr>
+<tr>
+<td><a href="IMAD.html">IMAD</a></td>
+<td>Image Space Modifier
+</td></tr>
+<tr>
+<td><a href="IMGS.html">IMGS</a></td>
+<td>Image Space
+</td></tr>
+<tr>
+<td><a href="INFO.html">INFO</a></td>
+<td>Dialog Topic Info
+</td></tr>
+<tr>
+<td><a href="INGR.html">INGR</a></td>
+<td>Ingredient
+</td></tr>
+<tr>
+<td><a href="IPCT.html">IPCT</a></td>
+<td>Impact Data
+</td></tr>
+<tr>
+<td><a href="IPDS.html">IPDS</a></td>
+<td>Impact Data Set
+</td></tr>
+<tr>
+<td><a href="KEYM.html">KEYM</a></td>
+<td>Key
+</td></tr>
+<tr>
+<td><a href="KYWD.html">KYWD</a></td>
+<td>Keyword
+</td></tr>
+<tr>
+<td><a href="LAND.html">LAND</a></td>
+<td>Landscape
+</td></tr></tbody></table>
+</td>
+<td>
+<table class="wikitable">
+<tbody><tr>
+<th>Type
+</th>
+<th>Data Object
+</th></tr>
+<tr>
+<td><a href="LCRT.html">LCRT</a></td>
+<td>Location Reference Type
+</td></tr>
+<tr>
+<td><a href="LCTN.html">LCTN</a></td>
+<td>Location
+</td></tr>
+<tr>
+<td><a href="LGTM.html">LGTM</a></td>
+<td>Lighting Template
+</td></tr>
+<tr>
+<td><a href="LIGH.html">LIGH</a></td>
+<td>Light
+</td></tr>
+<tr>
+<td><a href="LSCR.html">LSCR</a></td>
+<td>Load Screen
+</td></tr>
+<tr>
+<td><a href="LTEX.html">LTEX</a></td>
+<td>Land Texture
+</td></tr>
+<tr>
+<td><a href="LVLI.html">LVLI</a></td>
+<td>Leveled Item
+</td></tr>
+<tr>
+<td><a href="LVLN.html">LVLN</a></td>
+<td>Leveled Actor
+</td></tr>
+<tr>
+<td><a href="LVSP.html">LVSP</a></td>
+<td>Leveled Spell
+</td></tr>
+<tr>
+<td><a href="MATO.html">MATO</a></td>
+<td>Material Object
+</td></tr>
+<tr>
+<td><a href="MATT.html">MATT</a></td>
+<td>Material Type
+</td></tr>
+<tr>
+<td><a href="MESG.html">MESG</a></td>
+<td>Message
+</td></tr>
+<tr>
+<td><a href="MGEF.html">MGEF</a></td>
+<td>Magic Effect
+</td></tr>
+<tr>
+<td><a href="MISC.html">MISC</a></td>
+<td>Misc. Object
+</td></tr>
+<tr>
+<td><a href="MOVT.html">MOVT</a></td>
+<td>Movement Type
+</td></tr>
+<tr>
+<td><a href="MSTT.html">MSTT</a></td>
+<td>Movable Static
+</td></tr>
+<tr>
+<td><a href="MUSC.html">MUSC</a></td>
+<td>Music Type
+</td></tr>
+<tr>
+<td><a href="MUST.html">MUST</a></td>
+<td>Music Track
+</td></tr>
+<tr>
+<td><a href="NAVI.html">NAVI</a></td>
+<td>Navigation (master data)
+</td></tr>
+<tr>
+<td><a href="NAVM.html">NAVM</a></td>
+<td>NavMesh
+</td></tr>
+<tr>
+<td><a href="NOTE.html">NOTE</a></td>
+<td>Note
+</td></tr>
+<tr>
+<td><a href="NPC_.html">NPC_</a></td>
+<td>Actor (NPC, Creature)
+</td></tr>
+<tr>
+<td><a href="OTFT.html">OTFT</a></td>
+<td>Outfit
+</td></tr>
+<tr>
+<td><a href="PACK.html">PACK</a></td>
+<td>AI Package
+</td></tr>
+<tr>
+<td><a href="PERK.html">PERK</a></td>
+<td>Perk
+</td></tr>
+<tr>
+<td><a href="PGRE.html">PGRE</a></td>
+<td>Placed grenade
+</td></tr>
+<tr>
+<td><a href="PHZD.html">PHZD</a></td>
+<td>Placed hazard
+</td></tr>
+<tr>
+<td><a href="PROJ.html">PROJ</a></td>
+<td>Projectile
+</td></tr>
+<tr>
+<td><a href="QUST.html">QUST</a></td>
+<td>Quest
+</td></tr>
+<tr>
+<td><a href="RACE.html">RACE</a></td>
+<td>Race / Creature type
+</td></tr>
+<tr>
+<td><a href="REFR.html">REFR</a></td>
+<td>Object Reference
+</td></tr></tbody></table>
+</td>
+<td>
+<table class="wikitable">
+<tbody><tr>
+<th>Type
+</th>
+<th>Data Object
+</th></tr>
+<tr>
+<td><a href="REGN.html">REGN</a></td>
+<td>Region (Audio/Weather)
+</td></tr>
+<tr>
+<td><a href="RELA.html">RELA</a></td>
+<td>Relationship
+</td></tr>
+<tr>
+<td><a href="REVB.html">REVB</a></td>
+<td>Reverb Parameters
+</td></tr>
+<tr>
+<td><a href="RFCT.html">RFCT</a></td>
+<td>Visual Effect
+</td></tr>
+<tr>
+<td><a href="SCEN.html">SCEN</a></td>
+<td>Scene
+</td></tr>
+<tr>
+<td><a href="SCRL.html">SCRL</a></td>
+<td>Scroll
+</td></tr>
+<tr>
+<td><a href="SHOU.html">SHOU</a></td>
+<td>Shout
+</td></tr>
+<tr>
+<td><a href="SLGM.html">SLGM</a></td>
+<td>Soul Gem
+</td></tr>
+<tr>
+<td><a href="SMBN.html">SMBN</a></td>
+<td>Story Manager Branch Node
+</td></tr>
+<tr>
+<td><a href="SMEN.html">SMEN</a></td>
+<td>Story Manager Event Node
+</td></tr>
+<tr>
+<td><a href="SMQN.html">SMQN</a></td>
+<td>Story Manager Quest Node
+</td></tr>
+<tr>
+<td><a href="SNCT.html">SNCT</a></td>
+<td>Sound Category
+</td></tr>
+<tr>
+<td><a href="SNDR.html">SNDR</a></td>
+<td>Sound Reference
+</td></tr>
+<tr>
+<td><a href="SOPM.html">SOPM</a></td>
+<td>Sound Output Model
+</td></tr>
+<tr>
+<td><a href="SOUN.html">SOUN</a></td>
+<td>Sound
+</td></tr>
+<tr>
+<td><a href="SPEL.html">SPEL</a></td>
+<td>Spell
+</td></tr>
+<tr>
+<td><a href="SPGD.html">SPGD</a></td>
+<td>Shader Particle Geometry
+</td></tr>
+<tr>
+<td><a href="STAT.html">STAT</a></td>
+<td>Static
+</td></tr>
+<tr>
+<td><a href="TACT.html">TACT</a></td>
+<td>Talking Activator
+</td></tr>
+<tr>
+<td><a href="TES4.html">TES4</a></td>
+<td>Plugin info / Header
+</td></tr>
+<tr>
+<td><a href="TREE.html">TREE</a></td>
+<td>Tree
+</td></tr>
+<tr>
+<td><a href="TXST.html">TXST</a></td>
+<td>Texture Set
+</td></tr>
+<tr>
+<td><a href="VTYP.html">VTYP</a></td>
+<td>Voice Type
+</td></tr>
+<tr>
+<td><a href="WATR.html">WATR</a></td>
+<td>Water Type
+</td></tr>
+<tr>
+<td><a href="WEAP.html">WEAP</a></td>
+<td>Weapon
+</td></tr>
+<tr>
+<td><a href="WOOP.html">WOOP</a></td>
+<td>Word Of Power
+</td></tr>
+<tr>
+<td><a href="WRLD.html">WRLD</a></td>
+<td>Worldspace
+</td></tr>
+<tr>
+<td><a href="WTHR.html">WTHR</a></td>
+<td>Weather
+</td></tr></tbody></table>
+</td></tr></tbody></table>
+<h2><span id="Groups">Groups</span></h2>
+<p>GRUPs are collections of <a href="#Records">records</a>, and are used to improve scanning of files to make it easier to skip over records that the reading program is not interested in. In addition to this, subgroups for WRLD and CELLS provide some useful structural information (e.g., the division of cell data into persistent and non-persistent references).
+</p>
+<h3><span id="File_Format">File Format</span></h3>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>char[4]
+</td>
+<td>Record type (always "GRUP")
+</td></tr>
+<tr>
+<td>uint32
+</td>
+<td>Size of the entire group, <i>including</i> the group header (24 bytes).
+<ul><li>This is in contrast to <a href="#Records">records</a> and <a href="#Fields">fields</a>, whose sizes do <i>not</i> include their header sizes.</li></ul>
+</td></tr>
+<tr>
+<td>uint8[4]
+</td>
+<td>Label. Format depends on group type (see next field).
+<ul><li>In the CK Details view, you can mark a group as ignored, but the CK ignores this setting and reads the group anyway. The ignore flag interferes with what should ordinarily be in the label field (e.g., "HAIR" becomes "HQIR"). This mislabeling has no effect on record loading. In short, <i>the label field of a group is not reliable.</i> If you subsequently save, the group will be written without the ignore markings.</li></ul>
+</td></tr>
+<tr>
+<td>int32
+</td>
+<td>Group type:
+<table class="wikitable">
+<tbody><tr>
+<th>Type
+</th>
+<th>Info
+</th>
+<th>Label Type
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>0</td>
+<td>Top (Type)</td>
+<td>char[4]</td>
+<td>Record type
+</td></tr>
+<tr>
+<td>1</td>
+<td>World Children</td>
+<td>formid</td>
+<td>Parent (<a href="WRLD.html">WRLD</a>)
+</td></tr>
+<tr>
+<td>2</td>
+<td>Interior Cell Block</td>
+<td>int32</td>
+<td>Block number
+</td></tr>
+<tr>
+<td>3</td>
+<td>Interior Cell Sub-Block</td>
+<td>int32</td>
+<td>Sub-block number
+</td></tr>
+<tr>
+<td>4</td>
+<td>Exterior Cell Block</td>
+<td>int16[2]</td>
+<td>Grid Y, X (Note the reverse order)
+</td></tr>
+<tr>
+<td>5</td>
+<td>Exterior Cell Sub-Block</td>
+<td>int16[2]</td>
+<td>Grid Y, X (Note the reverse order)
+</td></tr>
+<tr>
+<td>6</td>
+<td>Cell Children</td>
+<td>formid</td>
+<td>Parent (<a href="CELL.html">CELL</a>)
+</td></tr>
+<tr>
+<td>7</td>
+<td>Topic Children</td>
+<td>formid</td>
+<td>Parent (<a href="DIAL.html">DIAL</a>)
+</td></tr>
+<tr>
+<td>8</td>
+<td>Cell Persistent Childen</td>
+<td>formid</td>
+<td>Parent (<a href="CELL.html">CELL</a>)
+</td></tr>
+<tr>
+<td>9</td>
+<td>Cell Temporary Children</td>
+<td>formid</td>
+<td>Parent (<a href="CELL.html">CELL</a>)
+</td></tr></tbody></table>
+</td></tr>
+<tr>
+<td>uint16</td>
+<td>Timestamp
+<ul><li>Skyrim: The low byte is the day of the month and the high byte is a combined value representing the month number and last digit of the year times 12. That value is offset, however, so the range is nominally 13-132, representing dates from January 20x4 through December 20x3. Lower values can be seen in Skyrim.esm, likely corresponding to older records held over from Oblivion where values of 1-12 represented 2003 (see <a href="/wiki/Oblivion_Mod:Mod_File_Format#Groups">the Oblivion version of this page</a> for specifics).<br/><br/>To derive the correct values, use the following formulae, where Y is the single-digit year, M is the month number, and HB is the high byte of the value:</li></ul>
+<dl><dd><pre>Y = ((HB - 1) / 12 + 3) MOD 10
+M = ((HB - 1) MOD 12) + 1
+HB = (((Y - 4) MOD 10) + 1) * 12 + M</pre></dd></dl>
+<ul><li>Skyrim SE: Bits are used to represent each part, with a two-digit year: 0bYYYYYYYMMMMDDDDD. Thus, January 25, 2021 would be (spaces added for clarity): 0b 0010101 0001 11001 or 0x2A39.</li></ul>
+</td></tr>
+<tr>
+<td>uint16</td>
+<td>Version Control Info
+<ul><li>The low byte is the user id that last had the form checked out.</li>
+<li>The high byte is the user id (if any) that currently has the form checked out.</li></ul>
+</td></tr>
+<tr>
+<td>uint32</td>
+<td>Unknown. The values stored here are significantly different than those used in records and appear to be a 32-bit value rather than two 16-bit values. Values break out by group type:
+<ul><li>All top-level groups have a 0 here, with the exception of CELL, which can have a 1 in some add-ons.</li>
+<li>Topic children have single-byte values or 0xCCCCCCCC.</li>
+<li>Interior cells have a value of either 0 or 0xCCCCCCCC. Some add-ons have a value of 1.</li>
+<li>Other cell/world-related groups have a wide array of small to large values that are not Form IDs. Again, 0xCCCCCCCC is a possible value.</li></ul>
+</td></tr>
+<tr>
+<td>uint8[groupSize-24]
+</td>
+<td>Records and subgroups.
+</td></tr></tbody></table>
+<h3><span id="Top_Groups">Top Groups</span></h3>
+<p>In Skyrim.esm, the top, or highest level groups are stored in the following order:
+</p>
+<dl><dd>GMST, KYWD, LCRT, AACT, TXST, GLOB, CLAS, FACT, HDPT, HAIR, EYES, RACE, SOUN, ASPC, MGEF, SCPT, LTEX, ENCH, SPEL, SCRL, ACTI, TACT, ARMO, BOOK, CONT, DOOR, INGR, LIGH, MISC, APPA, STAT, SCOL, MSTT, PWAT, GRAS, TREE, CLDC, FLOR, FURN, WEAP, AMMO, NPC_, LVLN, KEYM, ALCH, IDLM, COBJ, PROJ, HAZD, SLGM, LVLI, WTHR, CLMT, SPGD, RFCT, REGN, NAVI, CELL, WRLD, DIAL, QUST, IDLE, PACK, CSTY, LSCR, LVSP, ANIO, WATR, EFSH, EXPL, DEBR, IMGS, IMAD, FLST, PERK, BPTD, ADDN, AVIF, CAMS, CPTH, VTYP, MATT, IPCT, IPDS, ARMA, ECZN, LCTN, MESG, RGDL, DOBJ, LGTM, MUSC, FSTP, FSTS, SMBN, SMQN, SMEN, DLBR, MUST, DLVW, WOOP, SHOU, EQUP, RELA, SCEN, ASTP, OTFT, ARTO, MATO, MOVT, <i>HAZD</i>, SNDR, DUAL, SNCT, SOPM, COLL, CLFM, REVB</dd></dl>
+<p>Whether the game engine expects this order is unknown, but it's probably safer to use this order than not.
+</p><p>All top groups contain records matching their label (e.g., the GMST top group contains GMST records). For most top groups, <i>only</i> the matching record types are present. However, in the CELL, WRLD and DIAL top groups, each main record can be followed by one or more child groups which contain additional records of a different type. Unlike Oblivion, WRLD groups in Skyrim no longer contain ROAD records.
+</p><p>Notes:
+</p>
+<ul><li>6 record types have a GRUP but no records: <a href="CLDC.html">CLDC</a>, <a href="HAIR.html">HAIR</a>, <a href="/w/index.php?title=Skyrim_Mod:Mod_File_Format/RGDL&amp;action=edit&amp;redlink=1">RGDL</a>, <a href="/w/index.php?title=Skyrim_Mod:Mod_File_Format/SCPT&amp;action=edit&amp;redlink=1">SCPT</a>, <a href="/w/index.php?title=Skyrim_Mod:Mod_File_Format/SCOL&amp;action=edit&amp;redlink=1">SCOL</a>, <a href="PWAT.html">PWAT</a>.</li>
+<li>There are 2 HAZD groups, the second one has no records.</li></ul>
+<p><b>Dawnguard</b>
+The following had field order changes and updates. Also pre-existing or new records were added.
+</p>
+<ul><li>LCTN, INFO, NPC_, RACE, NAVI, QUST, REFR, WRLD</li></ul>
+<p>New Fields:
+</p>
+<ul><li>LCTN added: ACID, ACSR, ACUN, ACEC, ACEP, RCPR</li>
+<li>NAVI added: NVSI</li>
+<li>REFR added: XATR</li></ul>
+<h3><span id="Subgroups">Subgroups</span></h3>
+<p>The following groups are only found in subgroups of other records:
+</p>
+<dl><dd>REFR, ACHR, NAVM, PGRE, PHZD, LAND, INFO</dd></dl>
+<h2><span id="Records">Records</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>char[4]</td>
+<td>Type
+</td></tr>
+<tr>
+<td>uint32</td>
+<td>Size of data field
+</td></tr>
+<tr>
+<td>uint32</td>
+<td>Flags
+<table class="wikitable">
+<tbody><tr>
+<th>Flag
+</th>
+<th>Meaning
+</th></tr>
+<tr>
+<td>0x00000001</td>
+<td>(<a href="TES4.html">TES4</a>) Master (ESM) file
+</td></tr>
+<tr>
+<td>0x00000010</td>
+<td>Deleted Group (bugged, see <a href="#Groups">Groups</a>)
+</td></tr>
+<tr>
+<td>0x00000020</td>
+<td>Deleted Record
+</td></tr>
+<tr>
+<td>0x00000040</td>
+<td>(<a href="GLOB.html">GLOB</a>) Constant <br/> (<a href="REFR.html">REFR</a>) Hidden From Local Map (Needs Confirmation: Related to shields)
+</td></tr>
+<tr>
+<td>0x00000080</td>
+<td>(<a href="TES4.html">TES4</a>) Localized - this will make Skyrim load the .STRINGS, .DLSTRINGS, and .ILSTRINGS files associated with the mod. If this flag is not set, lstrings are treated as zstrings.
+</td></tr>
+<tr>
+<td>0x00000100</td>
+<td>Must Update Anims <br/> (<a href="REFR.html">REFR</a>) Inaccessible
+</td></tr>
+<tr>
+<td>0x00000200</td>
+<td>(<a href="TES4.html">TES4</a>) Light Master (ESL) File. <a href="https://www.creationkit.com/fallout4/index.php?title=Data_File" rel="nofollow">Data File</a><br/>(<a href="REFR.html">REFR</a>) Hidden from local map<br/>(<a href="ACHR.html">ACHR</a>) Starts dead<br/>(<a href="REFR.html">REFR</a>) MotionBlurCastsShadows
+</td></tr>
+<tr>
+<td>0x00000400</td>
+<td>Quest item <br/> Persistent reference <br/> (<a href="LSCR.html">LSCR</a>) Displays in Main Menu
+</td></tr>
+<tr>
+<td>0x00000800</td>
+<td>Initially disabled
+</td></tr>
+<tr>
+<td>0x00001000</td>
+<td>Ignored
+</td></tr>
+<tr>
+<td>0x00008000</td>
+<td>Visible when distant
+</td></tr>
+<tr>
+<td>0x00010000</td>
+<td>(<a href="ACTI.html">ACTI</a>) Random Animation Start
+</td></tr>
+<tr>
+<td>0x00020000</td>
+<td>(<a href="ACTI.html">ACTI</a>) Dangerous <br/> Off limits (Interior cell)
+<dl><dd>Dangerous Can't be set without Ignore Object Interaction</dd></dl>
+</td></tr>
+<tr>
+<td>0x00040000</td>
+<td>Data is compressed
+</td></tr>
+<tr>
+<td>0x00080000</td>
+<td>Can't wait
+</td></tr>
+<tr>
+<td>0x00100000</td>
+<td>(<a href="ACTI.html">ACTI</a>) Ignore Object Interaction
+<dl><dd>Ignore Object Interaction Sets Dangerous Automatically</dd></dl>
+</td></tr>
+<tr>
+<td>0x00800000</td>
+<td>Is Marker
+</td></tr>
+<tr>
+<td>0x02000000</td>
+<td>(<a href="ACTI.html">ACTI</a>) Obstacle <br/> (<a href="REFR.html">REFR</a>) No AI Acquire
+</td></tr>
+<tr>
+<td>0x04000000</td>
+<td>NavMesh Gen - Filter
+</td></tr>
+<tr>
+<td>0x08000000</td>
+<td>NavMesh Gen - Bounding Box
+</td></tr>
+<tr>
+<td>0x10000000</td>
+<td>(<a href="FURN.html">FURN</a>) Must Exit to Talk <br/> (<a href="REFR.html">REFR</a>) Reflected By Auto Water
+</td></tr>
+<tr>
+<td>0x20000000</td>
+<td>(<a href="FURN.html">FURN</a>/<a href="IDLM.html">IDLM</a>) Child Can Use <br/> (<a href="REFR.html">REFR</a>) Don't Havok Settle
+</td></tr>
+<tr>
+<td>0x40000000</td>
+<td>NavMesh Gen - Ground <br/> (<a href="REFR.html">REFR</a>) NoRespawn
+</td></tr>
+<tr>
+<td>0x80000000</td>
+<td>(<a href="REFR.html">REFR</a>) MultiBound
+</td></tr></tbody></table>
+</td></tr>
+<tr>
+<td>uint32</td>
+<td>Record (form) identifier. See <a href="Form_ID.html">Form ID</a> for format.
+</td></tr>
+<tr>
+<td>uint16</td>
+<td>Timestamp (see the same field in <a href="#Groups">Groups</a>)
+</td></tr>
+<tr>
+<td>uint16</td>
+<td>Version Control Info (see the same field in <a href="#Groups">Groups</a>)
+</td></tr>
+<tr>
+<td>uint16</td>
+<td>The internal version of the record. This can be used to distinguish certain records that have different field layouts or sizes. <br/>Skyrim LE = 43, Skyrim SE = 44, Fallout 4 = 131.
+</td></tr>
+<tr>
+<td>uint16</td>
+<td>Unknown. Values range between 0-15.
+</td></tr>
+<tr>
+<td>uint8[dataSize]</td>
+<td>Data
+<ul><li>For uncompressed records, this is a sequence of fields.</li>
+<li>Compressed data is the same, except that the fields are compressed using <a href="http://zlib.net" rel="nofollow">ZLIB</a>, and stored into the data field like so...</li></ul>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>uint32</td>
+<td>Size of decompressed data
+</td></tr>
+<tr>
+<td>uint8[dataSize-4]</td>
+<td>Compressed collection of fields
+</td></tr></tbody></table>
+</td></tr></tbody></table>
+<h2><span id="Fields">Fields</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>char[4]</td>
+<td>Field type.
+</td></tr>
+<tr>
+<td>uint16</td>
+<td>Size of data field. <sup>†</sup>
+</td></tr>
+<tr>
+<td>uint8[dataSize]</td>
+<td>Data.
+<ul><li>Format depends on record and field type.</li></ul>
+</td></tr></tbody></table>
+<p><sup>†</sup>If the preceding field has the type XXXX, then dataSize will be 0 and the size of the data is in fact the 32 bit quantity stored in the XXXX field. This feature is commonly used to store large navmesh fields in Skyrim.esm.
+</p><p>Commonly used fields and their definitions can be found <a href="/wiki/Skyrim_Mod:Fields">here</a>. Many records allow for object bounds (<a href="OBND_Field.html">OBND</a>) and scripting (<a href="VMAD_Field.html">VMAD</a>) fields, but ignore them. It's unclear why. Only those records to which they actually apply will have these fields listed.
+</p>
+<h2><span id="See_Also">See Also</span></h2>
+<ul><li><a href="Raw_Data.html">Raw Data</a>: a dump of all records/fields in Skyrim.esm and their associated counts/sizes.</li>
+<li><a href="Raw_Function_Data.html">Raw Function Data</a>: a dump of all script/console functions and events in TESV.exe.</li></ul>
+</div>

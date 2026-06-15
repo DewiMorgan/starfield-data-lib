@@ -1,0 +1,64 @@
+
+<div><p><b>SNCT</b> are "sound categories" - the broadest group to which a sound can belong (and themselves belong to up to _AudioCategoryMaster).
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>FULL</td>
+<td>full name</td>
+<td>lstring</td>
+<td>Generic additional name field similar to EDID - but allows spaces.
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>flags</td>
+<td>uint32</td>
+<td>Flags
+<dl><dd>0x01 <i>Mute When Submerged</i></dd>
+<dd>0x02 <i>Should Appear on Menu</i></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>PNAM</td>
+<td>parent name</td>
+<td>formid</td>
+<td>Parent Category (<a>SNCT</a>)
+</td></tr>
+<tr>
+<td>+</td>
+<td>VNAM</td>
+<td>staticVolumeMult</td>
+<td>uint16</td>
+<td>static volume multiplier - despite being an integer value, this represents a float. A value of zero maps to 0.0, a value of 65536 (0xFFFF) maps to 1.0, and all other values are mapped linearly.
+<p><i>(only 3 possible values - FF-FF (representing a float value of 1.0), 65-E6 (representing 0.9), 32-B3 (representing 0.7))</i>
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>UNAM</td>
+<td>defaultMenuValue</td>
+<td>uint16</td>
+<td>default menu value - see VNAM info, it uses the same "conversion" from integer to float values. Only present when "Should Appear on Menu" flag is set in FNAM subrecord. Otherwise it defaults to 1.0 (0xFFFF).
+<p><i>(only 3 possible values - FF-FF (representing 1.0), FF-7F (i.e. 0.5), CC-CC (0.8))</i>
+</p>
+</td></tr></tbody></table>
+</div>

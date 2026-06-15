@@ -1,0 +1,223 @@
+
+<div><p><b>CLAS</b> records contain information about NPC and creature classes.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorID</td>
+<td>zstring</td>
+<td>Corresponds with <a href="/wiki/Skyrim:Classes">Class EditorID</a>
+</td></tr>
+<tr>
+<td>+</td>
+<td>FULL</td>
+<td>Name</td>
+<td>lstring</td>
+<td>Corresponds with <a href="/wiki/Skyrim:Classes">Class Name</a> (All resolved to ilstrings)
+</td></tr>
+<tr>
+<td>+</td>
+<td>DESC</td>
+<td>Description</td>
+<td>lstring</td>
+<td>Description <i>(always 0 in base files but can be present in mods)</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td>ICON</td>
+<td>Description</td>
+<td>zstring</td>
+<td>Menu image
+</td></tr>
+<tr>
+<td rowspan="11">+
+</td>
+<td rowspan="11">DATA
+</td>
+<td>Data</td>
+<td>struct[36]</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>00:<i>Unknown</i></dd></dl>
+</td>
+<td>uint32</td>
+<td>Possibly flags, but not displayed in CK
+</td></tr>
+<tr>
+<td>
+<dl><dd>04:Training Skill</dd></dl>
+</td>
+<td>uint8</td>
+<td>Trainer classes store a skill here.  Skill is provided using an <a href="/wiki/Skyrim_Mod:Actor_Value_Indices">actor value index</a> - 6
+</td></tr>
+<tr>
+<td>
+<dl><dd>05:Training Level</dd></dl>
+</td>
+<td>uint8</td>
+<td>The skill level to which the NPC will provide training.  0 if class is not used for trainers
+</td></tr>
+<tr>
+<td>
+<dl><dd>06-17:Skill Weights</dd></dl>
+</td>
+<td>uint8[18]</td>
+<td>Each byte provides the weight assigned to one skill.  The skills are provided in <a href="/wiki/Skyrim_Mod:Actor_Value_Indices">actor value index</a> order (skill at byte 06 is One-handed; at byte 17, Enchanting)
+<p>The weight is a value that normally ranges from 0 to 3, although values as high as 9 occur in some cases.  The weights are used to distribute the fixed 8 skill points per level among the various skills.  Skills with a weight of zero never increase.  See <a href="#Skills">Skills</a> for further information.
+</p>
+</td></tr>
+<tr>
+<td>
+<dl><dd>18-1b:Bleedout Default</dd></dl>
+</td>
+<td>float</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>1c-1f:Voice Points</dd></dl>
+</td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>20:Health Weight</dd></dl>
+</td>
+<td>uint8
+</td>
+<td rowspan="3">Each byte provides the weight assigned to that attribute.  The weights are used to distribute the fixed 10 attribute points per level among the three attributes.  Note that health always receives an additional 5 point/level increase, independent of its weight.  See <a href="#Attributes">Attributes</a> for details.
+</td></tr>
+<tr>
+<td>
+<dl><dd>21:Magicka Weight</dd></dl>
+</td>
+<td>uint8
+</td></tr>
+<tr>
+<td>
+<dl><dd>22:Stamina Weight</dd></dl>
+</td>
+<td>uint8
+</td></tr>
+<tr>
+<td>
+<dl><dd>23:Flags?</dd></dl>
+</td>
+<td>uint8
+</td>
+<td>0x1 seems to indicate guard
+</td></tr></tbody></table>
+<h2><span id="Weight_Calculations">Weight Calculations</span></h2>
+<h3><span id="Skills">Skills</span></h3>
+<p>The approximate formula for an NPC's skill at a given level is:
+</p>
+<dl><dd><code>Skill = 15 + [Racial bonus] + 8*(Level-1)/(Sum of class' skill weights)*[Skill weight]</code></dd></dl>
+<p>This formula will generally only be accurate to within a couple points, however, because of the details of how the weighting system assigns values.  Furthermore, once any skill reaches 100, this formula is no longer applicable.
+</p><p>The exact method used to assign values is to first assign all complete sets of points, namely:
+</p>
+<dl><dd><code>Sets = floor(8*(Level-1)/(Sum of class' skill weights))*[Skill weight]</code></dd></dl>
+<p>Then the left-over skill points (the number necessary so that <code>(Sum of skill bonuses)=8*(Level-1)</code>) are assigned one at a time by looping over all the skills in order.  Skills are ordered first by their weight (higher skills ordered first) and second by their actor value index (lower indices are ordered first).  Skills are only incremented if their maximum delta (i.e., their weight value) has not yet been reached.
+</p><p>To provide an example of how this works, take the <a href="/wiki/Skyrim:Classes#Priest">TrainerRestorationMaster Priest class</a>.  The <code>(Sum of class' skill weights)</code> is 15.  The skills are incremented in the following order:
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Skill</th>
+<th><a href="/wiki/Skyrim_Mod:Actor_Value_Indices">AVIF</a></th>
+<th>Weight</th>
+<th></th>
+<th>Round 1</th>
+<th>Round 2</th>
+<th>Round 3</th>
+<th>Round 4
+</th></tr>
+<tr>
+<td>Restoration</td>
+<td>22</td>
+<td>4</td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1
+</td></tr>
+<tr>
+<td>Speech</td>
+<td>17</td>
+<td>3</td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>
+</td></tr>
+<tr>
+<td>Enchanting</td>
+<td>23</td>
+<td>2</td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td></td>
+<td>
+</td></tr>
+<tr>
+<td>Illusion</td>
+<td>21</td>
+<td>2</td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td></td>
+<td>
+</td></tr>
+<tr>
+<td>Alchemy</td>
+<td>16</td>
+<td>2</td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td></td>
+<td>
+</td></tr>
+<tr>
+<td>Smithing</td>
+<td>10</td>
+<td>2</td>
+<td></td>
+<td>1</td>
+<td>1</td>
+<td></td>
+<td>
+</td></tr></tbody></table>
+<p>However, once any one skill reaches 100, the skill assignment system changes.  Presumably the weighting system is attempting to adjust by re-assigning the skill points from the skill(s) that have reached 100.   The total number of skill points is no longer a fixed 8 points per level.  The equation used is actually simplified in some ways, because the skill points are a fixed function of <code>Sets</code> -- meaning that either all of the skills are increased when an NPC levels up, or else none of them are. However, the full details of the equations used at this point have not yet been worked out.  
+</p>
+<h3><span id="Attributes">Attributes</span></h3>
+<p>The approximate formula for an NPC's magicka or stamina at a given level is:
+</p>
+<dl><dd><code>Attribute = [Racial bonus] + [NPC offset] + 10*(Level-1)/(Sum of class' attribute weights)*[Attribute weight]</code></dd></dl>
+<p>The only difference for health is that health always receives an additional 5 points per level, regardless of the class weights:
+</p>
+<dl><dd><code>Health = [Racial bonus] + [NPC offset] + 5*(Level-1) + 10*(Level-1)/(Sum of class' attribute weights)*[Health weight]</code></dd></dl>
+<p>As with the <a href="#Skills">skills</a>, this formula will generally only be accurate to within a couple points because of the weighting system details.  However, there is no upper limit beyond which the equation ceases to be valid.
+</p><p>If the auto-calc flag for an NPC isn't set, all attributes are calculated just as:
+</p>
+<dl><dd><code>Attribute = [Racial bonus] + [NPC offset]</code></dd></dl>
+<p>The exact method used to assign values is the same as that used with skills.  So left-over points are assigned one at a time by looping over the attributes.  The attributes are ordered first in decreasing order of weight.  If any attributes have the same weight, they are ordered in reverse actor value index order (stamina, magicka, then health).
+</p>
+</div>

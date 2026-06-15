@@ -1,0 +1,463 @@
+
+<div><p><b>MGEF</b> records hold information about magical effects which are used in spells, enchantments and potions.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>EditorID</td>
+<td>zstring</td>
+<td>Max 0x200 bytes, including null terminator.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>VMAD</td>
+<td>unknown</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>FULL</td>
+<td>name</td>
+<td>lstring</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MDOB</td>
+<td>static</td>
+<td>formID</td>
+<td>Menu Display Object
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>KSIZ</td>
+<td>keywordCount</td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>KWDA</td>
+<td>keywords</td>
+<td>formID[KSIZ.keywordCount]</td>
+<td>
+</td></tr>
+<tr>
+<td rowspan="39" valign="top">+
+</td>
+<td rowspan="39" valign="top">
+</td>
+<td rowspan="39" valign="top">DATA</td>
+<td>data</td>
+<td>struct[152]</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>00:Flags</dd></dl>
+</td>
+<td>uint32</td>
+<td>Flags
+<dl><dd>0x00000001 = Hostile</dd>
+<dd>0x00000002 = Recover</dd>
+<dd>0x00000004 = Detrimental</dd>
+<dd>0x00000008 = Snap to Navmesh</dd>
+<dd>0x00000010 = No Hit Event</dd>
+<dd>0x00000100 = Dispel Effects (toggle keywords to dispel type?)</dd>
+<dd>0x00000200 = No Duration</dd>
+<dd>0x00000400 = No Magnitude</dd>
+<dd>0x00000800 = No Area</dd>
+<dd>0x00001000 = FX Persist</dd>
+<dd>0x00004000 = Gory Visual</dd>
+<dd>0x00008000 = Hide in UI</dd>
+<dd>0x00020000 = No Recast</dd>
+<dd>0x00200000 = Power Affects Magnitude</dd>
+<dd>0x00400000 = Power Affects Duration</dd>
+<dd>0x04000000 = Painless</dd>
+<dd>0x08000000 = No Hit Effect</dd>
+<dd>0x10000000 = No Death Dispel</dd>
+<dd>0x40000000 = ?</dd>
+<dd>0x80000000 = ?</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>04:Base Cost</dd></dl>
+</td>
+<td>float</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>08:RelatedID</dd></dl>
+</td>
+<td>formID</td>
+<td>The type of record here depends on the EffectType (see below).
+</td></tr>
+<tr>
+<td>
+<dl><dd>0C:Skill</dd></dl>
+</td>
+<td>int32</td>
+<td>Usually a base magic skill <a href="/wiki/Skyrim_Mod:Actor_Value_Indices#Actor_Value_Codes">ActorValue (index)</a> or -1
+</td></tr>
+<tr>
+<td>
+<dl><dd>10:ResistanceAV</dd></dl>
+</td>
+<td>uint32</td>
+<td>Resistance skill index (generally 39-45) <a href="/wiki/Skyrim_Mod:Actor_Value_Indices#Actor_Value_Codes">ActorValue (index)</a> or -1
+</td></tr>
+<tr>
+<td>
+<dl><dd>14:Unknown1</dd></dl>
+</td>
+<td>uint32</td>
+<td>Mask of 0xffff0000 (lower 2 bytes always 0)
+</td></tr>
+<tr>
+<td>
+<dl><dd>18:LightID</dd></dl>
+</td>
+<td>formID</td>
+<td><a href="LIGH.html">LIGH</a>
+</td></tr>
+<tr>
+<td>
+<dl><dd>1C:TaperWeight</dd></dl>
+</td>
+<td>float</td>
+<td>Somehow controls the tapering of the spell over time, 0-1 typically
+</td></tr>
+<tr>
+<td>
+<dl><dd>20:HitShader</dd></dl>
+</td>
+<td>formID</td>
+<td><a href="EFSH.html">EFSH</a>
+</td></tr>
+<tr>
+<td>
+<dl><dd>24:EnchantShader</dd></dl>
+</td>
+<td>FormID</td>
+<td><a href="EFSH.html">EFSH</a>
+</td></tr>
+<tr>
+<td>
+<dl><dd>28:SkillLevel</dd></dl>
+</td>
+<td>uint32</td>
+<td>Required Skill level (0, 25, 50, 75, 100)
+</td></tr>
+<tr>
+<td>
+<dl><dd>2C:Area</dd></dl>
+</td>
+<td>uint32</td>
+<td>0 for none
+</td></tr>
+<tr>
+<td>
+<dl><dd>30:CastingTime</dd></dl>
+</td>
+<td>float</td>
+<td>probably default if not provided, normal range 0.5-3
+</td></tr>
+<tr>
+<td>
+<dl><dd>34:TaperCurve</dd></dl>
+</td>
+<td>float</td>
+<td>Somehow affects the tapering of spell duration, 0-2 typically
+</td></tr>
+<tr>
+<td>
+<dl><dd>38:TaperDuration</dd></dl>
+</td>
+<td>float</td>
+<td>Controls how fast the duration tapers off presumably, 0-5 typically
+</td></tr>
+<tr>
+<td>
+<dl><dd>3C:SecondAVWeight</dd></dl>
+</td>
+<td>float</td>
+<td>Only valid if SecondAV is set, typical values of 0-2
+</td></tr>
+<tr>
+<td>
+<dl><dd>40:EffectType</dd></dl>
+</td>
+<td>uint32</td>
+<td>The basic type of effect to apply (0-46). See below for effect type details.
+</td></tr>
+<tr>
+<td>
+<dl><dd>44:PrimaryAV</dd></dl>
+</td>
+<td>int32</td>
+<td><a href="/wiki/Skyrim_Mod:Actor_Value_Indices#Actor_Value_Codes">ActorValue (index)</a> or -1.  Vast majority are 24 (direct health)
+</td></tr>
+<tr>
+<td>
+<dl><dd>48:ProjectileID</dd></dl>
+</td>
+<td>formID</td>
+<td><a href="PROJ.html">PROJ</a>
+</td></tr>
+<tr>
+<td>
+<dl><dd>4C:ExplosionID</dd></dl>
+</td>
+<td>formID</td>
+<td>EXPL
+</td></tr>
+<tr>
+<td>
+<dl><dd>50:CastType</dd></dl>
+</td>
+<td>uint32</td>
+<td>cast type:
+<dl><dd>0x00 - Constant Effect</dd>
+<dd>0x01 - Fire and Forget</dd>
+<dd>0x02 - Concentration</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>54:DeliveryType</dd></dl>
+</td>
+<td>uint32</td>
+<td>delivery type
+<dl><dd>0x00 - Self</dd>
+<dd>0x01 - Touch</dd>
+<dd>0x02 - Aimed</dd>
+<dd>0x03 - Target Actor</dd>
+<dd>0x04 - Target Location</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>58:SecondAV</dd></dl>
+</td>
+<td>int32</td>
+<td>Secondary <a href="/wiki/Skyrim_Mod:Actor_Value_Indices#Actor_Value_Codes">ActorValue (index)</a> or -1 (usually only shock/frost have this)
+</td></tr>
+<tr>
+<td>
+<dl><dd>5C:CastingArtID</dd></dl>
+</td>
+<td>formID</td>
+<td>Hand effects <a href="ARTO.html">ARTO</a>
+</td></tr>
+<tr>
+<td>
+<dl><dd>60:HitEffectArtID</dd></dl>
+</td>
+<td>formID</td>
+<td>Impact effects <a href="ARTO.html">ARTO</a> (eg ward getting hit)
+</td></tr>
+<tr>
+<td>
+<dl><dd>64:ImpactDataID</dd></dl>
+</td>
+<td>formID</td>
+<td>Impact data <a href="IPDS.html">IPDS</a> of projectiles
+</td></tr>
+<tr>
+<td>
+<dl><dd>68:SkillUsageMult</dd></dl>
+</td>
+<td>float</td>
+<td>Typically 0-10
+</td></tr>
+<tr>
+<td>
+<dl><dd>6C:DualCastID</dd></dl>
+</td>
+<td>formID</td>
+<td><a href="DUAL.html">DUAL</a>
+</td></tr>
+<tr>
+<td>
+<dl><dd>70:DualCastScale</dd></dl>
+</td>
+<td>float</td>
+<td>0-3
+</td></tr>
+<tr>
+<td>
+<dl><dd>74:EnchantArtID</dd></dl>
+</td>
+<td>formID</td>
+<td>ARTO
+</td></tr>
+<tr>
+<td>
+<dl><dd>78:NullData1</dd></dl>
+</td>
+<td>uint32</td>
+<td>Always 0
+</td></tr>
+<tr>
+<td>
+<dl><dd>7C:NullData2</dd></dl>
+</td>
+<td>uint32</td>
+<td>Always 0
+</td></tr>
+<tr>
+<td>
+<dl><dd>80:EquipAbility</dd></dl>
+</td>
+<td>formID</td>
+<td>SPEL
+</td></tr>
+<tr>
+<td>
+<dl><dd>84:ImageSpaceModID</dd></dl>
+</td>
+<td>formID</td>
+<td>IPDS
+</td></tr>
+<tr>
+<td>
+<dl><dd>88:PerkID</dd></dl>
+</td>
+<td>formID</td>
+<td>PERK
+</td></tr>
+<tr>
+<td>
+<dl><dd>8C:SoundVolume</dd></dl>
+</td>
+<td>uint32</td>
+<td>0-3
+<dl><dd>0 = Loud</dd>
+<dd>1 = Normal</dd>
+<dd>2 = Silent</dd>
+<dd>3 = Very Loud</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>90:ScriptAIDataScore</dd></dl>
+</td>
+<td>float</td>
+<td>Unknown exact purpose, values of 0, 50, 9999, 100000, 1000000
+</td></tr>
+<tr>
+<td>
+<dl><dd>94:ScriptAIDataDelayTime</dd></dl>
+</td>
+<td>float</td>
+<td>Unknown exact purpose, values of 0, 60, 10000, 600000
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>ESCE</td>
+<td>CounterEffects</td>
+<td>formid</td>
+<td>Contain a magic effect formid that presumably counters the effects of the current one.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>SNDD</td>
+<td>soundData</td>
+<td>list[struct[8]]
+<dl><dd>dword Type</dd>
+<dd>formID SoundDesc</dd></dl>
+</td>
+<td>Array of structs, max 6 items. Sound types include:
+<dl><dd>0 = Draw/Sheathe</dd>
+<dd>1 = Charge</dd>
+<dd>2 = Ready</dd>
+<dd>3 = Release</dd>
+<dd>4 = Concentration Cast Loop</dd>
+<dd>5 = On Hit</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DNAM</td>
+<td>Description</td>
+<td>lstring</td>
+<td>Effect description, e.g.: "Health regenerates &lt;mag&gt;% slower."
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>CTDA</td>
+<td>conditionData</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>
+</td></tr></tbody></table>
+<h2><span id="Effect_Types">Effect Types</span></h2>
+<p>The following are the valid effect types for each magic effect and their associated data:
+</p>
+<dl><dd>0 = Value Mod: PrimaryAV selects which actor value to modify</dd>
+<dd>1 = Script: No Extra data?</dd>
+<dd>2 = Dispel: No extra data?</dd>
+<dd>3 = Cure Disease: No extra data?</dd>
+<dd>4 = Absorb: PrimaryAV selects which actor value to absorb</dd>
+<dd>5 = Dual Value Mod: PrimaryAV  and SecondAV select which actor value to modify along with SecondAVWeight</dd>
+<dd>6 = Calm: PrimaryAV is forced to be "Aggression"</dd>
+<dd>7 = Demoralize: PrimaryAV is forced to be "Confidence"</dd>
+<dd>8 = Frenzy: PrimaryAV is forced to be "Aggression"</dd>
+<dd>9 = Disarm: No extra data?</dd>
+<dd>10 = Command Summoned: No extra data?</dd>
+<dd>11 = Invisibility: PrimaryAV is forced to be "Invisibility"</dd>
+<dd>12 = Light: RelatedID is the light formid</dd>
+<dd>15 = Lock: No extra data?</dd>
+<dd>16 = Open: No extra data?</dd>
+<dd>17 = Bound Weapon: RelatedID is the weapon to summon</dd>
+<dd>18 = Summon Creature: RelatedID is the NPC to spawn (must have the summonable flag set)</dd>
+<dd>19 = Detect Life: No extra data?</dd>
+<dd>20 = Telekinesis: No extra data?</dd>
+<dd>21 = Paralysis: PrimaryAV is forced to be "Paralysis "</dd>
+<dd>22 = Reanimate: No extra data?</dd>
+<dd>23 = Soul Trap: No extra data?</dd>
+<dd>24 = Turn Undead: PrimaryAV is forced to be "Confidence"</dd>
+<dd>25 = Guide: RelatedID is a hazard, used only by Clairvoyance</dd>
+<dd>26 = Werewolf Feed: No extra data?</dd>
+<dd>27 = Cure Paralysis: No extra data?</dd>
+<dd>28 = Cure Addiction: No extra data?</dd>
+<dd>29 = Cure Poison: No extra data?</dd>
+<dd>30 = Concussion: No extra data?</dd>
+<dd>31 = Value and Parts: PrimaryAV is used, not used in game</dd>
+<dd>32 = Accumulate Magnitude: PrimaryAV, used by Ward Steadfast/Lesser/Greater</dd>
+<dd>33 = Stagger: No extra data?</dd>
+<dd>34 = Peak Value Mod: PrimaryAV selects which actor value to modify, RelatedID is a keyword (Assoc. Item 2 in the C.K.) - SecondaryAV &amp; SecondAVWeight are not used.</dd>
+<dd>35 = Cloak: RelatedID is a spell (only some spells supported, either/both hand?)</dd>
+<dd>36 = Werewolf: RelatedID is a race</dd>
+<dd>37 = Slow Time: No extra data?</dd>
+<dd>38 = Rally: PrimaryAV is forced to be "Confidence"</dd>
+<dd>39 = Enchant Weapon: RelatedID is an enchantment</dd>
+<dd>40 = Spawn Hazard: RelatedID is a hazard</dd>
+<dd>41 = Etherealize: No extra data?</dd>
+<dd>42 = Banish: PrimaryAV is forced to be "Confidence"</dd>
+<dd>43 = Spawn Scripted Ref: No extra data?, used by ThrowVoice</dd>
+<dd>44 = Disguise: No extra data?</dd>
+<dd>45 = Grab Actor: No extra data?</dd>
+<dd>46 = Vampire Lord: RelatedID is a race</dd></dl>
+</div>

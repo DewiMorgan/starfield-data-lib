@@ -1,0 +1,121 @@
+
+<div><p><b>LIGH</b> records represent base lighting objects.
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p>
+<dl><dd>0x10000 - Random Anim Start</dd>
+<dd>0x20000 - Portal-strict</dd>
+<dd>0x200000 - Obstacle</dd></dl>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>EditorID</td>
+<td>zstring</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td>Scripting</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>Scripting Info
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>Bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Field MODT
+</td></tr>
+<tr>
+<td>-</td>
+<td>DEST</td>
+<td>destruction data</td>
+<td><a href="DEST_Field.html">DEST</a></td>
+<td>Includes Fields DSTD, DMDL, DMDT, DMDS
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>Item name</td>
+<td>lstring</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td>ICON</td>
+<td>icon</td>
+<td>zstring</td>
+<td>Inventory icon filename
+</td></tr>
+<tr>
+<td>+</td>
+<td>MICO</td>
+<td>icon</td>
+<td>zstring</td>
+<td>Message icon filename
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>Light Data</td>
+<td>48 byte struct</td>
+<td>
+<dl><dd>int32 Time (-1 = Infinite)</dd>
+<dd>uint32 Radius</dd>
+<dd>rgb Color (0x00BBGGRR)</dd>
+<dd>uint32 Flags
+<dl><dd>0x0001 Dynamic?</dd>
+<dd>0x0002 Can be carried</dd>
+<dd>0x0008 Effect: Flicker</dd>
+<dd>0x0020 Off by default</dd>
+<dd>0x0040 Effect: FlickerSlow?</dd>
+<dd>0x0080 Effect: Pulse</dd>
+<dd>0x0400 Type: Shadow Spotlight</dd>
+<dd>0x0800 Type: Shadow Hemisphere</dd>
+<dd>0x1000 Type: Shadow Omnidirectional</dd>
+<dd>0x2000 Portal-Strict Flag 0x20000 is also set in the record's Header flags</dd>
+<dd>At most one Effect flag can be set, defaults to "None" if none is set. FlickerSlow can't be specified in the CK, but several records have it set</dd>
+<dd>At most one Type flag can be set, if none is set type defaults to "Omnidirectional"</dd></dl></dd>
+<dd>float Falloff Exponent</dd>
+<dd>float FOV (default of 90 deg)?</dd>
+<dd>float Near Clip (some strange values from 9e-13 to 1.67e+8)</dd>
+<dd>float 1/Period</dd>
+<dd>float Intensity Amplitude</dd>
+<dd>float Movement Amplitude</dd>
+<dd>uint32 Value</dd>
+<dd>float Weight</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>Fade</td>
+<td>float</td>
+<td>Ranges from 0.1 to 10
+</td></tr>
+<tr>
+<td>+</td>
+<td>SNAM</td>
+<td>Holding Sound</td>
+<td>formID</td>
+<td>SNDR
+</td></tr></tbody></table>
+</div>

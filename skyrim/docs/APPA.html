@@ -1,0 +1,122 @@
+
+<div><p><b>APPA</b> records describe apparatus, but those items have no use in the game - they were used in Morrowind and Oblivion. If one of the 45 found in the game data is added via console, it appears in the misc part of the inventory but has no use. A couple of them (mostly smithing related ones) are placed in the world, but since they have no associated 3d model, they are invisible and have no impact on the game.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td>script info</td>
+<td>VMAD</td>
+<td>scripting info
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object Bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds Data
+</td></tr>
+<tr>
+<td>+</td>
+<td>FULL</td>
+<td>name</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td>zstring</td>
+<td>World model filename
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODT</td>
+<td>model data</td>
+<td>struct[]</td>
+<td>series of 12-byte structs (assume xyz)
+</td></tr>
+<tr>
+<td>-</td>
+<td>ICON</td>
+<td>Inventory Image</td>
+<td>zstring</td>
+<td>Inventory Image Filename
+</td></tr>
+<tr>
+<td>-</td>
+<td>MICO</td>
+<td>Message Immage</td>
+<td>zstring</td>
+<td>Message Immage Filename
+</td></tr>
+<tr>
+<td>-</td>
+<td>DEST</td>
+<td>destruction data</td>
+<td><a href="DEST_Field.html">DEST</a></td>
+<td>Includes optionl fields DSTD, DMDL, DMDT, DMDS
+</td></tr>
+<tr>
+<td>-</td>
+<td>YNAM</td>
+<td>pickupSound</td>
+<td>formid</td>
+<td>Sound(<a href="SNDR.html">SNDR</a>) played when picked up
+</td></tr>
+<tr>
+<td>-</td>
+<td>ZNAM</td>
+<td>dropSound</td>
+<td>formid</td>
+<td>Sound(<a href="SNDR.html">SNDR</a>) played when dropped
+</td></tr>
+<tr>
+<td>+</td>
+<td>QUAL</td>
+<td>quality</td>
+<td>uint32</td>
+<td>quality of the apparatus: Lookup
+<dl><dd>0 = novice</dd>
+<dd>1 = apprentice</dd>
+<dd>2 = journeyman</dd>
+<dd>3 = Expert</dd>
+<dd>4 = Master</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>DESC</td>
+<td>description</td>
+<td>lstring</td>
+<td>This is normally undefined
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>data</td>
+<td>struct</td>
+<td>8 Byte Struct <i>values are not shown in-game</i>
+<dl><dd>uint32 : Value (In Gold)</dd>
+<dd>float : Weight</dd></dl>
+</td></tr>
+</tbody></table>
+</div>

@@ -1,0 +1,74 @@
+
+<div><h2><span id="Player_Location">Player Location</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>nextObjectid
+</td>
+<td>uint32
+</td>
+<td>Number of next savegame specific object id, i.e. FFxxxxxx.
+</td></tr>
+<tr>
+<td>worldSpace1
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#FormID">RefID</a>
+</td>
+<td>This form is usually 0x0 or a worldspace. coorX and coorY represent a cell in this worldspace.
+</td></tr>
+<tr>
+<td>coorX
+</td>
+<td>int32
+</td>
+<td>x-coordinate (cell coordinates) in worldSpace1.
+</td></tr>
+<tr>
+<td>coorY
+</td>
+<td>int32
+</td>
+<td>y-coordinate (cell coordinates) in worldSpace1
+</td></tr>
+<tr>
+<td>worldSpace2
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#FormID">RefID</a>
+</td>
+<td>This can be either a worldspace or an interior cell. If it's a worldspace, the player is located at the cell (coorX, coorY). posX/Y/Z is the player's position inside the cell.
+</td></tr>
+<tr>
+<td>posX
+</td>
+<td>float
+</td>
+<td>x-coordinate in worldSpace2
+</td></tr>
+<tr>
+<td>posY
+</td>
+<td>float
+</td>
+<td>y-coordinate in worldSpace2
+</td></tr>
+<tr>
+<td>posZ
+</td>
+<td>float
+</td>
+<td>z-coordinate in worldSpace2
+</td></tr>
+<tr>
+<td>unk
+</td>
+<td>uint8
+</td>
+<td>vsval? It seems absent in 9th version
+</td></tr></tbody></table>
+</div>

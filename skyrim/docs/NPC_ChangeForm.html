@@ -1,0 +1,237 @@
+
+<div><p><br/>
+</p>
+<h2><span id="NPC_change_form">NPC_ change form</span></h2>
+<ul><li>NPC change flags:</li></ul>
+<dl><dd>0x01 - CHANGE_FORM_FLAGS</dd>
+<dd>0x200 - CHANGE_NPC_SKILLS</dd>
+<dd>0x400 - CHANGE_NPC_CLASS</dd>
+<dd>0x800 - CHANGE_NPC_FACE</dd>
+<dd>0x1000 - CHANGE_NPC_DEFAULT_OUTFIT</dd>
+<dd>0x2000 - CHANGE_NPC_SLEEP_OUTFIT</dd>
+<dd>0x1000000 - CHANGE_NPC_GENDER</dd>
+<dd>0x2000000 - CHANGE_NPC_RACE</dd></dl>
+<p><br/>
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th>Present if flag set
+</th>
+<th>Data
+</th></tr>
+<tr>
+<td>Flags
+</td>
+<td>CHANGE_FORM_FLAGS
+</td>
+<td><a href="ChangeFlags.html#Change_form_flags">Change form flags</a>
+</td></tr>
+<tr>
+<td>ACBS data
+</td>
+<td>CHANGE_ACTOR_BASE_DATA
+</td>
+<td>See ACBS field of <a href="/wiki/Skyrim_Mod:Mod_File_Format/NPC">NPC_</a> record
+</td></tr>
+<tr>
+<td>Factions
+</td>
+<td>CHANGE_ACTOR_BASE_FACTIONS
+</td>
+<td>vsval count
+<p>struct {refID factionID; sint8 rank} [count]
+</p>
+</td></tr>
+<tr>
+<td>Spells
+</td>
+<td>CHANGE_ACTOR_BASE_SPELLLIST
+</td>
+<td>vsval spellCount
+<p>refID spells[spellCount]
+</p><p>vsval leveledspellCount
+</p><p>refID leveledspells[leveledspellCount]
+</p><p>vsval shoutCount
+</p><p>refID shouts[shoutCount] 
+</p>
+</td></tr>
+<tr>
+<td>AIDT field
+</td>
+<td>CHANGE_ACTOR_BASE_AIDATA
+</td>
+<td>See AIDT field of <a href="/wiki/Skyrim_Mod:Mod_File_Format/NPC">NPC_</a> record
+</td></tr>
+<tr>
+<td>Actor name
+</td>
+<td>CHANGE_ACTOR_BASE_FULLNAME
+</td>
+<td>wstring name
+</td></tr>
+<tr>
+<td>Skills
+</td>
+<td>CHANGE_NPC_SKILLS
+</td>
+<td>See DNAM field of <a href="/wiki/Skyrim_Mod:Mod_File_Format/NPC">NPC_</a> record
+</td></tr>
+<tr>
+<td>Class
+</td>
+<td>CHANGE_NPC_CLASS
+</td>
+<td>refId class
+</td></tr>
+<tr>
+<td>Race
+</td>
+<td>CHANGE_NPC_RACE
+</td>
+<td>refId race
+<p>refID old race (?)
+</p>
+</td></tr>
+<tr>
+<td>Face
+</td>
+<td>CHANGE_NPC_FACE
+</td>
+<td><a href="#NPC_face">NPC face</a>
+</td></tr>
+<tr>
+<td>Gender
+</td>
+<td>CHANGE_NPC_GENDER
+</td>
+<td>uint8 gender (0 – male, 1 - female)
+</td></tr>
+<tr>
+<td>Def outfit
+</td>
+<td>CHANGE_NPC_DEFAULT_OUTFIT
+</td>
+<td>refId defOutfit
+</td></tr>
+<tr>
+<td>Sleep outfit
+</td>
+<td>CHANGE_NPC_SLEEP_OUTFIT
+</td>
+<td>refId sleepOutfit
+</td></tr></tbody></table>
+<p><br/>
+</p>
+<h2><span id="NPC_face">NPC face</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th>Type
+</th>
+<th>Description
+</th>
+<th>
+</th></tr>
+<tr>
+<td>unk1
+</td>
+<td>uint8
+</td>
+<td>other data fields are only present, if this value is non NULL
+</td></tr>
+<tr>
+<td>Hair color form
+</td>
+<td>RefId
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Skin tone?
+</td>
+<td>uint8[4] rgb a?
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Skin
+</td>
+<td>RefId
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Head part count
+</td>
+<td>vsval
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Head part
+</td>
+<td>RefId[Head part count]
+</td>
+<td>
+</td></tr>
+<tr>
+<td>unk2
+</td>
+<td>uint8
+</td>
+<td>
+</td></tr>
+<tr>
+<td>FaceData
+</td>
+<td><a href="#FaceData">FaceData</a>
+</td>
+<td>present only if previous unk2 != 0
+</td></tr></tbody></table>
+<p><br/>
+</p>
+<h2><span id="FaceData">FaceData</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th>Type
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>Face morphs count
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Face morph values
+</td>
+<td>float[Face morphs count]
+<p>See NAM9 field of <a href="/wiki/Skyrim_Mod:Mod_File_Format/NPC">NPC_</a> record
+</p>
+</td>
+<td>
+</td></tr>
+<tr>
+<td>PresetsCount
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>Face part presets
+</td>
+<td>sint32[PresetsCount]
+<p>See NAMA field of <a href="/wiki/Skyrim_Mod:Mod_File_Format/NPC">NPC_</a> record
+</p>
+</td>
+<td>
+</td></tr></tbody></table>
+</div>

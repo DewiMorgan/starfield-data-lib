@@ -1,0 +1,162 @@
+
+<div><p><br/>
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td rowspan="4">*
+</td>
+<td rowspan="4">
+</td>
+<td rowspan="4">ATXT
+</td>
+<td rowspan="4">Additional texture</td>
+<td>formid</td>
+<td>References <a href="LTEX.html">land texture</a> records except when the reference is zero.
+</td></tr>
+<tr>
+<td>uint8</td>
+<td>Specifies the quadrant this ATXT record applies to. 0 = bottom left. 1 = bottom right. 2 = upper-left. 3 = upper-right (the same as Oblivion).
+</td></tr>
+<tr>
+<td>1 byte</td>
+<td>Unknown.
+</td></tr>
+<tr>
+<td>uint16</td>
+<td>The texture layer, between 0 and 7 (i.e. 8 layers). The CS only allows up to 9 layers; the BTXT takes up the bottom layer. Uncertain of the game engine's limit (the same as Oblivion).
+</td></tr>
+<tr>
+<td rowspan="3">*
+</td>
+<td rowspan="3">
+</td>
+<td rowspan="3">BTXT
+</td>
+<td rowspan="3">Base texture</td>
+<td>formid</td>
+<td>References <a href="LTEX.html">land texture</a> records except when the reference is zero. If the reference is zero the engine falls back to "dirt02.dds" as standard ground-layer.
+</td></tr>
+<tr>
+<td>uint8</td>
+<td>Specifies the quadrant this BTXT record applies to. 0 = bottom left. 1 = bottom right. 2 = upper-left. 3 = upper-right. (the same as Oblivion).
+</td></tr>
+<tr>
+<td>3 bytes</td>
+<td>Unknown.
+</td></tr>
+<tr>
+<td>?</td>
+<td></td>
+<td>DATA</td>
+<td></td>
+<td>4 bytes</td>
+<td>
+</td></tr>
+<tr>
+<td>?</td>
+<td></td>
+<td>VCLR</td>
+<td>Vertex color</td>
+<td>3267 bytes</td>
+<td>data (the same as Oblivion).
+</td></tr>
+<tr>
+<td>?</td>
+<td></td>
+<td>VHGT</td>
+<td>Vertex height</td>
+<td>1096 bytes</td>
+<td>A 33×33 grid of vertex heights defining the cell's terrain mesh. Vertices sit on a 128-game-unit lattice across the cell's 4096 × 4096 footprint.<br/><br/><b>Format (1096 bytes):</b><br/>* Bytes 0–3: float32 anchor.<br/>* Bytes 4–1092: 33 × 33 signed int8 delta grid, <b>row-major</b> (contrast MHDT, which is column-major), with row 0 = south edge and col 0 = west edge.<br/>* Bytes 1093–1095: 3 bytes unused.<br/><br/><b>Reconstruction.</b> Heights are stored as cumulative deltas. Starting from the anchor, each vertex's value is the previous vertex's value plus this vertex's int8 delta. Within a row, the previous vertex is the west neighbor; for the leftmost vertex of each row, the previous vertex is the south neighbor; for vertex (0,0), the predecessor is the anchor itself. The final vertex Z, in game units relative to the cell origin, is the cumulative result multiplied by 8.
+</td></tr>
+<tr>
+<td>?</td>
+<td></td>
+<td>VNML</td>
+<td>vertex normals</td>
+<td>3267 bytes</td>
+<td>33x33 grid of vertex normals, with 3 bytes per vertex for the X, Y, Z normals (the same as Oblivion). The first row and column overlaps with the north and west cell.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>VTXT</td>
+<td></td>
+<td>8 bytes*</td>
+<td>A variable length list of 8 byte records
+</td></tr></tbody></table>
+<h2><span id="Vertex_Height_Data">Vertex Height Data</span></h2>
+<p>The VHGT record is a 3D mesh that has been highly optimized for storing landscape data.
+</p><p>Each data-point is a signed byte. Data starts from the bottom left cell position and is filled one row at a time. Each value of 1 equates to a height of 8 game units (assumed from Oblivion) so each data point has an incremental game unit range of -1024 to +1016. Each value of the leftmost column offsets the height of all vertex data at that row and to the north. All grid-points of the remaining 32x32 grid offset the height of all landscape at that point and all points to the east just on that row.
+</p><p>The height values for the four edges of the mesh must match the height values of the matching edge of neighboring landscape meshes. The bottom row values should join with the cell to its south. The leftmost column likewise. The bottom row is a copy of the cell to the south's uppermost row. Likewise the leftmost column is a copy of the cell to the west's rightmost data column.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>Offset</td>
+<td>32-bit float</td>
+<td>The height offset for this entire cell; specifies the height of the most southwestern point. Each value of 1 equates to a height of 8 game units.
+</td></tr>
+<tr>
+<td>Gradient data</td>
+<td>1089 bytes</td>
+<td>33x33 grid of height data (1089 bytes). Each data-point is a signed byte. Data starts from the bottom left cell position and is filled one row at a time. Each value of 1 equates to a height of 8 game units so each data point has an incremental game unit range of -1024 to +1016. The bottom row values should join with the cell to its south. The leftmost column likewise. The bottom row is a copy of the cell to the south's uppermost row. Likewise the leftmost column is an copy of the cell to the west's rightmost data column. Each value of the leftmost column offsets the height of all vertex data at that row and to the north. All grid-points of the remaining 32x32 grid offset the height of all landscape at that point and all points to the east just on that row.
+</td></tr>
+<tr>
+<td>Unknown</td>
+<td>3 bytes</td>
+<td>Unknown. Haven't noticed any ill-effects just filling this with arbitrary values in TES3 or TES4.  This is probably just a 3-byte filler so that the entire subrecord's data can be aligned on a 4 byte word boundary.
+</td></tr></tbody></table>
+<p>The following code snippet explains how to interpret VHGT fields:
+</p>
+<pre>
+
+float[33,33]   heightmap; // heightmap in game units
+            
+
+float offset = ReadFloat() * 8; // whole cell offset each unit equals 8 game units
+float row_offset = 0;
+
+for (int i = 0; i &lt; 1089; i++)
+{
+	float value = ReadSByte()*8; // signed byte, each unit equals 8 game units
+        
+        int r = i / 33;
+        int c = i % 33;
+
+        if (c == 0) // first column value controls height for all remaining points in cell 
+        {
+           row_offset = 0;
+           offset += value;
+        }
+
+        else // other col values control height of all points in the same row
+	{
+          row_offset += value;
+        }
+
+         heightmap[c, r] = offset + row_offset;
+
+}
+
+
+</pre>
+</div>

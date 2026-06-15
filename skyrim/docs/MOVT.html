@@ -1,0 +1,62 @@
+
+<div><p><b>MOVT</b> records contain data regarding movement types.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>MNAM</td>
+<td>name</td>
+<td>zstring</td>
+<td>Simplified name (usually EDID minus the trailing _MT)
+</td></tr>
+<tr>
+<td>+</td>
+<td>SPED</td>
+<td>Default Data</td>
+<td>struct</td>
+<td>44-byte struct or 40-byte struct if INAM not specified.
+<dl><dd>Float - Left Walk</dd>
+<dd>Float - Left Run</dd>
+<dd>Float - Right Walk</dd>
+<dd>Float - Right Run</dd>
+<dd>Float - Forward Walk</dd>
+<dd>Float - Forward Run</dd>
+<dd>Float - Back Walk</dd>
+<dd>Float - Back Run</dd>
+<dd>Float - Rotate in Place Walk</dd>
+<dd>Float - Rotate in Place Run</dd></dl>
+<p>Not present if INAM is not specified
+</p>
+<dl><dd>Float - Rotate while Moving Run</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>INAM</td>
+<td>Anim Change Thresholds</td>
+<td>struct</td>
+<td>12-byte struct
+<dl><dd>Float - Directional - Scale: 57.296</dd>
+<dd>Float - Movement Speed - Scale: 57.296</dd>
+<dd>Float - Rotation Speed - Scale: 57.296</dd></dl>
+</td></tr></tbody></table>
+<h2><span id="Notes">Notes</span></h2>
+<ul><li>If you make a new MOVT in the CK, SPED will be 44 bytes.  If you select the check boxes for Anim Change Thresholds, their default value will be 0 and the scale multiplier is useless. This is either a bug with Bethesda's internal CK or only present in older MOVT records.</li></ul>
+</div>

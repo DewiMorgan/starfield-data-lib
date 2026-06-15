@@ -1,0 +1,37 @@
+
+<div><p><b>EQUP</b> records are used as a reference for equippable slots.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>PNAM</td>
+<td>Equip Slots</td>
+<td>FormID[]</td>
+<td>Slot Parents of FormID EQUP.
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>Use All Parents</td>
+<td>boolean</td>
+<td>Whether or not to use all equipment slots indicated by the PNAM values.
+</td></tr></tbody></table>
+</div>

@@ -1,0 +1,216 @@
+
+<div><p>A <b>DIAL</b> record defines a dialogue topic.  The DIAL record is followed by a <a href="index.html#Groups">GRUP</a> containing the responses (<a href="INFO.html">INFO</a> subrecords).
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>-</td>
+<td>EDID</td>
+<td>EditorId</td>
+<td>zstring</td>
+<td>Editor ID
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>Player Dialogue</td>
+<td>dlstring</td>
+<td>Player dialogue.
+</td></tr>
+<tr>
+<td>+</td>
+<td>PNAM</td>
+<td>Priority</td>
+<td>float</td>
+<td>Priority
+</td></tr>
+<tr>
+<td>-</td>
+<td>BNAM</td>
+<td>Owning Branch</td>
+<td>formID</td>
+<td><a href="DLBR.html">DLBR</a> (Dialogue Branch) formid.
+</td></tr>
+<tr>
+<td>+</td>
+<td>QNAM</td>
+<td>Owning Quest</td>
+<td>formID</td>
+<td><a href="QUST.html">QUST</a> formid.
+</td></tr>
+<tr>
+<td rowspan="4">+</td>
+<td rowspan="4">DATA</td>
+<td>Unknown</td>
+<td>bool</td>
+<td>Only seen on CUST and SCEN dialog records.
+<dl><dd>Custom: Unknown.</dd>
+<dd>Scene: Do All Before Repeating.</dd></dl>
+</td></tr>
+<tr>
+<td>Dialogue Tab</td>
+<td>uint8</td>
+<td>Quest dialogue tab (some discrepancies from internal CK data, probably unused).
+<dl><dd>0 = Player Dialogue</dd>
+<dd>1 = Favor Dialogue</dd>
+<dd>2 = Scenes</dd>
+<dd>3 = Combat</dd>
+<dd>4 = Favors</dd>
+<dd>5 = Detection</dd>
+<dd>6 = Service</dd>
+<dd>7 = Misc</dd></dl>
+</td></tr>
+<tr>
+<td>Subtype ID</td>
+<td>uint8</td>
+<td>Subtype ID. Unreliable, and unused if SNAM is present after DATA.
+</td></tr>
+<tr>
+<td>Unused</td>
+<td>uint8</td>
+<td>Always 0.
+</td></tr>
+<tr>
+<td>+</td>
+<td>SNAM</td>
+<td>Subtype</td>
+<td>char[4]</td>
+<td>Dialogue subtype:
+<table class="wikitable">
+<tbody><tr>
+<td>
+<p>ACAC: ActorCollidewithActor<br/>
+ACYI: AcceptYield<br/>
+AGRE: Agree<br/>
+ALIL: AlertIdle<br/>
+ALKL: AllyKilled<br/>
+ALTC: AlertToCombat<br/>
+ALTN: AlertToNormal<br/>
+ASKF: AskFavor<br/>
+ASKG: AskGift<br/>
+ASNC: AssaultNC<br/>
+ASSA: Assault<br/>
+ATCK: Attack<br/>
+AVTH: AvoidThreat<br/>
+BAEX: BarterExit<br/>
+BASH: Bash<br/>
+BLED: BleedOut<br/>
+BLOC: Block<br/>
+BREA: EnterSprintBreath<br/>
+BRIB: Bribe<br/>
+COLO: CombatToLost<br/>
+COTN: CombatToNormal<br/>
+CUST: Custom<br/>
+DEOB: DestroyObject<br/>
+DETH: Death<br/>
+DFDA: DetectFriendDie<br/>
+ENBZ: EnterBowZoomBreath<br/>
+</p>
+</td>
+<td>
+<p>EXBZ: ExitBowZoomBreath<br/>
+FAVO: Favor<br/>
+FEXT: ExitFavorState<br/>
+FIWE: ShootBow<br/>
+FLAT: Flatter<br/>
+FLEE: Flee<br/>
+FMAT: FlyingMountAcceptTarget<br/>
+FMDR: FlyingMountDestinationReached<br/>
+FMLX: FlyingMountLand<br/>
+FMNT: FlyingMountNoTarget<br/>
+FMRT: FlyingMountRejectTarget<br/>
+FMXL: FlyingMountCancelLand<br/>
+FOLL: Follow<br/>
+FRJT: Reject<br/>
+FVDL: Custom<br/>
+GBYE: Goodbye<br/>
+GIFF: Gift<br/>
+GRNT: CombatGrunt<br/>
+GRST: GroupStrategy<br/>
+HELO: Hello<br/>
+HIT_: Hit<br/>
+IDAT: SharedInfo<br/>
+IDLE: Idle<br/>
+INTI: Intimidate<br/>
+JUMP: Jump<br/>
+KNOO: KnockOverObject<br/>
+</p>
+</td>
+<td>
+<p>LOIL: LostIdle<br/>
+LOOB: LockedObject<br/>
+LOTC: LostToCombat<br/>
+LOTN: LostToNormal<br/>
+LWBS: LeaveWaterBreath<br/>
+MREF: MoralRefusal<br/>
+MUNC: MurderNC<br/>
+MURD: Murder<br/>
+NOTA: NormalToAlert<br/>
+NOTC: NormalToCombat<br/>
+NOTI: NoticeCorpse<br/>
+OBCO: ObserveCombat<br/>
+OUTB: OutofBreath<br/>
+PCPS: PlayerCastProjectileSpell<br/>
+PCSH: PlayerShout<br/>
+PCSS: PlayerCastSelfSpell<br/>
+PFGT: ForceGreet<br/>
+PICC: PickpocketCombat<br/>
+PICN: PickpocketNC<br/>
+PICT: PickpocketTopic<br/>
+PIRN: PlayerinIronSights<br/>
+POAT: PowerAttack<br/>
+PURS: PursueIdleTopic<br/>
+RCEX: RechargeExit<br/>
+RECH: Recharge<br/>
+REEX: RepairExit<br/>
+</p>
+</td>
+<td>
+<p>REFU: Refuse<br/>
+REPA: Repair<br/>
+RUMO: Rumors<br/>
+SCEN: <i>Scene: Dialogue Action</i><br/>
+SERU: ServiceRefusal<br/>
+SHOW: Show<br/>
+SHRE: ShowRelationships<br/>
+STEA: Steal<br/>
+STFN: StealFromNC<br/>
+STOF: StandonFurniture<br/>
+SWMW: SwingMeleeWeapon<br/>
+TAUT: Taunt<br/>
+TITG: TimeToGo<br/>
+TRAI: Training<br/>
+TRAN: TrespassAgainstNC<br/>
+TRAV: Travel<br/>
+TRES: Trespass<br/>
+TREX: TrainingExit<br/>
+VPEL: VoicePowerEndLong<br/>
+VPES: VoicePowerEndShort<br/>
+VPSL: VoicePowerStartLong<br/>
+VPSS: VoicePowerStartShort<br/>
+WTCR: WereTransformCrime<br/>
+YIEL: Yield<br/>
+ZKEY: ZKeyObject
+</p>
+</td></tr></tbody></table>
+</td></tr>
+<tr>
+<td>+</td>
+<td>TIFC</td>
+<td>Info Count</td>
+<td>uint32</td>
+<td>Count of topic <a href="INFO.html">INFO</a> subrecords. This is used to preallocate memory for the topic's info list, but shouldn't be required.
+</td></tr></tbody></table>
+<p>When Skyrim encounters an SNAM subrecord, it translates the four-character signature to the same internal subtype IDs used in DATA. Bethesda has occasionally added entries to the middle of the subtype ID list, resulting in old files having incorrect values; fortunately, SNAM is reliable, and official tools always place it after DATA so it ends up overwriting the raw subtype IDs in DATA.
+</p>
+</div>

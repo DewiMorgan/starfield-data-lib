@@ -1,0 +1,142 @@
+
+<div><p><br/>
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorID</td>
+<td>zstring</td>
+<td>Max 0x200 bytes, including null terminator.
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td>script data</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>Script Data
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>objectBounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>12 zeroes most of the time
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>ingame name</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>+</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODB, MODT, MODS, MODD
+</td></tr>
+<tr>
+<td>-</td>
+<td>ICON</td>
+<td>Inventory Image</td>
+<td>zstring</td>
+<td>Inventory Image Filename
+</td></tr>
+<tr>
+<td>-</td>
+<td>MICO</td>
+<td>Message Icon</td>
+<td>zstring</td>
+<td>Message Icon Filename
+</td></tr>
+<tr>
+<td>+</td>
+<td>DESC</td>
+<td>description</td>
+<td>lstring</td>
+<td>Book Text
+</td></tr>
+<tr>
+<td>-</td>
+<td>DEST</td>
+<td>destruction data</td>
+<td><a href="DEST_Field.html">DEST</a></td>
+<td>Includes Fields DSTD, DMDL, DMDT, DMDS
+</td></tr>
+<tr>
+<td>-</td>
+<td>YNAM</td>
+<td>pickupSound</td>
+<td>formid</td>
+<td>Sound <a href="SNDR.html">SNDR</a> played when picked up
+</td></tr>
+<tr>
+<td>-</td>
+<td>ZNAM</td>
+<td>dropSound</td>
+<td>formid</td>
+<td>Sound <a href="SNDR.html">SNDR</a> played when dropped
+</td></tr>
+<tr>
+<td>+</td>
+<td>KSIZ</td>
+<td><a href="KYWD.html#Including_Keywords">KSIZ</a></td>
+<td>uint32</td>
+<td>KYWD count
+</td></tr>
+<tr>
+<td>+</td>
+<td>KWDA</td>
+<td><a href="KYWD.html#Including_Keywords">KWDA</a></td>
+<td>formid[KSIZ]</td>
+<td>Array of KYWD formids
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>Book Data</td>
+<td>struct</td>
+<td>16 Byte Struct
+<dl><dd>ubyte Flags
+<dl><dd>0x01 - Teaches Skill</dd>
+<dd>0x02 - Can't be Taken</dd>
+<dd>0x04 - Teaches Spell</dd>
+<dd>0x08 - Read (<sup>[<i>verification needed</i>]</sup> not used in static game data, flag in save game data for already read books?)</dd></dl></dd>
+<dd>ubyte Type ? ; alway 0 since SSE
+<dl><dd>0 - Book/Tome</dd>
+<dd>255 - Note/Scroll ?</dd></dl></dd>
+<dd>ubyte[2] - always 0</dd>
+<dd>uint32 Teaches - Depends on the flag set
+<dl><dd>IF 0x01 <a href="/wiki/Skyrim_Mod:Actor_Value_Indices">Actor Value</a> - Skill</dd>
+<dd>IF 0x04 FormID - <a href="SPEL.html">SPEL</a></dd></dl></dd>
+<dd>uint32 - Value (In Gold)</dd>
+<dd>float - Weight</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>INAM</td>
+<td>Inventory Art</td>
+<td>formid</td>
+<td>Inventory Art <a href="STAT.html">STAT</a>
+</td></tr>
+<tr>
+<td>+</td>
+<td>CNAM</td>
+<td>Description</td>
+<td>lstring</td>
+<td>Description (displayed at bottom in inventory view)
+</td></tr></tbody></table>
+</div>

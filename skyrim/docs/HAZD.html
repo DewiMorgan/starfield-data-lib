@@ -1,0 +1,83 @@
+
+<div><p><b>HAZD</b> records contains information on traps, specifically model information, <a href="PHZD.html">PHZD</a> contains gameplay information.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always 12 bytes even if all 0s
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>full name</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>+</td>
+<td>MODL</td>
+<td>model</td>
+<td>zstring</td>
+<td>Path to .nif
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODT</td>
+<td>model data</td>
+<td><a href="Model_Textures_Field.html">MODT</a></td>
+<td>model textures
+</td></tr>
+<tr>
+<td>-</td>
+<td>MNAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>IS Mod
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>unknown</td>
+<td>struct</td>
+<td>40-byte struct
+<dl><dd>uint32 Limit</dd>
+<dd>float Radius</dd>
+<dd>float Lifetime</dd>
+<dd>float IS Radius</dd>
+<dd>float Target Interval</dd>
+<dd>uint32 flags
+<dl><dd>0x01 - Affects Player Only</dd>
+<dd>0x02 - Inherit Duration from Spawn Spell</dd>
+<dd>0x04 - Align to Impact Normal</dd>
+<dd>0x08 - Inherit Radius from Spawn Spell</dd>
+<dd>0x10 - Drop to Ground</dd></dl></dd>
+<dd>formID Spell</dd>
+<dd>formID Light</dd>
+<dd>formID Impact Data Set</dd>
+<dd>formID Sound</dd></dl>
+</td></tr>
+</tbody></table>
+<h2><span id="Notes">Notes</span></h2>
+<ul><li><i>FireLgPlacedHazardInvisible</i> places a float 1 into DATA.Limit, displayed as a big int by CK</li></ul>
+</div>

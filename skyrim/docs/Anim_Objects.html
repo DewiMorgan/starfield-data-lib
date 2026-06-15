@@ -1,0 +1,55 @@
+
+<div><h2><span id="Anim_Objects">Anim Objects</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>count
+</td>
+<td>uint32
+</td>
+<td>
+</td></tr>
+<tr>
+<td>objects
+</td>
+<td><a href="#AnimObject">AnimObject</a>[count]
+</td>
+<td>Array with currently active actor reference + animation combo? Haven't yet determined when these are saved.
+</td></tr></tbody></table>
+<h3><span id="AnimObject">AnimObject</span></h3>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>achr
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>RefID pointing to an actor reference.
+</td></tr>
+<tr>
+<td>anim
+</td>
+<td><a href="/wiki/Skyrim_Mod:Save_File_Format#RefID">RefID</a>
+</td>
+<td>RefID pointing to an animation form.
+</td></tr>
+<tr>
+<td>unk1
+</td>
+<td>uint8
+</td>
+<td>Unknown but only 0 and 1 have been observed.
+</td></tr></tbody></table>
+</div>

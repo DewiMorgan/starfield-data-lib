@@ -1,0 +1,297 @@
+
+<div><p>Listed here are conventions used in describing Skyrim file formats. Many of these conventions are standard c-type conventions, others (e.g., <i>iref</i>) are specific to this subject.
+</p>
+<h3><span id="Names/Comments"></span><span id="Names.2FComments">Names/Comments</span></h3>
+<table class="wikitable">
+<tbody><tr>
+<th>Text
+</th>
+<th>Usage
+</th></tr>
+<tr>
+<td>num
+</td>
+<td>Count of something. E.g. number of records.
+</td></tr>
+<tr>
+<td>size
+</td>
+<td>Size in bytes of some data object.
+</td></tr>
+<tr>
+<td><i>?Huh?</i>
+</td>
+<td>Question or speculation.
+</td></tr>
+<tr>
+<td>[indent]
+</td>
+<td>Substructure.
+</td></tr></tbody></table>
+<h3><span id="Data_Types">Data Types</span></h3>
+<table class="wikitable">
+<tbody><tr>
+<th>Type
+</th>
+<th>Size
+</th>
+<th>Description
+</th></tr>
+<tr>
+<td>null/empty</td>
+<td>0</td>
+<td>Field with no data, usually used as a marker or flag.
+</td></tr>
+<tr>
+<td>char</td>
+<td>1</td>
+<td>8-bit character.
+</td></tr>
+<tr>
+<td>wchar</td>
+<td>2</td>
+<td>16-bit character.
+</td></tr>
+<tr>
+<td>int8</td>
+<td>1</td>
+<td>8-bit value, signed.
+</td></tr>
+<tr>
+<td>uint8</td>
+<td>1</td>
+<td>8-bit value, unsigned.
+</td></tr>
+<tr>
+<td>int16</td>
+<td>2</td>
+<td>16-bit value, signed.
+</td></tr>
+<tr>
+<td>uint16</td>
+<td>2</td>
+<td>16-bit value, unsigned.
+</td></tr>
+<tr>
+<td>int32</td>
+<td>4</td>
+<td>32-bit value, signed.
+</td></tr>
+<tr>
+<td>uint32</td>
+<td>4</td>
+<td>32-bit value, unsigned.
+</td></tr>
+<tr>
+<td>int64</td>
+<td>8</td>
+<td>64-bit value, signed.
+</td></tr>
+<tr>
+<td>uint64</td>
+<td>8</td>
+<td>64-bit value, unsigned.
+</td></tr>
+<tr>
+<td>float32</td>
+<td>4</td>
+<td>32-bit value, floating-point.
+</td></tr>
+<tr>
+<td>float64</td>
+<td>8</td>
+<td>64-bit value, floating-point.
+</td></tr>
+<tr>
+<td colspan="3"><i>The type names listed in this block should be considered deprecated and you should instead use the type names in the previous block.</i>
+</td></tr>
+<tr>
+<td>byte</td>
+<td>1</td>
+<td>Byte, signed.
+</td></tr>
+<tr>
+<td>ubyte</td>
+<td>1</td>
+<td>Byte, unsigned.
+<ul><li>Also used for unknown and/or complex data structures.</li></ul>
+</td></tr>
+<tr>
+<td>char</td>
+<td>1</td>
+<td>Character, signed.
+<ul><li>Used for text.</li></ul>
+</td></tr>
+<tr>
+<td>short</td>
+<td>2</td>
+<td>Short integer, signed.
+</td></tr>
+<tr>
+<td>ushort</td>
+<td>2</td>
+<td>Short integer, unsigned.
+</td></tr>
+<tr>
+<td>long</td>
+<td>4</td>
+<td>Long integer, signed.
+</td></tr>
+<tr>
+<td>ulong</td>
+<td>4</td>
+<td>Long integer, unsigned.
+<ul><li>Also used to represent a set of binary flags.</li></ul>
+</td></tr>
+<tr>
+<td>float</td>
+<td>4</td>
+<td>Floating point number
+</td></tr>
+<tr>
+<td>vsval</td>
+<td>1+??</td>
+<td><i>Variable-sized value</i>, the type of vsval depends on the first byte: the lowest 2 bits represents the type of the vsval:
+<ul><li>0 = uint8</li>
+<li>1 = uint16</li>
+<li>2 = uint32</li></ul>
+<p>The value is in the rest of the bits of the value type.
+</p>
+<ul><li>value &lt;= 0x40 becomes uint8, (byte1 &gt;&gt; 2)</li>
+<li>value &lt;= 0x4000 becomes uint16, (byte1 | (byte2 &lt;&lt; 8)) &gt;&gt; 2</li>
+<li>value &lt;= 0x40000000 becomes uint32, (byte1 | (byte2 &lt;&lt; 8) | (byte3 &lt;&lt; 16)) &gt;&gt; 2</li></ul>
+<p><i>Note:</i> bytes are stored in little-endian format. So, the least significant bytes will come first. (Bits are still most significant first)
+</p><p><u>Example process for reading a uint16 vsval:</u>
+</p>
+<ol><li>Read one byte. We will use 0xE1 for our example (or 11100001 in binary).</li>
+<li>The rightmost bits are least significant, so that is where our vsval type is stated. In this case, the rightmost bits are 01, so the type of this vsval is uint16 (so, we will have two bytes total).</li>
+<li>Read the next byte. We will use 0x13 for our example (or 00010011 in binary). Shift this byte to the left 8 bits and logical or it with the first byte such that uint16 = ((byte2 &lt;&lt; 8) | byte1). So now we have 0x13E1 (or 00010011 11100001 in binary).</li>
+<li>Finally, shift the resulting uint16 to the right 2 bits to get the resulting value of 0x04F8 (or 00000100 11111000 in binary).</li></ol>
+<p><i>Note:</i> When reading a uint32 value, follow the same procedure except shift the third byte to the left 16 bits and logical or it with the uint16 before shifting the resulting uint32 to the right 2 bits.
+</p>
+</td></tr>
+<tr>
+<td><a href="Form_ID.html">formid</a></td>
+<td>4</td>
+<td>A ulong used to identify a data object. May refer to a data object from a mod or new object created in-game.
+</td></tr>
+<tr>
+<td>iref</td>
+<td>4</td>
+<td>A ulong. Use as an index into the <a href="/wiki/Skyrim_Mod:Save_File_Format#FormIDs_Array">FormIDs Array</a> to get the formId.
+</td></tr>
+<tr>
+<td>hash</td>
+<td>8</td>
+<td>A hash of a string. See <a href="Hash_Calculation.html">BSA File Format: Hash Calculation</a>.
+</td></tr>
+<tr>
+<td>filetime</td>
+<td>8</td>
+<td><a href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms724284(v=vs.85).aspx" rel="nofollow">FILETIME structure</a>.
+</td></tr>
+<tr>
+<td>systemtime</td>
+<td>16</td>
+<td><a href="http://msdn.microsoft.com/en-us/library/ms724950(VS.85,classic).aspx" rel="nofollow">SYSTEMTIME structure</a>.
+</td></tr>
+<tr>
+<td>rgb</td>
+<td>4</td>
+<td>4 unsigned bytes, containing red, green, blue, ?alpha? values
+</td></tr>
+<tr>
+<td><i>type</i>[num]</td>
+<td>num*sizeof(type)</td>
+<td>Array of num types.
+</td></tr>
+<tr>
+<td>stringId</td>
+<td>4</td>
+<td>See lstring.
+</td></tr>
+<tr>
+<td>lstring<br/>dlstring<br/>ilstring</td>
+<td>4</td>
+<td>'Localized string', a ulong that is used as an index to look up string data information in one of the <a href="String_Table_File_Format.html">string tables</a>. Note that the record header for the TES4 record indicates if the file is localized or not. If not, all lstrings are zstrings.
+</td></tr>
+<tr>
+<td>bstring</td>
+<td>1+??</td>
+<td>A string prefixed with a byte length. NOT zero terminated.
+<ul><li>This and other string types use <a href="https://en.wikipedia.org/wiki/Windows-1252">Windows-1252</a> encoding.</li>
+<li>However, not all fields allow the full range -- e.g., editor ids are limited to [a-zA-Z0-9].</li></ul>
+</td></tr>
+<tr>
+<td>bzstring</td>
+<td>1+??</td>
+<td>A string prefixed with a byte length and terminated with a zero (\x00).
+</td></tr>
+<tr>
+<td>wstring</td>
+<td>2+??</td>
+<td>A string prefixed with a uint16 length. NOT zero terminated.
+<ul><li>This and other string types use <a href="https://en.wikipedia.org/wiki/Windows-1252">Windows-1252</a> encoding.</li>
+<li>However, not all fields allow the full range -- e.g., editor ids are limited to [a-zA-Z0-9].</li></ul>
+</td></tr>
+<tr>
+<td>wzstring</td>
+<td>2+??</td>
+<td>A string prefixed with a uint16 length and terminated with a zero (\x00).
+</td></tr>
+<tr>
+<td>zstring</td>
+<td>??+1</td>
+<td>Zero terminated string.
+<ul><li>Size is size of string text + 1 for string terminator.</li></ul>
+</td></tr>
+<tr>
+<td>string</td>
+<td>??</td>
+<td>String which is not terminated
+<ul><li>Size is the exact number of characters in the string.</li></ul>
+</td></tr>
+<tr>
+<td>struct</td>
+<td>??</td>
+<td>Collection of other data types.
+<ul><li>Used to group items that logically belong together. E.g., pc cell data.</li>
+<li>Size is sum of item sizes.</li></ul>
+</td></tr>
+<tr>
+<td>list[len]</td>
+<td>??</td>
+<td>List of items of variable length, and possibly different types.
+<ul><li>Size is sum of item sizes.</li></ul>
+</td></tr></tbody></table>
+<h3><span id="C_(Count)"></span><span id="C_.28Count.29"><span id="C"></span>C (Count)</span></h3>
+<p><i>This is used for plugin fields.</i>
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Count
+</th>
+<th>Usage
+</th></tr>
+<tr>
+<td>?</td>
+<td>Unknown
+</td></tr>
+<tr>
+<td>+</td>
+<td>Required
+</td></tr>
+<tr>
+<td>-</td>
+<td>Optional
+</td></tr>
+<tr>
+<td>*</td>
+<td>Repeating
+<ul><li>Repeat count may be zero.</li>
+<li>If fields are repeated in a form (e.g., MAST and DATA in <a href="/wiki/Skyrim_Mod:Mod_File_Format/TES4">TES4</a>), then the following subrecords are indented under the leading subrecord.</li></ul>
+</td></tr></tbody></table>
+<h3><span id="V_(Version)"></span><span id="V_.28Version.29"><span id="V"></span>V (Version)</span></h3>
+<p>The version of the form that contains that field. See <a href="/wiki/Skyrim_Mod:Mod_File_Format#Records">Records format</a>.
+</p>
+</div>

@@ -1,0 +1,225 @@
+
+<div><p><b>FACT</b> records contain faction information.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>editorID</td>
+<td>zstring</td>
+<td>Faction name
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>FULL</td>
+<td>name</td>
+<td>lstring</td>
+<td>Full name
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>XNAM</td>
+<td>Interfaction Relations</td>
+<td>struct</td>
+<td>
+<dl><dd>formid - Faction</dd>
+<dd>int32 - Mod (appears to be unused - no longer editable in CK and only non-zero for CWDisaffectedSoldierFaction (0004BB3F))</dd>
+<dd>int32 - Combat
+<dl><dd>0 - Neutral</dd>
+<dd>1 - Enemy</dd>
+<dd>2 - Ally</dd>
+<dd>3 - Friend</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DATA</td>
+<td>flags</td>
+<td>uint32</td>
+<td>Flags
+<dl><dd>0x1 - Hidden from PC</dd>
+<dd>0x2 - Special Combat</dd>
+<dd>0x40 - Track Crime</dd>
+<dd>0x80 - Ignore Murder</dd>
+<dd>0x100 - Ignore Assault</dd>
+<dd>0x200 - Ignore Stealing</dd>
+<dd>0x400 - Ignore Trespass</dd>
+<dd>0x800 - Do not report crimes against members</dd>
+<dd>0x1000 - Crime Gold, Use Defaults</dd>
+<dd>0x2000 - Ignore Pickpocket</dd>
+<dd>0x4000 - Vendor</dd>
+<dd>0x8000 - Can Be Owner</dd>
+<dd>0x10000 - Ignore Werewolf</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>JAIL</td>
+<td>Prison Marker</td>
+<td>formid</td>
+<td>REFR formid - The exterior jail marker for the faction's prison.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>WAIT</td>
+<td>Follower Wait Marker</td>
+<td>formid</td>
+<td>REFR formid - Marker the player's followers are assigned to wait at.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>STOL</td>
+<td>Evidence Chest</td>
+<td>formid</td>
+<td>REFR formid - Stolen goods are stored in this chest.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>PLCN</td>
+<td>Player Belongings Chest</td>
+<td>formid</td>
+<td>REFR formid - Player's inventory is stored in this chest.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>CRGR</td>
+<td>Crime Group</td>
+<td>formid</td>
+<td>Crime Factions List (FLST)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>JOUT</td>
+<td>Jail Outfit</td>
+<td>formid</td>
+<td>OTFT formid - Jail outfit the player is given.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>CRVA</td>
+<td>Crime Gold</td>
+<td>struct[12/16/20]</td>
+<td>Size varies in record versions 30 and below, additional fields are those at the end of the structure. Seems to be required normally, but one record, MS08AlikrFaction (000215D3) in Skyrim.esm, doesn't have one.
+<dl><dd>uint8 - 1 = Arrest</dd>
+<dd>uint8 - 1 = Attack on Sight</dd>
+<dd>uint16 - Murder</dd>
+<dd>uint16 - Assault</dd>
+<dd>uint16 - Trespass</dd>
+<dd>uint16 - Pickpocket</dd>
+<dd>uint16 - Unused (usually 0, but not always, changing data has no effect in CK)</dd>
+<dd>float - Steal Mult.</dd>
+<dd>uint16 - Escape</dd>
+<dd>uint16 - Werewolf</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td></td>
+<td>Ranks</td>
+<td>Rank[]</td>
+<td>Listing of ranks, if any, and their names.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>RNAM</td>
+<td>Rank ID</td>
+<td>uint32</td>
+<td>Rank ID
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MNAM</td>
+<td>Male Rank Title</td>
+<td>lstring</td>
+<td>Male title
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>FNAM</td>
+<td>Female Rank Title</td>
+<td>lstring</td>
+<td>Female title
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>VEND</td>
+<td>Vendor List</td>
+<td>formid</td>
+<td>Merchandise list (FLST)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>VENC</td>
+<td>Vendor Chest</td>
+<td>formid</td>
+<td>Reference to vendor chest (REFR)
+</td></tr>
+<tr>
+<td>-</td>
+<td>29+</td>
+<td>VENV</td>
+<td></td>
+<td>struct[12]</td>
+<td>All 0s unless vendor; always present in record versions 29 and above, never present in record versions 28 and below
+<dl><dd>uint16 - Start hour</dd>
+<dd>uint16 - End hour</dd>
+<dd>uint32 - Radius</dd>
+<dd>uint8 - 1 = Buys stolen items (wording in CK is misleading)</dd>
+<dd>uint8 - 1 = NOT sell/buy (causes vendor to buy/sell everything <i>except</i> what's in the Vendor List)</dd>
+<dd>uint16 - Unused</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>PLVD</td>
+<td></td>
+<td>struct[12]</td>
+<td>Where to sell goods
+<dl><dd>uint32 - Specification type
+<dl><dd>0 - Near Reference, REFR formID follows</dd>
+<dd>1 - In Cell, CELL formID follows</dd>
+<dd>2 - Near Package Start Location <i>not used in original files</i></dd>
+<dd>3 - Near Editor Location<i></i></dd>
+<dd>6 - Linked Reference, KYWD formID follows <i>not used in original files</i></dd>
+<dd>12 - Near Self</dd></dl></dd>
+<dd>formID - meaning depends on previous int</dd>
+<dd>uint32 - Unused</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>CTDA</td>
+<td></td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>Conditions, with leading CITC field. Vendor will only buy/sell when these conditions are met.
+</td></tr></tbody></table>
+<h2><span id="See_Also">See Also</span></h2>
+<ul><li><a href="https://ck.uesp.net/wiki/Faction">Faction</a> on the CK wiki</li></ul>
+</div>

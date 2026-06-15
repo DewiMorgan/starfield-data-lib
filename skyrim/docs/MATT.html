@@ -1,0 +1,78 @@
+
+<div><p><b>MATT</b> records contain information about movable statics.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>MNAM</td>
+<td>Material Name</td>
+<td>zstring</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>HNAM</td>
+<td>Havok Impact Data Set</td>
+<td>formid</td>
+<td>references to a <a href="IPDS.html">IPDS</a> record
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>PNAM</td>
+<td>Parent Material</td>
+<td>formid</td>
+<td>references to another <a>MATT</a> record
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>CNAM</td>
+<td>Havok Display Color</td>
+<td>float[3]</td>
+<td>three floats in the range [0.0;1.0]; 0.0 is shown as 0 and 1.0 as 255 in the <a href="/wiki/Skyrim_Mod:Creation_Kit">Creation Kit</a>, floating point values are mapped linearly to [0;255]
+<p>values are for the red, green and blue components of the color, in that order
+</p>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>BNAM</td>
+<td>Buoyancy</td>
+<td>float</td>
+<td>values in Skyrim.esm range from -1.0 to +1.0
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>FNAM</td>
+<td>flags</td>
+<td>uint32</td>
+<td>flag bitfield
+<dl><dd>0x00000001 - Stair Material</dd>
+<dd>0x00000002 - Arrows Stick</dd></dl>
+</td></tr></tbody></table>
+</div>

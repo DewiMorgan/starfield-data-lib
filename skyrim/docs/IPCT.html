@@ -1,0 +1,107 @@
+
+<div><p><b>IPCT</b> records contain the data for impacts.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor ID
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td>zstring</td>
+<td>Path to .nif
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODT</td>
+<td>model textures</td>
+<td><a href="Model_Textures_Field.html">MODT</a></td>
+<td>series of 12-byte structs
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>data</td>
+<td>struct</td>
+<td>
+<dl><dd>float  Effect Duration</dd>
+<dd>uint32 flags?</dd>
+<dd>float  Angle Threshold</dd>
+<dd>float  Placement Radius</dd>
+<dd>uint32 Sound Level
+<dl><dd>0x00000000 - Loud</dd>
+<dd>0x00000001 - Normal</dd>
+<dd>0x00000002 - Silent</dd>
+<dd>0x00000003 - Very Loud</dd></dl></dd>
+<dd>uint32 ???</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>DODT</td>
+<td>decal data</td>
+<td>struct</td>
+<td>
+<dl><dd>float  Min Width</dd>
+<dd>float  Max Width</dd>
+<dd>float  Min Height</dd>
+<dd>float  Max Height</dd>
+<dd>float  Depth</dd>
+<dd>float  Shininess</dd>
+<dd>float  Parallax - Scale</dd>
+<dd>uint8 Parallax - Passes</dd>
+<dd>uint8[3] <i>unknown</i></dd>
+<dd>rgb  Color</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>DNAM</td>
+<td>Texture Set</td>
+<td>formID</td>
+<td>Texture Set form ID (<a href="TXST.html">TXST</a>).
+</td></tr>
+<tr>
+<td>-</td>
+<td>ENAM</td>
+<td>Secondary Texture Set</td>
+<td>formID</td>
+<td>Texture Set form ID (<a href="TXST.html">TXST</a>).
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>Impact Sound 1</td>
+<td>formID</td>
+<td>Sound Descriptor form ID (<a href="SNDR.html">SNDR</a>).
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM1</td>
+<td>Impact Sound 2</td>
+<td>formID</td>
+<td>Sound Descriptor form ID (<a href="SNDR.html">SNDR</a>).
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM2</td>
+<td>Effect Hazard</td>
+<td>formID</td>
+<td>Hazard form ID (<a href="HAZD.html">HAZD</a>).
+</td></tr>
+</tbody></table>
+</div>

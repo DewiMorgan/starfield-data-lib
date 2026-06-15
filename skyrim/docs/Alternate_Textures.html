@@ -1,0 +1,53 @@
+
+<div><p><br/>
+</p>
+<h2><span id="MODS">MODS</span></h2>
+<h4><span id="Header">Header</span></h4>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>count</td>
+<td>uint32</td>
+<td>Number of alternate textures
+</td></tr>
+<tr>
+<td>alternate texture</td>
+<td><a href="#Alternate_Texture">Alternate Texture</a>[count]</td>
+<td>
+</td></tr></tbody></table>
+<h4><span id="Alternate_Texture">Alternate Texture</span></h4>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>size</td>
+<td>uint32</td>
+<td>String length
+</td></tr>
+<tr>
+<td>3D Name</td>
+<td>string[size]</td>
+<td>3D Object name inside nif file
+</td></tr>
+<tr>
+<td>Texture Set</td>
+<td>formID</td>
+<td>Texture Set <a href="TXST.html">TXST</a> formID. Texture Set to use for this 3D Object
+</td></tr>
+<tr>
+<td>3D Index</td>
+<td>uint32</td>
+<td>3D Index
+</td></tr></tbody></table>
+</div>

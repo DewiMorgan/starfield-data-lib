@@ -1,0 +1,39 @@
+
+<div><p>
+<b>Form IDs</b> (FormIDs) are eight digit <a href="https://en.wikipedia.org/wiki/Hexadecimal">hex-numbers</a> which serve as unique identifiers for virtually everything in the game. Every NPC, creature, quest, place, and item has one. They are primarily used with <a href="/wiki/Skyrim:Console">console</a> commands on the PC and are significant in the game data as well.
+</p>
+<h2><span id="Base_and_Reference_IDs">Base and Reference IDs</span></h2>
+<p>Base IDs and reference IDs (BaseIDs/RefIDs) are two types of Form ID that are used to identify the various NPCs, creatures, and items within the game. The BaseID is the unique identifier for a prototype of the object, while the RefID denotes a specific copy of an object in the game. For unique <a href="/wiki/Skyrim:NPCs">NPCs</a> and specifically placed <a href="/wiki/Skyrim:Creatures">creatures</a> or items, the BaseID and RefID are fixed, and are usually noted on relevant pages. Non-unique objects, such as randomly spawned creatures or loot, will usually only have a BaseID, since their RefIDs will change at each encounter and for each item.
+</p><p>Console commands normally only accept either a BaseID or a RefID, not both. For example, the command <code>player.placeatme &lt;BaseID&gt;</code> will create a new copy of an object and place it at the player's position. This is fine with most items or generic creatures. With unique NPCs however, a second copy will usually cause problems with quests and such. In that case, one could move the NPC to the player with the command <code>"<var>&lt;RefID&gt;</var>".moveto player</code> or the command sequence:
+</p>
+<ul><li><code>prid &lt;RefID&gt;</code></li>
+<li><code>moveto player</code></li></ul>
+<p>For most items, creating extra copies does no harm, so <code>player.additem &lt;BaseID&gt; &lt;quantity&gt;</code> can be used to add the desired quantity of items to the player's inventory. Quest-specific items, however, will suffer from the same problems as unique NPCs, since the quest will often be tied to specific RefIDs for objects, not their BaseIDs. Also, RefIDs can only be used if the object in question is loaded into memory; visiting the cell of the object can assure this. See the <a href="/wiki/Skyrim:Console">console article</a> for further commands and uses of form IDs for other types of things.
+</p>
+<h2><span id="xx_and_Add-Ons">xx and Add-Ons</span></h2>
+<p>The first two digits of form IDs found in <span>.esm</span> and <span>.esp</span> add-ons are given as <code>xx</code> because they may vary depending on the number of active add-ons and their load order. Objects from a specific add-on will generally all have the same two leading digits. So, if <a href="/wiki/Skyrim:Dawnguard">Dawnguard</a> is the only add-on you have, and you're not loading any mods, the <code>xx</code> for Dawnguard IDs would be <code>02</code>. The specific code is not displayed in the "Data Files" screen, nor in the <a href="/wiki/Skyrim_Mod:Creation_Kit">Creation Kit</a>, but mod managers and other utilities will often show them. From within the game, you can find the correct ID by opening the console and clicking on an object from that add-on, or by using the <code><a href="/wiki/Skyrim:Console#help">help</a></code> command with an add-on specific object.
+</p><p>Leading digits which are unique are:
+</p>
+<ul><li><code>00</code> Those IDs are used by the original Skyrim (Skyrim.esm), the prefix doesn't change</li>
+<li><code>01</code> Those IDs are usually used by the Update module (Update.esm)</li>
+<li><code>02</code> Those IDs are used by the Dawnguard (Dawnguard.esm) in <a href="/wiki/Skyrim:Special_Edition">Skyrim Special Edition</a></li>
+<li><code>03</code> Those IDs are used by the Hearthfire (Hearthfires.esm) in Skyrim Special Edition</li>
+<li><code>04</code> Those IDs are used by the Dragonborn (Dragonborn.esm) in Skyrim Special Edition</li>
+<li><code>ff</code> Dynamically allocated IDs use this. Since they depend on a specific playthrough, they should not be documented - they will be different for other players.</li></ul>
+<h2><span id="Creation_ClubCC"><span id="Creation_Club"></span>Creation Club<sup><a href="/wiki/Skyrim:Creation_Club">CC</a></sup></span></h2>
+<p>The <a href="/wiki/Skyrim:Creation_Club">Creation Club</a> introduces the leading digits of <code>FE</code> for the <span>.esl</span> creations, which appears as the prefix for all related assets. Due to the nature of Creation Club content being load-order neutral in respect to add-ons and mods, Creations are localized to their own dynamic load order. The position where each Creations appears in this load order is determined alphabetically, and is also fully dependent on how many Creations are installed. The digits appearing after the <code>FE</code> prefix are determined by where the respective Creation is placed within this exclusive load order, also note that these intermediary digits are displayed as <code>xxx</code> on the Wiki. As mentioned in the previous section, these three intermediary digits can differ between players, and so the exact code for a specific playthrough can be found through the use of the <code>help</code> command. Alternatively, the code can also be found by browsing the game files, where the first Creation listed alphabetically in the files will be issued the <code>000</code> intermediate in game, increasing by one for subsequent Creations installed. The final three digits of the FormID are then unique to each individual asset.
+</p><p>For instance, if four Creations are installed: <a href="/wiki/Skyrim:Divine_Crusader">Divine Crusader</a> (<span>ccmtysse001-knightsofthenine</span>), <a href="/wiki/Skyrim:Lord%27s_Mail">Lord's Mail</a> (<span>ccbgssse021-lordsmail</span>), <a href="/wiki/Skyrim:Plague_of_the_Dead">Plague of the Dead</a> (<span>ccbgssse003-zombies</span>), and <a href="/wiki/Skyrim:Survival_Mode">Survival Mode</a> (<span>ccqdrsse001-survivalmode</span>), they will load in alphabetical order according to their file names. The FormIDs for the included assets would have the following codes:
+</p>
+<ol><li><code>FE<b>000</b>ABC</code> for assets associated with <span>ccbgssse003-zombies</span>.</li>
+<li><code>FE<b>001</b>DEF</code> for assets associated with <span>ccbgssse021-lordsmail</span>.</li>
+<li><code>FE<b>002</b>GHI</code> for assets associated with <span>ccmtysse001-knightsofthenine</span>.</li>
+<li><code>FE<b>003</b>JKL</code> for assets associated with <span>ccqdrsse001-survivalmode</span>.</li></ol>
+<p>But if only Lord's Mail and Survival Mode were installed, then the FormIDs would change to the following:
+</p>
+<ol><li><code>FE<b>000</b>DEF</code> for assets associated with <span>ccbgssse021-lordsmail</span>.</li>
+<li><code>FE<b>001</b>JKL</code> for assets associated with <span>ccqdrsse001-survivalmode</span>.</li></ol>
+<h2><span id="Notes">Notes</span></h2>
+<ul><li>IDs are not case sensitive in either the console or the Creation Kit.</li>
+<li>When typing in an ID in the console, you can skip any leading zeroes. For example, the BaseID for gold is <code>0000000f</code>, so when you want to add 1000 gold to your inventory, all you need to type is <code>player.additem f 1000</code>.</li>
+<li>Searches and filters within the Creation Kit will match partial IDs.</li></ul>
+</div>

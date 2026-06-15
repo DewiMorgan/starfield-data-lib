@@ -1,0 +1,77 @@
+
+<div><p><b>LVLI</b> records contain information on Leveled Item Lists.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>objectBounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always all zeroes.
+</td></tr>
+<tr>
+<td>+</td>
+<td>LVLD</td>
+<td>unknown</td>
+<td>int8</td>
+<td>Chance for an item on this list to not be spawned at all (for example, 75 means there's a 25% to spawn an item).
+</td></tr>
+<tr>
+<td>+</td>
+<td>LVLF</td>
+<td>unknown</td>
+<td>int8</td>
+<td>Flags:
+<dl><dd>0x01=All levels (sets it to calculate for all entries &lt; player level, choosing randomly from all the entries under)</dd>
+<dd>0x02=Each (sets it to repeat a check every time the list is called (if it's called multiple times), otherwise it will use the same result for all counts.)</dd>
+<dd>0x04=Use all (use all entries when the list is called)</dd>
+<dd>0x08=Special loot</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>LVLG</td>
+<td>Global</td>
+<td>formID</td>
+<td>Points to a <a href="GLOB.html">global record</a>. If this is set, the value of the global is used instead of LVLD for chance none.
+</td></tr>
+<tr>
+<td>-</td>
+<td>LLCT</td>
+<td>unknown</td>
+<td>int8</td>
+<td>The number of entries in the list (the number of LVLO entries, essentially).
+</td></tr>
+<tr>
+<td rowspan="3">*</td>
+<td rowspan="3">LVLO</td>
+<td rowspan="3">level</td>
+<td>uint32</td>
+<td>The level set for the entry. Reference level appears to be set by player level only? Affected by level scaling multipliers?
+</td></tr>
+<tr>
+<td>formID</td>
+<td>The item or LVLI used by the entry.
+</td></tr>
+<tr>
+<td>uint32</td>
+<td>How many items are added or used when this list is called.
+</td></tr></tbody></table>
+</div>

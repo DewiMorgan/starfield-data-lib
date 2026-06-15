@@ -1,0 +1,70 @@
+
+<div><p><b>GRAS</b> records contain information on grass (generated plant/shrubbery).
+</p><p>NOTE: All fields marked required since all records have them but they may not all be required.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds
+</td></tr>
+<tr>
+<td>+</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Field MODT
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>unknown</td>
+<td>struct</td>
+<td>
+<dl><dd>uint8 Density</dd>
+<dd>uint8 Min Slope</dd>
+<dd>uint8 Max Slope</dd>
+<dd>uint8 <i>unused</i></dd>
+<dd>uint16 Distance from water</dd>
+<dd>uint16 <i>unused</i></dd>
+<dd>uint32 How water distance is applied
+<dl><dd>1 Above - At Least</dd>
+<dd>2 Above - At Most</dd>
+<dd>3 Below - At Least</dd>
+<dd>4 Below - At Most</dd>
+<dd>5 Either - At Least</dd>
+<dd>6 Either - At Most</dd>
+<dd>7 Either - At Most Above</dd>
+<dd>8 Either - At Most Below</dd></dl></dd>
+<dd>float Position Range</dd>
+<dd>float Height Range</dd>
+<dd>float Color Range</dd>
+<dd>float Wave Period</dd>
+<dd>uint8 Flags
+<dl><dd>0x01 Vertex Lighting</dd>
+<dd>0x02 Uniform Scaling</dd>
+<dd>0x04 Fit to Slope</dd></dl></dd>
+<dd>uint8 <i>unused</i></dd>
+<dd>uint16 <i>unused</i></dd></dl>
+</td></tr></tbody></table>
+</div>

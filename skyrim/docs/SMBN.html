@@ -1,0 +1,82 @@
+
+<div><p><b>SMBN</b> are "Story Manager Branch Nodes", which are branches in a tree structure from other SMBN or SMQN (Quest nodes)
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td><i>all records have</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>PNAM</td>
+<td>Parent</td>
+<td>formid</td>
+<td>Reference to parent SMBN, <a href="SMQN.html">SMQN</a> or <a href="SMEN.html">SMEN</a>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>SNAM</td>
+<td>Sibling</td>
+<td>formid</td>
+<td>0 (If first child) or reference to prior Sibling
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>CITC</td>
+<td>CTDA count</td>
+<td>uint32</td>
+<td>Count of CTDA entries
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>CTDA</td>
+<td>Condition Data</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>CTDA records (CITC count)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>CIS2</td>
+<td>variable name</td>
+<td>zstring</td>
+<td>Optional variable name eg "::playerAllegiance_var"
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DNAM</td>
+<td>flags?</td>
+<td>uint32?</td>
+<td>Flags, only 0x00, 0x01 seen
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>XNAM</td>
+<td>unknown</td>
+<td>uint32?</td>
+<td>Always 0
+</td></tr></tbody></table>
+</div>

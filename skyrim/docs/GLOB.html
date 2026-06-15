@@ -1,0 +1,78 @@
+
+<div><p><b>GLOB</b> records contain information on Global Variables
+</p><p>Remember:
+</p>
+<ul><li>All globals, regardless of their type (short, long, float), are stored in the mod file as floats. This is fine for short globals but it creates potential issues with loss of precision when using long values.</li>
+<li>It happens exactly at 2E24 [= 16777216]. Values between 2E24 and 2E25 are stored in even numbers and have a precision of 0 or 1. All odd numbers are rounded to the next values divisible by 4. So numbers mod 2 but not mod 4 are precise while numbers mod 4 have 3 meanings [2E1-1 / 2E2+1].</li>
+<li>With 2E25, the problem increases. Just values mod 4 are stored, values not mod 4 are in/decreased by 1 to the next number mod 4 or the by 2 to the next number mod 8. So a value can have 3 or 5 meanings [2E2-1 / 2E2+1].</li>
+<li>With 2E26, we have 2E3+1 for mod 16 numbers and 2E3-1 for values just mod 8.</li></ul>
+<p>Examples:
+</p>
+<ul><li>123456780-123456788 will be stored as 123456784</li>
+<li>123456789-123456795 will be stored as 123456792</li></ul>
+<p>The flag 0x40 in the <a href="index.html#Records">record header flags</a> denotes constant globals.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C">C</a>
+</th>
+<th>Field
+</th>
+<th><a href="File_Format_Conventions.html#Data_Type.23Data_Types">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>byte</td>
+<td>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th>Hex
+</th>
+<th>Character
+</th>
+<th>Meaning
+</th></tr>
+<tr>
+<td>73</td>
+<td>s</td>
+<td>short
+</td></tr>
+<tr>
+<td>6C</td>
+<td>l</td>
+<td>long
+</td></tr>
+<tr>
+<td>66</td>
+<td>f</td>
+<td>float
+</td></tr></tbody></table>
+</td></tr>
+<tr>
+<td>+</td>
+<td>FLTV</td>
+<td>float</td>
+<td>Value
+</td></tr>
+<tr>
+<td>-</td>
+<td>OBND</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds <i>Probably vestigial.</i> Checked for in code, but not seen in data.
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>Script Info <i>Probably vestigial.</i> Checked for in code, but not seen in data.
+</td></tr></tbody></table>
+</div>

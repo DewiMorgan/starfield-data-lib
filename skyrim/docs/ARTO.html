@@ -1,0 +1,48 @@
+
+<div><p><b>ARTO</b> records contain information on "art" (effects) objects.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always 12 bytes even if all 0s
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODB, MODT, MODS, MODD
+</td></tr>
+<tr>
+<td>+</td>
+<td>DNAM</td>
+<td>art type</td>
+<td>uint32</td>
+<td>Enum
+<dl><dd>0x00000000 - Magic Casting</dd>
+<dd>0x00000001 - Magic Hit Effect</dd>
+<dd>0x00000002 - Enchantment Effect</dd></dl>
+</td></tr>
+</tbody></table>
+</div>

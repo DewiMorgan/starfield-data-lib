@@ -1,0 +1,112 @@
+
+<div><div></div>
+<p>Internally, all alchemy items (food, drinks, potions, and poisons), enchantments, ingredients, scrolls and spells derive from the same object, MagicItem, and thus share a similar structure.
+</p><p><b>Auto-calc</b>:
+</p>
+<ul><li><b>Charge Time</b>: The longest Casting Time of all of the effects.</li>
+<li><b>Ench Amount</b>: The total of all effect costs.</li>
+<li><b>Enchantment Cost</b>: The total of all effect costs.</li></ul>
+<p>The CK displays the sum of rounded down costs, while the game uses the exact sum to determine the enchantment cost.
+</p><p><i>Ench Amount</i> and <i>Enchantment Cost</i> will only ever differ if auto-calc is turned off.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>EditorID</td>
+<td>zstring</td>
+<td>Max 0x200 bytes, including null terminator.
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>ObjectBounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Always 12 bytes even if all 0s
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>FullName</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>+</td>
+<td>ENIT</td>
+<td>EnchantedItem</td>
+<td>struct</td>
+<td>36 bytes (Version 37 has 32 bytes, omits the last formid for non-base)
+<dl><dd>uint32 - Enchantment Cost</dd></dl>
+<dl><dd>uint32 - Flags
+<dl><dd>0x01 - ManualCalc</dd>
+<dd>0x04 - ExtendDurationOnRecast</dd></dl></dd></dl>
+<dl><dd>uint32 - CastType
+<dl><dd>0x00 - Constant Effect</dd>
+<dd>0x01 - Fire and Forget</dd>
+<dd>0x02 - Concentration</dd></dl></dd></dl>
+<dl><dd>uint32 - Ench Amount - Fully charged value (same if no charges)</dd></dl>
+<dl><dd>uint32 - Delivery
+<dl><dd>0x00 - Self</dd>
+<dd>0x01 - Touch</dd>
+<dd>0x02 - Aimed</dd>
+<dd>0x03 - Target Actor</dd>
+<dd>0x04 - Target Location</dd></dl></dd></dl>
+<dl><dd>uint32 - EnchantType
+<dl><dd>0x06 = Enchantment</dd>
+<dd>0x0C = Staff Enchantment</dd></dl></dd></dl>
+<dl><dd>float - Charge Time, typically 0.5-1 where used</dd></dl>
+<dl><dd>formid - Base Enchantment</dd></dl>
+<dl><dd>formid - Worn Restrictions - <a href="FLST.html">FLST</a> of enchantable slots (only base enchantments)</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>Effects</td>
+<td>Effect[]</td>
+<td>One entry per effect.
+</td></tr>
+<tr>
+<th colspan="6">Effect
+</th></tr>
+<tr>
+<td>+</td>
+<td>EFID</td>
+<td>EffectID</td>
+<td>formid</td>
+<td>Magic Effect <a href="MGEF.html">MGEF</a>
+</td></tr>
+<tr>
+<td>+</td>
+<td>EFIT</td>
+<td>EffectItem</td>
+<td>struct</td>
+<td>12 bytes
+<dl><dd>float Magnitude</dd>
+<dd>uint32 Area of Effect</dd>
+<dd>uint32 Duration (0 = instant)</dd></dl>
+<p>For auto-calc purposes, the game calculates the cost of an effect as:
+</p>
+<pre>effect_base_cost * (Magnitude * Duration / 10) ^ 1.1</pre>
+<p>A Magnitude &lt; 1 is treated as 1, and a Duration of 0 as 10. Any additional taper duration is not figured into the calculation.
+</p>
+</td></tr>
+<tr>
+<td>*</td>
+<td>CTDA</td>
+<td>Conditions</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>Conditions on the effect.
+</td></tr></tbody></table>
+</div>

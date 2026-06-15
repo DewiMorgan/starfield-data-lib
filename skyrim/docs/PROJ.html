@@ -1,0 +1,118 @@
+
+<div><p><b>PROJ</b> records detail projectile data, specifically model information as <a href="AMMO.html">AMMO</a> covers the gameplay aspects.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorID</td>
+<td>zstring</td>
+<td>Editor ID
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>full name</td>
+<td>lstring</td>
+<td>Full (in-game) name
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Art File - Includes optional field MODT
+</td></tr>
+<tr>
+<td>-</td>
+<td>DEST</td>
+<td>destruction data</td>
+<td><a href="DEST_Field.html">DEST</a></td>
+<td>Includes Fields DSTD, DSTF
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM1</td>
+<td>effect model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Muzzle Flash Model - Includes optional field NAM2
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>unknown</td>
+<td>struct</td>
+<td>92-byte struct
+<dl><dd>uint16 flags
+<dl><dd>0x0001 - <i>Hitscan (Visible in VATS Only)</i></dd>
+<dd>0x0002 - Explosion</dd>
+<dd>0x0004 - Alt. Trigger</dd>
+<dd>0x0008 - Muzzle Flash</dd>
+<dd>0x0010</dd>
+<dd>0x0020 - Can be Disabled</dd>
+<dd>0x0040 - Can be Picked Up</dd>
+<dd>0x0080 - Supersonic</dd>
+<dd>0x0100 - <i>Crit Effect: Pins Limbs</i></dd>
+<dd>0x0200 - Pass Through Small Transparent</dd>
+<dd>0x0400 -  Disable Combat Aim Correction</dd></dl></dd>
+<dd>uint16 Projectile Type
+<dl><dd>0x01 - Missile</dd>
+<dd>0x02 - Lobber</dd>
+<dd>0x04 - Beam</dd>
+<dd>0x08 - Flame</dd>
+<dd>0x10 - Cone</dd>
+<dd>0x20 - Barrier</dd>
+<dd>0x40 - Arrow</dd></dl></dd>
+<dd>float Gravity</dd>
+<dd>float Speed</dd>
+<dd>float Range</dd>
+<dd>formID Light</dd>
+<dd>formID Muzzle Flash Light</dd>
+<dd>float Tracer Chance</dd>
+<dd>float Explosion Proximity</dd>
+<dd>float Explosion Timer</dd>
+<dd>formID Explosion Type</dd>
+<dd>formID Sound Record</dd>
+<dd>float Muzzle Duration</dd>
+<dd>float Fade Duration</dd>
+<dd>float Impact Force</dd>
+<dd>formID <i>Countdown Sound</i></dd>
+<dd>uint32 <i>always 0</i></dd>
+<dd>formID Default Weapon Source</dd>
+<dd>float Cone Spread</dd>
+<dd>float Collision Radius</dd>
+<dd>float Lifetime</dd>
+<dd>float Relaunch Interval</dd>
+<dd>formID Decal Data</dd>
+<dd>formID Collision Layer</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>VNAM</td>
+<td>Sound Detection Level</td>
+<td>uint32</td>
+<td>The amount of sound using the weapon generates, seems to be used in determining nearby NPCs detection of the actor using the weapon.
+<dl><dd>0x00 - Loud</dd>
+<dd>0x01 - Normal</dd>
+<dd>0x02 - Silent</dd>
+<dd>0x03 - Very Loud</dd></dl>
+</td></tr></tbody></table>
+</div>

@@ -1,0 +1,106 @@
+
+<div><p><b>SMQN</b> are "Story Manager Quest Nodes", which are leaves in a tree structure formed from <a href="SMBN.html">SMBN</a>, <a href="SMEN.html">SMEN</a> and other SMQN forms.  These are extremely similar to Branch Nodes except that they have extra fields which involve an actual QUST record.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>PNAM</td>
+<td>Parent</td>
+<td>formID</td>
+<td>Reference to parent SMQN, <a href="SMBN.html">SMBN</a> or <a href="SMEN.html">SMEN</a>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>SNAM</td>
+<td>sibling</td>
+<td>formID</td>
+<td>0 (If first child) or reference to prior sibling
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>CITC</td>
+<td>CTDA count</td>
+<td>uint32</td>
+<td>Count of CTDA entries
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>CTDA</td>
+<td>Condition Data</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>CTDA records (CITC count)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>CIS2</td>
+<td>variable name</td>
+<td>zstring</td>
+<td>Optional variable name eg "::playerAllegiance_var" <i>may be passed to next CTDA only?</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DNAM</td>
+<td>flags</td>
+<td>uint32</td>
+<td>Flags, 0x01 and also very large (0x10000, 0x100000)
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>XNAM</td>
+<td>unknown</td>
+<td>uint32?</td>
+<td>Always 0
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>QNAM</td>
+<td>NNAM count</td>
+<td>uint32</td>
+<td>Count of NNAM (QUST) entries
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>NNAM</td>
+<td>Quest node</td>
+<td>formID</td>
+<td><a href="QUST.html">QUST</a> formids (QNAM count, each optionally followed by RNAM)
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>RNAM</td>
+<td>reset time</td>
+<td>float</td>
+<td>Hours<sup>[<i>verification needed</i>]</sup> till reset <i>CK shows value divided by 24 labeled as hours till reset, but that should probably be days</i>
+</td></tr></tbody></table>
+</div>

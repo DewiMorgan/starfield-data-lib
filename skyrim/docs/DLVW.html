@@ -1,0 +1,58 @@
+
+<div><p>A <b>DLVW</b> represents a Dialogue "View", a flowchart-like representation of existing dialogues. A Dialogue View is strictly a UI for the purposes of creating and editing dialogues.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td>QNAM</td>
+<td>Parent Quest</td>
+<td>formid</td>
+<td>The <a href="QUST.html">QUST</a> to which this Dialogue View belongs.
+</td></tr>
+<tr>
+<td>*</td>
+<td>BNAM</td>
+<td>Branches</td>
+<td>formid</td>
+<td>Reference to the <a href="DLBR.html">DLBR</a> (Dialogue Branches) used in this view. A view with branches appears to exclude it having topics.
+</td></tr>
+<tr>
+<td>*</td>
+<td>TNAM</td>
+<td>Topics</td>
+<td>formid</td>
+<td>References to the <a href="DIAL.html">DIAL</a> (Dialogue Topics) used in this view. A view with topics appears to exclude it having branches.
+</td></tr>
+<tr>
+<td>-</td>
+<td>ENAM</td>
+<td>Unknown</td>
+<td>uint32</td>
+<td>0 for views with branches; 7 for views with topics.
+</td></tr>
+<tr>
+<td>-</td>
+<td>DNAM</td>
+<td>Show All Text</td>
+<td>byte</td>
+<td>Indicates whether or not Show All Text is selected in the CK.
+</td></tr></tbody></table>
+</div>

@@ -1,0 +1,87 @@
+
+<div><p>A Typed Value is one where the value depends on the first character of the value's name. For mod files, this is the record's Editor ID. Only boolean, integer, float, and string types are used in mod files; the remainder appear to be available only for registry entries.
+</p><p>Character values are case-sensitive. The Internal ID is strictly used within the program code and is shown here for ease of reference.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Char
+</th>
+<th>Value Type
+</th>
+<th>Data <a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Internal ID
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>b</td>
+<td>boolean</td>
+<td>uint32</td>
+<td>0</td>
+<td>Boolean
+</td></tr>
+<tr>
+<td>i</td>
+<td>int</td>
+<td>uint32</td>
+<td>3</td>
+<td>Integer value
+</td></tr>
+<tr>
+<td>f</td>
+<td>float</td>
+<td>float32</td>
+<td>5</td>
+<td>Float value
+</td></tr>
+<tr>
+<td>s or S</td>
+<td>string</td>
+<td>lstring</td>
+<td>6</td>
+<td>Localized string
+</td></tr>
+<tr>
+<td>c</td>
+<td>char</td>
+<td>char</td>
+<td>1</td>
+<td>Character
+</td></tr>
+<tr>
+<td>h</td>
+<td>char</td>
+<td>char</td>
+<td>2</td>
+<td>Hex character?
+</td></tr>
+<tr>
+<td>u</td>
+<td>unsigned int</td>
+<td>uint32</td>
+<td>4</td>
+<td>Unsigned integer value
+</td></tr>
+<tr>
+<td>r</td>
+<td>RGB</td>
+<td>uint32</td>
+<td>7</td>
+<td>RGB value (alpha channel set to 0xFF)
+</td></tr>
+<tr>
+<td>a</td>
+<td>RGBA</td>
+<td>uint32</td>
+<td>8</td>
+<td>RGBA value
+</td></tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>9</td>
+<td>Any value that's not one of the above.
+</td></tr></tbody></table>
+</div>

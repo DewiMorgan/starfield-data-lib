@@ -1,0 +1,58 @@
+
+<div><p><b>MUSC</b> records contain data regarding groups of <a href="MUST.html">music tracks</a>.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorID</td>
+<td>zstring</td>
+<td>Editor ID
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>flags</td>
+<td>uint32</td>
+<td>Flags (bitfield)
+<dl><dd><tt>0x01</tt> - Plays One Selection</dd>
+<dd><tt>0x02</tt> - Abrupt Transition</dd>
+<dd><tt>0x04</tt> - Cycle Tracks</dd>
+<dd><tt>0x08</tt> - Maintain Track Order (only allowed, if "Cycle Tracks" is set)</dd>
+<dd><tt>0x20</tt> - Ducks Current Track</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>PNAM</td>
+<td>data</td>
+<td>struct</td>
+<td>4-byte struct
+<dl><dd>uint16 Priority <i>(1 is highest priority, 100 is lowest priority)</i></dd>
+<dd>uint16 Ducking, in dB; scaled by100, i.e. 126 means 1.26; allowed maximum is 10000, i.e. 100.00</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>WNAM</td>
+<td>fadeDuration</td>
+<td>float</td>
+<td>Fade Duration (seconds)
+</td></tr>
+<tr>
+<td>+</td>
+<td>TNAM</td>
+<td>music tracks</td>
+<td>formid[]</td>
+<td>Series of <a href="MUST.html">MUST</a> form IDs, total count arbitrary
+</td></tr></tbody></table>
+</div>

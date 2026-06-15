@@ -1,0 +1,82 @@
+
+<div><p><b>PHZD</b> records contain the data for placed hazards, that is they take a <a href="HAZD.html">Hazard</a> record and put it in the world.  These are only found as subrecords in <a href="CELL.html">Cells</a>.
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p>
+<dl><dd>0x400 -</dd>
+<dd>0x800 - Initially Disabled</dd>
+<dd>0x10000 - Is Full LOD</dd>
+<dd>0x10000000 - Reflected By Auto Water</dd>
+<dd>0x20000000 - Don't Havok Settle</dd>
+<dd>0x40000000 - not Respawns</dd></dl>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td>scripting</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>scripting info
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAME</td>
+<td>base hazard</td>
+<td>formid</td>
+<td><a href="HAZD.html">HAZD</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XIS2</td>
+<td></td>
+<td></td>
+<td>not found in .esms, zero length, present if "Ignored By Sandbox" is checked
+</td></tr>
+<tr>
+<td>-</td>
+<td>XSCL</td>
+<td>scale</td>
+<td>float</td>
+<td>presumably the scale of the base model
+</td></tr>
+<tr>
+<td>-</td>
+<td>XESP</td>
+<td>enable parent</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>formid <a href="REFR.html">REFR</a> usually to a <a href="STAT.html">STAT</a></dd>
+<dd>uint32 -flags
+<dl><dd>0x01 = Set Enable State Opposite Parent</dd>
+<dd>0x02 = Pop In</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>coords</td>
+<td>struct</td>
+<td>24-byte struct
+<dl><dd>float x</dd>
+<dd>float y</dd>
+<dd>float z</dd>
+<dd>float rx</dd>
+<dd>float ry</dd>
+<dd>float rz</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>XLRL</td>
+<td>location</td>
+<td>formid</td>
+<td>found in Cutting Room Floor
+</td></tr></tbody></table>
+</div>

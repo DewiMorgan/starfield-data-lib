@@ -1,0 +1,431 @@
+
+<div><p><b>IMAD</b> records contain information on imagespace modifiers.
+</p><p>Several fieldnames in this record start with a non-printable character. They are rendered here as ctrl-codes (0x00=^@, 0x01=^A, ...).
+</p><p>The fields with type "imad" are variable length arrays of pairs of floats. The first float of each pair specifies a timestamp, the second float a value. Timestamp values stored are between 0 and 1, multiply with the global duration to get the time values displayed by the CK. If for a given timestamp no value is specified, it will be automatically calculated (how?).  Color values stored, including alpha, are floats between 0 and 1, multiply with 255 to get the values displayed by the CK.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>DNAM</td>
+<td></td>
+<td>struct</td>
+<td>
+<dl><dd>unit32 - flag
+<dl><dd>0x1 - Animatable</dd></dl></dd>
+<dd>float - Duration</dd>
+<dd>uint32[] - the number of different time entries for each field (?)</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>BNAM</td>
+<td>blur</td>
+<td>imad</td>
+<td>Blur Radius
+</td></tr>
+<tr>
+<td>+</td>
+<td>VNAM</td>
+<td>double vision</td>
+<td>imad</td>
+<td>Double Vision Strength
+</td></tr>
+<tr>
+<td>+</td>
+<td>TNAM</td>
+<td>tint</td>
+<td>float[]</td>
+<td>Series of float 5-tuples specifying tint colors
+<dl><dd>float - timestamp</dd>
+<dd>float - red</dd>
+<dd>float - green</dd>
+<dd>float - blue</dd>
+<dd>float - alpha</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM3</td>
+<td>fade</td>
+<td>float[]</td>
+<td>Series of float 5-tuples specifying fade colors
+<dl><dd>float - timestamp</dd>
+<dd>float - red</dd>
+<dd>float - green</dd>
+<dd>float - blue</dd>
+<dd>float - alpha</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>RNAM</td>
+<td></td>
+<td>imad</td>
+<td>Radial Blur Str
+</td></tr>
+<tr>
+<td>+</td>
+<td>SNAM</td>
+<td></td>
+<td>imad</td>
+<td>Radial Blur Rampup
+</td></tr>
+<tr>
+<td>+</td>
+<td>UNAM</td>
+<td></td>
+<td>imad</td>
+<td>Radial Blur Start
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM1</td>
+<td></td>
+<td>imad</td>
+<td>Radial Blur Rampdown
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM2</td>
+<td></td>
+<td>imad</td>
+<td>Radial Blur DownStart
+</td></tr>
+<tr>
+<td>+</td>
+<td>WNAM</td>
+<td></td>
+<td>imad</td>
+<td>Depth Of Field Strength
+</td></tr>
+<tr>
+<td>+</td>
+<td>XNAM</td>
+<td></td>
+<td>imad</td>
+<td>Depth Of Field Distance
+</td></tr>
+<tr>
+<td>+</td>
+<td>YNAM</td>
+<td></td>
+<td>imad</td>
+<td>Depth Of Field Range
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM4</td>
+<td></td>
+<td>imad</td>
+<td>FullScreen Motion Blur
+</td></tr>
+<tr>
+<td>+</td>
+<td>^@IAD</td>
+<td></td>
+<td>imad</td>
+<td>Eye Adapt Speed Multiply
+</td></tr>
+<tr>
+<td>+</td>
+<td>@IAD</td>
+<td></td>
+<td>imad</td>
+<td>Eye Adapt Speed Add
+</td></tr>
+<tr>
+<td>+</td>
+<td>^AIAD</td>
+<td></td>
+<td>imad</td>
+<td>Bloom Blur Radius Multiply
+</td></tr>
+<tr>
+<td>+</td>
+<td>AIAD</td>
+<td></td>
+<td>imad</td>
+<td>Bloom Blur Radius Add
+</td></tr>
+<tr>
+<td>+</td>
+<td>^BIAD</td>
+<td></td>
+<td>imad</td>
+<td>Bloom Threshold Multiply
+</td></tr>
+<tr>
+<td>+</td>
+<td>BIAD</td>
+<td></td>
+<td>imad</td>
+<td>Bloom Threshold Add
+</td></tr>
+<tr>
+<td>+</td>
+<td>^CIAD</td>
+<td></td>
+<td>imad</td>
+<td>Bloom Scale Multiply
+</td></tr>
+<tr>
+<td>+</td>
+<td>CIAD</td>
+<td></td>
+<td>imad</td>
+<td>Bloom Scale Add
+</td></tr>
+<tr>
+<td>+</td>
+<td>^DIAD</td>
+<td></td>
+<td>imad</td>
+<td>Target Lum Min Multiply
+</td></tr>
+<tr>
+<td>+</td>
+<td>DIAD</td>
+<td></td>
+<td>imad</td>
+<td>Target Lum Min Add
+</td></tr>
+<tr>
+<td>+</td>
+<td>^EIAD</td>
+<td></td>
+<td>imad</td>
+<td>Target Lum Max Multiply
+</td></tr>
+<tr>
+<td>+</td>
+<td>EIAD</td>
+<td></td>
+<td>imad</td>
+<td>Target Lum Max Add
+</td></tr>
+<tr>
+<td>+</td>
+<td>^FIAD</td>
+<td></td>
+<td>imad</td>
+<td>Sunlight Scale Multiply
+</td></tr>
+<tr>
+<td>+</td>
+<td>FIAD</td>
+<td></td>
+<td>imad</td>
+<td>Sunlight Scale Add
+</td></tr>
+<tr>
+<td>+</td>
+<td>^GIAD</td>
+<td></td>
+<td>imad</td>
+<td>Sky Scale Multiply
+</td></tr>
+<tr>
+<td>+</td>
+<td>GIAD</td>
+<td></td>
+<td>imad</td>
+<td>Sky Scale Add
+</td></tr>
+<tr>
+<td>+</td>
+<td>^HIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>HIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>^IIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>IIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>^JIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>JIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>^KIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>KIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>^LIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>LIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>^MIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>MIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>^NIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>NIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>^OIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>OIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>^PIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>PIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>^QIAD</td>
+<td></td>
+<td>imad</td>
+<td>Saturation Multiply
+</td></tr>
+<tr>
+<td>+</td>
+<td>QIAD</td>
+<td></td>
+<td>imad</td>
+<td>Saturation Add
+</td></tr>
+<tr>
+<td>+</td>
+<td>^RIAD</td>
+<td></td>
+<td>imad</td>
+<td>Brightness Multiply
+</td></tr>
+<tr>
+<td>+</td>
+<td>RIAD</td>
+<td></td>
+<td>imad</td>
+<td>Brightness Add
+</td></tr>
+<tr>
+<td>+</td>
+<td>^SIAD</td>
+<td></td>
+<td>imad</td>
+<td>Contrast Multiply
+</td></tr>
+<tr>
+<td>+</td>
+<td>SIAD</td>
+<td></td>
+<td>imad</td>
+<td>Contrast Add
+</td></tr>
+<tr>
+<td>+</td>
+<td>^TIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>TIAD</td>
+<td></td>
+<td>imad</td>
+<td><i>unknown</i>
+</td></tr></tbody></table>
+</div>

@@ -1,0 +1,2311 @@
+
+<div><p>This is a dump of all functions directly from the original TESV.exe file. Note that patches will likely change some of the following details (offsets particularly).
+</p><p><i>This data represents the old scripting language, and not the new Papyrus scripting language.</i>
+</p>
+<h2><span id="Function_Data_Details">Function Data Details</span></h2>
+<pre>      struct ParamInfo
+      {
+            long       TypeOffset;
+            dword      typeID;
+            dword      isOptional;
+      };
+      
+      struct CommandInfo
+      {
+            long       LongNameOffset;		
+            long       ShortNameOffset;	
+            dword      opcode;			
+            long       HelpOffset;
+            word       needsParent;	
+            word       numParams;		
+            long       ParamsOffset;		
+      
+            void*      pFnExecute;	// Function pointers	
+            void*      pFnPparse;		
+            void*      pFnEval;		
+      
+            dword      flags;		
+      };
+          
+          //Function data offsets in the EXE
+     const int BLOCK_START_OFFSET = 0x10286A0;
+     const int BLOCK_END_OFFSET = 0x1028C18;
+     const int CONSOLE_START_OFFSET = 0x1028C40;
+     const int CONSOLE_END_OFFSET = 0x102BC10;
+     const int FUNC_START_OFFSET = 0x102BC38;
+     const int FUNC_END_OFFSET = 0x1032DD0;
+     
+          // Difference in offsets from in-game memory and in file
+     const int STRING_OFFSET = 0x400C00;
+     const int DATA_OFFSET = 0x401A00;
+     
+          // Record sizes in bytes     
+     const int COMMAND_SIZE = 0x28;
+     const int PARAM_SIZE = 0x0C;</pre>
+<h2><span id="Block_Functions">Block Functions</span></h2>
+<pre>      0x0000: GameMode()
+               Flags=0x0000
+      0x0001: MenuMode(Integer (Optional))
+               Flags=0x0000
+      0x0002: Ref.OnActivate(Actor (optional))
+               Flags=0x0000
+      0x0003: Ref.OnAdd(Container (optional))
+               Flags=0x0000
+      0x0004: Ref.OnEquip(Container (optional))
+               Flags=0x0000
+      0x0005: Ref.OnUnequip(Container (optional))
+               Flags=0x0000
+      0x0006: Ref.OnDrop(Container (optional))
+               Flags=0x0000
+      0x0007: Ref.SayToDone(Topic)
+               Flags=0x0000
+      0x0008: Ref.OnHit(Actor (optional))
+               Flags=0x0000
+      0x0009: Ref.OnHitWith(ObjectID)
+               Flags=0x0000
+      0x000A: Ref.OnDeath(Actor (optional))
+               Flags=0x0000
+      0x000B: Ref.OnMurder(Actor (optional))
+               Flags=0x0000
+      0x000C: Ref.OnCombatEnd()
+               Flags=0x0000
+      0x000D: Ref.Unused()
+               Flags=0x0000
+      0x000E: Ref.Unused2()
+               Flags=0x0000
+      0x000F: Ref.OnPackageStart(Package)
+               Flags=0x0000
+      0x0010: Ref.OnPackageDone(Package)
+               OnPackageEnd  Flags=0x0000
+      0x0011: Ref.ScriptEffectStart()
+               Flags=0x0000
+      0x0012: Ref.ScriptEffectFinish()
+               Flags=0x0000
+      0x0013: Ref.ScriptEffectUpdate()
+               Flags=0x0000
+      0x0014: Ref.OnPackageChange(Package)
+               Flags=0x0000
+      0x0015: Ref.OnLoad()
+               Flags=0x0000
+      0x0016: Ref.OnMagicEffectHit(Magic Effect (optional))
+               Flags=0x0000
+      0x0017: Ref.OnSell(Actor (optional))
+               Flags=0x0000
+      0x0018: Ref.OnTrigger(ObjectReferenceID)
+               Flags=0x0000
+      0x0019: Ref.OnStartCombat(Actor (optional))
+               Flags=0x0000
+      0x001A: Ref.OnTriggerEnter(ObjectReferenceID)
+               Flags=0x0000
+      0x001B: Ref.OnTriggerLeave(ObjectReferenceID)
+               Flags=0x0000
+      0x001C: Ref.OnActorEquip(ObjectID)
+               Flags=0x0000
+      0x001D: Ref.OnActorUnequip(ObjectID)
+               Flags=0x0000
+      0x001E: Ref.OnReset()
+               Flags=0x0000
+      0x001F: Ref.OnOpen()
+               Flags=0x0000
+      0x0020: Ref.OnClose()
+               Flags=0x0000
+      0x0021: Ref.OnGrab()
+               Flags=0x0000
+      0x0022: Ref.OnRelease()
+               Flags=0x0000
+      0x0023: Ref.OnDestructionStageChange(Integer (Optional))
+               Flags=0x0000</pre>
+<h2><span id="Console_Functions">Console Functions</span></h2>
+<pre>      0x0100: Show(Float)
+               Show global scripts and variables.  TST  Flags=0x0000
+      0x0101: Ref.ShowVars()
+               Show variables on object. [player-&gt;sv]  SV  Flags=0x0000
+      0x0102: ShowGlobalVars()
+               Show all global variables.  SGLV  Flags=0x0000
+      0x0103: ShowQuestVars(Quest)
+               Show quest variables. [svq QuestID]  SQV  Flags=0x0000
+      0x0104: ShowQuests()
+               List quests.  SQ  Flags=0x0000
+      0x0105: ShowQuestAliases(Quest)
+               Show quest aliases. [ShowQuestAliases QuestID]  Flags=0x0000
+      0x0106: SetPapyrusQuestVar(Quest, String, String)
+               Set a Papyrus property on the specified quest.  SETPQV  Flags=0x0000
+      0x0107: SetPapyrusVar(String, String)
+               Set a Papyrus property on the selected ref.  SETPV  Flags=0x0000
+      0x0108: SetQuestAliases(Quest)
+               Set quest aliases. [SetQuestAliases QuestID]  Flags=0x0000
+      0x0109: ClearQuestAliases(Quest)
+               Clears quest aliases. [ClearQuestAliases QuestID]  Flags=0x0000
+      0x010A: ToggleCombatStats()
+               TCS  Flags=0x0000
+      0x010B: ToggleSafeZone()
+               Display the television 85%% safe zone.  TSZ  Flags=0x0000
+      0x010C: ToggleAI(Actor (optional))
+               TAI  Flags=0x0000
+      0x010D: ToggleCollisionGeometry()
+               Show collision geometry.  TCG  Flags=0x0000
+      0x010E: ToggleMaterialGeometry()
+               Show material geometry.  TMG  Flags=0x0000
+      0x010F: ToggleStairsGeometry()
+               Show stairs geometry.  TSG  Flags=0x0000
+      0x0110: ToggleBorders()
+               Show border lines for each cell.  TB  Flags=0x0000
+      0x0111: ToggleSky()
+               TS  Flags=0x0000
+      0x0112: ToggleWireframe()
+               Show the world as wireframe.  TWF  Flags=0x0000
+      0x0113: ToggleCollision()
+               TCL  Flags=0x0000
+      0x0114: ToggleDebugText()
+               Show debug numbers on the screen.  TDT  Flags=0x0000
+      0x0115: ToggleMenus()
+               Hide all the menus. Used for taking screen shots.  TM  Flags=0x0000
+      0x0116: TogglePrimitives()
+               TPR  Flags=0x0000
+      0x0117: ShowScenegraph()
+               Create a window with the full game scene graph or the scene graph of the selected reference.  SSG  Flags=0x0000
+      0x0118: ShowScenegraph()
+               Create a window with the full game scene graph, open to the node corresponding to the selected reference (if any).  SFSG  Flags=0x0000
+      0x0119: ToggleMagicStats()
+               TMS  Flags=0x0000
+      0x011A: Ref.ShowAnim()
+               Show Animation and Actor status.  SA  Flags=0x0000
+      0x011B: Show1stPerson()
+               Show the 1st person Model from the 3rd person camera. If in 3rd person mode it will show both.  S1ST  Flags=0x0000
+      0x011C: Help(String (Optional), Integer (Optional))
+               Show this help.  Flags=0x0000
+      0x011D: ToggleNavMesh(Integer (Optional))
+               Toggle blocked display.  TNM  Flags=0x0000
+      0x011E: TogglePathLine(String)
+               Toggle path display.  TPL  Flags=0x0000
+      0x011F: PickRefByID(ObjectReferenceID)
+               Select a reference by id for the console.  PRID  Flags=0x0000
+      0x0120: SetLightingPasses(String)
+               4 (0/1) values. amb|diff|tex|spec ex: 1010  SLP  Flags=0x0000
+      0x0121: ToggleLODLand(String (Optional), String (Optional), String (Optional), String (Optional))
+               TLL  Flags=0x0000
+      0x0122: ToggleMapEffect(String)
+               TME  Flags=0x0000
+      0x0123: SetLODObjectDistance(Float, Float, Float, Float)
+               SLOD  Flags=0x0000
+      0x0124: ToggleGrassUpdate()
+               TGU  Flags=0x0000
+      0x0125: CenterOnCell(String)
+               COC  Flags=0x0000
+      0x0126: SetGameSetting(String, String)
+               SetGS  Flags=0x0000
+      0x0127: SetINISetting(String, String)
+               "setting:category" value  SetINI  Flags=0x0000
+      0x0128: GetINISetting(String)
+               "setting:category"  GetINI  Flags=0x0000
+      0x0129: CenterOnExterior(Integer, Integer)
+               COE  Flags=0x0000
+      0x012A: Ref.CalcPathToPoint()
+               P2P  Flags=0x0000
+      0x012B: Ref.CalcLowPathToPoint(Integer, Integer, Integer)
+               ignore locks, allow disabled doors, ignore min use  LP2P  Flags=0x0000
+      0x012C: SetFog(Integer, Integer)
+               2 floats, start and end depths  Flags=0x0000
+      0x012D: SetClipDist(Float)
+               float, new clip distance  Flags=0x0000
+      0x012E: ToggleShadowVolumes()
+               TSV  Flags=0x0000
+      0x012F: SetImageSpaceGlow(Integer, Float, Float, Float)
+               SISG  Flags=0x0000
+      0x0130: ToggleDetection()
+               TDETECT  Flags=0x0000
+      0x0131: ToggleHighProcess()
+               THIGHPROCESS  Flags=0x0000
+      0x0132: ToggleLowProcess()
+               TLOWPROCESS  Flags=0x0000
+      0x0133: ToggleMiddleLowProcess()
+               TMLOWPROCESS  Flags=0x0000
+      0x0134: ToggleMiddleHighProcess()
+               TMHIGHPROCESS  Flags=0x0000
+      0x0135: ToggleAiSchedules()
+               TAIS  Flags=0x0000
+      0x0136: Ref.SpeakSound(Filename, Emotion, EmotionValue)
+               Flags=0x0000
+      0x0137: BetaComment(String)
+               Add comment to [General] 'sBetaCommentFile' file.
+  NOTE: select object first.
+  [bc "This rock is too high."]  BC  Flags=0x0000
+      0x0138: GameComment(String)
+               Adds a comment about the game to the GameCommentDB. (Ex. This monster is too hard)  GC  Flags=0x0000
+      0x0139: ToggleCellNode(Integer)
+               Toggle 3D for a Cell child node: 0-Actor, 1-Marker, 2-Land, 3-Water, 4-Static, 5-Active  TCN  Flags=0x0000
+      0x013A: ToggleTrees()
+               Turn trees on/off  TT  Flags=0x0000
+      0x013B: SetCameraFOV(Float (Optional), Float (Optional))
+               Change the camera's field of view (in deg): default 75  FOV  Flags=0x0000
+      0x013C: ToggleGodMode()
+               Toggle God mode  TGM  Flags=0x0000
+      0x013D: RefreshShaders(String)
+               Reload HLSL shaders from disk  RS  Flags=0x0000
+      0x013E: ToggleScripts()
+               Turn Script processing on/off  TSCR  Flags=0x0000
+      0x013F: ToggleConversations()
+               Toggle conversation stats  TCONV  Flags=0x0000
+      0x0140: ToggleFullHelp()
+               Toggle Full Help  TFH  Flags=0x0000
+      0x0141: ShowQuestLog(Integer (Optional))
+               Show Quest Log  SQL  Flags=0x0000
+      0x0142: ShowFullQuestLog(Quest)
+               Show all log entries for a single quest  SFQL  Flags=0x0000
+      0x0143: DumpTexturePalette(String)
+               Dump texture palette contents to file
+ param is sort type   f-filename, s-size, c-count)  DTP  Flags=0x0000
+      0x0144: DumpModelMap(String)
+               Dump model map contents to file  DMM  Flags=0x0000
+      0x0145: CenterOnWorld(WorldSpace, Cell X, Cell Y)
+               [COW worldname -10 5]  COW  Flags=0x0000
+      0x0146: ToggleGrass()
+               Toggle grass display.  TG  Flags=0x0000
+      0x0147: CreateGrassAt(Float, Float)
+               cga  Flags=0x0000
+      0x0148: Ref.AddFaceAnimNote(String)
+               AFAN  Flags=0x0000
+      0x0149: RefreshINI()
+               Refresh INI settings from file.  REFINI  Flags=0x0000
+      0x014A: ToggleEmotions()
+               Toggle NPC facial emotions.  temo  Flags=0x0000
+      0x014B: AddDecal()
+               Flags=0x0000
+      0x014C: TestCode(Float (Optional), Float (Optional))
+               Flags=0x0000
+      0x014D: PlayerSpellBook()
+               Add all spells to player.  psb  Flags=0x0000
+      0x014E: PrintAiList()
+               Printed Ai Lists.  pai  Flags=0x0000
+      0x014F: ShowQuestTargets()
+               Show current quest targets  SQT  Flags=0x0000
+      0x0150: HairTint(Integer, Integer, Integer)
+               3 ints, RGB  Flags=0x0000
+      0x0151: SaveGame(String, Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional))
+               SaveGame &lt;filename&gt;  save  Flags=0x0000
+      0x0152: LoadGame(String, Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional))
+               LoadGame &lt;filename&gt;  load  Flags=0x0000
+      0x0153: TestAllCells(Integer)
+               Test All Cells (0 - stop, 1 - start, 2 - interiors, 3 - current world)  TAC  Flags=0x0000
+      0x0154: RenderTestCell()
+               runs Render Test on player's current parent cell  rtc  Flags=0x0000
+      0x0155: RenderTestHere()
+               runs Render Test on player's current position  rth  Flags=0x0000
+      0x0156: SaveWorld(String)
+               Save hkWorld &lt;filename&gt;  Flags=0x0000
+      0x0157: ReloadCurrentClimate()
+               Reloads values from the current climate  rcc  Flags=0x0000
+      0x0158: ReloadCurrentWeather()
+               Reloads values from the current weather  rcw  Flags=0x0000
+      0x0159: TestSeenData()
+               Visually displays the current seen data  tsd  Flags=0x0000
+      0x015A: TestLocalMap(Integer)
+               Simulates the local map. (1 or 0 for FOW on or off)  tlm  Flags=0x0000
+      0x015B: MoveToQuestTarget(Quest, Integer (Optional))
+               Move player to current quest target.  movetoqt  Flags=0x0000
+      0x015C: PrintNPCDialog()
+               Prints NPC dialog  pdialog  Flags=0x0000
+      0x015D: ShowSubtitle(Integer (Optional))
+               show all dialog subtitles (1 shows always, 0 hides always)  Flags=0x0000
+      0x015E: ShowRenderPasses()
+               display render passes for the next frame  srp  Flags=0x0000
+      0x015F: FreezeRenderAccumulation()
+               only re-render geometry visible during this frame  fra  Flags=0x0000
+      0x0160: ToggleOcclusion()
+               toggle occlusion query for geometry  tocc  Flags=0x0000
+      0x0161: OutputMemContexts(String)
+               Output Mem Context info to a file  omc  Flags=0x0000
+      0x0162: OutputMemStats(String)
+               Output Mem Stats info to a file  oms  Flags=0x0000
+      0x0163: SetMemCheckPoint(Integer, String (Optional))
+               Set the current memory checkpoint (value, optional context name)  smcp  Flags=0x0000
+      0x0164: GetMemCheckPoint(String)
+               Get the current memory checkpoint (optional context name)  gmcp  Flags=0x0000
+      0x0165: IncMemCheckPoint(String)
+               Increment the current memory checkpoint (optional context name)  imcp  Flags=0x0000
+      0x0166: OutputAllocations(String, String (Optional), Integer (Optional), Integer (Optional))
+               Output memory allocations (file, optional context name, optional start context, optional end context)  outalloc  Flags=0x0000
+      0x0167: AddWatchAddress(String, Integer)
+               Adds an address range to watch out for.  awa  Flags=0x0000
+      0x0168: RemoveWatchAddress(String)
+               Removes an address range that we no longer want to watch.  rwa  Flags=0x0000
+      0x0169: ToggleDetectionStats(Actor (optional))
+               Show the detection stats of the current seletected Ref.  tds  Flags=0x0000
+      0x016A: SetTargetRefraction(Float)
+               Sets the refractive value of the target  str  Flags=0x0000
+      0x016B: SetTargetRefractionFire(Float, Int)
+               Sets the refractive fire value of the target  strf  Flags=0x0000
+      0x016C: ToggleRefractionDebug()
+               Toggles refraction debug render texture  trd  Flags=0x0000
+      0x016D: ToggleCharControllerShape()
+               Toggle char controller shape type.  TCCS  Flags=0x0000
+      0x016E: Ref.ShowHeadTrackTarget()
+               Show the head track target if set from look function  SHeadT  Flags=0x0000
+      0x016F: SetCinematicParam(Float, Float, Float)
+               Sets various values for the imagespace cinematics  SCP  Flags=0x0000
+      0x0170: SetTintParam(Float, Float, Float, Float)
+               Sets various values for the imagespace tint  STP  Flags=0x0000
+      0x0171: SetHDRParam(Float, Float, Float, Float, Float, Float, Float, Float, Float)
+               Sets various values for the HDR shader  SHP  Flags=0x0000
+      0x0172: Ref.VisualRefPosition()
+               Places and axis object at the ref position.  VRP  Flags=0x0000
+      0x0173: Ref.ShowPivot()
+               Puts a temporary yellow plus at the pivot point of the selected reference.  SP  Flags=0x0000
+      0x0174: PrintHDRParam()
+               Prints current HDR settings.  PHP  Flags=0x0000
+      0x0175: ToggleHDRDebug()
+               Toggles HDR debug textures.  THD  Flags=0x0000
+      0x0176: RevertWorld()
+               Revert the world  rw  Flags=0x0000
+      0x0177: OutputArchiveProfile(String)
+               Output Archive profile info to a file  oap  Flags=0x0000
+      0x0178: QuitGame()
+               Exit game without going through menus.  qqq  Flags=0x0000
+      0x0179: SaveIniFiles()
+               Writes all the .ini files.  saveini  Flags=0x0000
+      0x017A: SetDebugText(String (Optional), Integer (Optional))
+               Sets which debug text is shown.  sdt  Flags=0x0000
+      0x017B: ToggleLiteBrite()
+               Toggles lite brite render mode.  tlb  Flags=0x0000
+      0x017C: RunMemoryPass(Integer)
+               Runs a cleanup memory pass  rmp  Flags=0x0000
+      0x017D: ResetMemContexts()
+               Reset Max Mem Contexts  rmc  Flags=0x0000
+      0x017E: ToggleWaterSystem()
+               Toggles the water system  TWS  Flags=0x0000
+      0x017F: ToggleWaterRadius()
+               TWR  Flags=0x0000
+      0x0180: ShowWhoDetectsPlayer()
+                Show who detects the player  SWDP  Flags=0x0000
+      0x0181: ToggleCombatAI()
+               Toggles ALL Combat AI  tcai  Flags=0x0000
+      0x0182: ToggleFlyCam(Integer (Optional))
+               Toggles the Free Fly camera (UFO cam).  tfc  Flags=0x0000
+      0x0183: ModWaterShader(String, Float(optional))
+               Modifies water shader settings  mws  Flags=0x0000
+      0x0184: WaterColor(Integer, Float, Float, Float)
+               Modifies water color  mwc  Flags=0x0000
+      0x0185: BeginTrace()
+               Creates a trace file (Xenon only)  bt  Flags=0x0000
+      0x0186: RunCellTest(Integer (Optional))
+               Runs a cell test  rct  Flags=0x0000
+      0x0187: StartAllQuests()
+               Starts all quests  saq  Flags=0x0000
+      0x0188: CompleteAllQuestStages()
+               Sets all quest stages  caqs  Flags=0x0000
+      0x0189: ToggleFogOfWar()
+               Turns fog of war on or off.  TFOW  Flags=0x0000
+      0x018A: OutputLocalMapPictures()
+               Writes out the current local map.  OLMP  Flags=0x0000
+      0x018B: SetGamma(Float)
+               Sets new gamma ramp.  sg  Flags=0x0000
+      0x018C: WasteMemory(Float)
+               Allocates some memory (in MB).  wm  Flags=0x0000
+      0x018D: ClearAdaptedLight()
+               Clears the HDR adapted light texture  cal  Flags=0x0000
+      0x018E: ToggleCastShadows(Integer)
+               tsh  Flags=0x0000
+      0x018F: SetHudGlowConstants(Float (Optional), Float (Optional), Float (Optional), Float (Optional))
+               Set parameters for HUD glow.  shgc  Flags=0x0000
+      0x0190: CloseFile(String)
+               Flags=0x0000
+      0x0191: SetTreeMipmapBias(Float (Optional), Float (Optional))
+               Set mipmap LOD bias values for tree billboards.  stmb  Flags=0x0000
+      0x0192: SendSherlockDebugText(String)
+               ssdt  Flags=0x0000
+      0x0193: OutputMemStats(String)
+               Output Mem Stats info to a file  omsfw  Flags=0x0000
+      0x0194: PlayExplosion()
+               Plays explosion seq in selected obj  Flags=0x0000
+      0x0195: SetMaxAniso(Float)
+               Sets Depth of Field focal distance  sma  Flags=0x0000
+      0x0196: SetMeshLODLevel(Float)
+               Sets Depth of Field range  smll  Flags=0x0000
+      0x0197: SetTargetDOF()
+               Sets the depth of field based on the target  stdof  Flags=0x0000
+      0x0198: ToggleFullScreenMotionBlur()
+               Toggles Full screen motion blur  tfsmb  Flags=0x0000
+      0x0199: SetTriLinearThreshold(Float)
+               Set the motion blur params  stlt  Flags=0x0000
+      0x019A: Ref.SetVel(Axis, Float)
+               Sets Velocity on a reference  Flags=0x0000
+      0x019B: Ref.DebugCombatBehavior()
+               Debugs the combat behavior on an actor  dcb  Flags=0x0000
+      0x019C: ToggleCombatDebug(String)
+               Toggles combat debug info  tcd  Flags=0x0000
+      0x019D: TogglePathingInfoFunction()
+               Toggle pathing information.  TPI  Flags=0x0000
+      0x019E: Ref.ShowInventory()
+               Shows reference inventory  inv  Flags=0x0000
+      0x019F: ResetPerformanceTimers()
+               Resets the performance timers  rpt  Flags=0x0000
+      0x01A0: ToggleDebugDecal(Integer)
+               Toggle debug displays for decal creation : 0-Wireframe, 1-Solid, 2-Occlusion Query, 3-Transform  TDD  Flags=0x0000
+      0x01A1: ToggleDecalRendering()
+               Toggle decal rendering  TDR  Flags=0x0000
+      0x01A2: SetImageSpaceModifiersEnable(Integer)
+               Set imagespace modifiers enable: 0-Off, 1-On  sisme  Flags=0x0000
+      0x01A3: SetUFOCamSpeedMult(Float)
+               Set speed mult for free camera.  sucsm  Flags=0x0000
+      0x01A4: ToggleTestLight(Integer (Optional), Float (Optional), Float (Optional))
+               Toggle test light (radius, magnitude).  TTL  Flags=0x0000
+      0x01A5: PlaceLocationMarker(X, Y, Z, Name ( Optional ), Color ( Optional ))
+               PlaceLocationMarker x y z (optional name) (optional color )  plm  Flags=0x0000
+      0x01A6: ClearLocationMarkers()
+               clm  Flags=0x0000
+      0x01A7: ToggleMultiboundCheck()
+               Toggle all Multibound check functionality  mbc  Flags=0x0100
+      0x01A8: AddOcclusionPlane(Float (Optional), Float (Optional))
+               Add Occlusion plane (x size, y size).  AOP  Flags=0x0000
+      0x01A9: SetGlobalRadialBlur(Float, Float, Float, Float, Float)
+               Set parameters for the global radial blur  sgrb  Flags=0x0000
+      0x01AA: OutputTextureUseMap(String)
+               Writes out texture use map data to file.  OTUM  Flags=0x0000
+      0x01AB: ClearScreenBlood()
+               Clear screen blood  csb  Flags=0x0000
+      0x01AC: ResetDialogueFlags()
+               Debug resets SayOnce, TalkedToPc, etc.  rdf  Flags=0x0000
+      0x01AD: Ref.GetActorValueInfo(Actor Value)
+               Get detailed an actor value info. [player.getav luck]  GetAVInfo  Flags=0x0000
+      0x01AE: ToggleBoundVisGeom()
+               Toggles bound visualization for a ref  tbvg  Flags=0x0000
+      0x01AF: SetConsoleOuputFile(String)
+               Sets the given file as target for console output.  scof  Flags=0x0000
+      0x01B0: IgnoreRenderPass(Integer (Optional), Integer (Optional))
+               Ignore the given renderpass  irp  Flags=0x0000
+      0x01B1: PlayVATSCameras(String)
+               Play this set of VATS cameras for the next VATS playback.  pvc  Flags=0x0000
+      0x01B2: SetTargetFalloff(Float (Optional), Float (Optional), Float (Optional), Float (Optional))
+               Sets the falloff of the target  stfo  Flags=0x0000
+      0x01B3: ToggleActorMover()
+               Toggles actor movement through pathing system  tam  Flags=0x0000
+      0x01B4: CopySaves(String)
+               Copy save games from the host machine or a memory stick (ms).  CopySaves  Flags=0x0000
+      0x01B5: ToggleEOFImageSpace()
+               Toggles end of frame imagespace effects  teofis  Flags=0x0000
+      0x01B6: ForceFileCache()
+               Enumerates Miles samples and streams  ffc  Flags=0x0000
+      0x01B7: DumpNiUpdates()
+               Dumps the next frame's calls to NiNode/NiAVObject::UpdateDownwardPass to NiDump*.xls (only Debug/PIX 360 builds)  dnu  Flags=0x0000
+      0x01B8: TestDegrade(Integer)
+               degrades the specified number of MB of textures. negative values degrade all possible. (only 360 builds)  Flags=0x0000
+      0x01B9: ToggleDepthBias()
+               toggles depth bias for decals on or off  tdb  Flags=0x0000
+      0x01BA: ToggleSPURenderBatch()
+               toggles the SPU render batch on or off  tSPURB  Flags=0x0000
+      0x01BB: ToggleSPUTransformUpdate()
+               toggles the SPU transform update on or off  tSPUTU  Flags=0x0000
+      0x01BC: ToggleSPUCulling()
+               toggles the SPU culling on or off  tSPUC  Flags=0x0000
+      0x01BD: ModifyFaceGen(String, Integer (Optional), Integer (Optional))
+               Modify FaceGen Functionality  mfg  Flags=0x0000
+      0x01BE: ForceRSXCrash()
+               Forces an RSX crash  fRSX  Flags=0x0000
+      0x01BF: SetEmitterParticleMax(Integer)
+               Sets the maximum number of particles emitted by a non-master particle system emitter  Flags=0x0000
+      0x01C0: SetMPSParticleMax(Integer)
+               Sets the maximum number of particles emitted by master particle system emitter set  Flags=0x0000
+      0x01C1: SetTaskThreadSleep(Integer)
+               Sets the task thread sleep value (-1 to disable).  Flags=0x0000
+      0x01C2: SetTaskThreadUpdateSleep(Integer)
+               Sets the task thread update sleep value (-1 to disable).  Flags=0x0000
+      0x01C3: EvalActorTextures()
+               EAT  Flags=0x0000
+      0x01C4: CreateSaveData(Integer, Integer)
+               Creates save data.  createsaves  Flags=0x0000
+      0x01C5: CreateGameData(String, Integer (Optional))
+               Creates game data.  Flags=0x0000
+      0x01C6: LoadFlashMovie(String)
+               Loads a Flash movie for the GUI  Flags=0x0000
+      0x01C7: ShowMenu(String)
+               Show or create a menu  Flags=0x0000
+      0x01C8: HideMenu(String)
+               Hide or close a menu  Flags=0x0000
+      0x01C9: Ref.RecvAnimEvent(String, String)
+               Simulate receiving an animation event from an animation graph.  rae  Flags=0x0000
+      0x01CA: RunConsoleBatch(String)
+               Run a console batch file  bat  Flags=0x0000
+      0x01CB: LTGraph(String)
+               Sets the input-to-player movement graph  LTGraph  Flags=0x0000
+      0x01CC: RTGraph(String)
+               Sets the input-to-camera movement graph  RTGraph  Flags=0x0000
+      0x01CD: ToggleHeapTracking()
+               Toggle Heap Tracking  THT  Flags=0x0000
+      0x01CE: TogglePoolTracking()
+               Toggle Pool Tracking  TPT  Flags=0x0000
+      0x01CF: RumbleManager(Float (Optional), Float (Optional), Float (Optional), Float (Optional))
+               RumbleManager  RM  Flags=0x0000
+      0x01D0: InstallMemoryTracker(String)
+               Install Memory Tracker  IMT  Flags=0x0000
+      0x01D1: UninstallMemoryTracker()
+               Uninstall Memory Tracker  UMT  Flags=0x0000
+      0x01D2: CheckMemory()
+               Check Memory  chkmem  Flags=0x0000
+      0x01D3: SetStackDepth(Integer)
+               Set Stack Depth  SSD  Flags=0x0000
+      0x01D4: Ref.PathToRef(TESObjectREFR)
+               Force actor to path to reference.  PTR  Flags=0x0000
+      0x01D5: StartAIControlledRobotTest(String, String, String(optional))
+               Starts player pathing memory test.  SPTP  Flags=0x0000
+      0x01D6: TestHandleManagerWarnAndKillSDM()
+               Purely for testing: lists every un-destroyed handle, then destroys it.  THMWAKS  Flags=0x0000
+      0x01D7: Ref.SetFaceTarget(TESObjectREFR)
+               Force actor to face a reference.  SFT  Flags=0x0000
+      0x01D8: PrecomputedLOSGeneration(String (Optional), String (Optional), String (Optional))
+               plg  Flags=0x0000
+      0x01D9: PrecomputedLOSDebug(String (Optional), String (Optional), String (Optional))
+               pld  Flags=0x0000
+      0x01DA: Ref.SetPathSprinting(Integer)
+               Force actor to sprint.  SPS  Flags=0x0000
+      0x01DB: Ref.SetAnimGraphVar(String, String, String(optional), String(optional), String(optional))
+               Set an animation graph variable.  sgv  Flags=0x0000
+      0x01DC: SetTreeTrunkFlexibility(Float)
+               Set the flexibility of trees trunk.  STSTF  Flags=0x0000
+      0x01DD: SetTreeBranchFlexibility(Float)
+               Set the flexibility of trees branches.  STSBF  Flags=0x0000
+      0x01DE: SetTreeBranchAnimationRange(Integer, Integer)
+               Restrict the range of tree branch animations.  STSBR  Flags=0x0000
+      0x01DF: SetTreeLeafFlexibility(Float)
+               Set the flexibility of trees leaves.  STSLF  Flags=0x0000
+      0x01E0: SetTreeLeafAmplitude(Float)
+               Set the amplitude of trees leaves.  STSLAMP  Flags=0x0000
+      0x01E1: SetTreeLeafFrequency(Float)
+               Set the frequency of trees leaves.  STSLFRQ  Flags=0x0000
+      0x01E2: SetTreeWindDirection(Float, Float)
+               Set the tree system wind direction.  STSWD  Flags=0x0000
+      0x01E3: SetTreeWindMagnitude(Float)
+               Set the tree system wind magnitude.  STSWM  Flags=0x0000
+      0x01E4: SetBloodParam(String, Float(optional))
+               Set blood parameters.  SBP  Flags=0x0000
+      0x01E5: RegisterPrefix(String)
+               Register all resources at a path prefix.  RPRFX  Flags=0x0000
+      0x01E6: ToggleEventLog()
+               Show a log of misc. events for the selected debug REFR.  TEL  Flags=0x0000
+      0x01E7: ExportPerfTrackingData()
+               Export performance monitor tracking data to a file.  EPTD  Flags=0x0000
+      0x01E8: DisplayGraphVariable(String)
+               Gives control of variable filters used on the animation debug text page.  dgv  Flags=0x0000
+      0x01E9: Ref.ToggleMotionDriven(Integer (Optional))
+               Toggles motion driven animation  TMD  Flags=0x0000
+      0x01EA: Ref.ToggleControlsDriven(Integer (Optional))
+               Toggles controls driven character  TC  Flags=0x0000
+      0x01EB: ToggleGUIOverlay()
+               Toggles the graphical overlay  TGO  Flags=0x0000
+      0x01EC: ModifyGUIOverlay(String, String (Optional), Integer (Optional), Integer (Optional))
+               Modifies a graphical overlay  MGO  Flags=0x0000
+      0x01ED: Ref.SetActionComplete()
+               Sets all active actions on actor in scene complete  SAC  Flags=0x0000
+      0x01EE: SetConsoleScopeQuest(Quest)
+               Sets the scope quest for all console functions. No param clears current scope quest.  SSQ  Flags=0x0000
+      0x01EF: GetDistanceFromActorsPath(TESObjectREFR)
+               Prints out the distance from a reference to an actor's path.  GDFAP  Flags=0x0000
+      0x01F0: ClearConsole()
+               Clears the console log  clear  Flags=0x0000
+      0x01F1: ToggleMarkers()
+               Toggle markers  TMK  Flags=0x0000
+      0x01F2: KillAllProjectiles()
+               Kill all projectiles  kap  Flags=0x0000
+      0x01F3: PlayTerrainEffect(String)
+               Plays a terrain effect at target REFR  PTFX  Flags=0x0000
+      0x01F4: CellInfo()
+               Toggle Cell Info  Flags=0x0000
+      0x01F5: Textures()
+               Toggle Texture Info  tx  Flags=0x0000
+      0x01F6: Timing()
+               Toggle Timing Info  FPS  Flags=0x0000
+      0x01F7: Polygons()
+               Toggle Mesh Render Info  Polys  Flags=0x0000
+      0x01F8: Actors()
+               Toggle Actor Info  Actors  Flags=0x0000
+      0x01F9: Quest()
+               Toggle Quest Event Info  Quest  Flags=0x0000
+      0x01FA: Particles()
+               Toggle Particle Info  Particles  Flags=0x0000
+      0x01FB: Memory()
+               Toggle Memory Info  Flags=0x0000
+      0x01FC: Ref.ShowNodes(String)
+               Show nodes- [All], [Off]  Flags=0x0000
+      0x01FD: SaveDebugTextPages()
+               Save Debug Text Pages settings to .ini file.  SaveDTP  Flags=0x0000
+      0x01FE: OutputFixedStringTable()
+               Output the fixed string table to a file.  OFST  Flags=0x0000
+      0x01FF: AttachPapyrusScript(String, String)
+               Attaches a papyrus script to a reference  APS  Flags=0x0000
+      0x0200: SaveHavokSnapshot(String, Integer (Optional))
+               Saves a Havok snapshot of the hkpWorld the player is currently in  SHS  Flags=0x0000
+      0x0201: Ref.SetNPCWeight(Float)
+               [0-100]: Sets the weight of an NPC and reloads his 3D to visualize the weight change  SNPCW  Flags=0x0000
+      0x0202: ShowClosestLocationForSphere(Float, Float, Int)
+               Finds the closest location where a sphere can fit in the navmesh, and displays it  SCLFS  Flags=0x0000
+      0x0203: PrintShaderMacros(String, String)
+               Given a shader and technique ID, prints the macros used to compile its shader.  PSM  Flags=0x0000
+      0x0204: ToggleAudioOverlay()
+               Toggle the Audio Debug Overlay.  TAO  Flags=0x0000
+      0x0205: TogglePapyrusLog()
+               Toggle the Papyrus Log Overlay.  TPLog  Flags=0x0000
+      0x0206: ToggleContextOverlay()
+               Toggle the Context Overlay.  TCO  Flags=0x0000
+      0x0207: ForceOutOfMemory()
+               Forces an OOM state.  FOOM  Flags=0x0000
+      0x0208: ToggleMovement()
+               Toggles all actor movement  TMOVE  Flags=0x0000
+      0x0209: ToggleAnimations()
+               Toggles all actor animations  TANIM  Flags=0x0000
+      0x020A: SetWarning(String, Integer (Optional))
+               Params: Name [0/1]. 0 is default for 2nd param.  Flags=0x0000
+      0x020B: TestFadeNodes()
+               TestFN  Flags=0x0000
+      0x020C: ShowLowMaxHeights(Integer, Integer (Optional))
+               slmh  Flags=0x0000
+      0x020D: ShowHighMaxHeights(Integer)
+               shmh  Flags=0x0000
+      0x020E: EnableStoryManagerLogging(String)
+               Enable story manager logging.  esml  Flags=0x0000
+      0x020F: SetFramebufferRange(Float)
+               Set frambuffer range  sfbr  Flags=0x0000
+      0x0210: DumpPapyrusStacks()
+               Dumps all Papyrus stack information to the log  dps  Flags=0x0000
+      0x0211: DumpPapyrusUpdates()
+               Dumps all Papyrus update registrations to the log  dpu  Flags=0x0000
+      0x0212: SoundCatMod(SoundCategory, String, Float(optional))
+               In-game control of sound categories.  scm  Flags=0x0000
+      0x0213: RunCompaction()
+               Run a pass of compaction if possible.  rcmpct  Flags=0x0000
+      0x0214: ToggleAnimatorCam()
+               Toggles a 3rd-person camera mode designed for animators' ease-of-use  animcam  Flags=0x0000
+      0x0215: ToggleImmortalMode()
+               Toggle Immortal mode  TIM  Flags=0x0000
+      0x0216: SetSubgraphToDebug(Integer)
+               Subgraph To Debug  sgd  Flags=0x0000
+      0x0217: EnableRumble(Integer)
+               Flags=0x0000
+      0x0218: HavokVDBCapture(String, Integer (Optional))
+               Havok VDB Capture  vdbcapture  Flags=0x0000
+      0x0219: ToggleMapCam()
+               toggle a view mode similar to the map camera for debugging  tmc  Flags=0x0000
+      0x021A: ToggleNavmeshInfo()
+               toggle a view mode similar to the map camera and displays navmesh infos  tni  Flags=0x0000
+      0x021B: Ref.PlaySyncAnim(String, ObjectReferenceID)
+               Play Sync Anim  syncanim  Flags=0x0000
+      0x021C: SetFormKnown(String, Integer)
+               Sets the known flag on a form  Flags=0x0000
+      0x021D: SetDebugQuest(Quest, Integer, State)
+               Sets the quest to be the only one startable for its event type.  Flags=0x0000
+      0x021E: SetQuestAliasLogging(Quest, Integer)
+               Turns alias logging on/off for a quest.  sqal  Flags=0x0000
+      0x021F: SetRace(String)
+               Sets the passed in actor's race.  Flags=0x0000
+      0x0220: FindForm(String, String)
+               Find a form  find  Flags=0x0000
+      0x0221: StartPapyrusScriptProfile(String)
+               Starts profiling a Papyrus script.  StartPSP  Flags=0x0000
+      0x0222: StopPapyrusScriptProfile(String)
+               Stops profiling a Papyrus script.  StopPSP  Flags=0x0000
+      0x0223: StartPapyrusFormProfile(Form)
+               Starts profiling Papyrus scripts on a form.  StartPFP  Flags=0x0000
+      0x0224: StopPapyrusFormProfile(Form)
+               Stops profiling Papyrus scripts on a form.  StopPFP  Flags=0x0000
+      0x0225: PrintQuestSceneInfo(Quest)
+               Prints to the Quest Inf file the current state of scenes.  PrintS  Flags=0x0000
+      0x0226: Ref.IsInvulnerable()
+               Is the actor invulnerable?  isinv  Flags=0x0000
+      0x0227: ExportInventoryItemInfo(Integer)
+               eiii  Flags=0x0000
+      0x0228: CollisionMesh()
+               Toggle Mesh Collision Info  colmesh  Flags=0x0000
+      0x0229: IsolateRendering()
+               ir  Flags=0x0000
+      0x022A: ToggleWaterCurrentGeometry(Integer)
+               twcg  Flags=0x0000
+      0x022B: Ref.PerformAction(Action)
+               pa  Flags=0x0000
+      0x022C: StartTrackPlayerDoors()
+               StartTPD  Flags=0x0000
+      0x022D: StopTrackPlayerDoors()
+               StopTPD  Flags=0x0000
+      0x022E: CheckPlayerDoors(Integer (Optional))
+               CheckPD  Flags=0x0000
+      0x022F: ToggleSPUMovement()
+               toggles the SPU movement on or off  tSPUM  Flags=0x0000
+      0x0230: SetInChargen(Integer, Integer, Integer)
+               Flags=0x0000
+      0x0231: ClearAchievement(Integer)
+               Flags=0x0000
+      0x0232: ForceReset()
+               Flags=0x0000
+      0x0233: ReloadScript(String)
+               Reloads the specified Papyrus script  Flags=0x0000
+      0x0234: ForceCloseFiles()
+               Close masterfile &amp; plugins. Useful for letting CreationKit save to a plugin that is also loaded in-game. See also HotLoadPlugin. [Caution: Use at own risk! Gameplay and new savegames may be unstable.]  FCF  Flags=0x0000
+      0x0235: HotLoadPlugin(String)
+               Load or reload the named plugin.  Useful for getting changes without restarting. See also ForceCloseFiles. [Caution: Use at own risk! Modified running quests will be stopped (and restarted if possible). Gameplay and new savegames may be unstable.]  HLP  Flags=0x0000
+      0x0236: ToggleVerletDebug()
+               tvd  Flags=0x0000
+      0x0237: DumpConditionFunctions()
+               Flags=0x0000
+      0x0238: PlaceFurnitureTester(ObjectID)
+               PFT  Flags=0x0000
+      0x0239: DumpLoadedAnimationFiles()
+               Flags=0x0000
+      0x023A:  ()
+               Flags=0x0000</pre>
+<h2><span id="Script_Functions">Script Functions</span></h2>
+<pre>      0x1000: Ref.GetWantBlocking()
+               Flags=0x0000
+      0x1001: Ref.GetDistance(ObjectReferenceID)
+               Flags=0x0000
+      0x1002: Ref.AddItem(ObjectID, Count, Flag (Optional))
+               Flags=0x0000
+      0x1003: SetEssential(Actor Base, Integer (Optional))
+               Flags=0x0000
+      0x1004: Ref.Rotate(Axis, Speed)
+               Flags=0x0000
+      0x1005: Ref.GetLocked()
+               Flags=0x0000
+      0x1006: Ref.GetPos(Axis)
+               Flags=0x0000
+      0x1007: Ref.SetPos(Axis, Float)
+               Flags=0x0000
+      0x1008: Ref.GetAngle(Axis)
+               Flags=0x0000
+      0x1009: Ref.SetAngle(Axis, Float)
+               Flags=0x0000
+      0x100A: Ref.GetStartingPos(Axis)
+               Flags=0x0000
+      0x100B: Ref.GetStartingAngle(Axis)
+               Flags=0x0000
+      0x100C: GetSecondsPassed()
+               Flags=0x0000
+      0x100D: Ref.Activate(ObjectReferenceID, Integer (Optional))
+               Flags=0x0100
+      0x100E: Ref.GetActorValue(Actor Value)
+               Get an actor value. [player.getav luck]  GetAV  Flags=0x0000
+      0x100F: Ref.SetActorValue(Actor Value, Amount)
+               Set an actor value. [player.setav luck, 75]  SetAV  Flags=0x0000
+      0x1010: Ref.ModActorValue(Actor Value, Amount)
+               Modify an actor value. [player.modav luck, -10]  ModAV  Flags=0x0000
+      0x1011: Ref.SetAtStart()
+               Flags=0x0000
+      0x1012: GetCurrentTime()
+               Flags=0x0000
+      0x1013: Ref.PlayGroup(Animation Group, Flags)
+               IE: PlayGroup SEQNAME 1  Flags=0x0000
+      0x1014: Ref.LoopGroup(Animation Group, Integer, Flags)
+               Flags=0x0000
+      0x1015: Ref.SkipAnim()
+               Flags=0x0000
+      0x1016: Ref.StartCombat(Actor)
+               Flags=0x0000
+      0x1017: Ref.StopCombat()
+               Flags=0x0000
+      0x1018: Ref.GetScale()
+               Flags=0x0000
+      0x1019: Ref.IsMoving()
+               Is the actor moving?  Flags=0x0000
+      0x101A: Ref.IsTurning()
+               Is the actor turning?  Flags=0x0000
+      0x101B: Ref.GetLineOfSight(ObjectReferenceID)
+               GetLOS  Flags=0x0000
+      0x101C: Ref.AddSpell(Spell Item)
+               Flags=0x0000
+      0x101D: Ref.RemoveSpell(Spell Item)
+               Flags=0x0000
+      0x101E: Ref.Cast(Magic Item, ObjectReferenceID, Source (Optional))
+               Flags=0x0000
+      0x101F: GetButtonPressed()
+               Flags=0x0000
+      0x1020: Ref.GetInSameCell(ObjectReferenceID)
+               Flags=0x0000
+      0x1021: Ref.Enable(Integer (Optional))
+               Flags=0x0000
+      0x1022: Ref.Disable(Integer (Optional))
+               Flags=0x0000
+      0x1023: Ref.GetDisabled()
+               Flags=0x0000
+      0x1024: MenuMode(Integer (Optional))
+               Flags=0x0000
+      0x1025: Ref.PlaceAtMe(ObjectID, Count, Distance, Direction)
+               Flags=0x0000
+      0x1026: PlaySound(Sound, Integer (Optional))
+               Play a 2D sound. (Optional: 1 to indicate a system sound, 0 otherwise.  Flags=0x0000
+      0x1027: Ref.GetDisease()
+               Flags=0x0000
+      0x1028: FailAllObjectives(Quest)
+               Fail all of a quest's objectives  Flags=0x0000
+      0x1029: Ref.GetClothingValue()
+               Flags=0x0000
+      0x102A: Ref.SameFaction(Actor)
+               Flags=0x0000
+      0x102B: Ref.SameRace(Actor)
+               Flags=0x0000
+      0x102C: Ref.SameSex(Actor)
+               Flags=0x0000
+      0x102D: Ref.GetDetected(Actor)
+               Flags=0x0000
+      0x102E: Ref.GetDead()
+               Flags=0x0000
+      0x102F: Ref.GetItemCount(ObjectID)
+               Flags=0x0000
+      0x1030: Ref.GetGold()
+               Flags=0x0000
+      0x1031: Ref.GetSleeping()
+               Flags=0x0000
+      0x1032: Ref.GetTalkedToPC()
+               Flags=0x0000
+      0x1033: Ref.Say(Topic, Integer (Optional), Actor Base, Integer (Optional), Integer (Optional))
+               Flags=0x0000
+      0x1034: Ref.SayTo(Actor, Topic, Integer (Optional), Integer (Optional))
+               Flags=0x0000
+      0x1035: GetScriptVariable(ObjectReferenceID, Variable Name)
+               Flags=0x0000
+      0x1036: StartQuest(Quest)
+               Flags=0x0000
+      0x1037: StopQuest(Quest)
+               Flags=0x0000
+      0x1038: GetQuestRunning(Quest)
+               GetQR  Flags=0x0000
+      0x1039: SetStage(Quest, Stage)
+               Flags=0x0000
+      0x103A: GetStage(Quest)
+               Flags=0x0000
+      0x103B: GetStageDone(Quest, Stage)
+               Flags=0x0000
+      0x103C: Ref.GetFactionRankDifference(Faction, Actor)
+               Flags=0x0000
+      0x103D: Ref.GetAlarmed()
+               Flags=0x0000
+      0x103E: IsRaining()
+               Flags=0x0000
+      0x103F: Ref.GetAttacked()
+               Flags=0x0000
+      0x1040: Ref.GetIsCreature()
+               Flags=0x0001
+      0x1041: Ref.GetLockLevel()
+               Flags=0x0000
+      0x1042: Ref.GetShouldAttack(Actor)
+               Flags=0x0000
+      0x1043: Ref.GetInCell(Cell)
+               Flags=0x0000
+      0x1044: Ref.GetIsClass(Class)
+               Flags=0x0001
+      0x1045: Ref.GetIsRace(Race)
+               Flags=0x0001
+      0x1046: Ref.GetIsSex(Sex)
+               Flags=0x0001
+      0x1047: Ref.GetInFaction(Faction)
+               Flags=0x0001
+      0x1048: Ref.GetIsID(ObjectID)
+               Flags=0x0001
+      0x1049: Ref.GetFactionRank(Faction)
+               Flags=0x0000
+      0x104A: GetGlobalValue(Global)
+               Flags=0x0000
+      0x104B: IsSnowing()
+               Flags=0x0000
+      0x104C: FastTravel(TESObjectREFR)
+               Player Fast Travel to Marker  ft  Flags=0x0000
+      0x104D: GetRandomPercent()
+               Flags=0x0000
+      0x104E: RemoveMusic(Music)
+               Flags=0x0000
+      0x104F: GetQuestVariable(Quest, Variable Name)
+               Flags=0x0000
+      0x1050: Ref.GetLevel()
+               Flags=0x0000
+      0x1051: Ref.IsRotating()
+               Flags=0x0000
+      0x1052: Ref.RemoveItem(ObjectID, Count, Flag (Optional))
+               Flags=0x0000
+      0x1053: Ref.GetLeveledEncounterValue(Integer)
+               Flags=0x0000
+      0x1054: GetDeadCount(Actor Base)
+               Flags=0x0000
+      0x1055: AddToMap(Map Marker, Integer (Optional))
+               ShowMap  Flags=0x0000
+      0x1056: Ref.StartConversation(TESObjectREFR, Topic, TESObjectREFR, TESObjectREFR, Integer (Optional), Integer (Optional))
+               Start a conversation [Bob.StartConversation Joe, SecretTopic]  Flags=0x0000
+      0x1057: Ref.Drop(ObjectID, Count)
+               Flags=0x0000
+      0x1058: AddTopic(Topic)
+               Flags=0x0000
+      0x1059: ShowMessage(Message)
+               Flags=0x0000
+      0x105A: Ref.SetAlert(Integer)
+               Flags=0x0000
+      0x105B: Ref.GetIsAlerted()
+               Flags=0x0000
+      0x105C: Ref.Look(ObjectReferenceID, Integer (Optional))
+               Flags=0x0000
+      0x105D: Ref.StopLook()
+               Flags=0x0000
+      0x105E: Ref.EvaluatePackage()
+               evp  Flags=0x0000
+      0x105F: SendAssaultAlarm(Actor (optional), Faction (Optional))
+               Flags=0x0000
+      0x1060: EnablePlayerControls(Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional))
+               9 optional (0/1) values. movement|fighting|pov|looking|sneaking|menu|activate|journal|POV Type ex: 1 0 0 1 0 0 0 0 0  epc  Flags=0x0000
+      0x1061: DisablePlayerControls(Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional))
+               9 optional (0/1) values. movement|fighting|pov|looking|sneaking|menu|activate|journal|POV Type ex: 1 0 0 1 0 0 0 0 0  dpc  Flags=0x0000
+      0x1062: GetPlayerControlsDisabled(Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional))
+               8 optional (0/1) values. movement|fighting|pov|looking|sneaking|menu|activate|journal ex: 1 0 0 1 0 0 0 0  gpc  Flags=0x0000
+      0x1063: Ref.GetHeadingAngle(ObjectReferenceID)
+               Flags=0x0000
+      0x1064: Ref.PickIdle()
+               Flags=0x0000
+      0x1065: Ref.IsWeaponMagicOut()
+               Flags=0x0000
+      0x1066: Ref.IsTorchOut()
+               Flags=0x0000
+      0x1067: Ref.IsShieldOut()
+               Flags=0x0000
+      0x1068: Ref.CreateDetectionEvent(TESObjectREFR, Integer )
+               Flags=0x0000
+      0x1069: Ref.IsActionRef(ObjectReferenceID)
+               Flags=0x0000
+      0x106A: Ref.IsFacingUp()
+               Flags=0x0000
+      0x106B: Ref.GetKnockedState()
+               Flags=0x0000
+      0x106C: Ref.GetWeaponAnimType()
+               Flags=0x0000
+      0x106D: Ref.IsWeaponSkillType(Actor Value)
+               Flags=0x0000
+      0x106E: Ref.GetCurrentAIPackage()
+               Flags=0x0000
+      0x106F: Ref.IsWaiting()
+               Flags=0x0000
+      0x1070: Ref.IsIdlePlaying()
+               Flags=0x0000
+      0x1071: CompleteQuest(Quest)
+               Flags=0x0000
+      0x1072: Ref.Lock(Integer (Optional), Integer (Optional))
+               Flags=0x0000
+      0x1073: Ref.UnLock(Integer (Optional))
+               Flags=0x0000
+      0x1074: Ref.IsIntimidatedbyPlayer()
+               Flags=0x0000
+      0x1075: IsPlayerInRegion(Region)
+               Flags=0x0000
+      0x1076: Ref.GetActorAggroRadiusViolated()
+               Flags=0x0000
+      0x1077: Ref.GetCrimeKnown(Crime Type, Criminal, Victim)
+               Flags=0x0000
+      0x1078: SetEnemy(Faction, Faction, Value(Optional), Value(Optional))
+               Flags=0x0000
+      0x1079: SetAlly(Faction, Faction, Value(Optional), Value(Optional))
+               Flags=0x0000
+      0x107A: Ref.GetCrime(Actor, Crime Type (optional))
+               Flags=0x0000
+      0x107B: Ref.IsGreetingPlayer()
+               Flags=0x0000
+      0x107C: Ref.StartMisterSandMan(Actor)
+               Flags=0x0000
+      0x107D: Ref.IsGuard()
+               Flags=0x0000
+      0x107E: Ref.StartCannibal(Actor)
+               Flags=0x0000
+      0x107F: Ref.HasBeenEaten()
+               Flags=0x0000
+      0x1080: Ref.GetStaminaPercentage()
+               GetStamina  Flags=0x0000
+      0x1081: GetPCIsClass(Class)
+               Flags=0x0000
+      0x1082: GetPCIsRace(Race)
+               Flags=0x0000
+      0x1083: GetPCIsSex(Sex)
+               Flags=0x0000
+      0x1084: GetPCInFaction(Faction)
+               Flags=0x0000
+      0x1085: Ref.SameFactionAsPC()
+               Flags=0x0000
+      0x1086: Ref.SameRaceAsPC()
+               Flags=0x0000
+      0x1087: Ref.SameSexAsPC()
+               Flags=0x0000
+      0x1088: Ref.GetIsReference(ObjectReferenceID)
+               Flags=0x0001
+      0x1089: Ref.SetFactionRank(Faction, Value)
+               Flags=0x0000
+      0x108A: Ref.ModFactionRank(Faction, Value)
+               Flags=0x0000
+      0x108B: Ref.KillActor(Actor (optional), Integer (Optional), Integer (Optional))
+               kill  Flags=0x0000
+      0x108C: Ref.ResurrectActor(Integer (Optional))
+               resurrect  Flags=0x0000
+      0x108D: Ref.IsTalking()
+               Flags=0x0000
+      0x108E: Ref.GetWalkSpeed()
+               GetWalk  Flags=0x0000
+      0x108F: Ref.GetCurrentAIProcedure()
+               Flags=0x0000
+      0x1090: Ref.GetTrespassWarningLevel()
+               Flags=0x0000
+      0x1091: Ref.IsTrespassing()
+               Flags=0x0000
+      0x1092: Ref.IsInMyOwnedCell()
+               Flags=0x0000
+      0x1093: GetWindSpeed()
+               Flags=0x0000
+      0x1094: GetCurrentWeatherPercent()
+               getweatherpct  Flags=0x0000
+      0x1095: GetIsCurrentWeather(Weather ID)
+               getweather  Flags=0x0000
+      0x1096: Ref.IsContinuingPackagePCNear()
+               Flags=0x0000
+      0x1097: Ref.SetCrimeFaction(Faction)
+               Flags=0x0000
+      0x1098: Ref.GetIsCrimeFaction(Faction)
+               Flags=0x0000
+      0x1099: Ref.CanHaveFlames()
+               Flags=0x0000
+      0x109A: Ref.HasFlames()
+               Flags=0x0000
+      0x109B: Ref.AddFlames()
+               Flags=0x0000
+      0x109C: Ref.RemoveFlames()
+               Flags=0x0000
+      0x109D: Ref.GetOpenState()
+               Flags=0x0000
+      0x109E: Ref.MoveToMarker(ObjectReferenceID, Float (Optional), Float (Optional), Float (Optional))
+               MoveTo  Flags=0x0100
+      0x109F: Ref.GetSitting()
+               Flags=0x0000
+      0x10A0: Ref.GetFurnitureMarkerID()
+               Flags=0x0000
+      0x10A1: Ref.GetIsCurrentPackage(Package)
+               Flags=0x0000
+      0x10A2: Ref.IsCurrentFurnitureRef(ObjectReferenceID)
+               Flags=0x0000
+      0x10A3: Ref.IsCurrentFurnitureObj(Furniture)
+               Flags=0x0000
+      0x10A4: Ref.SetSize(Float)
+               Shrink/Grow an actor. [player.shrink 0.0 or radius]  CSize  Flags=0x0000
+      0x10A5: Ref.RemoveMe(Container (optional))
+               Flags=0x0000
+      0x10A6: Ref.DropMe()
+               Flags=0x0000
+      0x10A7: GetFactionReaction(Faction, Faction)
+               Flags=0x0000
+      0x10A8: SetFactionReaction(Faction, Faction, Value)
+               Flags=0x0000
+      0x10A9: ModFactionReaction(Faction, Faction, Value)
+               Flags=0x0000
+      0x10AA: GetDayOfWeek()
+               Flags=0x0000
+      0x10AB: Ref.IgnoreCrime(Integer)
+               Flags=0x0000
+      0x10AC: GetTalkedToPCParam(Actor)
+               Flags=0x0000
+      0x10AD: Ref.RemoveAllItems(Container (optional), Ownership Added (optional), No Message Flag (optional))
+               Flags=0x0000
+      0x10AE: WakeUpPC(Integer (Optional))
+               Flags=0x0000
+      0x10AF: IsPCSleeping()
+               Flags=0x0000
+      0x10B0: IsPCAMurderer()
+               Flags=0x0000
+      0x10B1: Ref.SetCombatStyle(Combat Style (optional))
+               setcs  Flags=0x0000
+      0x10B2: PlaySound3D(Sound)
+               Flags=0x0000
+      0x10B3: SelectPlayerSpell(Spell Item, Casting Source)
+               spspell  Flags=0x0000
+      0x10B4: Ref.HasSameEditorLocAsRef(TESObjectREFR, Keyword)
+               Flags=0x0000
+      0x10B5: Ref.HasSameEditorLocAsRefAlias(QuestAlias, Keyword)
+               Flags=0x0000
+      0x10B6: Ref.GetEquipped(ObjectID)
+               Flags=0x0000
+      0x10B7: Ref.Wait(Package)
+               Flags=0x0000
+      0x10B8: Ref.StopWaiting(Package)
+               Flags=0x0000
+      0x10B9: Ref.IsSwimming()
+               Flags=0x0000
+      0x10BA: ScriptEffectElapsedSeconds()
+               Flags=0x0000
+      0x10BB: SetCellPublicFlag(Cell, Flag)
+               Set public flag on cell. [setpublic MyCell 1]  setpublic  Flags=0x0000
+      0x10BC: GetPCSleepHours()
+               Flags=0x0000
+      0x10BD: SetPCSleepHours(Integer)
+               Flags=0x0000
+      0x10BE: GetAmountSoldStolen()
+               Flags=0x0000
+      0x10BF: ModAmountSoldStolen(Integer)
+               Flags=0x0000
+      0x10C0: GetIgnoreCrime()
+               Flags=0x0000
+      0x10C1: GetPCExpelled(Faction)
+               Flags=0x0000
+      0x10C2: SetPCExpelled(Faction, Value)
+               Flags=0x0000
+      0x10C3: GetPCFactionMurder(Faction)
+               Flags=0x0000
+      0x10C4: SetPCFactionMurder(Faction, Value)
+               Flags=0x0000
+      0x10C5: GetPCEnemyofFaction(Faction)
+               Flags=0x0000
+      0x10C6: SetPCEnemyofFaction(Faction, Value)
+               Flags=0x0000
+      0x10C7: GetPCFactionAttack(Faction)
+               Flags=0x0000
+      0x10C8: SetPCFactionAttack(Faction, Value)
+               Flags=0x0000
+      0x10C9: StartScene(Scene )
+               Flags=0x0000
+      0x10CA: StopScene(Scene )
+               Flags=0x0000
+      0x10CB: Ref.GetDestroyed()
+               Flags=0x0000
+      0x10CC: Ref.SetDestroyed(Integer)
+               Flags=0x0000
+      0x10CD: Ref.GetActionRef()
+               getAR  Flags=0x0000
+      0x10CE: Ref.GetSelf()
+               this  Flags=0x0000
+      0x10CF: Ref.GetContainer()
+               Flags=0x0000
+      0x10D0: Ref.GetForceRun()
+               Flags=0x0000
+      0x10D1: Ref.SetForceRun(Integer)
+               Flags=0x0000
+      0x10D2: Ref.GetForceSneak()
+               Flags=0x0000
+      0x10D3: Ref.SetForceSneak(Integer)
+               Flags=0x0000
+      0x10D4: AdvancePCSkill(Actor Value, Amount)
+               Give the player the given amount of skill usage [advskill onehanded 100]  AdvSkill  Flags=0x0000
+      0x10D5: AdvancePCLevel()
+               AdvLevel  Flags=0x0000
+      0x10D6: Ref.HasMagicEffect(Magic Effect)
+               Flags=0x0000
+      0x10D7: Ref.GetDefaultOpen()
+               Returns 1 if this object is open by default.  Flags=0x0000
+      0x10D8: Ref.SetDefaultOpen(Integer)
+               A value of 1 will make the object open by default.  Flags=0x0000
+      0x10D9: ShowClassMenu()
+               Flags=0x0000
+      0x10DA: ShowRaceMenu(Race (optional))
+               ShowRaceMenu no parameter will bring up the race menu. SetPlayerRace raceID will change the players race to raceID and reload the players geometry.  SetPlayerRace  Flags=0x0000
+      0x10DB: Ref.GetAnimAction()
+               Return the actors current anim action.  Flags=0x0000
+      0x10DC: ShowNameMenu()
+               Flags=0x0000
+      0x10DD: Ref.SetOpenState(Integer)
+               A value of 1 will make the object open.  Flags=0x0000
+      0x10DE: Ref.ResetReference(ObjectReferenceID)
+               Optional destination reference.  RecycleActor  Flags=0x0000
+      0x10DF: Ref.IsSpellTarget(Magic Item)
+               Flags=0x0000
+      0x10E0: GetVATSMode()
+               Flags=0x0000
+      0x10E1: GetPersuasionNumber()
+               Flags=0x0000
+      0x10E2: Ref.GetVampireFeed()
+               Flags=0x0000
+      0x10E3: Ref.GetCannibal()
+               Flags=0x0000
+      0x10E4: GetIsClassDefault(Class)
+               Flags=0x0000
+      0x10E5: GetClassDefaultMatch()
+               Flags=0x0000
+      0x10E6: GetInCellParam(Cell, ObjectReferenceID)
+               Flags=0x0000
+      0x10E7: UnusedFunction1()
+               Flags=0x0000
+      0x10E8: Ref.GetCombatTarget()
+               Flags=0x0000
+      0x10E9: Ref.GetPackageTarget()
+               Flags=0x0000
+      0x10EA: ShowSpellMaking()
+               Flags=0x0000
+      0x10EB: GetVatsTargetHeight()
+               Flags=0x0000
+      0x10EC: Ref.SetGhost(Integer)
+               A value of 1 will make the NPC act as a 'ghost'.  Flags=0x0000
+      0x10ED: Ref.GetIsGhost()
+               Returns 1 if the actor is acting as a 'ghost'.  Flags=0x0000
+      0x10EE: Ref.EquipItem(ObjectID, Flag, Hand (Optional))
+               EquipObject  Flags=0x0000
+      0x10EF: Ref.UnequipItem(ObjectID, Flag, Hand (Optional))
+               UnEquipObject  Flags=0x0000
+      0x10F0: Ref.SetClass(Class)
+               Flags=0x0000
+      0x10F1: SetUnconscious(Integer)
+               A value of 1 will be unconscious.  Flags=0x0000
+      0x10F2: Ref.GetUnconscious()
+               Returns 1 if is unconscious.  Flags=0x0000
+      0x10F3: SetRestrained(Integer)
+               A value of 1 will be restrained.  Flags=0x0000
+      0x10F4: Ref.GetRestrained()
+               Returns 1 if is restrained.  Flags=0x0000
+      0x10F5: Ref.ForceFlee(Cell (optional), ObjectReferenceID (optional))
+               Forces a actor to flee if destination or cell is passed in uses them  Flee  Flags=0x0100
+      0x10F6: GetIsUsedItem(ObjectID)
+               Flags=0x0000
+      0x10F7: GetIsUsedItemType(Form Type)
+               Flags=0x0000
+      0x10F8: IsScenePlaying(Scene )
+               Flags=0x0000
+      0x10F9: Ref.IsInDialogueWithPlayer()
+               True if actor is currently in a dialogue state with player  Flags=0x0000
+      0x10FA: GetLocationCleared(Location)
+               Flags=0x0000
+      0x10FB: SetLocationCleared(Location, Integer)
+               Flags=0x0000
+      0x10FC: Ref.ForceRefIntoAlias(QuestAlias)
+               Flags=0x0000
+      0x10FD: EmptyRefAlias(QuestAlias)
+               Flags=0x0000
+      0x10FE: Ref.GetIsPlayableRace()
+               Flags=0x0001
+      0x10FF: Ref.GetOffersServicesNow()
+               Flags=0x0000
+      0x1100: GetGameSetting(String)
+               GetGS  Flags=0x0000
+      0x1101: Ref.StopCombatAlarmOnActor()
+               SCAOnActor  Flags=0x0000
+      0x1102: Ref.HasAssociationType(Actor, AssociationType)
+               Flags=0x0000
+      0x1103: Ref.HasFamilyRelationship(Actor)
+               Family  Flags=0x0000
+      0x1104: SetWeather(Weather ID, Integer (Optional))
+               Sets the active weather to the specified type  sw  Flags=0x0000
+      0x1105: Ref.HasParentRelationship(Actor)
+               IsParent  Flags=0x0000
+      0x1106: Ref.IsWarningAbout(Form List)
+               Flags=0x0000
+      0x1107: Ref.IsWeaponOut()
+               Flags=0x0000
+      0x1108: Ref.HasSpell(Spell Item)
+               Flags=0x0000
+      0x1109: IsTimePassing()
+               Flags=0x0000
+      0x110A: IsPleasant()
+               Flags=0x0000
+      0x110B: IsCloudy()
+               Flags=0x0000
+      0x110C: TrapUpdate()
+               Flags=0x0000
+      0x110D: ShowQuestObjectives(Quest)
+               Shows the list of current quest objectives  SQO  Flags=0x0000
+      0x110E: Ref.ForceActorValue(Actor Value, Amount)
+               Does modav XXX (value - getav XXX). [player.forceav luck 25]  ForceAV  Flags=0x0000
+      0x110F: IncrementPCSkill(Actor Value)
+               Increase the player's skill by one point. [IncrementSkill onehanded]  IncPCS  Flags=0x0000
+      0x1110: Ref.DoTrap(Trap, Damage, Lev. Damage, Pushback, Death Pushback, Min. Velocity, Continuous, Stagger)
+               Flags=0x0000
+      0x1111: EnableFastTravel(Integer)
+               EnableFast  Flags=0x0000
+      0x1112: Ref.IsSmallBump()
+               Flags=0x0000
+      0x1113: Ref.GetParentRef()
+               Flags=0x0000
+      0x1114: PlayBink(String, Integer (Optional), Integer (Optional), Integer (Optional), Integer (Optional))
+               Flags=0x0000
+      0x1115: Ref.GetBaseActorValue(Actor Value)
+               Get a base actor value. [player.getbaseav luck]  GetBaseAV  Flags=0x0000
+      0x1116: Ref.IsOwner(Owner(optional))
+               get the ownership of the ref  Flags=0x0000
+      0x1117: Ref.SetOwnership(Owner(optional))
+               Flags=0x0000
+      0x1118: Ref.IsCellOwner(Cell, Owner(optional))
+               get the ownership of the ref  Flags=0x0000
+      0x1119: SetCellOwnership(Cell, Owner(optional))
+               Flags=0x0000
+      0x111A: Ref.IsHorseStolen()
+               Flags=0x0000
+      0x111B: SetCellFullName(Cell, Message)
+               Flags=0x0000
+      0x111C: Ref.SetActorFullName(Message)
+               Flags=0x0000
+      0x111D: Ref.IsLeftUp()
+               Flags=0x0000
+      0x111E: Ref.IsSneaking()
+               Flags=0x0000
+      0x111F: Ref.IsRunning()
+               Flags=0x0000
+      0x1120: Ref.GetFriendHit()
+               Flags=0x0000
+      0x1121: Ref.IsInCombat(Integer (Optional))
+               Flags=0x0000
+      0x1122: Ref.SetPackDuration(Float)
+               SPDur  Flags=0x0000
+      0x1123: Ref.PlayMagicShaderVisuals(Effect Shader ID, Time(optional))
+               PMS  Flags=0x0000
+      0x1124: Ref.PlayMagicEffectVisuals(Magic Effect, Time(optional))
+               PME  Flags=0x0000
+      0x1125: Ref.StopMagicShaderVisuals(Effect Shader ID)
+               SMS  Flags=0x0000
+      0x1126: Ref.StopMagicEffectVisuals(Magic Effect)
+               SME  Flags=0x0000
+      0x1127: ResetInterior(Cell)
+               Flags=0x0000
+      0x1128: Ref.IsAnimPlaying(Animation Group)
+               Flags=0x0000
+      0x1129: Ref.SetActorAlpha(Float, Int(optional))
+               SAA  Flags=0x0000
+      0x112A: Ref.EnableLinkedPathPoints()
+               Flags=0x0000
+      0x112B: Ref.DisableLinkedPathPoints()
+               Flags=0x0000
+      0x112C: Ref.IsInInterior()
+               Flags=0x0000
+      0x112D: ForceWeather(Weather ID, Integer (Optional))
+               Forces the active weather to the specified type, without transition.  fw  Flags=0x0000
+      0x112E: Ref.ToggleActorsAI()
+               Flags=0x0000
+      0x112F: Ref.IsActorsAIOff()
+               Flags=0x0000
+      0x1130: Ref.IsWaterObject()
+               Water condition used for drinking animation.  Flags=0x0000
+      0x1131: Ref.GetPlayerAction()
+               Flags=0x0000
+      0x1132: Ref.IsActorUsingATorch()
+               Flags=0x0000
+      0x1133: Ref.SetLevel(Integer, Integer (Optional), Integer (Optional), Integer (Optional))
+               Flags=0x0000
+      0x1134: Ref.ResetFallDamageTimer()
+               Flags=0x0000
+      0x1135: IsXBox()
+               Flags=0x0000
+      0x1136: Ref.GetInWorldspace(WorldSpace)
+               Flags=0x0000
+      0x1137: ModPCMiscStat(Miscellaneous Stat, Integer)
+               ModPCMS  Flags=0x0000
+      0x1138: GetPCMiscStat(Miscellaneous Stat)
+               GetPCMS  Flags=0x0000
+      0x1139: Ref.GetPairedAnimation()
+               See if this reference is currently playing a paired animation.  GPA  Flags=0x0000
+      0x113A: Ref.IsActorAVictim()
+               Flags=0x0000
+      0x113B: GetTotalPersuasionNumber()
+               Flags=0x0000
+      0x113C: Ref.SetScale(Float)
+               Set the scale of an object  Flags=0x0000
+      0x113D: Ref.ModScale(Float)
+               Modify the scale of an object  Flags=0x0000
+      0x113E: GetIdleDoneOnce()
+               Flags=0x0000
+      0x113F: KillAllActors(Actor (optional))
+               killall  Flags=0x0000
+      0x1140: Ref.GetNoRumors()
+               Flags=0x0000
+      0x1141: Ref.SetNoRumors(Integer)
+               Flags=0x0000
+      0x1142: Ref.Dispel(Magic Item)
+               Flags=0x0000
+      0x1143: Ref.GetCombatState()
+               Flags=0x0000
+      0x1144: TriggerHitShader(Float (Optional))
+               ths  Flags=0x0000
+      0x1145: Ref.GetWithinPackageLocation(PackageData (Location))
+               Flags=0x0000
+      0x1146: Reset3DState()
+               Flags=0x0000
+      0x1147: Ref.IsRidingHorse()
+               Flags=0x0000
+      0x1148: Ref.DispelAllSpells()
+               Flags=0x0000
+      0x1149: Ref.IsFleeing()
+               Flags=0x0000
+      0x114A: AddAchievement(Integer)
+               Flags=0x0000
+      0x114B: Ref.DuplicateAllItems(Container (optional), Ownership Added (optional))
+               Flags=0x0000
+      0x114C: Ref.IsInDangerousWater()
+               Flags=0x0000
+      0x114D: EssentialDeathReload(String)
+               Flags=0x0000
+      0x114E: SetShowQuestItems(Integer)
+               Flags=0x0000
+      0x114F: Ref.DuplicateNPCStats(Actor (optional))
+               Flags=0x0000
+      0x1150: Ref.ResetHealth()
+               Flags=0x0000
+      0x1151: Ref.SetIgnoreFriendlyHits(Integer)
+               Set whether an actor should ignore friendly hits (0-no, 1-yes)  sifh  Flags=0x0000
+      0x1152: Ref.GetIgnoreFriendlyHits()
+               See if an actor is ignoring friendly hits  gifh  Flags=0x0000
+      0x1153: Ref.IsPlayersLastRiddenHorse()
+               Flags=0x0000
+      0x1154: Ref.SetActorRefraction(Float)
+               sar  Flags=0x0000
+      0x1155: Ref.SetItemValue(Integer)
+               Flags=0x0000
+      0x1156: SetRigidBodyMass(Float)
+               Flags=0x0000
+      0x1157: Ref.ShowViewerStrings()
+               svs  Flags=0x0000
+      0x1158: ReleaseWeatherOverride()
+               rwo  Flags=0x0000
+      0x1159: SetAllReachable(Integer)
+               Flags=0x0000
+      0x115A: SetAllVisible(Integer)
+               Flags=0x0000
+      0x115B: SetNoAvoidance(Integer)
+               Flags=0x0000
+      0x115C: Ref.SendTrespassAlarm(Actor)
+               Flags=0x0000
+      0x115D: SetSceneIsComplex(Integer)
+               Flags=0x0000
+      0x115E: Autosave()
+               Flags=0x0000
+      0x115F: StartMasterFileSeekData()
+               Flags=0x0000
+      0x1160: DumpMasterFileSeekData()
+               Flags=0x0000
+      0x1161: Ref.IsActor()
+               Flags=0x0000
+      0x1162: Ref.IsEssential()
+               Flags=0x0000
+      0x1163: Ref.PreloadMagicEffect(Magic Effect)
+               Flags=0x0000
+      0x1164: ShowDialogSubtitles(Integer (Optional))
+               Flags=0x0000
+      0x1165: Ref.SetPlayerResistingArrest()
+               Flags=0x0000
+      0x1166: IsPlayerMovingIntoNewSpace()
+               Flags=0x0000
+      0x1167: Ref.GetInCurrentLoc(Location)
+               Flags=0x0000
+      0x1168: Ref.GetInCurrentLocAlias(QuestAlias)
+               Flags=0x0000
+      0x1169: Ref.GetTimeDead()
+               Flags=0x0000
+      0x116A: Ref.HasLinkedRef(Keyword)
+               Flags=0x0000
+      0x116B: Ref.GetLinkedRef(Keyword)
+               Flags=0x0000
+      0x116C: Ref.DamageObject(Float)
+               do  Flags=0x0000
+      0x116D: Ref.IsChild()
+               Flags=0x0001
+      0x116E: GetStolenItemValueNoCrime(Faction)
+               Flags=0x0000
+      0x116F: GetLastPlayerAction()
+               Flags=0x0000
+      0x1170: IsPlayerActionActive(Integer)
+               Flags=0x0000
+      0x1171: Ref.SetTalkingActivatorActor(Actor (optional))
+               Flags=0x0000
+      0x1172: Ref.IsTalkingActivatorActor(Actor)
+               Flags=0x0000
+      0x1173: Ref.ShowBarterMenu(Integer (Optional))
+               sbm  Flags=0x0000
+      0x1174: Ref.IsInList(Form List)
+               Flags=0x0001
+      0x1175: GetStolenItemValue(Faction)
+               Flags=0x0000
+      0x1176: Ref.AddPerk(Perk)
+               Flags=0x0000
+      0x1177: Ref.GetCrimeGoldViolent(Faction (Optional))
+               getviolent  Flags=0x0000
+      0x1178: Ref.GetCrimeGoldNonviolent(Faction (Optional))
+               getnonviolent  Flags=0x0000
+      0x1179: ShowRepairMenu()
+               srm  Flags=0x0000
+      0x117A: Ref.HasShout(Shout)
+               Flags=0x0000
+      0x117B: AddNote(Note)
+               AN  Flags=0x0000
+      0x117C: RemoveNote(Note)
+               RN  Flags=0x0000
+      0x117D: GetHasNote(Note)
+               GetN  Flags=0x0000
+      0x117E: Ref.AddToFaction(Faction, Value)
+               Addfac  Flags=0x0000
+      0x117F: Ref.RemoveFromFaction(Faction)
+               Removefac  Flags=0x0000
+      0x1180: Ref.DamageActorValue(Actor Value, Amount)
+               Damage an actor value.  DamageAV  Flags=0x0000
+      0x1181: Ref.RestoreActorValue(Actor Value, Amount)
+               Restore an actor value.  RestoreAV  Flags=0x0000
+      0x1182: TriggerHUDShudder(Float (Optional), Float (Optional), Float (Optional), Float (Optional))
+               Trigger shudder effect on HUD.  Params=Intensity/Duration.  hudsh  Flags=0x0000
+      0x1183: GetObjectiveFailed(Quest, Integer)
+               Flags=0x0000
+      0x1184: SetObjectiveFailed(Quest, Integer, State)
+               Flags=0x0000
+      0x1185: SetGlobalTimeMultiplier(Float)
+               sgtm  Flags=0x0000
+      0x1186: Ref.GetHitLocation()
+               What BGSBodyPart::LIMB_ENUM was hit. -1 = none, 0 = torso, ...  Flags=0x0000
+      0x1187: IsPC1stPerson()
+               Is the player playing in 1st person mode?  pc1st  Flags=0x0000
+      0x1188: PurgeCellBuffers()
+               Forcibly unloads all unattached cells in cell buffers.  pcb  Flags=0x0000
+      0x1189: Ref.PushActorAway(ObjectReferenceID, Integer)
+               Flags=0x0000
+      0x118A: Ref.SetActorsAI(Integer)
+               Flags=0x0000
+      0x118B: Ref.ClearOwnership()
+               Flags=0x0000
+      0x118C: Ref.GetCauseofDeath()
+               What killed the actor  Flags=0x0000
+      0x118D: Ref.IsLimbGone(Integer)
+               Is BGSBodyPart::LIMB_ENUM been dismembered  Flags=0x0000
+      0x118E: Ref.IsWeaponInList(Form List)
+               Is the current weapon in the form list  Flags=0x0000
+      0x118F: Ref.PlayIdle(String)
+               Play this idle on the current actor.  Flags=0x0000
+      0x1190: ApplyImageSpaceModifier(Imagespace Modifier ID, Float (Optional))
+               Adds an imagespace modifier to the active list  imod  Flags=0x0000
+      0x1191: RemoveImageSpaceModifier(Imagespace Modifier ID, Float (Optional))
+               Removes an imagespace modifier from the active list  rimod  Flags=0x0000
+      0x1192: Ref.IsBribedbyPlayer()
+               Flags=0x0000
+      0x1193: Ref.GetRelationshipRank(Actor)
+               Flags=0x0000
+      0x1194: Ref.SetRelationshipRank(Actor, Value)
+               Flags=0x0000
+      0x1195: SetCellImageSpace(Cell, ImageSpace)
+               Flags=0x0000
+      0x1196: ShowChargenMenu()
+               scgm  Flags=0x0000
+      0x1197: GetVATSValue(Integer, Integer (Optional))
+               Flags=0x0000
+      0x1198: Ref.IsKiller(Actor)
+               Flags=0x0000
+      0x1199: Ref.IsKillerObject(Form List)
+               Flags=0x0000
+      0x119A: GetFactionCombatReaction(Faction, Faction)
+               Flags=0x0000
+      0x119B: Ref.UseWeapon(Weapon, Location, Target, NumAttacks, CrouchToReload, HoldFire, AlwaysHit, DoNoDamage, TargetLocation)
+               Flags=0x0000
+      0x119C: Ref.EvaluateSpellConditions()
+               esc  Flags=0x0000
+      0x119D: ToggleMotionBlur()
+               Toggle Motion Blur for the selected reference  tmb  Flags=0x0000
+      0x119E: Ref.Exists(ObjectReferenceID)
+               Flags=0x0000
+      0x119F: Ref.GetGroupMemberCount()
+               Flags=0x0000
+      0x11A0: Ref.GetGroupTargetCount()
+               Flags=0x0000
+      0x11A1: SetObjectiveCompleted(Quest, Integer, State)
+               Set objective completion status: 0-Off, 1-On  Flags=0x0000
+      0x11A2: SetObjectiveDisplayed(Quest, Integer, State)
+               Set objective displayed status: 0-Off, 1-On  Flags=0x0000
+      0x11A3: GetObjectiveCompleted(Quest, Integer)
+               Get objective completion status: 0-Off, 1-On  Flags=0x0000
+      0x11A4: GetObjectiveDisplayed(Quest, Integer)
+               Get objective displayed status: 0-Off, 1-On  Flags=0x0000
+      0x11A5: SetImageSpace(ImageSpace)
+               Flags=0x0000
+      0x11A6: PipboyRadio(String, ObjectReferenceID)
+               Control the Pipboy radio. Enable, Disable, Tune  prad  Flags=0x0000
+      0x11A7: Ref.RemovePerk(Perk)
+               Flags=0x0000
+      0x11A8: Ref.DisableAllActors()
+               DisAA  Flags=0x0000
+      0x11A9: Ref.GetIsFormType(String)
+               Flags=0x0001
+      0x11AA: Ref.GetIsVoiceType(VoiceType)
+               Flags=0x0001
+      0x11AB: Ref.GetPlantedExplosive()
+               Flags=0x0000
+      0x11AC: CompleteAllObjectives(Quest)
+               Complete all of a quest's objectives  Flags=0x0000
+      0x11AD: Ref.IsScenePackageRunning()
+               Flags=0x0000
+      0x11AE: Ref.GetHealthPercentage()
+               Flags=0x0000
+      0x11AF: SetAudioMultithreading(Integer)
+               SAM  Flags=0x0000
+      0x11B0: Ref.GetIsObjectType(Form Type)
+               Flags=0x0000
+      0x11B1: ShowChargenMenuParams(Integer, Integer, Integer)
+               scgmp  Flags=0x0000
+      0x11B2: Ref.GetDialogueEmotion()
+               Flags=0x0000
+      0x11B3: Ref.GetDialogueEmotionValue()
+               Flags=0x0000
+      0x11B4: ExitGame()
+               exit  Flags=0x0100
+      0x11B5: Ref.GetIsCreatureType(Integer)
+               Flags=0x0001
+      0x11B6: PlayerCreatePotion(Magic Effect, Magic Effect, Magic Effect)
+               Flags=0x0000
+      0x11B7: PlayerEnchantObject(Object, Magic Effect, Magic Effect)
+               Flags=0x0000
+      0x11B8: ShowWarning(String)
+               Flags=0x0000
+      0x11B9: Ref.EnterTrigger(ObjectReferenceID)
+               Flags=0x0000
+      0x11BA: Ref.MarkForDelete()
+               Flags=0x0000
+      0x11BB: SetPlayerAIDriven(Integer)
+               Flags=0x0000
+      0x11BC: Ref.GetInCurrentLocFormList(Form List)
+               Flags=0x0000
+      0x11BD: Ref.GetInZone(EncounterZone)
+               Flags=0x0000
+      0x11BE: Ref.GetVelocity(Axis)
+               Gets Velocity on a reference  Flags=0x0000
+      0x11BF: Ref.GetGraphVariableFloat(String)
+               Flags=0x0000
+      0x11C0: Ref.HasPerk(Perk)
+               Flags=0x0000
+      0x11C1: Ref.GetFactionRelation(Actor)
+               Flags=0x0000
+      0x11C2: Ref.IsLastIdlePlayed(Idle Form)
+               Flags=0x0000
+      0x11C3: SetNPCRadio(Integer, ObjectReferenceID)
+               Enable/Disable NPC radio playback: 0-Off, 1-On   snr  Flags=0x0000
+      0x11C4: Ref.SetPlayerTeammate(Integer)
+               Flags=0x0000
+      0x11C5: Ref.GetPlayerTeammate()
+               Flags=0x0000
+      0x11C6: GetPlayerTeammateCount()
+               Flags=0x0000
+      0x11C7: Ref.OpenActorContainer(Integer (Optional))
+               Flags=0x0000
+      0x11C8: ClearFactionPlayerEnemyFlag(Faction)
+               Flags=0x0000
+      0x11C9: Ref.ClearActorsFactionsPlayerEnemyFlag()
+               Flags=0x0000
+      0x11CA: Ref.GetActorCrimePlayerEnemy()
+               Flags=0x0000
+      0x11CB: Ref.GetCrimeGold(Faction (Optional))
+               Flags=0x0000
+      0x11CC: Ref.SetCrimeGold(Integer , Faction (Optional))
+               Flags=0x0000
+      0x11CD: Ref.ModCrimeGold(Integer , Integer (Optional), Faction (Optional))
+               Flags=0x0000
+      0x11CE: GetPlayerGrabbedRef()
+               Flags=0x0000
+      0x11CF: IsPlayerGrabbedRef(TESObjectREFR)
+               Flags=0x0000
+      0x11D0: PlaceLeveledActorAtMe(ObjectID, LevelModifier, ForcedZone)
+               Flags=0x0000
+      0x11D1: Ref.GetKeywordItemCount(Keyword)
+               Flags=0x0000
+      0x11D2: ShowLockpickMenu(Integer (Optional))
+               slpm  Flags=0x0000
+      0x11D3: Ref.GetBroadcastState()
+               Flags=0x0000
+      0x11D4: Ref.SetBroadcastState(Integer)
+               Flags=0x0000
+      0x11D5: Ref.StartRadioConversation(Topic)
+               Flags=0x0000
+      0x11D6: Ref.GetDestructionStage()
+               Flags=0x0000
+      0x11D7: Ref.ClearDestruction()
+               Flags=0x0000
+      0x11D8: Ref.CastImmediateOnSelf(Magic Item)
+               cios  Flags=0x0000
+      0x11D9: Ref.GetIsAlignment(Alignment)
+               Flags=0x0000
+      0x11DA: ResetQuest(Quest)
+               Flags=0x0000
+      0x11DB: SetQuestDelay(Quest, Float)
+               Flags=0x0000
+      0x11DC: Ref.IsProtected()
+               Flags=0x0000
+      0x11DD: Ref.GetThreatRatio(Actor)
+               Flags=0x0000
+      0x11DE: Ref.MatchFaceGeometry(Actor, Value)
+               Flags=0x0000
+      0x11DF: Ref.GetIsUsedItemEquipType(EquipType)
+               Flags=0x0000
+      0x11E0: GetPlayerName()
+               Flags=0x0000
+      0x11E1: Ref.FireWeapon(Weapon)
+               Flags=0x0000
+      0x11E2: Ref.PayCrimeGold(Integer (Optional), Integer (Optional), Faction (Optional))
+               Flags=0x0000
+      0x11E3: Ref.UnusedFunction2(Float)
+               Flags=0x0000
+      0x11E4: Ref.MatchRace(Actor)
+               Flags=0x0000
+      0x11E5: SetPCYoung(Integer)
+               Flags=0x0000
+      0x11E6: SexChange(Sex, Integer (Optional))
+               Flags=0x0000
+      0x11E7: Ref.IsCarryable()
+               Flags=0x0000
+      0x11E8: Ref.GetConcussed()
+               Flags=0x0000
+      0x11E9: SetZoneRespawns(EncounterZone, Integer)
+               Flags=0x0000
+      0x11EA: Ref.SetVATSTarget(Integer)
+               Flags=0x0000
+      0x11EB: Ref.GetMapMarkerVisible()
+               Flags=0x0000
+      0x11EC: Ref.ResetInventory()
+               Flags=0x0000
+      0x11ED: PlayerKnows(Knowable Form)
+               Flags=0x0000
+      0x11EE: Ref.GetPermanentActorValue(Actor Value)
+               Get an actor value ignoring temporary modifiers. [player.getav luck]  GetPermAV  Flags=0x0000
+      0x11EF: Ref.GetKillingBlowLimb()
+               Which BGSBodyPart::LIMB_ENUM received the killing blow  Flags=0x0000
+      0x11F0: Ref.GoToJail(Faction (Optional), Integer (Optional), Integer (Optional))
+               Flags=0x0000
+      0x11F1: Ref.CanPayCrimeGold(Faction (Optional))
+               Flags=0x0000
+      0x11F2: ServeTime()
+               Flags=0x0000
+      0x11F3: Ref.GetDaysInJail()
+               Flags=0x0000
+      0x11F4: EPAlchemyGetMakingPoison()
+               Flags=0x0000
+      0x11F5: EPAlchemyEffectHasKeyword(Keyword)
+               Flags=0x0000
+      0x11F6: ShowAllMapMarkers(Integer, Integer (Optional), Integer (Optional))
+               Shows/hides map markers (1 shows, 0 hides)(1 travel(default), 0 no travel)(1 all, 0 all but hidden(default)).  tmm  Flags=0x0000
+      0x11F7: Ref.GetAllowWorldInteractions()
+               Flags=0x0001
+      0x11F8: Ref.ResetAI()
+               Flags=0x0000
+      0x11F9: SetRumble(Float, Float, Float)
+               Creates rumble in the controller (left motor) (right motor) (duration)  Flags=0x0000
+      0x11FA: SetNoActivationSound(Sound)
+               Set the sound to play when activation fails (Sound)  Flags=0x0000
+      0x11FB: ClearNoActivationSound()
+               Clear the activation failure sound  Flags=0x0000
+      0x11FC: Ref.GetLastHitCritical()
+               Flags=0x0000
+      0x11FD: AddMusic(Music)
+               Flags=0x0000
+      0x11FE: UnusedFunction3()
+               Flags=0x0000
+      0x11FF: Ref.UnusedFunction4()
+               Flags=0x0000
+      0x1200: SetPCToddler(Integer)
+               Flags=0x0000
+      0x1201: Ref.IsCombatTarget(Actor)
+               Flags=0x0000
+      0x1202: TriggerScreenBlood(Integer)
+               Trigger screen blood  tsb  Flags=0x0000
+      0x1203: Ref.GetVATSRightAreaFree(TESObjectREFR)
+               Flags=0x0000
+      0x1204: Ref.GetVATSLeftAreaFree(TESObjectREFR)
+               Flags=0x0000
+      0x1205: Ref.GetVATSBackAreaFree(TESObjectREFR)
+               Flags=0x0000
+      0x1206: Ref.GetVATSFrontAreaFree(TESObjectREFR)
+               Flags=0x0000
+      0x1207: Ref.GetIsLockBroken()
+               Flags=0x0000
+      0x1208: IsPS3()
+               Flags=0x0000
+      0x1209: IsWin32()
+               Flags=0x0000
+      0x120A: Ref.GetVATSRightTargetVisible(TESObjectREFR)
+               Flags=0x0000
+      0x120B: Ref.GetVATSLeftTargetVisible(TESObjectREFR)
+               Flags=0x0000
+      0x120C: Ref.GetVATSBackTargetVisible(TESObjectREFR)
+               Flags=0x0000
+      0x120D: Ref.GetVATSFrontTargetVisible(TESObjectREFR)
+               Flags=0x0000
+      0x120E: Ref.AttachAshPile(Integer (Optional))
+               Flags=0x0000
+      0x120F: Ref.SetCriticalStage(CriticalStage)
+               Flags=0x0000
+      0x1210: Ref.IsInCriticalStage(CriticalStage)
+               Flags=0x0000
+      0x1211: Ref.RemoveFromAllFactions()
+               Flags=0x0000
+      0x1212: GetXPForNextLevel()
+               Flags=0x0000
+      0x1213: ShowLockpickMenuDebug(Integer (Optional))
+               slpmd  Flags=0x0000
+      0x1214: ForceSave()
+               Flags=0x0000
+      0x1215: GetInfamy(Faction (Optional))
+               Flags=0x0000
+      0x1216: GetInfamyViolent(Faction (Optional))
+               Flags=0x0000
+      0x1217: GetInfamyNonViolent(Faction (Optional))
+               Flags=0x0000
+      0x1218: Ref.UnusedFunction5()
+               Flags=0x0000
+      0x1219: Sin(Float, Int(optional))
+               Flags=0x0000
+      0x121A: Cos(Float, Int(optional))
+               Flags=0x0000
+      0x121B: Tan(Float, Int(optional))
+               Flags=0x0000
+      0x121C: Sqrt(Float)
+               Flags=0x0000
+      0x121D: Log(Float, Float(optional))
+               Flags=0x0000
+      0x121E: Abs(Float)
+               Flags=0x0000
+      0x121F: GetQuestCompleted(Quest)
+               GetQC  Flags=0x0000
+      0x1220: Ref.UnusedFunction6()
+               Flags=0x0000
+      0x1221: PipBoyRadioOff()
+               Flags=0x0000
+      0x1222: AutoDisplayObjectives(Integer)
+               Flags=0x0000
+      0x1223: IsGoreDisabled()
+               Flags=0x0000
+      0x1224: FadeSFX(Float)
+               FSFX  Flags=0x0000
+      0x1225: Ref.SetMinimalUse(Integer)
+               Flags=0x0000
+      0x1226: IsSceneActionComplete(Scene , Integer)
+               Flags=0x0000
+      0x1227: ShowQuestStages(Quest)
+               SQS  Flags=0x0000
+      0x1228: Ref.GetSpellUsageNum(Magic Item)
+               Flags=0x0000
+      0x1229: ForceRadioStationUpdate()
+               FRSU  Flags=0x0000
+      0x122A: GetActorsInHigh()
+               Flags=0x0000
+      0x122B: HasLoaded3D()
+               Flags=0x0000
+      0x122C: DisableAllMines()
+               Flags=0x0000
+      0x122D: SetLastExtDoorActivated(ObjectReferenceID)
+               Flags=0x0000
+      0x122E: KillQuestUpdates()
+               KQU  Flags=0x0000
+      0x122F: IsImageSpaceActive(Imagespace Modifier ID)
+               Flags=0x0000
+      0x1230: Ref.HasKeyword(Keyword)
+               Flags=0x0000
+      0x1231: Ref.HasRefType(RefType)
+               Flags=0x0000
+      0x1232: Ref.LocationHasKeyword(Keyword)
+               Flags=0x0000
+      0x1233: Ref.LocationHasRefType(RefType)
+               Flags=0x0000
+      0x1234: CreateEvent(Keyword, Location, Ref 1, Ref 2, Value 1, Value 2)
+               Flags=0x0000
+      0x1235: Ref.GetIsEditorLocation(Location)
+               Flags=0x0000
+      0x1236: Ref.GetIsAliasRef(QuestAlias)
+               Flags=0x0001
+      0x1237: Ref.GetIsEditorLocAlias(QuestAlias)
+               Flags=0x0000
+      0x1238: Ref.IsSprinting()
+               Flags=0x0000
+      0x1239: Ref.IsBlocking()
+               Flags=0x0000
+      0x123A: Ref.HasEquippedSpell(Casting Source)
+               hasspell  Flags=0x0000
+      0x123B: Ref.GetCurrentCastingType(Casting Source)
+               getcasting  Flags=0x0000
+      0x123C: Ref.GetCurrentDeliveryType(Casting Source)
+               getdelivery  Flags=0x0000
+      0x123D: Ref.EquipSpell(Spell Item, Casting Source)
+               Flags=0x0000
+      0x123E: Ref.GetAttackState()
+               0 = None, 1 = Draw, 2 = Swing, 3 = Hit, 4 = Next Attack, 5 = Follow Through, 6 = Bash  Flags=0x0000
+      0x123F: GetAliasedRef(QuestAlias)
+               Flags=0x0000
+      0x1240: GetEventData(Event Function, Event Member, Data (Optional))
+               Flags=0x0000
+      0x1241: Ref.IsCloserToAThanB(TESObjectREFR, TESObjectREFR)
+               Flags=0x0000
+      0x1242: Ref.EquipShout(Shout)
+               Flags=0x0000
+      0x1243: Ref.GetEquippedShout(Shout)
+               Flags=0x0000
+      0x1244: Ref.IsBleedingOut()
+               Flags=0x0000
+      0x1245: UnlockWord(Word Of Power)
+               Flags=0x0000
+      0x1246: TeachWord(Word Of Power)
+               Flags=0x0000
+      0x1247: Ref.AddToContainer(TESObjectREFR, Flag)
+               Flags=0x0000
+      0x1248: Ref.GetRelativeAngle(ObjectReferenceID, Axis)
+               Flags=0x0000
+      0x1249: Ref.SendAnimEvent(String)
+               Send an event to the animation graph.  sae  Flags=0x0000
+      0x124A: Ref.Shout(Shout, Integer, ObjectReferenceID)
+               Flags=0x0000
+      0x124B: Ref.AddShout(Shout)
+               Flags=0x0000
+      0x124C: Ref.RemoveShout(Shout)
+               Flags=0x0000
+      0x124D: Ref.GetMovementDirection()
+               Flags=0x0000
+      0x124E: Ref.IsInScene()
+               Flags=0x0000
+      0x124F: GetRefTypeDeadCount(Location, RefType)
+               Flags=0x0000
+      0x1250: GetRefTypeAliveCount(Location, RefType)
+               Flags=0x0000
+      0x1251: Ref.ApplyHavokImpulse(Float, Float, Float, Float)
+               Flags=0x0000
+      0x1252: Ref.GetIsFlying()
+               Flags=0x0000
+      0x1253: Ref.IsCurrentSpell(Spell Item, Casting Source)
+               Flags=0x0000
+      0x1254: Ref.SpellHasKeyword(Casting Source, Keyword)
+               Flags=0x0000
+      0x1255: Ref.GetEquippedItemType(Casting Source)
+               Flags=0x0000
+      0x1256: GetLocationAliasCleared(QuestAlias)
+               Flags=0x0000
+      0x1257: SetLocationAliasCleared(QuestAlias)
+               Flags=0x0000
+      0x1258: GetLocAliasRefTypeDeadCount(QuestAlias, RefType)
+               Flags=0x0000
+      0x1259: GetLocAliasRefTypeAliveCount(QuestAlias, RefType)
+               Flags=0x0000
+      0x125A: Ref.IsWardState(Ward State)
+               Flags=0x0000
+      0x125B: Ref.IsInSameCurrentLocAsRef(TESObjectREFR, Keyword)
+               Flags=0x0000
+      0x125C: Ref.IsInSameCurrentLocAsRefAlias(QuestAlias, Keyword)
+               Flags=0x0000
+      0x125D: LocAliasIsLocation(QuestAlias, Location)
+               Flags=0x0000
+      0x125E: GetKeywordDataForLocation(Location, Keyword)
+               Flags=0x0000
+      0x125F: SetKeywordDataForLocation(Location, Keyword, Value)
+               Flags=0x0000
+      0x1260: GetKeywordDataForAlias(QuestAlias, Keyword)
+               Flags=0x0000
+      0x1261: SetKeywordDataForAlias(QuestAlias, Keyword, Value)
+               Flags=0x0000
+      0x1262: LocAliasHasKeyword(QuestAlias, Keyword)
+               Flags=0x0000
+      0x1263: Ref.IsNullPackageData(PackageData (Possibly Null))
+               Flags=0x0000
+      0x1264: Ref.GetNumericPackageData(PackageData (Numeric))
+               Flags=0x0000
+      0x1265: Ref.IsFurnitureAnimType(Furniture Anim Type)
+               Flags=0x0000
+      0x1266: Ref.IsFurnitureEntryType(Furniture Entry Type)
+               Flags=0x0000
+      0x1267: Ref.GetHighestRelationshipRank()
+               Flags=0x0000
+      0x1268: Ref.GetLowestRelationshipRank()
+               Flags=0x0000
+      0x1269: Ref.HasAssociationTypeAny(AssociationType)
+               Flags=0x0000
+      0x126A: Ref.HasFamilyRelationshipAny()
+               Flags=0x0000
+      0x126B: Ref.GetPathingTargetOffset(Axis)
+               Flags=0x0000
+      0x126C: Ref.GetPathingTargetAngleOffset(Axis)
+               Flags=0x0000
+      0x126D: Ref.GetPathingTargetSpeed()
+               Flags=0x0000
+      0x126E: Ref.GetPathingTargetSpeedAngle(Axis)
+               Flags=0x0000
+      0x126F: Ref.GetMovementSpeed()
+               Flags=0x0000
+      0x1270: Ref.GetInContainer(TESObjectREFR)
+               Flags=0x0000
+      0x1271: IsLocationLoaded(Location)
+               Flags=0x0000
+      0x1272: IsLocAliasLoaded(QuestAlias)
+               Flags=0x0000
+      0x1273: Ref.IsDualCasting()
+               Flags=0x0000
+      0x1274: Ref.DualCast(Magic Item, ObjectReferenceID (Optional))
+               Flags=0x0000
+      0x1275: GetVMQuestVariable(Quest, VM Variable Name)
+               Flags=0x0000
+      0x1276: GetVMScriptVariable(ObjectReferenceID, VM Variable Name)
+               Flags=0x0000
+      0x1277: Ref.IsEnteringInteractionQuick()
+               Flags=0x0000
+      0x1278: Ref.IsCasting()
+               Flags=0x0000
+      0x1279: Ref.GetFlyingState()
+               Flags=0x0000
+      0x127A: Ref.SetFavorState(Integer)
+               Flags=0x0000
+      0x127B: Ref.IsInFavorState()
+               Flags=0x0000
+      0x127C: Ref.HasTwoHandedWeaponEquipped()
+               Flags=0x0000
+      0x127D: Ref.IsExitingInstant()
+               Flags=0x0000
+      0x127E: Ref.IsInFriendStatewithPlayer()
+               Flags=0x0000
+      0x127F: Ref.GetWithinDistance(ObjectReferenceID, Float)
+               Flags=0x0000
+      0x1280: Ref.GetActorValuePercent(Actor Value)
+               Flags=0x0000
+      0x1281: Ref.IsUnique()
+               Flags=0x0000
+      0x1282: Ref.GetLastBumpDirection()
+               Flags=0x0000
+      0x1283: CameraShake(Float, Float(optional))
+               Flags=0x0000
+      0x1284: Ref.IsInFurnitureState(Furniture Anim Type)
+               Flags=0x0000
+      0x1285: Ref.GetIsInjured()
+               Flags=0x0000
+      0x1286: Ref.GetIsCrashLandRequest()
+               Flags=0x0000
+      0x1287: Ref.GetIsHastyLandRequest()
+               Flags=0x0000
+      0x1288: UpdateQuestInstanceGlobal(Quest, Global)
+               Flags=0x0000
+      0x1289: Ref.SetAllowFlying(Integer)
+               Flags=0x0000
+      0x128A: Ref.IsLinkedTo(TESObjectREFR, Keyword)
+               Flags=0x0000
+      0x128B: Ref.GetKeywordDataForCurrentLocation(Keyword)
+               Flags=0x0000
+      0x128C: Ref.GetInSharedCrimeFaction(TESObjectREFR)
+               Flags=0x0000
+      0x128D: Ref.GetBribeAmount()
+               Flags=0x0000
+      0x128E: Ref.GetBribeSuccess()
+               Flags=0x0000
+      0x128F: Ref.GetIntimidateSuccess()
+               Flags=0x0000
+      0x1290: Ref.GetArrestedState()
+               Flags=0x0000
+      0x1291: Ref.GetArrestingActor()
+               Flags=0x0000
+      0x1292: Ref.ClearArrestState()
+               Flags=0x0000
+      0x1293: EPTemperingItemIsEnchanted()
+               Flags=0x0000
+      0x1294: EPTemperingItemHasKeyword(Keyword)
+               Flags=0x0000
+      0x1295: Ref.GetReceivedGiftValue()
+               Flags=0x0000
+      0x1296: Ref.GetGiftGivenValue()
+               Flags=0x0000
+      0x1297: ForceLocIntoAlias(Location, QuestAlias)
+               Flags=0x0000
+      0x1298: Ref.GetReplacedItemType(Casting Source)
+               Flags=0x0000
+      0x1299: Ref.SetHorseActor(TESObjectREFR)
+               Flags=0x0000
+      0x129A: Ref.PlayReferenceEffect(Reference Effect, Time (optional), Aim-at target (optional))
+               pre  Flags=0x0000
+      0x129B: Ref.StopReferenceEffect(Reference Effect)
+               sre  Flags=0x0000
+      0x129C: PlayShaderParticleGeometry(Form, Float)
+               pspg  Flags=0x0000
+      0x129D: StopShaderParticleGeometry(Form, Float)
+               sspg  Flags=0x0000
+      0x129E: ApplyImageSpaceModifierCrossFade(Imagespace Modifier ID, Float (Optional))
+               Adds a crossfade imagespace modifier to the active list  imodcf  Flags=0x0000
+      0x129F: RemoveImageSpaceModifierCrossFade(Float (Optional))
+               Remove a crossfade imagespace modifier from the active list  rimodcf  Flags=0x0000
+      0x12A0: Ref.IsAttacking()
+               Flags=0x0000
+      0x12A1: Ref.IsPowerAttacking()
+               Flags=0x0000
+      0x12A2: Ref.IsLastHostileActor()
+               Flags=0x0000
+      0x12A3: Ref.GetGraphVariableInt(String)
+               Flags=0x0000
+      0x12A4: Ref.GetCurrentShoutVariation()
+               Flags=0x0000
+      0x12A5: Ref.PlayImpactEffect(String, String (Optional), Float(optional), Float(optional), Float(optional), Float(optional), Int(optional), Int(optional))
+               pie  Flags=0x0000
+      0x12A6: Ref.ShouldAttackKill(Actor)
+               Flags=0x0000
+      0x12A7: Ref.SendStealAlarm(Actor)
+               steal  Flags=0x0000
+      0x12A8: Ref.GetActivationHeight()
+               Flags=0x0000
+      0x12A9: EPModSkillUsage_IsAdvanceSkill(Actor Value)
+               Flags=0x0000
+      0x12AA: Ref.WornHasKeyword(Keyword)
+               Flags=0x0000
+      0x12AB: Ref.GetPathingCurrentSpeed()
+               Flags=0x0000
+      0x12AC: Ref.GetPathingCurrentSpeedAngle(Axis)
+               Flags=0x0000
+      0x12AD: Ref.KnockAreaEffect(Float, Float)
+               kae  Flags=0x0000
+      0x12AE: Ref.InterruptCast()
+               Flags=0x0000
+      0x12AF: AddFormToFormList(Form, Form)
+               Flags=0x0000
+      0x12B0: RevertFormList(Form)
+               Flags=0x0000
+      0x12B1: AddFormToLeveledList(Form, Form, Int, Int)
+               Flags=0x0000
+      0x12B2: RevertLeveledList(Form)
+               Flags=0x0000
+      0x12B3: EPModSkillUsage_AdvanceObjectHasKeyword(Keyword)
+               Flags=0x0000
+      0x12B4: EPModSkillUsage_IsAdvanceAction(Skill Action)
+               Flags=0x0000
+      0x12B5: EPMagic_SpellHasKeyword(Keyword)
+               Flags=0x0000
+      0x12B6: Ref.GetNoBleedoutRecovery()
+               Flags=0x0000
+      0x12B7: Ref.SetNoBleedoutRecovery(Integer)
+               Flags=0x0000
+      0x12B8: EPMagic_SpellHasSkill(Actor Value)
+               Flags=0x0000
+      0x12B9: IsAttackType(Keyword)
+               Flags=0x0000
+      0x12BA: Ref.IsAllowedToFly()
+               Flags=0x0000
+      0x12BB: Ref.HasMagicEffectKeyword(Keyword)
+               Flags=0x0000
+      0x12BC: Ref.IsCommandedActor()
+               Flags=0x0000
+      0x12BD: Ref.IsStaggered()
+               Flags=0x0000
+      0x12BE: Ref.IsRecoiling()
+               Flags=0x0000
+      0x12BF: Ref.IsExitingInteractionQuick()
+               Flags=0x0000
+      0x12C0: Ref.IsPathing()
+               Flags=0x0000
+      0x12C1: Ref.GetShouldHelp(Actor)
+               Flags=0x0000
+      0x12C2: Ref.HasBoundWeaponEquipped(Casting Source)
+               Flags=0x0000
+      0x12C3: Ref.GetCombatTargetHasKeyword(Keyword)
+               gcthk  Flags=0x0000
+      0x12C4: UpdateLevel()
+               Update the player's level based on current skill usage amounts.  Flags=0x0000
+      0x12C5: Ref.GetCombatGroupMemberCount()
+               gcgmc  Flags=0x0000
+      0x12C6: Ref.IsIgnoringCombat()
+               Flags=0x0000
+      0x12C7: Ref.GetLightLevel()
+               gll  Flags=0x0000
+      0x12C8: SavePCFace(String)
+               spf  Flags=0x0000
+      0x12C9: SpellHasCastingPerk(Perk)
+               Flags=0x0000
+      0x12CA: Ref.IsBeingRidden()
+               Flags=0x0000
+      0x12CB: Ref.IsUndead()
+               Flags=0x0000
+      0x12CC: GetRealHoursPassed()
+               Flags=0x0000
+      0x12CD: UnequipAll()
+               Flags=0x0000
+      0x12CE: Ref.IsUnlockedDoor()
+               Flags=0x0000
+      0x12CF: Ref.IsHostileToActor(Actor)
+               Flags=0x0000
+      0x12D0: Ref.GetTargetHeight(TESObjectREFR)
+               Get the delta on z between two references  Flags=0x0000
+      0x12D1: Ref.IsPoison()
+               Is the object a Poison potion  Flags=0x0000
+      0x12D2: Ref.WornApparelHasKeywordCount(Keyword)
+               Flags=0x0000
+      0x12D3: Ref.GetItemHealthPercent()
+               Flags=0x0000
+      0x12D4: Ref.EffectWasDualCast()
+               Flags=0x0000
+      0x12D5: Ref.GetKnockStateEnum()
+               Flags=0x0000
+      0x12D6: DoesNotExist()
+               Flags=0x0000
+      0x12D7: Ref.UnequipItemSlot(Integer, Integer (Optional))
+               Flags=0x0000
+      0x12D8: Ref.MountActor(TESObjectREFR)
+               Flags=0x0000
+      0x12D9: Ref.DismountActor(TESObjectREFR)
+               Flags=0x0000
+      0x12DA: Ref.IsOnFlyingMount()
+               Flags=0x0000
+      0x12DB: Ref.CanFlyHere()
+               Flags=0x0000
+      0x12DC: Ref.IsFlyingMountPatrolQueued()
+               Flags=0x0000
+      0x12DD: Ref.IsFlyingMountFastTravelling()
+               Flags=0x0000
+   MaxFlags: 0x00000100
+   MaxParams: 0x00000009
+   MaxParamFlags: 0x00000001
+   MaxTypeID: 0x00000053
+   
+   ParamTypeID:
+    0) String
+    1) Integer
+    2) Float
+    3) ObjectID
+    4) TESObjectREFR
+    5) Actor Value
+    6) Actor
+    7) Spell Item
+    8) Axis
+    9) Cell
+    10) Animation Group
+    11) Magic Item
+    12) Sound
+    13) Topic
+    14) Quest
+    15) Race (optional)
+    16) Class
+    17) Faction (Optional)
+    18) Sex
+    19) Global
+    20) Furniture
+    21) Weapon
+    22) Variable Name
+    23) Stage
+    24) Map Marker
+    25) Actor Base
+    26) Container (optional)
+    27) WorldSpace
+    28) Crime Type (optional)
+    29) Package
+    30) Combat Style (optional)
+    31) Magic Effect
+    32) Form Type
+    33) Weather ID
+    34) 
+    35) Owner(optional)
+    36) Effect Shader ID
+    37) Form List
+    38) 
+    39) Perk
+    40) Note
+    41) Miscellaneous Stat
+    42) Imagespace Modifier ID
+    43) ImageSpace
+    44) 
+    45) 
+    46) Event Function
+    47) Event Member
+    48) Data (Optional)
+    49) VoiceType
+    50) EncounterZone
+    51) Idle Form
+    52) Message
+    53) ObjectID
+    54) Alignment
+    55) EquipType
+    56) ObjectID
+    57) Music
+    58) CriticalStage
+    59) Keyword
+    60) RefType
+    61) Location
+    62) Form
+    63) QuestAlias
+    64) Shout
+    65) Word Of Power
+    66) 
+    67) Scene 
+    68) Casting Source
+    69) AssociationType
+    70) Ward State
+    71) PackageData (Possibly Null)
+    72) PackageData (Numeric)
+    73) Furniture Anim Type
+    74) Furniture Entry Type
+    75) 
+    76) VM Variable Name
+    77) Reference Effect
+    78) PackageData (Location)
+    79) SoundCategory
+    80) Skill Action
+    81) Knowable Form
+    82) Region
+    83) Action</pre>
+</div>

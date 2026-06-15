@@ -1,0 +1,58 @@
+
+<div><p>A <b>DLBR</b> record is a Dialogue "Branch", which is a reference of an associated QUST record, as well as a starting DIAL (Dialogue) topic.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td>QNAM</td>
+<td>Parent Quest</td>
+<td>formid</td>
+<td>Reference to the <a href="QUST.html">QUST</a> record to which the dialogue branch belongs.
+</td></tr>
+<tr>
+<td>+</td>
+<td>TNAM</td>
+<td>Unknown</td>
+<td>uint32</td>
+<td>Dialogue Tab
+<dl><dd>0 = Player Dialogue</dd>
+<dd>1 = Persuasion (Character, Filtered Dialogue form) / Favor Dialogue (Quest form)</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>DNAM</td>
+<td>Flags</td>
+<td>uint32</td>
+<td>Bits 0-1:
+<dl><dd>0 = Normal</dd>
+<dd>1 = Top-Level</dd>
+<dd>2 = Blocking</dd></dl>
+<p>Bit 2: Exclusive
+</p>
+</td></tr>
+<tr>
+<td>+</td>
+<td>SNAM</td>
+<td>Start Dialogue</td>
+<td>formid</td>
+<td>Reference to a <a href="DIAL.html">DIAL</a>.
+</td></tr></tbody></table>
+</div>

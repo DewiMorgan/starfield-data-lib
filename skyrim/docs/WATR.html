@@ -1,0 +1,204 @@
+
+<div><p><b>WATR</b> records contain information on water types.
+</p><p>Float values controlled via slider on the CK round a bit different in the CK. 
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>unknown</td>
+<td>lstring</td>
+<td>Name
+</td></tr>
+<tr>
+<td>+</td>
+<td>ANAM</td>
+<td>unknown</td>
+<td>uint8</td>
+<td>Opacity
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>unknown</td>
+<td>uint8</td>
+<td>flags
+<dl><dd>0x1 - Causes damage</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>MNAM</td>
+<td>unknown</td>
+<td>uint8</td>
+<td>(always 0 in Skyrim.esm, not used in newer files)
+</td></tr>
+<tr>
+<td>-</td>
+<td>XNAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Spell effect (not found in original .esm files)
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Open Sound
+</td></tr>
+<tr>
+<td>-</td>
+<td>INAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Imagespace Modifier
+</td></tr>
+<tr>
+<td>-</td>
+<td>TNAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Material
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>unknown</td>
+<td>uint16</td>
+<td>damage per second (always 0 in original .esm files)
+</td></tr>
+<tr>
+<td>+</td>
+<td>DNAM</td>
+<td>unknown</td>
+<td>struct</td>
+<td>Original Skyrim always 228 bytes struct, in SSE 228 or 232 bytes
+<dl><dd>float?</dd>
+<dd>float?</dd>
+<dd>float?</dd>
+<dd>float?</dd>
+<dd>float - Sun Specular Power</dd>
+<dd>float - Reflectivity Amount</dd>
+<dd>float - Fresnel Amount</dd>
+<dd>float?</dd>
+<dd>float - Above Water: Fog Distance - Near Plane</dd>
+<dd>float - Above Water: Fog Distance - Far Plane</dd></dl>
+<p>-
+</p>
+<dl><dd>rgb - Shallow Color</dd>
+<dd>rgb - Deep Color</dd>
+<dd>rgb - Reflection Color</dd>
+<dd>float?</dd>
+<dd>float?</dd>
+<dd>float?</dd>
+<dd>float?</dd>
+<dd>float?</dd>
+<dd>float - Displacement Starting Size</dd>
+<dd>float - Displacement Force</dd></dl>
+<p>-
+</p>
+<dl><dd>float - Displacement Velocity</dd>
+<dd>float - Displacement Falloff</dd>
+<dd>float - Displacement Dampener</dd>
+<dd>float?</dd>
+<dd>float - Noise Falloff</dd>
+<dd>float - Wind Direction Layer 1</dd>
+<dd>float - Wind Direction Layer 2</dd>
+<dd>float - Wind Direction Layer 3</dd>
+<dd>float - Wind Speed Layer 1</dd>
+<dd>float - Wind Speed Layer 2</dd></dl>
+<p>-
+</p>
+<dl><dd>float - Wind Speed Layer 3</dd>
+<dd>float?</dd>
+<dd>float?</dd>
+<dd>float - Above Water: Fog Amount</dd>
+<dd>float?</dd>
+<dd>float - Under Water: Fog Amount</dd>
+<dd>float - Under Water: Fog Distance - Near Plane</dd>
+<dd>float - Under Water: Fog Distance - Far Plane</dd>
+<dd>float - Refraction Magnitude</dd>
+<dd>float - Specular Power</dd></dl>
+<p>-
+</p>
+<dl><dd>float?</dd>
+<dd>float - Specular Radius</dd>
+<dd>float - Specular Brightness</dd>
+<dd>float - UV Scale Layer 1</dd>
+<dd>float - UV Scale Layer 2</dd>
+<dd>float - UV Scale Layer 3</dd>
+<dd>float - Amplitude Scale Layer 1</dd>
+<dd>float - Amplitude Scale Layer 2</dd>
+<dd>float - Amplitude Scale Layer 3</dd>
+<dd>float - Reflection Magnitude</dd></dl>
+<p>-
+</p>
+<dl><dd>float - Sun Sparkle Magnitude</dd>
+<dd>float - Sun Specular Magnitude</dd>
+<dd>float - Reflections</dd>
+<dd>float - Refraction</dd>
+<dd>float - Normals</dd>
+<dd>float - Specular Lighting</dd>
+<dd>float - Sun Sparkle Power</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>GNAM</td>
+<td>unknown</td>
+<td>ubyte[12]</td>
+<td><i>unknown - always 0</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM0</td>
+<td>unknown</td>
+<td>float[3]</td>
+<td>Linear Velocity X, Y, Z
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM1</td>
+<td>unknown</td>
+<td>float[3]</td>
+<td>Angular Velocity X, Y, Z
+</td></tr>
+<tr>
+<td>-</td>
+<td>NNAM/NAM2</td>
+<td>unknown</td>
+<td>zstring</td>
+<td>Layer 1 Noise texture (Skyrim.esm uses 1st NNAM)
+</td></tr>
+<tr>
+<td>-</td>
+<td>NNAM/NAM3</td>
+<td>unknown</td>
+<td>zstring</td>
+<td>Layer 2 Noise texture (Skyrim.esm uses 2nd NNAM)
+</td></tr>
+<tr>
+<td>-</td>
+<td>NNAM/NAM4</td>
+<td>unknown</td>
+<td>zstring</td>
+<td>Layer 3 Noise texture (Skyrim.esm uses 3rd NNAM)
+</td></tr></tbody></table>
+</div>

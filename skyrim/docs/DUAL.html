@@ -1,0 +1,47 @@
+
+<div><p><b>DUAL</b> records are used for dual cast art.
+</p><p>These records might not actually be used, only 2 records - doomSerpentDualCastData and FrostStormDualCastData. But they are referenced by 1 and 11 <a href="MGEF.html">MGEF</a> records respectively.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>unknown</td>
+<td>struct</td>
+<td>24-byte struct
+<dl><dd>formID Projectile (<a href="PROJ.html">PROJ</a>)</dd>
+<dd>formID Explosion (<a href="EXPL.html">EXPL</a>)</dd>
+<dd>formID Effect Shader (<a href="EFSH.html">EFSH</a>)</dd>
+<dd>formID Hit Effect Art (<a href="ARTO.html">ARTO</a>)</dd>
+<dd>formID Impact Data Set (<a href="IPDS.html">IPDS</a>)</dd>
+<dd>uint32 scale inheritance flags
+<dl><dd>0x01 - hit effect art inherits scale</dd>
+<dd>0x02 - projectile inherits scale</dd>
+<dd>0x04 - explosion inherits scale</dd></dl></dd></dl>
+</td></tr></tbody></table>
+</div>

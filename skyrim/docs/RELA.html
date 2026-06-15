@@ -1,0 +1,79 @@
+
+<div><p><b>RELA</b> records contain information on Relationships between 2 NPC_ or an NPC_ and the player.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td rowspan="6">+
+</td>
+<td rowspan="6">DATA
+</td>
+<td>Data</td>
+<td>struct[16]</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Parent NPC</dd></dl>
+</td>
+<td>formid</td>
+<td>Parent/child here does not necessarily mean biological parent/child; it's just a generic way of describing two connected items.
+</td></tr>
+<tr>
+<td>
+<dl><dd>Child NPC</dd></dl>
+</td>
+<td>formid</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Rank</dd></dl>
+</td>
+<td>uint16</td>
+<td>Relationship Level.  The value stored in the game data is unsigned integer ranging from 0 to 8 (although 7 is the highest value being used so far).  However, this is converted into a value ranging from -4 to 4, which is the value returned by GetRelationshipRank; negative values imply dislike/hatred whereas positive values are for friendship.  The meaning assigned to each value in the CK is (the first number is the raw value in the game data; the second number is the GetRelationshipRank value):
+<dl><dd>0 - Lover (4)</dd>
+<dd>1 - Ally (3)</dd>
+<dd>2 - Confidant (2)</dd>
+<dd>3 - Friend (1)</dd>
+<dd>4 - Acquaintance (0)</dd>
+<dd>5 - Rival (-1)</dd>
+<dd>6 - Foe (-2)</dd>
+<dd>7 - Enemy (-3)</dd>
+<dd>8 - Archnemesis (-4)</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Flag</dd></dl>
+</td>
+<td>uint16</td>
+<td>The only bit set in this flag is the highest bit:
+<dl><dd>0x8000 - Secret</dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Association Type</dd></dl>
+</td>
+<td>formid</td>
+<td>Formid to a <a href="ASTP.html">ASTP</a> record, which provides additional information about the association between the two people.<br/>
+<p>Can be empty, in which case no additional information is available.
+</p>
+</td></tr></tbody></table>
+</div>

@@ -1,0 +1,102 @@
+
+<div><p><b>MUST</b> records contain data regarding individual music "tracks". Tracks usually consist of a single .wav but can have more than one along with conditional data.
+</p><p>There are also a handful of records that have the same functionality as MUSC, namely they are themselves a collection of MUST and not a single track. These have the SNAM field and usually "Palette" in their EDID, no ANAM and were probably created prior to (or in spite of) the MUSC type. Either an ANAM or an SNAM field are required.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>CNAM</td>
+<td>trackType</td>
+<td>uint32</td>
+<td>4 byte type identifier
+<dl><dd><tt>0x6ED7E048</tt> - single track</dd>
+<dd><tt>0xA1A9C4D5</tt> - silent track</dd>
+<dd><tt>0x23F678C3</tt> - palette</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>FLTV</td>
+<td>duration</td>
+<td>float</td>
+<td>duration in seconds (only for silent tracks or palette tracks)
+</td></tr>
+<tr>
+<td>-</td>
+<td>DNAM</td>
+<td>fadeOut</td>
+<td>float</td>
+<td>fade-out in seconds (appears in palette tracks only)
+</td></tr>
+<tr>
+<td>-</td>
+<td>ANAM</td>
+<td>a track</td>
+<td>zstring</td>
+<td>path to .wav
+</td></tr>
+<tr>
+<td>-</td>
+<td>BNAM</td>
+<td>b track</td>
+<td>zstring</td>
+<td>path to .wav
+</td></tr>
+<tr>
+<td>-</td>
+<td>FNAM</td>
+<td>Cue Points</td>
+<td>float[]</td>
+<td>arbitrary number of floating point values giving the cue points (in seconds)
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>tracks</td>
+<td>formid[]</td>
+<td>Array of <a>MUST</a>, total count arbitrary - <i>probably pre-MUSC collections</i>
+<p>Form IDs of value zero are used to separate layers. (<tt>0x00000000</tt> is no valid form ID anyway.)
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>LNAM</td>
+<td>loop data</td>
+<td>struct</td>
+<td>12-byte struct
+<dl><dd>float Loop Begins (seconds)</dd>
+<dd>float Loop Ends (seconds)</dd>
+<dd>uint32 Loop Count</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>CITC</td>
+<td>condition count</td>
+<td>uint32</td>
+<td>condition count
+</td></tr>
+<tr>
+<td>*</td>
+<td>CTDA</td>
+<td>condition data</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>conditions
+</td></tr></tbody></table>
+</div>

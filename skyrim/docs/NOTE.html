@@ -1,0 +1,120 @@
+
+<div><p><b>NOTE</b> records were added in <i><a href="/wiki/General:Fallout_3">Fallout 3</a></i>, and define collectible intel items including audio logs, text, and images. Though they cannot be created in <i><a href="/wiki/Skyrim:Skyrim">Skyrim</a></i><span>'</span>s <a href="/wiki/Skyrim_Mod:Creation_Kit">Creation Kit</a>, the game engine still supports them and has a limited set of behavior for them.
+</p><p>Notes are technically items. However, if the player picks up a Note, it will be removed from the game world entirely without being transferred to their inventory. The game remembers all Notes that the player has ever picked up. The GetHasNote condition can be used to test whether the player has ever picked up a given note, and the AddNote console command can be used to flag a note as having been collected by the player. Because the Note never appears in the player's inventory, GetItemCount will not detect it.
+</p><p>There is, of course, no way for the player to actually view their collected notes.
+</p><p>There is a bug where using the EquipItem console command (or anything similar) will directly add a Note to the player's inventory, and not to the internal list of Notes that the player has seen.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>C
+</th>
+<th>Field
+</th>
+<th><a href="File_Format_Conventions.html">Type</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>-</td>
+<td>EDID</td>
+<td>zstring</td>
+<td>Editor ID.
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>Papyrus data.
+</td></tr>
+<tr>
+<td>-</td>
+<td>OBND</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object bounds data.
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>The note's 3D model. Includes fields MODL and MODT; field MODS (texture swaps) is not recognized.
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>lstring</td>
+<td>The note's name.
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>uint8</td>
+<td>The note's type.
+<dl><dd>0 - Sound</dd>
+<dd>1 - Text</dd>
+<dd>2 - Image file</dd>
+<dd>3 - Voice (topic and actor)</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>ICON</td>
+<td>zstring</td>
+<td>Texture file, intended to be displayed as an icon in menus.
+</td></tr>
+<tr>
+<td>*</td>
+<td>ONAM</td>
+<td>formID</td>
+<td>One of the note's owning <a href="QUST.html">quests</a>.
+</td></tr>
+<tr>
+<td>-</td>
+<td>XNAM</td>
+<td>zstring</td>
+<td>The texture file path for an image note. Only used if the note type has already been loaded.
+</td></tr>
+<tr>
+<td>-</td>
+<td>YNAM</td>
+<td>formID</td>
+<td>Sound to play when the item is picked up.
+</td></tr>
+<tr>
+<td>-</td>
+<td>ZNAM</td>
+<td>formID</td>
+<td>Sound to play when the item is dropped.
+</td></tr>
+<tr>
+<td colspan="4">These fields are only recognized for sound notes:
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>formID</td>
+<td>The sound form that contains this note's content.
+</td></tr>
+<tr>
+<td colspan="4">These fields are only recognized for text notes:
+</td></tr>
+<tr>
+<td>-</td>
+<td>TNAM</td>
+<td>lstring?</td>
+<td>The text of this note.
+</td></tr>
+<tr>
+<td colspan="4">These fields are only recognized for voice notes:
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>formID</td>
+<td>The <a href="NPC_.html">ActorBase</a> who speaks when this note is played.
+</td></tr>
+<tr>
+<td>-</td>
+<td>TNAM</td>
+<td>formID</td>
+<td>The <a href="DIAL.html">topic</a> that is said when this note is played.
+</td></tr></tbody></table>
+</div>

@@ -1,0 +1,81 @@
+
+<div><p><b>CAMS</b> records contain camera view information.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td>zstring</td>
+<td>Models\ relative .nif <i>player cam only one without</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODT</td>
+<td>model data</td>
+<td>ubyte[12]</td>
+<td>When present always 12 bytes, (02-00-00-00-00-00-00-00-00-00-00-00)
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>cam data</td>
+<td>struct</td>
+<td>40-byte/44-byte struct, probably positional though they appear to also be able to control time flow (RSideCam01/Fast/Slow)
+<dl><dd>uint32 Camera Action  0-2
+<dl><dd>0x00 - Shoot</dd>
+<dd>0x01 - Fly</dd>
+<dd>0x02 - Hit</dd>
+<dd>0x03 - Zoom</dd></dl></dd>
+<dd>uint32 Camera Location  0-3
+<dl><dd>0x00 - Attacker</dd>
+<dd>0x01 - Projectile</dd>
+<dd>0x02 - Target</dd>
+<dd>0x03 - Lead Actor</dd></dl></dd>
+<dd>uint32 Camera Target  0-2
+<dl><dd>0x00 - Attacker</dd>
+<dd>0x01 - Projectile</dd>
+<dd>0x02 - Target</dd>
+<dd>0x03 - Lead Actor</dd></dl></dd>
+<dd>uint32 Flags (bitfield)  6-39
+<dl><dd>0x01 - Position Follows Location</dd>
+<dd>0x02 - Rotation Follows Target</dd>
+<dd>0x04 - Don't Follow Bone</dd>
+<dd>0x08 - First Person Camera</dd>
+<dd>0x10 - No Tracer</dd>
+<dd>0x20 - Start At Time Zero</dd></dl></dd>
+<dd>float player time multiplier  0.4-1 <i>(allowed range: [0.0;20.0])</i></dd>
+<dd>float target time multipliier  0.4-1 <i>(allowed range: [0.0;20.0])</i></dd>
+<dd>float global time multiplier  0.025-1 <i>(allowed range: [0.0;1.0])</i></dd>
+<dd>float Max Time  0.2-17 <i>(allowed range: [0.0;120.0])</i></dd>
+<dd>float Min Time  0.05-5 <i>(allowed range: [0.0;120.0])</i></dd>
+<dd>float Target % Between Actors  0-50 <i>(allowed range: [0.0;100.0])</i></dd>
+<dd>float Near Target Distance <i>(allowed range: [0.0;2000.0])</i>
+<dl><dd>This last float value is only present in the 44 byte variant of this struct. It presumably defaults to zero for the shorter 40 byte variant. (The 44 byte variant was introduced in the Creation Kit update after patch 1.5 and mods created with that Creation Kit version might be incompatible with older, unpatched versions of Skyrim, if they use <b>CAMS</b> records.)</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>MNAM</td>
+<td>effect</td>
+<td>formid</td>
+<td><a href="IMAD.html">IMAD</a> formid, usually [IMAD 0x00035301] VATSImodDOF or [IMAD 0x0001BDAD] VATSImod
+</td></tr></tbody></table>
+</div>

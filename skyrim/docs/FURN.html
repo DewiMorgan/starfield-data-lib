@@ -1,0 +1,189 @@
+
+<div><p><b>FURN</b> records contain information on furniture.
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p>
+<dl><dd>0x00010000 : Random Animation Start</dd>
+<dd>0x00800000 : Is Marker</dd>
+<dd>0x10000000 : Must Exit to Talk <i>CK sets flag here and in MNAM</i></dd>
+<dd>0x20000000 : Child Can Use</dd></dl>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td>script info</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>Script info
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>object bounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>full</td>
+<td>lstring</td>
+<td>Full (in-game) id
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODT, MODS
+</td></tr>
+<tr>
+<td>-</td>
+<td>DEST</td>
+<td>destruction data</td>
+<td><a href="DEST_Field.html">DEST</a></td>
+<td>Includes Fields DSTD, DSTF
+</td></tr>
+<tr>
+<td>-</td>
+<td>KSIZ</td>
+<td>keyword count</td>
+<td><a href="KYWD.html#Using_Keywords">KSIZ</a></td>
+<td>Keyword count
+</td></tr>
+<tr>
+<td>-</td>
+<td>KWDA</td>
+<td>keywords</td>
+<td><a href="KYWD.html#Using_Keywords">KWDA</a></td>
+<td>KYWD[]
+</td></tr>
+<tr>
+<td>+</td>
+<td>PNAM</td>
+<td>unknown</td>
+<td>uint32</td>
+<td>4 bytes, 0 or 00334ccc seen
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>flags</td>
+<td>uint16</td>
+<td>Flags
+<dl><dd>0x02 : Ignored by Sandbox</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>KNAM</td>
+<td>interaction keyword</td>
+<td>formID</td>
+<td><a href="KYWD.html">KYWD</a> formid
+</td></tr>
+<tr>
+<td>+</td>
+<td>MNAM</td>
+<td>flags</td>
+<td>uint32</td>
+<td>
+<dl><dd>0x00ffffff : Flags that indicate which of the model markers are active (i.e., 0x01 = first marker is active)</dd>
+<dd>0x02000000 : Disables Activation</dd>
+<dd>0x04000000 : Is Perch</dd>
+<dd>0x08000000 : Must Exit to Talk</dd>
+<dd>0x40000000 : ?</dd>
+<dd>0x80000000 : ?</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>WBDT</td>
+<td>workbench data</td>
+<td>struct</td>
+<td>2 bytes
+<dl><dd>uint8 Workbench     One of 8 hardcoded types
+<dl><dd><dl><dd>0 : None</dd>
+<dd>1 : Create Object</dd>
+<dd>2 : Smithing Weapon</dd>
+<dd>3 : Enchanting</dd>
+<dd>4 : Enchanting Experiment</dd>
+<dd>5 : Alchemy</dd>
+<dd>6 : Alchemy Experiment</dd>
+<dd>7 : Smithing Armor</dd></dl></dd></dl></dd>
+<dd>uint8 ActorValue    Skill for using the workbench (one of 18 AV or 0xFF for none)</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XMRK</td>
+<td>marker model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Model filename
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM1</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Spell associated with item?
+</td></tr>
+<tr>
+<td>*</td>
+<td>ENAM</td>
+<td>unknown</td>
+<td>uint32</td>
+<td>marker index, optionally for each marker, followed by optional fields NAM0, FNMK
+</td></tr>
+<tr>
+<td>*</td>
+<td>NAM0</td>
+<td>unknown</td>
+<td>struct</td>
+<td>
+<dl><dd>uint16 <i>unknown - usually 0x0000, but 0x0002 seen too</i></dd>
+<dd>uint16 flags - inactive marker entry points <i>those show no checkmark</i>
+<dl><dd>0x01 Front</dd>
+<dd>0x02 Behind</dd>
+<dd>0x04 Right</dd>
+<dd>0x08 Left</dd>
+<dd>0x10 Up</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>FNMK</td>
+<td>marker keyword</td>
+<td>formID</td>
+<td><a href="KYWD.html">KYWD</a> formID
+</td></tr>
+<tr>
+<td>*</td>
+<td>FNPR</td>
+<td>marker</td>
+<td>struct</td>
+<td>one for each marker
+<dl><dd>uint16 flags marker type, exactly one is set
+<dl><dd>0x01 Sit</dd>
+<dd>0x02 Sleep</dd>
+<dd>0x04 UNKNOWN <i>displayed thus in CK, seems to be "leaning"</i></dd></dl></dd>
+<dd>uint16 flags marker entry point
+<dl><dd>0x01 Front</dd>
+<dd>0x02 Behind</dd>
+<dd>0x04 Right</dd>
+<dd>0x08 Left</dd>
+<dd>0x10 Up</dd></dl></dd></dl>
+</td></tr>
+</tbody></table>
+</div>

@@ -1,0 +1,76 @@
+
+<div><p><b>COLL</b> records are "collision layers".  A collision layer is essentially an invisible box around/near NPCs/objects/camera, indicating different kinds of checks if they collide with other boxes.  
+</p><p>If a box of type A collides with a box of type B, and the formid of A is in the CNAM field of type B then some kind of action is triggered.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>DESC</td>
+<td>unknown</td>
+<td>lstring</td>
+<td>Description (presumably for CK)
+</td></tr>
+<tr>
+<td>+</td>
+<td>BNAM</td>
+<td>unique id?</td>
+<td>uint32</td>
+<td>Unique id (within COLL), may be used instead of FormID to reference internally
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>debug color</td>
+<td>rgb</td>
+<td>Debug Color
+</td></tr>
+<tr>
+<td>+</td>
+<td>GNAM</td>
+<td>flags</td>
+<td>uint32</td>
+<td>Flags
+<dl><dd>0x01 - Trigger Volume</dd>
+<dd>0x02 - Sensor</dd>
+<dd>0x04 - Navmesh Obstacle</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>MNAM</td>
+<td>name</td>
+<td>zstring</td>
+<td>Name, always same as EDID
+</td></tr>
+<tr>
+<td>+</td>
+<td>INTV</td>
+<td>interactables count</td>
+<td>uint32</td>
+<td>Count of interactions in CNAM (if 0 then no CNAM field)
+</td></tr>
+<tr>
+<td>-</td>
+<td>CNAM</td>
+<td>interactables</td>
+<td>formid[]</td>
+<td>Collides with..., End-to-end COLL formids, total count INTV.  Presumably these are to indicate if the 2 collide there is something to check/do.
+</td></tr></tbody></table>
+</div>

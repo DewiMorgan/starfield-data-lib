@@ -1,0 +1,71 @@
+
+<div><p><b>CLMT</b> records contain information on climate settings.
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>WLST</td>
+<td>weather list</td>
+<td>struct[]</td>
+<td>array of 12-byte structs
+<dl><dd>formid - <a href="WTHR.html">WTHR</a></dd>
+<dd>uint32 - Chance in percent</dd>
+<dd>formid - Global</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>FNAM</td>
+<td>sun texture</td>
+<td>zstring</td>
+<td>path to sun .dds
+</td></tr>
+<tr>
+<td>-</td>
+<td>GNAM</td>
+<td>glare texture</td>
+<td>zstring</td>
+<td>path to glare .dds
+</td></tr>
+<tr>
+<td>+</td>
+<td>MODL</td>
+<td>night sky model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Night Sky - Includes optional field MODT <i>always Sky\Stars.nif</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>TNAM</td>
+<td>sun and moon</td>
+<td>struct</td>
+<td>6-byte struct - Sun and Moon
+<dl><dd>uint8 - Sunrise Begin - times 10 minutes</dd>
+<dd>uint8 - Sunrise End - times 10 minutes</dd>
+<dd>uint8 - Sunset Begin - times 10 minutes</dd>
+<dd>uint8 - Sunset End - times 10 minutes</dd>
+<dd>uint8 - Volatility - 0-100</dd>
+<dd>uint8 - Moons
+<dl><dd>mask 0x3F - Moon Phase Length in days</dd>
+<dd>0x40 - Masser</dd>
+<dd>0x80 - Secunda</dd></dl></dd></dl>
+</td></tr>
+</tbody></table>
+</div>

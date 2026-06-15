@@ -1,0 +1,110 @@
+
+<div><p><b>CONT</b> records contain the data for containers.
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p>
+<dl><dd>0x10000 - Random Anim Start</dd>
+<dd>0x2000000 - Obstacle
+<dl><dd>next three flags define NavMesh Generation Import Option, at most one can be set, defaults to "Collision Geometry" if none is set</dd></dl></dd>
+<dd>0x4000000 - Filter</dd>
+<dd>0x8000000 - Bounding Box</dd>
+<dd>0x40000000 - Ground</dd></dl>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td></td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>Script data
+</td></tr>
+<tr>
+<td>+</td>
+<td>OBND</td>
+<td>objectBounds</td>
+<td><a href="OBND_Field.html">OBND</a></td>
+<td>Object Bounds Data
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>full name</td>
+<td>lstring</td>
+<td>In-game name
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Includes Fields MODT, MODS
+</td></tr>
+<tr>
+<td>-</td>
+<td>COCT</td>
+<td>object count</td>
+<td>uint32</td>
+<td>Count of CNTO/COED subrecords
+</td></tr>
+<tr>
+<td>*</td>
+<td>CNTO</td>
+<td>container object</td>
+<td>struct</td>
+<td>8 byte struct
+<dl><dd>formID item - object or leveled list</dd>
+<dd>uint32 count</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>COED</td>
+<td></td>
+<td><a href="COED_Field.html">COED</a></td>
+<td>optional owner/health of item <i>only one occurrence in game data</i>
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>unknown</td>
+<td>struct</td>
+<td>
+<p>uint8 - Flags
+</p>
+<dl><dd>0x01 - Allow sounds when container animation exists</dd>
+<dd>0x02 - Respawns</dd>
+<dd>0x04 - Show Owner</dd></dl>
+<p>float - weight <i>mis-aligned, always 0</i>
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>SNAM</td>
+<td>Open Sound</td>
+<td>formID</td>
+<td>(<a href="SNDR.html">SNDR</a>)
+</td></tr>
+<tr>
+<td>-</td>
+<td>QNAM</td>
+<td>Close Sound</td>
+<td>formID</td>
+<td>(<a href="SNDR.html">SNDR</a>)
+</td></tr>
+</tbody></table>
+</div>

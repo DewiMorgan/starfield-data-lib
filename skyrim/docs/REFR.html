@@ -1,0 +1,598 @@
+
+<div><p><b>REFR</b> records are over 90% of all records.  They are simply references, but they are references to anything at any point in time (relatively speaking, whether triggered or otherwise), at any location in the game, doing something specified, or nothing.  They can have extra items, or extra flags attached to them to identify them as containers, important places/locations.
+</p><p>Though there are a lot of fields for modifying various aspects of different things, the only fields required are a NAME (this is the main object we are referring to) and DATA (locational information).
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p>
+<dl><dd>0x200 - Hidden From Local Map</dd>
+<dd>0x400 - Persistent Reference (? not shown in the CK)</dd>
+<dd>0x800 - Initially Disabled</dd>
+<dd>0x10000 - Is Full LOD</dd>
+<dd>0x2000000 - No AI Acquire</dd>
+<dd>0x10000000 - Reflected By Auto Water</dd>
+<dd>0x20000000 - Don't Havok Settle</dd>
+<dd>0x40000000 - not Respawns</dd></dl>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td>editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>VMAD</td>
+<td>script info</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>scripting info
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>NAME</td>
+<td>basic object</td>
+<td>formid</td>
+<td>Formid of anything as the base object.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XMBO</td>
+<td>model bounds?</td>
+<td>float[3]</td>
+<td>X, Y, Z bounds, usually same as XPRM bounds (CK 1.8+ throws error if not equal)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XPRM</td>
+<td>primitive</td>
+<td>struct</td>
+<td>32 byte struct
+<dl><dd>float[3] - x,y,z Bounds / 2</dd>
+<dd>float[3] - r,g,b Color / 255</dd>
+<dd>float - unknown: 0.15, 0.2, 0.25, 1.0 seen; same for any given base object</dd>
+<dd>uint32 - unknown: 1-4 seen
+<dl><dd>1 - Box</dd>
+<dd>2 - Sphere</dd>
+<dd>3 - Portal Box</dd>
+<dd>4 - Unknown</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XPOD</td>
+<td>portal destination</td>
+<td>formid[2]</td>
+<td>origin/dest <a>REFR</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XRMR</td>
+<td>reference marker</td>
+<td>struct</td>
+<td>
+<dl><dd>ubyte - count of following XLRM</dd>
+<dd>ubyte - flags (0x1 - 0x20 appear unknown)
+<dl><dd>0x00000040 - Has Image Space</dd>
+<dd>0x00000080 - Has Lighting Template</dd>
+<dd>0x00010000 - seen in 0x000C6B47, 48</dd></dl></dd>
+<dd>ubyte[2] - Unknown</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>LNAM</td>
+<td>lighting template</td>
+<td>formid</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>INAM</td>
+<td>image space</td>
+<td>formid</td>
+<td>INAM is used differently in a different context (see below)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>SCHR</td>
+<td>Old Script</td>
+<td><a href="SCHR_Field.html">SCHR</a></td>
+<td>Old scripting field.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>XLRM</td>
+<td>location room marker</td>
+<td>formid</td>
+<td><a>REFR</a> usually to a <a href="STAT.html">STAT</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XRGD</td>
+<td>ragdoll data</td>
+<td>struct</td>
+<td>A long binary stream whose contents are not understood at this time.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XRDS</td>
+<td>Radius</td>
+<td>float</td>
+<td>~1.25. Controls the radii on objects like lights.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XEMI</td>
+<td>emitted light</td>
+<td>formid</td>
+<td><a href="LIGH.html">LIGH</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XLIG</td>
+<td>light data</td>
+<td>struct</td>
+<td>16- or 20-byte struct
+<dl><dd>float - FOV Offset from Base Object (°)</dd>
+<dd>float - Fade Offset from Base Object</dd>
+<dd>float - End Distance Cap</dd>
+<dd>float - Shadow Depth Bias</dd>
+<dd>unknown - (4 bytes, not a float, seen in Dawnguard and Hearthfire)</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XESP</td>
+<td>enable parent</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>formid - Parent reference (Object to take enable state from)</dd>
+<dd>uint32 - Flags (records with no flags set have random values in high bits)
+<dl><dd>0x0001 = Set Enable State Opposite Parent</dd>
+<dd>0x0002 = Pop In</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XALP</td>
+<td>Alpha Cutoff</td>
+<td>ubyte[2]</td>
+<td>2-byte struct
+<dl><dd>ubyte - Current Alpha Cutoff</dd>
+<dd>ubyte - Default Alpha Cutoff</dd></dl>
+<p>Note: sometimes default displayed in CK instead of current; unclear when that occurs
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XNDP</td>
+<td>door pivot?</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>formID -  <a href="NAVM.html">NAVM</a></dd>
+<dd>uint16 -  Navmesh triangle index</dd>
+<dd>uint16 -  Padding</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XTEL</td>
+<td>door teleport</td>
+<td>struct</td>
+<td>32-byte struct
+<dl><dd>formid - destination <a href="DOOR.html">DOOR</a></dd>
+<dd>float[3] - x/y/z position</dd>
+<dd>float[3] - x/y/z rotation (radians)</dd>
+<dd>uint32 - flag: 0x01 No alarm</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XSCL</td>
+<td>scale</td>
+<td>float</td>
+<td>setScale
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XAPD</td>
+<td>activation parent flags</td>
+<td>ubyte</td>
+<td>0x01 - Parent Activate Only
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XAPR</td>
+<td>activation parent</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>formid - <a>REFR</a> usually to a <a href="STAT.html">STAT</a></dd>
+<dd>float - Delay</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XLIB</td>
+<td>leveled item base</td>
+<td>formid</td>
+<td><a href="LVLI.html">LVLI</a> of objects using this as a base
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XLKR</td>
+<td>linked ref</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>formid 0 or <a href="KYWD.html">KYWD</a> (usually LinkCarryStart/End)</dd>
+<dd>formid <a>REFR</a> usually to a <a href="STAT.html">STAT</a> (<a href="FURN.html">FURN</a> also)</dd></dl>
+<p>10 instances of 4 byte struct with just a formid in Skyrim.esm
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XLOC</td>
+<td>lock information (door/cont)</td>
+<td>struct</td>
+<td>20 bytes
+<dl><dd>byte Level
+<dl><dd>-1 - Requires Key</dd>
+<dd>0 - Novice</dd>
+<dd>1 - Novice also, same as 0 (<a href="http://forum.step-project.com/topic/10094-tes5edit-by-elminsterau/?p=184773" rel="nofollow">source</a>)</dd>
+<dd>25 - Apprentice</dd>
+<dd>50 - Adept</dd>
+<dd>75 - Expert</dd>
+<dd>100 - Master</dd></dl></dd>
+<dd>ubyte[3] - flags?</dd>
+<dd>formid KEYM (Key)</dd>
+<dd>ubyte flags
+<dl><dd>0x04 - Leveled</dd></dl></dd>
+<dd>ubyte[3] - flags?</dd>
+<dd>ubyte[8] - 0s</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>XLRT</td>
+<td>location ref type</td>
+<td>formid</td>
+<td><a href="LCRT.html">LCRT</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XOWN</td>
+<td>owner</td>
+<td>formid</td>
+<td>usually <a href="FACT.html">FACT</a> but horse/dog has <a href="NPC_.html">NPC_</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XCNT</td>
+<td>item count</td>
+<td>uint32</td>
+<td>if more than 1 (eg arrows)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XCVL</td>
+<td></td>
+<td>float[3]</td>
+<td>X, Y, Z - Water Current Linear Velocity (only found in one instance)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XCVR</td>
+<td></td>
+<td>float[3]</td>
+<td>X, Y, Z - Water Current Rotational Velocity (no instance found)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XCZA</td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XCZC</td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XEZN</td>
+<td></td>
+<td>formid</td>
+<td>Encounter Zone
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XFVC</td>
+<td>Favor Cost</td>
+<td>float</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>FNAM</td>
+<td>Marker Flags</td>
+<td>uint8</td>
+<td>
+<dl><dd>uint8
+<dl><dd>{0x01} - Visible</dd>
+<dd>{0x02} - Can Travel To</dd>
+<dd>{0x04} - "Show All" Hidden</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>FULL</td>
+<td>ingame name</td>
+<td>lstring</td>
+<td>Name of the Marker
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>TNAM</td>
+<td>Marker Type</td>
+<td>uint16</td>
+<td>The Icon for the Map Marker - Enum
+<dl><dd>uint16</dd></dl>
+<div><div>Codes</div><div>
+<dl><dd><dl><dd>1 - City</dd>
+<dd>2 - Town</dd>
+<dd>3 - Settlement</dd>
+<dd>4 - Cave</dd>
+<dd>5 - Camp</dd>
+<dd>6 - Fort</dd>
+<dd>7 - Nordic Ruins</dd>
+<dd>8 - Dwemer Ruin</dd>
+<dd>9 - Shipwreck</dd>
+<dd>10 - Grove</dd>
+<dd>11 - Landmark</dd>
+<dd>12 - Dragon Lair</dd>
+<dd>13 - Farm</dd>
+<dd>14 - Wood Mill</dd>
+<dd>15 - Mine</dd>
+<dd>16 - Imperial Camp</dd>
+<dd>17 - Stormcloak Camp</dd>
+<dd>18 - Doomstone</dd>
+<dd>19 - Wheat Mill</dd>
+<dd>20 - Smelter</dd>
+<dd>21 - Stable</dd>
+<dd>22 - Imperial Tower</dd>
+<dd>23 - Clearing</dd>
+<dd>24 - Pass</dd>
+<dd>25 - Altar</dd>
+<dd>26 - Rock</dd>
+<dd>27 - Lighthouse</dd>
+<dd>28 - Orc Stronghold</dd>
+<dd>29 - Giant Camp</dd>
+<dd>30 - Shack</dd>
+<dd>31 - Nordic Tower</dd>
+<dd>32 - Nordic Dwelling</dd>
+<dd>33 - Docks</dd>
+<dd>34 - Shrine</dd>
+<dd>35 - Riften Castle</dd>
+<dd>36 - Riften Capitol</dd>
+<dd>37 - Windhelm Castle</dd>
+<dd>38 - Windhelm Capitol</dd>
+<dd>39 - Whiterun Castle</dd>
+<dd>40 - Whiterun Capitol</dd>
+<dd>41 - Solitude Castle</dd>
+<dd>42 - Solitude Capitol</dd>
+<dd>43 - Markarth Castle</dd>
+<dd>44 - Markarth Capitol</dd>
+<dd>45 - Winterhold Castle</dd>
+<dd>46 - Winterhold Capitol</dd>
+<dd>47 - Morthal Castle</dd>
+<dd>48 - Morthal Capitol</dd>
+<dd>49 - Falkreath Castle</dd>
+<dd>50 - Falkreath Capitol</dd>
+<dd>51 - Dawnstar Castle</dd>
+<dd>52 - Dawnstar Capitol</dd>
+<dd>53 - DLC02 -- Temple of Miraak</dd>
+<dd>54 - DLC02 -- Raven Rock</dd>
+<dd>55 - DLC02 -- Standing Stones</dd>
+<dd>56 - DLC02 -- Telvanni Tower</dd>
+<dd>57 - DLC02 -- To Skyrim</dd>
+<dd>58 - DLC02 -- To Solstheim</dd>
+<dd>59 - DLC02 -- Castle Karstaag</dd></dl></dd></dl>
+</div></div>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XHTW</td>
+<td>Head-Tracking Weight</td>
+<td>Float</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XIS2</td>
+<td></td>
+<td></td>
+<td>zero length, present if "Ignored By Sandbox" is checked
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XLCM</td>
+<td>type?</td>
+<td>uint32?</td>
+<td>only values seen are 0x00, 0x02, 0x03
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XMBR</td>
+<td></td>
+<td>formID</td>
+<td>MultiBound Reference
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XOCP</td>
+<td></td>
+<td></td>
+<td>
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>XPWR</td>
+<td></td>
+<td>formID</td>
+<td>Reflected by
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XTRI</td>
+<td></td>
+<td>uint32</td>
+<td>Primitive: Collision Layer, selected by matching BNAM field of <a href="COLL.html">COLL</a> form
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ONAM</td>
+<td></td>
+<td></td>
+<td>zero length, appears together with XACT if "Open by Default" is set
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XACT</td>
+<td></td>
+<td>uint32</td>
+<td>always value 0x0d, appears together with ONAM if "Open by Default" is set
+</td></tr>
+<tr>
+<td>-</td>
+<td>43</td>
+<td>XATR</td>
+<td>attach ref</td>
+<td>formID</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XWCN</td>
+<td></td>
+<td>uint32</td>
+<td>Size of XWCU/16
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XWCU</td>
+<td></td>
+<td>struct[]</td>
+<td>Water Current, series of 16 byte structures <i>seems to be 3 structures always</i>
+<dl><dd>float X</dd>
+<dd>float Y</dd>
+<dd>float Z</dd>
+<dd>float? <i>unknown</i></dd></dl>
+<p>First structure seems to be "Linear Velocity", second "Angular Velocity", with a structure of all zeroes following - but see <a href="CELL.html">CELL</a>.XWCU
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>37</td>
+<td>XPRD</td>
+<td>Patrol Data</td>
+<td>float</td>
+<td>Patrol Data Idle Time
+</td></tr>
+<tr>
+<td>-</td>
+<td>37</td>
+<td>XPPA</td>
+<td>Marker</td>
+<td>0-length</td>
+<td>Marker, XPRD/XPPA/PDTO/INAM are a set
+</td></tr>
+<tr>
+<td>-</td>
+<td>37</td>
+<td>PDTO</td>
+<td>Patrol Data Topic</td>
+<td>struct</td>
+<td>Same as PDTO field in <a href="PACK.html#Public_Package_Data">PACK</a> record
+</td></tr>
+<tr>
+<td>-</td>
+<td>37</td>
+<td>INAM</td>
+<td>Idle Name?</td>
+<td>formid?</td>
+<td>Probably an IDLE link, as seen in PACK record
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XLRL</td>
+<td></td>
+<td>formid</td>
+<td>LCTN, not found in .esms, added by CK 1.8 when edited
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>DATA</td>
+<td>locational data</td>
+<td>struct</td>
+<td>24 byte
+<dl><dd>float[3] - x/y/z position</dd>
+<dd>float[3] - x/y/z rotation (radians)</dd></dl>
+<p><i>Note:</i> <code>Floor(<i>X or Y</i> / 4096)</code> gives the cell location
+</p>
+</td></tr></tbody></table>
+</div>

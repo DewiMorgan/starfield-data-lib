@@ -1,0 +1,279 @@
+
+<div><p><b>WRLD</b> records contain the data for a 'world', which can be all of Tamriel or a handful of cells.
+</p><p>In the WRLD GRUP, following each WRLD record is a nested GRUP which contains a single <a href="CELL.html">CELL</a> record (presumably the starting location for the world) and a number of Exterior Cell Block groups (see <a href="GRUP.html">the group table</a>). Each Exterior Cell Block group contains Exterior Cell Sub-Block groups, each of which contain CELL records.
+</p><p><a href="index.html#Records">Record header flags</a>:
+</p>
+<dl><dd>0x80000 - Can't Wait</dd></dl>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>EditorID</td>
+<td>zstring</td>
+<td>The name of this worldspace used in the construction kit
+</td></tr>
+<tr>
+<td>*</td>
+<td>RNAM</td>
+<td>Large References</td>
+<td>struct</td>
+<td>(int16's are Cell Grid Coordinates, FormIDs are References that place a Base Object that is of Object Size 512 or greater.  Such Reference transition from Full Model to LOD at uGrids=11 instead of 5, by default)
+<dl><dd>int16[2]</dd>
+<dd>uint32 - count of pairs following:
+<dl><dd>formID</dd>
+<dd>int16[2]</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>MHDT</td>
+<td>Max Height Data</td>
+<td>ubyte[??]</td>
+<td>8 bytes for Mix/Max X/Y Cell Grid Coordinates followed by an Ordered Array of 4 byte structs, containing 4x 1 Byte Integers, 1  struct per cell, listing the Max Heights per quad in each cell.  4 Bytes are 00s if the cell the entry relates does not actually exist.
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>Name</td>
+<td>lstring</td>
+<td>The name of this worldspace used in the game
+</td></tr>
+<tr>
+<td>-</td>
+<td>WCTR</td>
+<td>Fixed Dimension Center Cell</td>
+<td>int16[2]</td>
+<td>X, Y
+</td></tr>
+<tr>
+<td>-</td>
+<td>LTMP</td>
+<td>Lighting Template</td>
+<td>formID</td>
+<td>Interior Lighting <a href="LGTM.html">LGTM</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XEZN</td>
+<td>Encounter Zone</td>
+<td>formID</td>
+<td>Encounter Zone <a href="ECZN.html">ECZN</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>XLCN</td>
+<td>Location</td>
+<td>formID</td>
+<td>Location <a href="LCTN.html">LCTN</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>CNAM</td>
+<td>Climate</td>
+<td>formID</td>
+<td><a href="CLMT.html">CLMT</a> reference.
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM2</td>
+<td>Water Type</td>
+<td>formID</td>
+<td>Water <a href="WATR.html">WATR</a>
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM3</td>
+<td>LOD Water Type</td>
+<td>formID</td>
+<td>LOD water-type, always a WATR form ID
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM4</td>
+<td>LOD Water Height</td>
+<td>float</td>
+<td>LOD oceanwater-level (-14000.0 for Tamriel)
+</td></tr>
+<tr>
+<td>-</td>
+<td>DNAM</td>
+<td>Land Data</td>
+<td>float[2]</td>
+<td>Default land- and oceanwater-levels (-27000 &amp; -14000.0 for Tamriel)
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>cloud model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Cloud Model - Includes optional field MODT
+</td></tr>
+<tr>
+<td rowspan="10">-
+</td>
+<td rowspan="10">MNAM</td>
+<td>Map size</td>
+<td>struct</td>
+<td>16 or 28 byte structure
+</td></tr>
+<tr>
+<td>width</td>
+<td>uint32</td>
+<td>The usable width of the map
+</td></tr>
+<tr>
+<td>height</td>
+<td>uint32</td>
+<td>The usable height of the map
+</td></tr>
+<tr>
+<td>NW cell X</td>
+<td>int16</td>
+<td>
+</td></tr>
+<tr>
+<td>NW cell Y</td>
+<td>int16</td>
+<td>
+</td></tr>
+<tr>
+<td>SE cell X</td>
+<td>int16</td>
+<td>
+</td></tr>
+<tr>
+<td>SE cell Y</td>
+<td>int16</td>
+<td>
+</td></tr>
+<tr>
+<td>Min Height</td>
+<td>float</td>
+<td>Camera Data (default 50000), new as of Skyrim 1.8, purpose is not yet known.
+</td></tr>
+<tr>
+<td>Max Height</td>
+<td>float</td>
+<td>Camera Data (default 80000)
+</td></tr>
+<tr>
+<td>Initial Pitch</td>
+<td>float</td>
+<td>Camera Data (default 50)
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAMA</td>
+<td>unknown</td>
+<td>float</td>
+<td>Distant LOD Multiplier
+</td></tr>
+<tr>
+<td>-</td>
+<td>DATA</td>
+<td>flags</td>
+<td>uint8</td>
+<td>Flags
+<dl><dd>0x01 - Small World</dd>
+<dd>0x02 - Can't Fast Travel From Here</dd>
+<dd>0x04</dd>
+<dd>0x08 - No LOD Water</dd>
+<dd>0x10 - No Landscape</dd>
+<dd>0x20 - No Sky</dd>
+<dd>0x40 - Fixed Dimensions</dd>
+<dd>0x80 - No Grass</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM0</td>
+<td>unknown</td>
+<td>int32[2]</td>
+<td>Coordinates for the bottom left corner of the worldspace (assumed from Oblivion)
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM9</td>
+<td>unknown</td>
+<td>int32[2]</td>
+<td>Coordinates for the top right corner of the worldspace (assumed from Oblivion)
+</td></tr>
+<tr>
+<td>-</td>
+<td>WNAM</td>
+<td>Parent worldspace</td>
+<td>formID</td>
+<td>Form ID of the parent worldspace.
+</td></tr>
+<tr>
+<td>-</td>
+<td>PNAM</td>
+<td>unknown</td>
+<td>uint16</td>
+<td>Use flags - Set if parts are inherited from parent worldspace WNAM
+<dl><dd>0x01 - Use Land Data (DNAM)</dd>
+<dd>0x02 - Use LOD Data (NAM3, NAM4)</dd>
+<dd>0x04 - Use Map Data (MNAM, MODL)</dd>
+<dd>0x08 - Use Water Data (NAM2)</dd>
+<dd>0x10 - <i>unknown</i></dd>
+<dd>0x20 - Use Climate Data (CNAM)</dd>
+<dd>0x40 - Use Sky Cell</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>ONAM</td>
+<td>unknown</td>
+<td>float[4]</td>
+<td>This field specifies where map markers will appear in relation to the parent
+<dl><dd>World Map Scale - -1=Hide Map Markers</dd>
+<dd>Cell X Offset * 4096</dd>
+<dd>Cell Y Offset * 4096</dd>
+<dd>Cell Z Offset * 4096</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>TNAM</td>
+<td>HD LOD Diffuse</td>
+<td>zstring</td>
+<td>The name of a texture file.
+</td></tr>
+<tr>
+<td>-</td>
+<td>UNAM</td>
+<td>HD LOD Normal</td>
+<td>zstring</td>
+<td>The name of the normals file matching the TNAM.
+</td></tr>
+<tr>
+<td>+</td>
+<td>ZNAM</td>
+<td>music</td>
+<td>formID</td>
+<td>always a <a href="MUSC.html">MUSC</a> form ID
+</td></tr>
+<tr>
+<td>-</td>
+<td>XWEM</td>
+<td></td>
+<td>zstring</td>
+<td>Water Environment Map
+</td></tr>
+<tr>
+<td>-</td>
+<td>OFST</td>
+<td>Offsets</td>
+<td>Array of 4 byte Integers</td>
+<td>Contains an ordered array of Relative Absolute file offsets to each Cell record under the Worldspace.  4 bytes are all 00 if the cell the entry in the array relates to, is not present in the plugin in question.  When Present, the engine direct loads the Cell and its References from the Offset, instead of seeking down the Blocks/Sub-Blocks to find them.  Is Not a Rule-Of-One Sub-Record, nor does it Merge at Runtime, it is a "Local" sub-record unique to each plugin/override.
+</td></tr></tbody></table>
+<p>It isn't entirely clear what effect the map size field has on the game. Many map sizes simply contain zero in these fields. The landscape can be larger than this size, although the outer areas of the landscape appear to be less well defined.
+</p>
+</div>

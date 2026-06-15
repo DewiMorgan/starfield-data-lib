@@ -1,0 +1,509 @@
+
+<div><p><b>WEAP</b> records hold information about <a href="/wiki/Skyrim:Weapons">weapons</a>.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>BAMT</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Alternate block material. Points to a <a href="MATT.html">MATT</a>.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>BIDS</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Block bash impact data set. Points to a <a href="IPDS.html">IPDS</a>.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>CNAM</td>
+<td>template</td>
+<td>formID</td>
+<td>Points to another WEAP record to use as a template
+</td></tr>
+<tr>
+<td>?</td>
+<td></td>
+<td>CRDT</td>
+<td>Critical Damage</td>
+<td>struct</td>
+<td>
+<p>16 byte struct
+</p>
+<dl><dd>uint16 - Critical Damage (0-13)</dd>
+<dd>uint16 - Unused</dd>
+<dd>float32 - Critical % Mult (0-1.5)</dd>
+<dd>uint32 - Flags
+<dl><dd>0x01 Critical Effect on Death</dd></dl></dd>
+<dd>formID - Critical Spell Effect (SPEL)</dd></dl>
+<p>SSE version: 24 byte struct
+</p>
+<dl><dd>uint16 - Critical Damage</dd>
+<dd>uint16 - Unknown</dd>
+<dd>float32 - Critical % Mult</dd>
+<dd>uint32 - Flags
+<dl><dd>0x01 Critical Effect on Death</dd></dl></dd>
+<dd>uint32 - Unknown</dd>
+<dd>formID - Critical Spell Effect (SPEL)</dd>
+<dd>uint32 - Unknown</dd></dl>
+</td></tr>
+<tr>
+<td rowspan="4">+
+</td>
+<td rowspan="4">
+</td>
+<td rowspan="4"><a href="DATA_Field.html">DATA</a></td>
+<td>data</td>
+<td>struct[10]</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>value</dd></dl>
+</td>
+<td>int32</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>weight</dd></dl>
+</td>
+<td>float</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>damage</dd></dl>
+</td>
+<td>int16</td>
+<td>Base damage.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DESC</td>
+<td>description</td>
+<td>lstring</td>
+<td>
+</td></tr>
+<tr>
+<td rowspan="32" valign="top">+
+</td>
+<td rowspan="32" valign="top">
+</td>
+<td rowspan="32" valign="top">DNAM
+</td>
+<td>Weapon data</td>
+<td>struct[100]
+</td></tr>
+<tr>
+<td><dd>00:Anim Type</dd></td>
+<td>uint8</td>
+<td>Lookup: 0=Other, 1=OneHandSword, 2=OneHandDagger, 3=OneHandAxe, 4=OneHandMace, 5=TwoHandSword, 6=TwoHandAxe, 7=Bow, 8=Staff, 9=Crossbow
+<ul><li>0 is used by the "Unarmed" weapon, the weapon versions of the knife and fork, and the unpatched woodcutter's axe.</li></ul>
+</td></tr>
+<tr>
+<td><dd>01</dd></td>
+<td>int8</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td><dd>02</dd></td>
+<td>in16</td>
+<td><i>unknown</i>
+</td></tr>
+<tr>
+<td><dd>04:Speed</dd></td>
+<td>float</td>
+<td>Speed of weapon.
+</td></tr>
+<tr>
+<td><dd>08:Reach</dd></td>
+<td>float</td>
+<td>For melee weapons, this is a multiplier used in the reach formula: fCombatDistance * NPCScale * WeaponReach (where fCombatDistance is a gamesetting).
+</td></tr>
+<tr>
+<td><dd>0C:Flags</dd></td>
+<td>uint16</td>
+<td>Flags.  Known flag values include:
+<dl><dd>0x01: Ignores Normal Weapon Resistance (probably an obsolete holdover from Oblivion)</dd>
+<dd>0x02: Automatic</dd>
+<dd>0x04: Has Scope</dd>
+<dd>0x08: Can't Drop</dd>
+<dd>0x10: Hide Backpack</dd>
+<dd>0x20: Embedded Weapon</dd>
+<dd>0x40: Don't Use 1st Person IS Animations (<i>or</i> Don't Use 3rd Person IS Animations -- always paired with 0x100 in third set of flags)</dd>
+<dd>0x80: Unplayable (The checkbox display in the CK is "Playable", i.e. the inverse of this flag's value)</dd></dl>
+</td></tr>
+<tr>
+<td><dd>0E:Flags?</dd></td>
+<td>uint16</td>
+<td>Possibly more flags, but has a constant value of 145 (0x91) in all records
+</td></tr>
+<tr>
+<td><dd>10:Sight FOV</dd></td>
+<td>float</td>
+<td>(deprecated?) The angle of view when using Iron Sights. Done by zooming in.
+</td></tr>
+<tr>
+<td><dd>14:<i>Blank</i></dd></td>
+<td>uint32</td>
+<td>0 in all records
+</td></tr>
+<tr>
+<td><dd>18:VATS to hit</dd></td>
+<td>uint8</td>
+<td>Base VATS To-Hit Chance (possibly obsolete).  Only values are 0 and 5
+</td></tr>
+<tr>
+<td><dd>19:<i>Unknown</i></dd></td>
+<td>int8</td>
+<td>-1 in all records
+</td></tr>
+<tr>
+<td><dd>1A:Projectiles</dd></td>
+<td>uint8</td>
+<td>Number of projectiles per single ammo object (possibly obsolete).  1 in all records
+</td></tr>
+<tr>
+<td><dd>1B</dd></td>
+<td>int8</td>
+<td>Embedded Weapon: Actor Value, adding 46 to the stored value gives the <a href="/wiki/Skyrim_Mod:Actor_Value_Indices">actor value index</a>, CK allows (0 PerceptionCondition through 6 BrainCondition), only valid if Embedded Weapon flag is set
+</td></tr>
+<tr>
+<td><dd>1C:Min Range</dd></td>
+<td>float</td>
+<td>Tells combat AI they don't need to be closer than this value.
+</td></tr>
+<tr>
+<td><dd>20:Max Range</dd></td>
+<td>float</td>
+<td>Tells combat AI they don't want to be any further away than this value.
+</td></tr>
+<tr>
+<td><dd>24:<i>Unknown</i></dd></td>
+<td>uint32</td>
+<td>0 in all records
+</td></tr>
+<tr>
+<td><dd>28:Flags</dd></td>
+<td>uint32</td>
+<td>Flags.  Known flag values include:
+<dl><dd>0x01: Player Only</dd>
+<dd>0x02: NPCs Use Ammo</dd>
+<dd>0x04: No Jam After Reload</dd>
+<dd>0x10: Minor Crime</dd>
+<dd>0x20: Fixed Range</dd>
+<dd>0x40: Not Used in Normal Combat</dd>
+<dd>0x100: Don't Use 3rd Person IS Animations (<i>or</i> Don't Use 1st Person IS Animations -- always paired with 0x40 in first set of flags)</dd>
+<dd>0x200: Burst Shot</dd>
+<dd>0x400: Alternate Rumble</dd>
+<dd>0x800: Long bursts</dd>
+<dd>0x1000: Non-hostile</dd>
+<dd>0x2000: Bound Weapon</dd></dl>
+</td></tr>
+<tr>
+<td><dd>2C:<i>Unknown</i></dd></td>
+<td>float</td>
+<td>1 in all records
+</td></tr>
+<tr>
+<td><dd>30:<i>Unknown</i></dd></td>
+<td>float</td>
+<td>Values range from 0.1 to 5, but is not displayed in CK
+</td></tr>
+<tr>
+<td><dd>34:Rumble left</dd></td>
+<td>float</td>
+<td>Rumble: left motor strength
+</td></tr>
+<tr>
+<td><dd>38:Rumble right</dd></td>
+<td>float</td>
+<td>Rumble: right motor strength
+</td></tr>
+<tr>
+<td><dd>3C:Rumble duration</dd></td>
+<td>float</td>
+<td>Rumble: duration
+</td></tr>
+<tr>
+<td><dd>40:<i>Blank</i></dd></td>
+<td>uint32</td>
+<td>0 in all records
+</td></tr>
+<tr>
+<td><dd>44:<i>Blank</i></dd></td>
+<td>uint32</td>
+<td>0 in all records
+</td></tr>
+<tr>
+<td><dd>48:<i>Blank</i></dd></td>
+<td>uint32</td>
+<td>0 in all records
+</td></tr>
+<tr>
+<td><dd>4C:Skill</dd></td>
+<td>int32</td>
+<td>Skill governing weapon's use (for staves, this is a magic skill, not a weapon skill, but apparently ignored in that case).  Provided as an actor value; -1 for weapons without a governing skill
+</td></tr>
+<tr>
+<td><dd>50:<i>Blank</i></dd></td>
+<td>uint32</td>
+<td>0 in all records
+</td></tr>
+<tr>
+<td><dd>54:<i>Blank</i></dd></td>
+<td>uint32</td>
+<td>0 in all records
+</td></tr>
+<tr>
+<td><dd>58:Resist</dd></td>
+<td>int32</td>
+<td><a href="/wiki/Skyrim_Mod:Actor_Value_Indices">Actor Value</a>, CK allows 39 DamageResist through 44 MagicResist or -1 for None (always -1 in original files)
+</td></tr>
+<tr>
+<td><dd>5C:<i>Blank</i></dd></td>
+<td>uint32</td>
+<td>0 in all records
+</td></tr>
+<tr>
+<td><dd>60:Stagger</dd></td>
+<td>float</td>
+<td>Stagger
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>EAMT</td>
+<td>Enchantment Charge Amount</td>
+<td>uint16</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>EDID</td>
+<td>editorID</td>
+<td>zstring</td>
+<td>Max 0x200 bytes, including null terminator.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>EITM</td>
+<td>Enchantment</td>
+<td>formID</td>
+<td>Points to a <a href="ENCH.html">ENCH</a>.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ETYP</td>
+<td>Equip Type</td>
+<td>formID</td>
+<td>Specifies which equipment slot is used by the weapon (typically "BothHands" or "EitherHand"). Points to a <a href="EQUP.html">EQUP</a>.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>FULL</td>
+<td>Name</td>
+<td>lstring</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>INAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Normal weapon swing impact set. Points to a <a href="IPDS.html">IPDS</a>.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>KSIZ</td>
+<td>keywordCount</td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>KWDA</td>
+<td>keywords</td>
+<td>formID[KSIZ.keywordCount]</td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>OBND</td>
+<td>objectBounds</td>
+<td><a href="OBND_Field.html">OBND</a>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>MODL</td>
+<td>Model File Name</td>
+<td>zstring</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MODS</td>
+<td>Alternate textures</td>
+<td><a href="Alternate_Textures.html">Alternate Textures</a></td>
+<td>Used when overriding textures in a nif file with texture sets
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>MODT</td>
+<td>unknown</td>
+<td><a href="Model_Textures_Field.html">Model Textures</a></td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>NAM7</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Attack Loop Sound (<a href="SNDR.html">SNDR</a>) <i>Not found in original files</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>NAM8</td>
+<td>unknown</td>
+<td>formID</td>
+<td>UnEquip Sound (SNDR)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>NAM9</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Equip Sound (SNDR).
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>NNAM</td>
+<td>unknown</td>
+<td>zstring</td>
+<td>Embedded Weapon Node
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>SNAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Attack Sound (Trap Fire) (SNDR)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>TNAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Attack Fail Sound (SNDR).
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>UNAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Idle Sound (SNDR)
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>VMAD</td>
+<td>unknown</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>VNAM</td>
+<td>Sound Detection Level</td>
+<td>uint32</td>
+<td>The amount of sound using the weapon generates, seems to be used in determining nearby NPCs detection of the actor using the weapon. 2(0x02) = Silent, 1(0x01) = Normal, 0(0x00) = Loud, 3(0x03) = Very Loud.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>WNAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>1st Person Model Object. Points to a <a href="STAT.html">STAT</a>. Affects the Inventory Item display.
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>XNAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Attack Sound (2D) (SNDR) <i>found in Dawnguard.esm</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>YNAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Pickup Sound (SNDR) <i>not found in original files</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>ZNAM</td>
+<td>unknown</td>
+<td>formID</td>
+<td>Putdown Sound (SNDR) <i>not found in original files</i>
+</td></tr></tbody></table>
+<p>The skill influencing the weapon damage and receiving xp is found in DNAM.Skill .
+</p><p>The use cost for staves (per use or per second) and enchanted weapons is the enchantment_cost. It is modified by the skills found in the effects of the enchantment (DATA.Skill), which may be none.
+</p><p>For unenchanted weapons the gold value is found in DATA.Value - called base_value in the following. For enchanted weapons the CK shows only the base_value, but that's not what's used ingame:
+</p>
+<pre> gold_value = base_value + [0.12*EAMT + 8*enchantment_cost]
+</pre>
+<p>A missing EAMT field is treated as 0.
+</p><p>The following game settings can be changed to modify that formula:<br/>
+fEnchantmentPointsMult = 0.12<br/>
+fEnchantmentEffectPointsMult = 8
+</p>
+<h2><span id="Notes">Notes</span></h2>
+<ul><li>What skill governs a weapon is set <i>separately</i> (under Weapon Data: 4C: Skill) from its Anim Type (Weapon Data: 00: Anim Type) which is <i>separate</i> from its ETYP which is <i>separate</i> from its keywords, such as "WeapTypeBattleaxe".
+<ul><li>Skill determines what skill governs the weapon.</li>
+<li>Perks, magic effects, etc can check whatever they want to in general to apply to something, but they <i>usually</i> check <i>keywords</i>.</li>
+<li>ETYP is purely how many hands the weapon needs; for example, the unpatched <a href="/wiki/Skyrim:Ebony_Blade">Ebony Blade</a> and <a href="/wiki/Skyrim:Headsman%27s_Axe">Headsman's Axe</a> were both one-handed weapons with an ETYP of both hands.</li></ul></li>
+<li>Keywords can also specify the weapon material (e.g., "WeapMaterialIron"), which is primarily used for smithing and matching set purposes, and whether the weapon is sold by merchants ("VendorItemWeapon").</li></ul>
+</div>

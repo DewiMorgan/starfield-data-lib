@@ -1,0 +1,794 @@
+
+<div><p><b>QUST</b> records describe <a href="/wiki/Skyrim:Quests">quests</a>. The overall QUST record has a complex structure, with most fields repeating multiple times.  The order in which the fields appear provides important information about each individual field.  Fields of particular importance are:
+</p>
+<ul><li><b><a href="#Quest_Stages">INDX</a></b> fields.  Each one marks the start of information about a given quest stage.  The subsequent fields all provide information about that specific quest stage.</li>
+<li><b><a href="#Quest_Objectives">QOBJ</a></b> fields.  Each one marks the start of information about a given quest objective.</li>
+<li><a href="#Aliases"><b>ALST</b> and <b>ALLS</b></a> fields: Each one marks the start of information about a given quest alias. Aliases have an ID (e.g., 4), a name (e.g., <code>Location</code>), and a calculated value, e.g., "Winterhold". ALLS fields are used for location aliases, whereas ALST fields are used for reference aliases.</li></ul>
+<h2><span id="Standard_Fields">Standard Fields</span></h2>
+<p>These fields are not part of any of the more complex structures described in the subsequent sections.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>VMAD</td>
+<td>script info</td>
+<td><a href="VMAD_Field.html">VMAD</a></td>
+<td>There is only VMAD field for the entire QUST record, which contains information about all of the scripts directly and indirectly attached to the quest (including stage-specific script fragments and scripts attached to the quests' aliases)
+</td></tr>
+<tr>
+<td>-</td>
+<td>FULL</td>
+<td>Quest Name</td>
+<td>lstring</td>
+<td>Full name as displayed in journal (at least for non-miscellaneous quests)
+</td></tr>
+<tr>
+<td rowspan="7">+</td>
+<td rowspan="7">DNAM</td>
+<td>Quest Data</td>
+<td>struct[12]</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Flags</dd></dl>
+</td>
+<td>uint8</td>
+<td>
+<dl><dd>0x01 = Start Game Enabled</dd>
+<dd>0x02 <i>Unused</i></dd>
+<dd>0x04 = Wilderness Encounter (?)</dd>
+<dd>0x08 = Allow repeated stages</dd>
+<dd>0x10 <i>Used but not shown in CK</i></dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Flags</dd></dl>
+</td>
+<td>uint8</td>
+<td>
+<dl><dd>0x01 = Run Once</dd>
+<dd>0x02 = Exclude from dialogue export</dd>
+<dd>0x04 = Warn on alias fill failure</dd>
+<dd>0x08 <i>Unused</i></dd>
+<dd>0x10 <i>Used but not shown in CK</i></dd></dl>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Priority</dd></dl>
+</td>
+<td>uint8</td>
+<td>Value from 0 to 100
+</td></tr>
+<tr>
+<td>
+<dl><dd><i>Unknown</i></dd></dl>
+</td>
+<td>uint8</td>
+<td>Possibly just filler (Observed values are 0, 25, 101, 108, 111, and 204. Only 0 and 204 seen more than once)
+</td></tr>
+<tr>
+<td>
+<dl><dd><i>Unknown</i></dd></dl>
+</td>
+<td>int32</td>
+<td>Always zero
+</td></tr>
+<tr>
+<td>
+<dl><dd>Quest Type</dd></dl>
+</td>
+<td>uint32</td>
+<td>Possible Values:
+<dl><dd>0 = None <i>(Quest does not appear in quest log)</i></dd>
+<dd>1 = Main Quest</dd>
+<dd>2 = Mages' Guild</dd>
+<dd>3 = Thieves' Guild</dd>
+<dd>4 = Dark Brotherhood</dd>
+<dd>5 = Companion Quests</dd>
+<dd>6 = Miscellaneous <i>(Quest appears in Miscellaneous section of quest log; quest name is hidden and only quest objectives are shown to player)</i></dd>
+<dd>7 = Daedric Quests</dd>
+<dd>8 = Side Quests</dd>
+<dd>9 = Civil War</dd>
+<dd>10 = DLC01 - Vampire</dd>
+<dd>11 = DLC02 - Dragonborn</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>ENAM</td>
+<td>Event</td>
+<td>char[4]</td>
+<td>Corresponds with <a href="SMEN.html">SMEN</a> short name
+</td></tr>
+<tr>
+<td>*</td>
+<td>QTGL</td>
+<td>Unknown</td>
+<td>formid</td>
+<td>Text display globals.
+</td></tr>
+<tr>
+<td>+</td>
+<td>FLTR</td>
+<td>Object Window Filter</td>
+<td>zstring</td>
+<td>Values like 'Main Quest\', 'Civil War\', 'Civil War\Siege\', 'Faction\ThievesGuild\' and 'Faction\Companions\Radiant\'
+</td></tr>
+<tr>
+<td>*</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>Quest Dialogue Conditions</td>
+<td>struct[32]</td>
+<td>Conditions that apply to the quest as a whole.
+</td></tr>
+<tr>
+<td>+</td>
+<td>NEXT</td>
+<td>Marker</td>
+<td>empty</td>
+<td>Always zero bytes in length.  Delineates between quest dialogue and quest event conditions when only one set of conditions exists.
+</td></tr>
+<tr>
+<td>*</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>Quest Event Conditions</td>
+<td>struct[32]</td>
+<td>SM event node conditions.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>Quest Stages</td>
+<td>Quest Stages[]</td>
+<td>See below.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>Quest Objectives</td>
+<td>Quest Objectives[]</td>
+<td>See below.
+</td></tr>
+<tr>
+<td>+</td>
+<td>ANAM</td>
+<td>NextAliasId?</td>
+<td>int32</td>
+<td>Next available alias ID. Acts as an incremental counter. This is used by CK when creating a new alias in ALST/ALLS field.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>Aliases</td>
+<td>Aliases[]</td>
+<td>See below.
+</td></tr></tbody></table>
+<h2><span id="Quest_Stages">Quest Stages</span></h2>
+<p>Each of these sections provides information on a specific quest stage. Multiple sections can appear in a single record, and 1 or more log entries can appear within each INDX field. Stage numbers are not guaranteed to be unique within any given quest.
+</p><p>Any script attached to a given quest stage is automatically turned into a script "fragment"; the quest stage fragments are all combined into an automatically-generated quest fragments script file (named "QF_&lt;editorID&gt;_&lt;formID&gt;"). The script fragments are numbered chronologically, meaning that there is no relationship between the fragment numbers and the quest stage numbers. The only place to extract the fragment numbers is from the <a href="VMAD_Field.html">VMAD</a> field for the overall QUST record, which contains a <a href="VMAD_Field.html#Fragments_Section">section</a> storing those numbers.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td rowspan="4">*</td>
+<td rowspan="4">INDX</td>
+<td>Journal Index</td>
+<td>struct</td>
+<td>Journal index of the quest stage and other data
+</td></tr>
+<tr>
+<td>Index</td>
+<td>int16</td>
+<td>Actual journal index of the quest stage
+</td></tr>
+<tr>
+<td>Flags</td>
+<td>uint8</td>
+<td>Flag options:
+<dl><dd>0x02 - Start Up Stage</dd>
+<dd>0x04 - Shut Down Stage</dd>
+<dd>0x08 - Keep Instance Data From Here On</dd></dl>
+</td></tr>
+<tr>
+<td><i>Unknown</i></td>
+<td>int8</td>
+<td>Possibly filler. Nothing shown in CK corresponds to values found here. Values range from -110 to 127 and do not appear to be flags.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>Quest log entries</td>
+<td>Quest Log Entry[]</td>
+<td>Multiple structures will appear if there are multiple possible quest log entries for the same stage.
+</td></tr></tbody></table>
+<h3><span id="Quest_Log_Entry">Quest Log Entry</span></h3>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>QSDT</td>
+<td>Flags</td>
+<td>ubyte</td>
+<td>Each QSDT field marks the start of a log entry.<br/>QSDT contains quest stage flags:
+<dl><dd>0x01 - Complete Quest</dd>
+<dd>0x02 - Fail Quest</dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>Conditions</td>
+<td>struct[32]</td>
+<td>Conditions that apply to this log entry.
+</td></tr>
+<tr>
+<td>-</td>
+<td>CNAM</td>
+<td>Journal entry</td>
+<td>lstring</td>
+<td>Index in the string file for the text of the journal entry.
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM0</td>
+<td>Unknown</td>
+<td>formid</td>
+<td>Next quest.
+</td></tr>
+<tr>
+<td>-</td>
+<td>SCHR</td>
+<td>Old Script</td>
+<td><a href="SCHR_Field.html">SCHR</a></td>
+<td>Old scripting field.
+</td></tr></tbody></table>
+<h2><span id="Quest_Objectives">Quest Objectives</span></h2>
+<p>Multiple quest objective structures can appear in a single record, and the objective index is not guaranteed to be unique.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>QOBJ</td>
+<td>Index</td>
+<td>int16</td>
+<td>Quest objective index.  The following fields all provide information about this quest objective.
+<p>By convention, the quest objective index normally corresponds to a quest stage index (i.e., a value in an INDX field), however, the relationship between quest stage index and quest objective index is merely a convention and is not enforced. The only thing that actually controls when an objective appears is the script attached to a quest stage. In some more complex quests, multiple objectives may be assigned as part of a single quest stage or the same quest objective can be assigned by multiple stages.
+</p>
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>Flags</td>
+<td>int32</td>
+<td>Only flag option:
+<dl><dd>0x01 - ORed With Previous</dd></dl>
+<p>(Note that FNAM also appears in ALST/ALLS section, where it has other possible values.)
+</p>
+</td></tr>
+<tr>
+<td>+</td>
+<td>NNAM</td>
+<td>node name?</td>
+<td>lstring</td>
+<td>Text for an individual quest objective.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>Quest Targets</td>
+<td>Quest Target[]</td>
+<td>Quest target information.
+</td></tr></tbody></table>
+<h3><span id="Quest_Target">Quest Target</span></h3>
+<p>Multiple quest target structures can appear within each quest objective.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td rowspan="3">+</td>
+<td rowspan="3">QSTA</td>
+<td>Quest Target</td>
+<td>struct[8]</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Target Alias</dd></dl>
+</td>
+<td>int32</td>
+<td>Target for this quest objective, provided as an AliasID.
+</td></tr>
+<tr>
+<td>
+<dl><dd>Flags</dd></dl>
+</td>
+<td>int32</td>
+<td>Flag for compass markers ignoring locks. - 0 = will not ignore, 1 = will ignore.
+</td></tr>
+<tr>
+<td>*</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>Conditions</td>
+<td>struct[32]</td>
+<td>Conditions that apply to this QSTA.
+</td></tr></tbody></table>
+<h2><span id="Aliases">Aliases</span></h2>
+<p>Aliases are introduced with an ANAM field (documented in the main quest record, above), after which, multiple ALST and/or ALLS fields may be present.  Each ALST/ALLS entry provides information about a given Alias (i.e., a dynamically assigned value) that can appear in this quest.  ALLS fields are used for location aliases, whereas ALST fields are used for reference aliases.  Some of the fields within an ALST/ALLS section are used to determine the calculated value for the alias.  Other fields are used to assign properties to the target of the alias.  For example, if the alias is an NPC, the NPC may be assigned factions, spells, or inventory items associated with the alias.
+</p><p>In terms of structure, ALST and ALLS fields are largely interchangeable.  The ALID field provides the alias name.  Under the ALID field are a wide variety of possible fields, ending with an ALED field.  Many fields can appear in either ALST or ALLS sections, whereas others are specific to one section.  The multipliers in the 'C' column in the following table only apply relative to a given alias.  If a field can only appear a specific alias or fill type, the multiplier only applies within the context of that type.
+</p><p>For reference aliases, a flag value of 0x800 (No Fill Type) results in no fill type being selected in the CK and a fill type of "Forced: NONE" being indicated in the Quest Aliases table. A "Forced: NONE" fill type can also occur for a reference alias when an alias has no fill type, but the flag at 0x800 is set to 0. (Note: There are two anomalous aliases in Dawnguard.esm, DLC1VQ01.SeranaCloaking and DLC1VQ08.DLC1VQ08HarkonAlias which have the flag set, but also include Unique Actor fields in the data; it's unclear how the game handles these two aliases.)
+</p><p>For location aliases, a flag value of 0x800 results in either a "Find Matching Location" selected on the location alias form with "Conditions" being indicated on the Quest Aliases form if there are CTDA fields, or no fill type selected on location alias form with "Forced: NONE" in the Quest Aliases table if there aren't. The same rules apply if the flag is cleared and the alias has no fill type, except that in the CK, the location alias form will have the "Specific Location" option selected.
+</p><p>"Forced: NONE" aliases are normally filled either by scripting or forced-into aliases (ALFI field). It's unclear if there's any difference between the different methods of generating them. It's possible that it's a holdover from earlier versions of the CK.
+</p><p>In addition to the various packages, factions, spells, inventory items, etc. listed below, any aliased object can also have scripts attached to it when it is assigned to the alias.  However, those scripts are not listed in any of the fields in the ALST/ALLS section.  Rather, the scripts are stored in the <a href="VMAD_Field.html">VMAD</a> field for the overall QUST record, which contains a <a href="VMAD_Field.html#Alias_Scripts_Section">section</a> listing all scripts attached to the quest aliases.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td rowspan="2">+</td>
+<td>ALST</td>
+<td>AliasID</td>
+<td>uint32
+</td>
+<td rowspan="2">The AliasID is the numerical value used for this alias.  This is the parameter for functions such as <code>LocAliasHasKeyword</code> and <code>GetInCurrentLocAlias</code>.
+<p>ALST fields are used for Reference aliases (in the CK, "Ref" is listed in the Type column), whereas ALLS fields are used for Location aliases ("Loc" is listed in the CK's Type column).  In the CK, different editor screens are used for the two alias types, thereby controlling which fields can be associated with each type of alias.
+</p>
+</td></tr>
+<tr>
+<td>ALLS</td>
+<td>AliasID (Location)</td>
+<td>uint32
+</td></tr>
+<tr>
+<td>+</td>
+<td>ALID</td>
+<td>AliasName</td>
+<td>zstring</td>
+<td>The name of this Alias, for example <code>Location</code> or <code>QuestGiver</code>.  This name appears in strings that are dynamically updated based upon the quest details, for example <i>Kill the leader of &lt;Alias=Location&gt;</i>.  The calculated value of this alias is then substituted into the string.
+</td></tr>
+<tr>
+<td>+</td>
+<td>FNAM</td>
+<td>Flags</td>
+<td>uint32</td>
+<td>Appears for all alias types. For reference aliases, in some cases (e.g., essential, protected), the flags are options assigned to the quest target for the duration of the quest. In other cases, the flags control how the alias is used during the quest.  Known flag options:
+<table class="wikitable">
+<tbody><tr>
+<th>Bit</th>
+<th>Applies To</th>
+<th>Purpose
+</th></tr>
+<tr>
+<td>0x01</td>
+<td>Loc/Ref</td>
+<td>Reserves Location/Reference
+</td></tr>
+<tr>
+<td>0x02</td>
+<td>Loc/Ref</td>
+<td>Optional
+</td></tr>
+<tr>
+<td>0x04</td>
+<td>Ref</td>
+<td>Quest Object
+</td></tr>
+<tr>
+<td>0x08</td>
+<td>Loc/Ref</td>
+<td>Allow Reuse in Quest
+</td></tr>
+<tr>
+<td>0x10</td>
+<td>Ref</td>
+<td>Allow Dead
+</td></tr>
+<tr>
+<td>0x20</td>
+<td>Ref</td>
+<td>In Loaded Area (flag within the "Find Matching Reference" section, presumably limiting match to items in the loaded area)
+</td></tr>
+<tr>
+<td>0x40</td>
+<td>Ref</td>
+<td>Essential (makes the alias target essential for the duration of the quest)
+</td></tr>
+<tr>
+<td>0x80</td>
+<td>Ref</td>
+<td>Allow Disabled
+</td></tr>
+<tr>
+<td>0x100</td>
+<td>Loc/Ref</td>
+<td>Stores Text
+</td></tr>
+<tr>
+<td>0x200</td>
+<td>Loc/Ref</td>
+<td>Allow Reserved
+</td></tr>
+<tr>
+<td>0x400</td>
+<td>Ref</td>
+<td>Protected
+</td></tr>
+<tr>
+<td>0x800</td>
+<td>Ref</td>
+<td>No Fill Type
+</td></tr>
+<tr>
+<td>0x1000</td>
+<td>Ref</td>
+<td>Allow Destroyed
+</td></tr>
+<tr>
+<td>0x2000</td>
+<td>Ref</td>
+<td>Closest (flag within the "Find Matching Reference" section; only allowed if "In Loaded Area" selected.  Presumably limiting match to closest item in the loaded area)
+</td></tr>
+<tr>
+<td>0x4000</td>
+<td>Ref</td>
+<td>Uses Stored Text
+</td></tr>
+<tr>
+<td>0x8000</td>
+<td>Ref</td>
+<td>Initially Disabled
+</td></tr>
+<tr>
+<td>0x10000</td>
+<td>Loc</td>
+<td>Allow Cleared
+</td></tr>
+<tr>
+<td>0x20000</td>
+<td>Ref</td>
+<td>Clears Name When Removed
+</td></tr></tbody></table>
+</td></tr>
+<tr>
+<td>-</td>
+<td>ALFI</td>
+<td>Forced Into Alias</td>
+<td>uint32</td>
+<td>AliasID of another alias to copy this alias into.
+</td></tr>
+<tr>
+<td colspan="5">The following fields determine the alias' "Fill Type" (to use the CK terminology), i.e., they assign the alias' value.  Only one of the following fill-type fields (unindented) can appear in a given alias, along with any associated sub-fields (indented).
+</td></tr>
+<tr>
+<td>-</td>
+<td>ALCO</td>
+<td>Alias Created Object</td>
+<td>formid</td>
+<td>(Ref) Points to a base record for an item (NPC_, BOOK, MISC, LVLI, ARMO, KEYM, etc).  An instance of that object is then created and assigned to this alias.
+<p>Specified using "Create Reference to Object" section of CK editor; displayed as "Created" in Fill Type column.
+</p>
+</td></tr>
+<tr>
+<td>+</td>
+<td>
+<dl><dd>ALCA</dd></dl>
+</td>
+<td>Create At</td>
+<td>uint32</td>
+<td>High bit: 0 = Create At, 1 = Create In<br/>Remainder: AliasID to create object at/in.
+</td></tr>
+<tr>
+<td>+</td>
+<td>
+<dl><dd>ALCL</dd></dl>
+</td>
+<td>Create Level</td>
+<td>uint32</td>
+<td>0 = Easy<br/>1 = Medium<br/>2 = Hard<br/>3 = Very Hard<br/>4 = None
+</td></tr>
+<tr>
+<td>-</td>
+<td>ALEQ</td>
+<td>External Alias Reference</td>
+<td>formid</td>
+<td>(Loc/Ref) <a>QUST</a> records.  Provides the quest where the alias should be copied from; ALEA provides the AliasID in that quest that should be used.
+<p>Specified using "External Alias Reference" section of CK editor; display as "Match" in Fill Type Column.
+</p>
+</td></tr>
+<tr>
+<td>+</td>
+<td>
+<dl><dd>ALEA</dd></dl>
+</td>
+<td>External Alias</td>
+<td>uint32</td>
+<td>AliasID to be used in specified external quest.
+</td></tr>
+<tr>
+<td>-</td>
+<td>ALFA</td>
+<td>Reference Alias Location</td>
+<td>uint32</td>
+<td>(Loc) AliasID of a reference alias within this quest.
+</td></tr>
+<tr>
+<td>-</td>
+<td>
+<dl><dd>KNAM</dd></dl>
+</td>
+<td>Keyword</td>
+<td>formid</td>
+<td>A single <a href="KYWD.html">KYWD</a> record.
+</td></tr>
+<tr>
+<td>-</td>
+<td>ALFA</td>
+<td>Location Alias Reference</td>
+<td>uint32</td>
+<td>(Ref) AliasID of a location alias within this quest.
+</td></tr>
+<tr>
+<td>+</td>
+<td>
+<dl><dd>ALRT</dd></dl>
+</td>
+<td>Alias Reference Type</td>
+<td>formid</td>
+<td>Points to a <a href="LCRT.html">LCRT</a> record which is used to find the object that should be assigned to this alias.  This LCRT is looked up in the <a href="LCTN.html">LCTN</a>.LCSR field of the quest's assigned location to find a ACHR or REFR record that is then associated with this alias.
+<p>Specified using "Location Alias Reference" section of CK editor; displayed as "&lt;Location&gt;'s &lt;Ref Type&gt;" in Fill Type column.
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>ALFE</td>
+<td>From Event</td>
+<td>char[4]</td>
+<td>(Loc/Ref) Provides the type of event (e.g. "Script").  Corresponds with <a href="SMEN.html">SMEN</a> short name.  ALFD field provides extra data about the event.
+<p>Specified using "Find Matching Location/Reference" section of CK editor and "From Event" checkbox; displayed as "Event" in Fill Type column.
+</p>
+</td></tr>
+<tr>
+<td>+</td>
+<td>
+<dl><dd>ALFD</dd></dl>
+</td>
+<td>Event Data</td>
+<td>char[4]</td>
+<td>Corresponds to "Event Data" dropdown box in CK. Exact meaning of text varies based on event type. See <a href="CTDA_Field.html#Event_Member">CTDA documentation</a> for more info.
+</td></tr>
+<tr>
+<td>-</td>
+<td>ALFL</td>
+<td>Alias Forced Location</td>
+<td>formid</td>
+<td>(Loc) A fixed <a href="LCTN.html">LCTN</a> record that should be assigned to this alias.  Also presumably becomes the default location record for this quest (used by any other alias records that need to look up location-specific items).
+<p>Specified using "Specific Location" section of CK editor; displayed as "Forced" in Fill Type column (even if "Force into Alias when Filled" is not selected).
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>ALFR</td>
+<td>Alias Forced Reference</td>
+<td>formid</td>
+<td>(Ref) Points to an ACHR or REFR record corresponding to the object that should be assigned to this alias.
+<p>Specified using "Specific Reference" section of CK editor; displayed as "Forced" in Fill Type column.
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>ALNA</td>
+<td>Near Alias</td>
+<td>uint32</td>
+<td>(Ref) AliasID this one needs to be near to.
+</td></tr>
+<tr>
+<td>+</td>
+<td>
+<dl><dd>ALNT</dd></dl>
+</td>
+<td>Near Type</td>
+<td>uint32</td>
+<td>Always 0: Linked Ref Child
+</td></tr>
+<tr>
+<td>-</td>
+<td>ALUA</td>
+<td>Alias Unique Actor</td>
+<td>formid</td>
+<td>(Ref) <a href="NPC_.html">NPC_</a> record for an NPC assigned to this alias; uses an existing instance (ACHR record) of the NPC instead of creating a new one.  Presumably only works for NPCs with a unique ACHR.
+<p>Specified using "Unique Actor" section of CK editor; displayed as "UniqueActor" in Fill Type column.
+</p><p>This field is frequently used to identify the quest-giver, but it can also be used to assign an alias for any other NPC with a unique role in the quest.
+</p>
+</td></tr>
+<tr>
+<td>*</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>Match Conditions</td>
+<td>struct[32]</td>
+<td>(Loc/Ref) Conditions used to Find Matching Reference/Location.
+<p>Specified using "Find Matching Reference/Location" section of CK editor and filling in "Match Conditions"; displayed as "Condition" in Fill Type column.
+</p>
+</td></tr>
+<tr>
+<td>-</td>
+<td>KSIZ</td>
+<td>KWDA count</td>
+<td>uint32</td>
+<td>(Ref) Number of KWDA entries (size of KWDA is 4*KSIZ)
+</td></tr>
+<tr>
+<td>-</td>
+<td>
+<dl><dd>KWDA</dd></dl>
+</td>
+<td>Alias Keywords</td>
+<td>formid[KSIZ]</td>
+<td><a href="KYWD.html">KYWD</a> records.  Keywords added to the alias for the duration of the quest.
+</td></tr>
+<tr>
+<td>-</td>
+<td>COCT</td>
+<td>CNTO count</td>
+<td>uint32</td>
+<td>(Ref) If present, number of CNTO records.  Does not appear if there are no CNTO records and may not appear even when there are.
+</td></tr>
+<tr>
+<td rowspan="3">*</td>
+<td rowspan="3">
+<dl><dd>CNTO</dd></dl>
+</td>
+<td>Items</td>
+<td>struct[8]</td>
+<td>(Ref) Inventory-type item list.  These items are added to the inventory of the aliased object for the duration of the quest.
+</td></tr>
+<tr>
+<td>
+<dl><dd>Item ID</dd></dl>
+</td>
+<td>formid</td>
+<td>
+</td></tr>
+<tr>
+<td>
+<dl><dd>Item count</dd></dl>
+</td>
+<td>uint32</td>
+<td>
+</td></tr>
+<tr>
+<td>-</td>
+<td>SPOR</td>
+<td>Spectator Override</td>
+<td>formid</td>
+<td>(Ref) Spectator Override Package List (<a href="FLST.html">FLST</a> records).
+</td></tr>
+<tr>
+<td>-</td>
+<td>OCOR</td>
+<td>Observe Dead Body Override</td>
+<td>formid</td>
+<td>(Ref) Observe Dead Body Override Package List (<a href="FLST.html">FLST</a> records). (Never used in main game files.)
+</td></tr>
+<tr>
+<td>-</td>
+<td>GWOR</td>
+<td>Guard Warn Override</td>
+<td>formid</td>
+<td>(Ref) Guard Warn Override Package List (<a href="FLST.html">FLST</a> records). (Never used in main game files.)
+</td></tr>
+<tr>
+<td>-</td>
+<td>ECOR</td>
+<td>Combat Override</td>
+<td>formid</td>
+<td>(Ref) Combat Override Package List (<a href="FLST.html">FLST</a> records).
+</td></tr>
+<tr>
+<td>-</td>
+<td>ALDN</td>
+<td>Display Name</td>
+<td>formid</td>
+<td>(Ref) Points to <a href="MESG.html">MESG</a> record, whose value is then dynamically assigned as the displayed name of the Alias object.  Used to rename NPCs (e.g., <a href="/wiki/Skyrim:Rigel_Strong-Arm">Skyrim:Rigel Strong-Arm</a>), quest rewards (e.g., Blade of Falkreath), or quest targets (e.g., Fine-Cut Void Salts)
+</td></tr>
+<tr>
+<td>*</td>
+<td>ALSP</td>
+<td>Alias Spells</td>
+<td>formid</td>
+<td>(Ref) <a href="SPEL.html">SPEL</a> records.  Spells added to the alias target for the duration of the quest.
+</td></tr>
+<tr>
+<td>*</td>
+<td>ALFC</td>
+<td>Alias Factions</td>
+<td>formid</td>
+<td>(Ref) <a href="FACT.html">FACT</a> records.  Factions added to the alias target for the duration of the quest.
+</td></tr>
+<tr>
+<td>*</td>
+<td>ALPC</td>
+<td>Alias Package Data</td>
+<td>formid</td>
+<td>(Ref) <a href="PACK.html">PACK</a> records.  Packages added to the alias target for the duration of the quest.
+</td></tr>
+<tr>
+<td>-</td>
+<td>VTCK</td>
+<td>Voice Type</td>
+<td>formid</td>
+<td>(Ref) "Additional Valid Voice Types for Export".  When non-zero points to <a href="NPC_.html">NPC_</a> or <a href="FLST.html">FLST</a> records
+</td></tr>
+<tr>
+<td>+</td>
+<td>ALED</td>
+<td>EOF Marker</td>
+<td>empty</td>
+<td>Marks the end of any given alias entry.
+</td></tr></tbody></table>
+</div>

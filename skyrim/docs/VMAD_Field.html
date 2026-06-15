@@ -1,0 +1,466 @@
+
+<div><div>
+</div>
+<p><b>VMAD</b> fields contain Papyrus script data, and are present in any record that contains a script, including items, dialogues, packages, and quests. Information contained in the VMAD field includes:
+</p>
+<ul><li>The names of all scripts attached to the record, including scripts attached to individual components (e.g., quest aliases) of the record.
+<ul><li>The initial values of all properties in each of those scripts</li></ul></li>
+<li>The names of all script fragments attached to the record. Script fragments are most commonly used in quests, where each stage of a quest can have an associated script fragment.</li></ul>
+<p>The VMAD field contains several distinct sections. However, the entire field must be processed sequentially in order to identify the sections; the lengths and locations of the various sections are not provided, making it impossible to skip through the field to a specific section. All VMAD fields contain a <a href="#Primary_Scripts_Sections">Primary Scripts Section</a> and its format is the same for all record types; in the majority of cases, that is the only section present. However, some records also contain a <a href="#Fragments_Section">Fragments Section</a>, with a format that is dependent upon the record type.
+</p><p>All script names mentioned in the VMAD field are provided without an extension. The game itself accesses compiled versions of each script, which are given a <a href="/wiki/Skyrim_Mod:Compiled_Script_File_Format"><tt>.pex</tt> extension</a> and are stored in one of the game's <a href="/wiki/Skyrim_Mod:Archive_File_Format"><span>.bsa</span> archive files</a>. The source versions of the scripts, which use a .psc extension, are not accessed by the game (and were not part of the original game distribution), but are instead only used by the <a href="/wiki/Skyrim_Mod:Creation_Kit">Creation Kit</a>. The source scripts were made available following the release of the Creation Kit, and all 10005 scripts (as of patch 1.5) are available in the <tt>Data/Scripts/Source</tt> directory of your Skyrim installation.
+</p>
+<h2><span id="Primary_Scripts_Section">Primary Scripts Section</span></h2>
+<p>The Primary Scripts Section is present in all VMAD fields, and has the same format in all cases.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>version</td>
+<td>int16</td>
+<td>5 most recent, 2 is minimum.
+</td></tr>
+<tr>
+<td>objFormat</td>
+<td>int16</td>
+<td>Seems to always be 1 or 2; affects how object-type properties are read.
+</td></tr>
+<tr>
+<td>scriptCount</td>
+<td>uint16</td>
+<td>Number of scripts directly attached to this record
+</td></tr>
+<tr>
+<td>scripts</td>
+<td><a href="#Scripts_Section">Script</a>[scriptCount]</td>
+<td>Information on each of the scripts, including name, list of properties, and their initial values.
+</td></tr>
+<tr>
+<td>fragments</td>
+<td><a href="#Fragments_Section">Fragments</a>[]</td>
+<td>Script fragments. See below for more information.
+</td></tr></tbody></table>
+<h2><span id="Scripts_Section">Scripts Section</span></h2>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>scriptName</td>
+<td>wstring</td>
+<td>Name of the script (without extension).
+</td></tr>
+<tr>
+<td>status</td>
+<td>uint8</td>
+<td>Only present if version &gt;= 4. Defaults to 0 for earlier versions.
+<dl><dd>0 = Local script.</dd>
+<dd>1 = Inherited and properties have been altered.</dd>
+<dd>3 = Inherited and then removed.</dd></dl>
+</td></tr>
+<tr>
+<td>propertyCount</td>
+<td>uint16</td>
+<td>The number of properties that are defined in this script.
+</td></tr>
+<tr>
+<td>properties</td>
+<td><a href="#Property_Entry">Property</a>[propertyCount]</td>
+<td>The name and initial value of each property. The length of each property entry is different, depending upon its contents.
+</td></tr></tbody></table>
+<h3><span id="Property_Entry">Property Entry</span></h3>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>propertyName</td>
+<td>wstring</td>
+<td>Name of the property.
+</td></tr>
+<tr>
+<td>propertyType</td>
+<td>uint8</td>
+<td>Lookup value indicating the type of data stored in the property. Only the following values are possible:
+<ul><li>1 = object (v1: (formID = uint32, alias = int16, unused = uint16) or v2: (unused = uint16, alias = uint16, formID = uint32))</li>
+<li>2 = wstring (uint16 length + string[length])</li>
+<li>3 = int (int32)</li>
+<li>4 = float</li>
+<li>5 = bool (int8)</li></ul>
+<p><i>Only supported if version &gt;= 5:</i>
+</p>
+<ul><li>11 = array of objects (see 1)</li>
+<li>12 = array of wstrings (uint16 length + string[length])</li>
+<li>13 = array of ints (int32)</li>
+<li>14 = array of floats</li>
+<li>15 = array of bools (int8)</li></ul>
+<p>Object types are used to assign formid values to properties, in particular for quest aliases, but also for a range of other cases that use formids. The length of the data for an object is always 8 bytes, but how the bytes are decoded depend upon the value of objFormat:
+</p>
+<ul><li>If objFormat=1, then: bytes 0-3 are a formid; bytes 4-5 are a uint16 providing the AliasID; bytes 6-7 are zero.</li>
+<li>If objFormat=2, then: bytes 0-1 are zero, bytes 2-3 are a uint16 providing the AliasID; bytes 4-7 are a formid.</li></ul>
+<p>The AliasID is set to -1 whenever the formid does not point to a quest (in which case the formid is directly assigned to the property). Otherwise, the AliasID provides the quest alias used to assign the value (which nearly always means that the property effectively points to itself, e.g., the <code>Alias_DragonMoundTundra03Marker</code> property points to the quest's <code>DragonMoundTundra03Marker</code> alias).
+</p>
+</td></tr>
+<tr>
+<td>status</td>
+<td>uint8</td>
+<td>Only present if version &gt;= 4. Defaults to 1 for earlier versions.
+<dl><dd>1 = Property edited.</dd>
+<dd>3 = Property removed.</dd></dl>
+</td></tr>
+<tr>
+<td>data</td>
+<td>depends on type</td>
+<td>If the data is an array (if type is 11-15), the data consists of:
+<ul><li>uint32: itemCount</li>
+<li>items[itemCount]</li></ul>
+</td></tr></tbody></table>
+<h2><span id="Fragments_Section">Fragments Section</span></h2>
+<p>If there are no fragments attached to this record, the VMAD field simply ends after the Primary Scripts Section. However, when there are fragments, the specific format used to list those fragments is dependent upon the record type. Note in particular that the fragmentCount appears <i>before</i> the fileName in some cases, but after the fileName in other cases. Only the record types listed below ever use script fragments.
+</p>
+<h3><span id="INFO_Records">INFO Records</span></h3>
+<p>INFO record fragment scripts are by default stored in a TIF file, i.e., a file named "TIF_&lt;editorID&gt;_&lt;formID&gt;". Since most INFO records do not have an editorID, this actually ends up being "TIF__&lt;formID&gt;" (with <i>two</i> underscores, not one).
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown</td>
+<td>int8</td>
+<td>Always 2.
+</td></tr>
+<tr>
+<td>flags</td>
+<td>uint8</td>
+<td>Script locations.
+<dl><dd>0x1 = Has Begin Script</dd>
+<dd>0x2 = Has End Script</dd></dl>
+</td></tr>
+<tr>
+<td>fileName</td>
+<td>wstring</td>
+<td>Name of the script file containing the fragments (without extension).
+</td></tr>
+<tr>
+<td>fragments</td>
+<td>fragment[flagsCount]</td>
+<td>Information on each fragment, as detailed in the following lines. Variable flagsCount is the number of bit flags activated in flags
+</td></tr>
+<tr>
+<td>fragment.unknown</td>
+<td>int8</td>
+<td>
+</td></tr>
+<tr>
+<td>fragment.scriptName</td>
+<td>wstring</td>
+<td>Name of script (normally same as fileName).
+</td></tr>
+<tr>
+<td>fragment.fragmentName</td>
+<td>wstring</td>
+<td>Name of function containing this fragment script. Typically a name such as "Fragment_5".
+</td></tr></tbody></table>
+<h3><span id="PACK_Records">PACK Records</span></h3>
+<p>PACK record fragment scripts are by default stored in a PF file, i.e., a file named "PF_&lt;editorID&gt;_&lt;formID&gt;".
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown</td>
+<td>int8</td>
+<td>Always 2.
+</td></tr>
+<tr>
+<td>flags</td>
+<td>uint8</td>
+<td>Script locations.
+<dl><dd>0x1 = On Begin.</dd>
+<dd>0x2 = On End.</dd>
+<dd>0x4 = On Change.</dd></dl>
+</td></tr>
+<tr>
+<td>fileName</td>
+<td>wstring</td>
+<td>Name of the script file containing the fragments (without extension).
+</td></tr>
+<tr>
+<td>fragments</td>
+<td>fragment[flagsCount]</td>
+<td>Information on each fragment, as detailed in the following lines. <tt>flagsCount</tt> is the number of bits set in the flags field. When more than one is present, fragments are emitted in the following order: On Begin, On End, On Change.
+</td></tr>
+<tr>
+<td>fragment.unknown</td>
+<td>int8</td>
+<td>
+</td></tr>
+<tr>
+<td>fragment.scriptName</td>
+<td>wstring</td>
+<td>Name of script (normally same as fileName).
+</td></tr>
+<tr>
+<td>fragment.fragmentName</td>
+<td>wstring</td>
+<td>Name of function containing this fragment script. Typically a name such as "Fragment_5".
+</td></tr></tbody></table>
+<h3><span id="PERK_Records">PERK Records</span></h3>
+<p>PERK record fragment scripts are by default stored in a PRKF file, i.e., a file named "PRKF_&lt;editorID&gt;_&lt;formID&gt;".
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown</td>
+<td>int8</td>
+<td>Always 2.
+</td></tr>
+<tr>
+<td>fileName</td>
+<td>wstring</td>
+<td>Name of the script file containing the fragments (without extension).
+</td></tr>
+<tr>
+<td>fragmentCount</td>
+<td>uint16</td>
+<td>Number of script fragments in this record.
+</td></tr>
+<tr>
+<td>fragments</td>
+<td>fragment[fragmentCount]</td>
+<td>Information on each fragment, as detailed in the following lines.
+</td></tr>
+<tr>
+<td>fragment.index</td>
+<td>uint16</td>
+<td>Index.
+</td></tr>
+<tr>
+<td>fragment.unknown</td>
+<td>int16</td>
+<td>
+</td></tr>
+<tr>
+<td>fragment.unknown</td>
+<td>int8</td>
+<td>
+</td></tr>
+<tr>
+<td>fragment.scriptName</td>
+<td>wstring</td>
+<td>Name of script (normally same as fileName).
+</td></tr>
+<tr>
+<td>fragment.fragmentName</td>
+<td>wstring</td>
+<td>Name of function containing this fragment script. Typically a name such as "Fragment_5".
+</td></tr></tbody></table>
+<h3><span id="QUST_Records">QUST Records</span></h3>
+<p>QUST record fragment scripts are by default stored in a QF file, i.e., a file named "QF_&lt;editorID&gt;_&lt;formID&gt;".
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown</td>
+<td>int8</td>
+<td>Always 2. If it's set to anything else, then the game will likely fail to load any script data for aliases.
+</td></tr>
+<tr>
+<td>fragmentCount</td>
+<td>uint16</td>
+<td>Number of script fragments in this record.
+</td></tr>
+<tr>
+<td>fileName</td>
+<td>wstring</td>
+<td>Name of the script file containing the fragments (without extension).
+</td></tr>
+<tr>
+<td>fragments</td>
+<td>fragment[fragmentCount]</td>
+<td>Information on each fragment, as detailed in the following lines.
+</td></tr>
+<tr>
+<td>aliasCount</td>
+<td>uint16</td>
+<td>Number of aliases that have attached scripts. If 0, the rest of the section is empty.
+</td></tr>
+<tr>
+<td>aliases</td>
+<td>alias[aliasCount]</td>
+<td>Information on the scripts attached to each alias, as detailed in the following lines
+</td></tr>
+<tr>
+<td>fragment.index</td>
+<td>uint16</td>
+<td>Quest stage index (equivalent to QUST INDX field) this fragment is attached to.
+</td></tr>
+<tr>
+<td>fragment.unknown</td>
+<td>int16</td>
+<td>Always 0.
+</td></tr>
+<tr>
+<td>fragment.logentry</td>
+<td>int32</td>
+<td>Log Entry within a stage this fragment is attached to.
+</td></tr>
+<tr>
+<td>fragment.unknown</td>
+<td>int8</td>
+<td>Always 1.
+</td></tr>
+<tr>
+<td>fragment.scriptName</td>
+<td>wstring</td>
+<td>Name of script (normally same as fileName).
+</td></tr>
+<tr>
+<td>fragment.fragmentName</td>
+<td>wstring</td>
+<td>Name of function containing this fragment script. Typically a name such as "Fragment_5".
+</td></tr>
+<tr>
+<td>alias.object</td>
+<td>object</td>
+<td>The FormID and AliasID to which the script is attached. Format is the same as documented under <tt>propertytype</tt>, above. The form ID here is always the form ID of the quest that contains this VMAD subrecord; the game engine actually will allow one quest to attach scripts to aliases on another quest, but official tools never generate that kind of data.
+</td></tr>
+<tr>
+<td>alias.version</td>
+<td>int16</td>
+<td>Always 4 or 5; always the same as the primary script's version.
+</td></tr>
+<tr>
+<td>alias.objFormat</td>
+<td>int16</td>
+<td>Always 1 or 2; always the same as the primary script's objFormat.
+</td></tr>
+<tr>
+<td>alias.scriptCount</td>
+<td>uint16</td>
+<td>Number of scripts attached to this alias
+</td></tr>
+<tr>
+<td>alias.scripts</td>
+<td><a href="#Scripts_Section">Script</a>[alias.scriptCount]</td>
+<td>Information on each of the scripts, including name, list of properties, and their initial values.
+</td></tr></tbody></table>
+<h3><span id="SCEN_Records">SCEN Records</span></h3>
+<p>SCEN record fragment scripts are by default stored in a SF file, i.e., a file named "SF_&lt;editorID&gt;_&lt;formID&gt;".
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>unknown</td>
+<td>int8</td>
+<td>Always 2.
+</td></tr>
+<tr>
+<td>flags</td>
+<td>uint8</td>
+<td>Script locations.
+<dl><dd>0x1 = Has Begin Script</dd>
+<dd>0x2 = Has End Script</dd></dl>
+</td></tr>
+<tr>
+<td>fileName</td>
+<td>wstring</td>
+<td>Name of the script file containing the fragments (without extension).
+</td></tr>
+<tr>
+<td>begineend</td>
+<td>beFragment[flagsCount]</td>
+<td>Information on begin/end fragments, as detailed below. <tt>flagsCount</tt> is the number of bits set in the flags field. When both are present, the Begin fragment is emitted first.
+</td></tr>
+<tr>
+<td>phaseCount</td>
+<td>uint16</td>
+<td>Count of phase scripts.
+</td></tr>
+<tr>
+<td>phases</td>
+<td>phaseFragment[phaseCount]</td>
+<td>Information on each phase fragment, as detailed below.
+</td></tr>
+<tr>
+<td>beFragment.unknown</td>
+<td>int8</td>
+<td>
+</td></tr>
+<tr>
+<td>beFragment.scriptName</td>
+<td>wstring</td>
+<td>Name of script (normally same as fileName).
+</td></tr>
+<tr>
+<td>beFragment.fragmentName</td>
+<td>wstring</td>
+<td>Name of function containing this fragment script. Typically a name such as "Fragment_5".
+</td></tr>
+<tr>
+<td>phaseFragment.unknown</td>
+<td>int8</td>
+<td>
+</td></tr>
+<tr>
+<td>phaseFragment.phase</td>
+<td>uint32</td>
+<td>Phase number. (Note: this is 0-based in the data, but 1-based in the CK.)
+</td></tr>
+<tr>
+<td>phaseFragment.unknown</td>
+<td>int8</td>
+<td>
+</td></tr>
+<tr>
+<td>phaseFragment.scriptName</td>
+<td>wstring</td>
+<td>Name of script (normally same as fileName).
+</td></tr>
+<tr>
+<td>phaseFragment.fragmentName</td>
+<td>wstring</td>
+<td>Name of function containing this fragment script. Typically a name such as "Fragment_5".
+</td></tr></tbody></table>
+</div>

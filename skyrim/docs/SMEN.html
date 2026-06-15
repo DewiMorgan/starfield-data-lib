@@ -1,0 +1,214 @@
+
+<div><p><b>SMEN</b> are "Story Manager Event Nodes", which are basic event references.  
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html#C_.28Count.29">C</a>
+</th>
+<th><a href="File_Format_Conventions.html#V_.28Form_Version.29">V</a>
+</th>
+<th>Field
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>-</td>
+<td></td>
+<td>EDID</td>
+<td>Editor ID</td>
+<td>zstring</td>
+<td>(<i>Only 1 with an edid</i>.)
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>PNAM</td>
+<td>unknown</td>
+<td>formID?</td>
+<td>Always 0x5B, <a href="SMBN.html">SMBN</a> with edid "Root"
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>SNAM</td>
+<td>next?</td>
+<td>formID</td>
+<td>0 or a reference to another SMEN formid.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>CITC</td>
+<td>CTDA count</td>
+<td>uint32</td>
+<td>Count of CTDA entries.
+</td></tr>
+<tr>
+<td>*</td>
+<td></td>
+<td>CTDA</td>
+<td>Condition Data</td>
+<td><a href="CTDA_Field.html">CTDA</a></td>
+<td>CTDA records (CITC count).
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>DNAM</td>
+<td>unknown</td>
+<td>uint32?</td>
+<td>Always 0.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>XNAM</td>
+<td>unknown</td>
+<td>uint32?</td>
+<td>Always 0.
+</td></tr>
+<tr>
+<td>+</td>
+<td></td>
+<td>ENAM</td>
+<td>short name</td>
+<td>char[4]</td>
+<td>Event type code.
+</td></tr></tbody></table>
+<h3><span id="Event_Type_Codes">Event Type Codes</span></h3>
+<p>Note that some event types are not used, but are present in the game code.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Code</th>
+<th>Event Type
+</th></tr>
+<tr>
+<td>ADCR</td>
+<td>Crime Gold Event
+</td></tr>
+<tr>
+<td>ADIA</td>
+<td>Actor Dialogue Event
+</td></tr>
+<tr>
+<td>AFAV</td>
+<td>Player Activate Actor
+</td></tr>
+<tr>
+<td>AHEL</td>
+<td>Actor Hello Event
+</td></tr>
+<tr>
+<td>AIPL</td>
+<td>Player Add Item
+</td></tr>
+<tr>
+<td>ARRT</td>
+<td>Arrest Event
+</td></tr>
+<tr>
+<td>ASSU</td>
+<td>Assault Actor Event
+</td></tr>
+<tr>
+<td>BRIB</td>
+<td>Bribe
+</td></tr>
+<tr>
+<td>CAST</td>
+<td>Cast Magic Event
+</td></tr>
+<tr>
+<td>CHRR</td>
+<td>Change Relationship Rank
+</td></tr>
+<tr>
+<td>CLOC</td>
+<td>Change Location Event
+</td></tr>
+<tr>
+<td>CRFT</td>
+<td>Craft Item
+</td></tr>
+<tr>
+<td>CURE</td>
+<td>Player Cured
+</td></tr>
+<tr>
+<td>DEAD</td>
+<td>Dead Body
+</td></tr>
+<tr>
+<td>ESJA</td>
+<td>Escaped Jail
+</td></tr>
+<tr>
+<td>FLAT</td>
+<td>Flatter
+</td></tr>
+<tr>
+<td>INFC</td>
+<td>Player Infected
+</td></tr>
+<tr>
+<td>INTM</td>
+<td>Intimidate
+</td></tr>
+<tr>
+<td>JAIL</td>
+<td>Jail Event
+</td></tr>
+<tr>
+<td>KILL</td>
+<td>Kill Actor Event
+</td></tr>
+<tr>
+<td>LEVL</td>
+<td>Increase Level
+</td></tr>
+<tr>
+<td>LOCK</td>
+<td>Lock Pick
+</td></tr>
+<tr>
+<td>NVPE</td>
+<td>New Voice Power
+</td></tr>
+<tr>
+<td>PFIN</td>
+<td>Pay Fine Event
+</td></tr>
+<tr>
+<td>PRFV</td>
+<td>Player <span>Recieves <i><small>[<a href="/wiki/UESPWiki:Spelling#Books_and_Direct_Quotes">sic</a>]</small></i></span> Favor
+</td></tr>
+<tr>
+<td>REMP</td>
+<td>Player Remove Item
+</td></tr>
+<tr>
+<td>QSTR</td>
+<td>Quest Start
+</td></tr>
+<tr>
+<td>SCPT</td>
+<td>Script Event
+</td></tr>
+<tr>
+<td>SKIL</td>
+<td>Skill Increase
+</td></tr>
+<tr>
+<td>STIJ</td>
+<td>Served Time
+</td></tr>
+<tr>
+<td>TRES</td>
+<td>Trespass Actor Event
+</td></tr></tbody></table>
+</div>

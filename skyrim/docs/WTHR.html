@@ -1,0 +1,273 @@
+
+<div><p><b>WTHR </b>records contain information on weather.  Weather is essentially a group of static (relative to camera) clouds, a group of dynamic clouds, a sky model, maybe sound, and some other data tied together.  Weather indoors is mostly lighting data.
+</p><p>Note: WTHR uses an unusual field type naming convention for the dynamic clouds, it starts with 00TX and goes to L0TX, but rather than just 0-9 A-L, it simply uses the sequential ASCII characters, so after 90TX is :0TX, ;0TX, etc.  Rather than put all 20+ identical field combinations on the page, simply one *0TX field is listed. 
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>-</td>
+<td>*0TX</td>
+<td>cloud textures</td>
+<td>zstring</td>
+<td>Path to .dds - 00TX maps to layer 0, layer n will use a texture, if there's a field ascii(ord('0')+n)0TX
+</td></tr>
+<tr>
+<td>-</td>
+<td>LNAM</td>
+<td>unknown</td>
+<td>uint32</td>
+<td>Number of Texture Layers <i>always 0x04 or 0x1d</i>
+</td></tr>
+<tr>
+<td>-</td>
+<td>MNAM</td>
+<td>precipitation</td>
+<td>formID</td>
+<td>Precipitation - <a href="SPGD.html">SPGD</a> formID
+</td></tr>
+<tr>
+<td>-</td>
+<td>NNAM</td>
+<td>visual effect</td>
+<td>formID</td>
+<td>Visual Effect (RFCT)
+</td></tr>
+<tr>
+<td>-</td>
+<td>RNAM</td>
+<td>unknown</td>
+<td>struct</td>
+<td>32 bytes, Cloud Speed Y (-0.1 - 0.1), byte n corresponds to layer n, float encoded as uint8: 0x00-&gt;-0.1, 0x7f-&gt;0, 0xfe-&gt;0.1
+</td></tr>
+<tr>
+<td>-</td>
+<td>QNAM</td>
+<td>unknown</td>
+<td>struct</td>
+<td>32 bytes, Cloud Speed X (-0.1 - 0.1), byte n corresponds to layer n, encoding as above
+</td></tr>
+<tr>
+<td>+</td>
+<td>PNAM</td>
+<td>cloud texture color</td>
+<td>struct[32]</td>
+<td>512 bytes, 32 structs of 16 bytes, one for each layer
+<dl><dd>rgb Sunrise</dd>
+<dd>rgb Day</dd>
+<dd>rgb Sunset</dd>
+<dd>rgb Night</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>JNAM</td>
+<td>cloud texture alpha</td>
+<td>struct[32]</td>
+<td>512 bytes, 32 structs of 16 bytes, one for each layer
+<dl><dd>float Sunrise alpha</dd>
+<dd>float Day alpha</dd>
+<dd>float Sunset alpha</dd>
+<dd>float Night alpha</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM0</td>
+<td>unknown</td>
+<td>struct[]</td>
+<td>208/224/272 bytes, structs of 16 bytes, color definitions
+<dl><dd>rgb Sunrise</dd>
+<dd>rgb Day</dd>
+<dd>rgb Sunset</dd>
+<dd>rgb Night</dd></dl>
+<p>The n-th struct corresponds to the following type
+</p>
+<dl><dd>0 - Sky-Upper</dd>
+<dd>1 - Fog Near</dd>
+<dd>2 - <i>seems to be ignored, might correspond to "Cloud Layer" which is overwritten by more detailed PNAM field</i></dd>
+<dd>3 - Ambient</dd>
+<dd>4 - Sunlight</dd>
+<dd>5 - Sun</dd>
+<dd>6 - Stars</dd>
+<dd>7 - Sky-Lower</dd>
+<dd>8 - Horizon</dd>
+<dd>9 - Effect Lightning</dd>
+<dd>10 - Cloud LOD Diffuse</dd>
+<dd>11 - Cloud LOD Ambient</dd>
+<dd>12 - Fog Far <i>defaults to black</i></dd>
+<dd>13 - Sky Statics <i>defaults to black</i></dd>
+<dd>14 - Water Multiplier <i>defaults to white</i> (? see NAM2/3)</dd>
+<dd>15 - Sun Glare <i>defaults to white</i></dd>
+<dd>16 - Moon Glare <i>defaults to white</i></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>FNAM</td>
+<td>unknown</td>
+<td>struct</td>
+<td>32 byte structure - Fog Distance
+<dl><dd>float Day Near</dd>
+<dd>float Day Far</dd>
+<dd>float Night Near</dd>
+<dd>float Night Far</dd>
+<dd>float Day Pow</dd>
+<dd>float Night Pow</dd>
+<dd>float Day Max</dd>
+<dd>float Night Max</dd></dl>
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>unknown</td>
+<td>struct</td>
+<td>19 byte structure - several uint8 are displayed as float by the CK, see the ranges given
+<dl><dd>uint8 Wind Speed (0-1)</dd>
+<dd>uint8 <i>unknown - always 0</i></dd>
+<dd>uint8 <i>unknown - always 0</i></dd>
+<dd>uint8 Trans Delta (0-.25)</dd>
+<dd>uint8 Sun Glare (0-1)</dd>
+<dd>uint8 Sun Damage (0-1)</dd>
+<dd>uint8 Precipitation - Begin Fade In (0-1)</dd>
+<dd>uint8 Precipitation - End Fade Out (0-1)</dd>
+<dd>uint8 Thunder / Lightning - Begin Fade In (0-1)</dd>
+<dd>uint8 Thunder / Lightning - End Fade Out (0-1)</dd>
+<dd>uint8 Thunder / Lightning - Frequency 255 low to 15 high <i>DefaultWeather has 0 here, displayed as low by the CK too</i></dd>
+<dd>uint8 flags - first four are Precipitation/Weather Classification (at most one set, defaults to None), following two are Effects/Aurora
+<dl><dd>0x01 - Pleasant</dd>
+<dd>0x02 - Cloudy</dd>
+<dd>0x04 - Rainy</dd>
+<dd>0x08 - Snow</dd>
+<dd>0x10 - Always Visible</dd>
+<dd>0x20 - Follows Sun Position</dd></dl></dd>
+<dd>rbg Precipitation/Lightning Color</dd>
+<dd>uint8 <i>unknown - always 0</i></dd>
+<dd>uint8 Wind Direction (0-360)</dd>
+<dd>uint8 Wind Dir Range (0-180)</dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM1</td>
+<td>unknown</td>
+<td>uint32</td>
+<td>Disabled flags - bit n corresponds to layer n, set if disabled
+</td></tr>
+<tr>
+<td>*</td>
+<td>SNAM</td>
+<td>ambient sounds</td>
+<td>struct</td>
+<td>8-byte struct
+<dl><dd>formID - Sound Reference (<a href="SNDR.html">SNDR</a>)</dd>
+<dd>uint32 - Type
+<dl><dd>0 - Default</dd>
+<dd>1 - Precip</dd>
+<dd>2 - Wind</dd>
+<dd>3 - Thunder</dd></dl></dd></dl>
+</td></tr>
+<tr>
+<td>*</td>
+<td>TNAM</td>
+<td>sky statics</td>
+<td>formID</td>
+<td>Static (<a href="STAT.html">STAT</a>) formID
+</td></tr>
+<tr>
+<td>-</td>
+<td>IMSP</td>
+<td>image spaces</td>
+<td>formID[4]</td>
+<td>Array of 4 (<a href="IMGS.html">IMGS</a>) formIDs (Sunrise/Day/Sunset/Night)
+</td></tr>
+<tr>
+<td>*</td>
+<td>DALC</td>
+<td>lighting data</td>
+<td>struct</td>
+<td>Directional Ambient, 4 fields for Sunrise, Day, Sunset, Night, usually 32 bytes, but just 24 in one case (TESTCloudyRain)
+<dl><dd>rgb - Directional Ambient X+</dd>
+<dd>rgb - Directional Ambient X-</dd>
+<dd>rgb - Directional Ambient Y+</dd>
+<dd>rgb - Directional Ambient Y-</dd>
+<dd>rgb - Directional Ambient Z+</dd>
+<dd>rgb - Directional Ambient Z-</dd>
+<dd>rgb - Specular Color <i>defaults to 0/0/0 if absent</i></dd>
+<dd>float - Fresnel Power (0-1) <i>defaults to 1 if absent</i></dd></dl>
+</td></tr>
+<tr>
+<td>-</td>
+<td>MODL</td>
+<td>aurora model</td>
+<td><a href="MODL_Field.html">MODL</a></td>
+<td>Aurora - Includes optional field MODT
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM2</td>
+<td></td>
+<td>uint32[4]?</td>
+<td><i>unknown</i> - appears together with NAM3, either four times 0x00ffffff or 0xffffffff, probably responsible for some of the default whites in NAM0. Only found in a couple of older forms, goes away when saving in CK.
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM3</td>
+<td></td>
+<td>uint32[4]?</td>
+<td><i>unknown</i> - same as NAM2
+</td></tr></tbody></table>
+<p>The weather <i>TESTCloudyRain</i> contains the following alternative fields:
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th>SubRecord
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>DNAM</td>
+<td>zstring</td>
+<td>Cloud Texture Layer 0 - Alternative to 00TX
+</td></tr>
+<tr>
+<td>CNAM</td>
+<td>zstring</td>
+<td>Cloud Texture Layer 1 - Alternative to 10TX
+</td></tr>
+<tr>
+<td>ANAM</td>
+<td>zstring</td>
+<td>Cloud Texture Layer 2 - Alternative to 20TX
+</td></tr>
+<tr>
+<td>BNAM</td>
+<td>zstring</td>
+<td>Cloud Texture Layer 3 - Alternative to 30TX
+</td></tr>
+<tr>
+<td>ONAM</td>
+<td>uint8[4]</td>
+<td>Alternative to QNAM
+<dl><dd>uint8 cloud speed layer 0</dd>
+<dd>uint8 cloud speed layer 1</dd>
+<dd>uint8 cloud speed layer 2</dd>
+<dd>uint8 cloud speed layer 3</dd></dl>
+<p>0x00 to 0x7f corresponds to CK displayed values of 0 to 0.1, unclear how values 0x80 to 0xff would be interpreted
+</p>
+</td></tr></tbody></table>
+</div>

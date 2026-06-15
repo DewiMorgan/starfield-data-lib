@@ -1,0 +1,67 @@
+
+<div><p><b>EFSH</b> records are effect shaders. Specifically, fade in/looping/fade out effect groups.
+</p><p>Any record which does not have an applicable effect for any of the types is simply a blank string (0x00).
+</p>
+<table border="1" class="wikitable">
+<tbody><tr>
+<th><a href="File_Format_Conventions.html">C</a>
+</th>
+<th>SubRecord
+</th>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>+</td>
+<td>EDID</td>
+<td>editorId</td>
+<td>zstring</td>
+<td>Editor id
+</td></tr>
+<tr>
+<td>+</td>
+<td>ICON</td>
+<td>start effect</td>
+<td>zstring</td>
+<td>Path to .dds
+</td></tr>
+<tr>
+<td>+</td>
+<td>ICO2</td>
+<td>looped effect</td>
+<td>zstring</td>
+<td>Path to .dds
+</td></tr>
+<tr>
+<td>+</td>
+<td>NAM7</td>
+<td>post effect</td>
+<td>zstring</td>
+<td>Path to .dds
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM8</td>
+<td>looped gradient</td>
+<td>zstring</td>
+<td>Path to .dds
+</td></tr>
+<tr>
+<td>-</td>
+<td>NAM9</td>
+<td>end gradient</td>
+<td>zstring</td>
+<td>Path to .dds
+</td></tr>
+<tr>
+<td>+</td>
+<td>DATA</td>
+<td>unknown</td>
+<td>struct</td>
+<td>shader data, size ranges from 308 to 400 bytes (always an integral multiple of 4 bytes) in Skyrim.esm
+</td></tr>
+</tbody></table>
+</div>

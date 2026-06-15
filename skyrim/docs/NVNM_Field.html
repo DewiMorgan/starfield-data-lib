@@ -1,0 +1,316 @@
+
+<div><div></div>
+<p><b>NVNM</b> fields contain navmesh geometry data.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Name
+</th>
+<th><a href="File_Format_Conventions.html">Type/Size</a>
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>Unknown</td>
+<td>uint32</td>
+<td>Seems to always be 12 or 0x0000000C. I suspect it's a copy of NVER.
+</td></tr>
+<tr>
+<td>Location Marker?</td>
+<td>uint32</td>
+<td>Appears before location info.
+</td></tr>
+<tr>
+<td>World Space</td>
+<td>formid</td>
+<td>Formid of the world space. If World Space = 0x0000003C then the following uint32 contains grid info, otherwise it contains a cell formid. Is null(0x0000000) for interior cells.
+</td></tr>
+<tr>
+<td>Cell/Grid</td>
+<td>formid or sint16 &amp; sint16</td>
+<td>These four bytes are the UInt32 Formid of the cell if the World Space above is null(0x0000), Otherwise this is a pair of two signed shorts representing grid coordinates of the exterior cell. Note that grid coordinates are in reverse order (first one is Y and second one is X).
+</td></tr>
+<tr>
+<td><b>Vertices</b></td>
+<td>struct Vertex[num]</td>
+<td>List of vertices in the navmesh. It contains the length of the list followed by repeating sequence of three floats that correspond to the 3d position of each vertex.
+</td></tr>
+<tr>
+<td>Num_Vertices (nvert)</td>
+<td>int32</td>
+<td>This is a number of vertices in the navmesh.
+</td></tr>
+<tr>
+<td>X:</td>
+<td>float32</td>
+<td rowspan="3">This is a repeating structure (occurs num_Vertices times) of X,Y and Z coordinates that make up the vertices in the navmesh. The values are the game coordinates of the vertices (same coordinate system as placed objects. A vertex at 0,0,0 will overlap with an object placed at 0,0,0 in the Creation Kit)
+</td></tr>
+<tr>
+<td>Y:</td>
+<td>float32
+</td></tr>
+<tr>
+<td>Z:</td>
+<td>float32
+</td></tr>
+<tr>
+<td><b>Triangles</b></td>
+<td>struct Triangle[num]</td>
+<td>List of Triangles in the navmesh.
+<p>rowspan=8|struct Triangle: This is a repeating structure (occurs Num_Tris times) of 3 vertex indices, 3 edge neighbour indices, a cover marker and cover flags. The edges are either -1 if they don't border another triangle, or they hold the index of the triangle they do border. The cover marker seems to be an indicator of where the cover flags begin and usually contains 0x0008 or 0x0408.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th>Flags
+</th>
+<th>Info
+</th></tr>
+<tr>
+<td>0000</td>
+<td>No cover
+</td></tr>
+<tr>
+<td>0001</td>
+<td>Open edge with no cover
+</td></tr>
+<tr>
+<td>0010</td>
+<td>Wall with no cover
+</td></tr>
+<tr>
+<td>0011</td>
+<td>Ledge cover
+</td></tr>
+<tr>
+<td>0100</td>
+<td>64(units)
+</td></tr>
+<tr>
+<td>0101</td>
+<td>80(units)
+</td></tr>
+<tr>
+<td>0110</td>
+<td>96(units)
+</td></tr>
+<tr>
+<td>0111</td>
+<td>112(units)
+</td></tr>
+<tr>
+<td>1000</td>
+<td>128(units)
+</td></tr>
+<tr>
+<td>1001</td>
+<td>144(units)
+</td></tr>
+<tr>
+<td>1010</td>
+<td>160(units)
+</td></tr>
+<tr>
+<td>1011</td>
+<td>176(units)
+</td></tr>
+<tr>
+<td>1100</td>
+<td>192(units)
+</td></tr>
+<tr>
+<td>1101</td>
+<td>208(units)
+</td></tr>
+<tr>
+<td>1110</td>
+<td>224(units)
+</td></tr>
+<tr>
+<td>1111</td>
+<td>Max cover(255 units)
+</td></tr>
+</tbody></table>
+<p>The cover flags are contained in a uint16 size of data. Only 2 edges of a triangle are allowed to have cover.
+</p>
+<table class="wikitable">
+<tbody><tr>
+<th colspan="5">size of uint16
+</th></tr>
+<tr>
+<th colspan="2">Unknown
+</th>
+<th colspan="1">edge 1
+</th>
+<th colspan="1">Unknown
+</th>
+<th colspan="1">edge 0
+</th></tr>
+<tr>
+<td>1111</td>
+<td>00</td>
+<td>1111</td>
+<td>00</td>
+<td>1111
+</td></tr>
+</tbody></table>
+</td></tr>
+<tr>
+<td>Num_Tris</td>
+<td>int32</td>
+<td>This is the number of triangles in the list.
+</td></tr>
+<tr>
+<td>Vertex 0</td>
+<td>int16</td>
+<td>Index of first vertex from the above Vertices list.
+</td></tr>
+<tr>
+<td>Vertex 1</td>
+<td>int16</td>
+<td>Index of second vertex from the above Vertices list.
+</td></tr>
+<tr>
+<td>Vertex 2</td>
+<td>int16</td>
+<td>Index of third vertex from the above Vertices list.
+</td></tr>
+<tr>
+<td>Edge 0</td>
+<td>int16</td>
+<td>Index within this list of the triangle that neighbors the first edge (vertex 0 to vertex 1)
+</td></tr>
+<tr>
+<td>Edge 1</td>
+<td>uint16</td>
+<td>Index within this list of the triangle that neighbors the second edge (vertex 1 to vertex 2)
+</td></tr>
+<tr>
+<td>Edge 2</td>
+<td>uint16</td>
+<td>Index within this list of the triangle that neighbors the third edge (vertex 2 to vertex 1)
+</td></tr>
+<tr>
+<td>Cover marker?</td>
+<td>uint16
+</td></tr>
+<tr>
+<td>Cover flags</td>
+<td>uint16
+</td></tr>
+<tr>
+<td>External Connections</td>
+<td>struct Connection[num]</td>
+<td>This is a list of triangles that border other navmeshes
+</td></tr>
+<tr>
+<td>Unknown</td>
+<td>uint32</td>
+<td rowspan="3">struct Connection: This struct is made up of an unknown int32, Navmesh formid and triangle index. The triangle index identifies the triangle that connects to the external navmesh, indicated by the navmesh formid.
+</td></tr>
+<tr>
+<td>Navmesh</td>
+<td>formid
+</td></tr>
+<tr>
+<td>Triangle</td>
+<td>int16
+</td></tr>
+<tr>
+<td><b>Door triangles</b></td>
+<td>struct Door triangle[num]</td>
+<td>This is a list of triangles at the door threshold.
+</td></tr>
+<tr>
+<td>Number</td>
+<td>int32</td>
+<td>Number of Triangles in the list
+</td></tr>
+<tr>
+<td>Triangle</td>
+<td>int16</td>
+<td>Index of a triangle from triangles list above.
+</td></tr>
+<tr>
+<td>Unknown</td>
+<td>uint32</td>
+<td>Appears to be a marker for door REFR formids.
+</td></tr>
+<tr>
+<td>Door REFR</td>
+<td>formid</td>
+<td>Form-ID of the linked DOOR reference.
+</td></tr>
+<tr>
+<td>Cover triangles</td>
+<td>int16[num]</td>
+<td>This is a list of triangles that have cover.
+</td></tr>
+<tr>
+<td>Cover triangle</td>
+<td>int16</td>
+<td>Index of triangle that has cover.
+</td></tr>
+<tr>
+<td>Divisor?</td>
+<td>uint32</td>
+<td>This appears to be a divisor to determine distance. The formula is ABS(( MaxX - MinX ) / Divisor ) = Max X Distance.
+<p>(It may not necessarily be the maximum distance, but the formula fits the result).
+</p>
+</td></tr>
+<tr>
+<td>Max X Distance</td>
+<td>float32</td>
+<td>This is result for X from the formula above.
+</td></tr>
+<tr>
+<td>Max Y Distance</td>
+<td>float32</td>
+<td>This is result for Y from the formula above.
+</td></tr>
+<tr>
+<td>Min X</td>
+<td>float32</td>
+<td>Min X of the navmesh.
+</td></tr>
+<tr>
+<td>Min Y</td>
+<td>float32</td>
+<td>Min Y of the navmesh.
+</td></tr>
+<tr>
+<td>Min Z</td>
+<td>float32</td>
+<td>Min Z of the navmesh.
+</td></tr>
+<tr>
+<td>Max X</td>
+<td>float32</td>
+<td>Max X of the navmesh.
+</td></tr>
+<tr>
+<td>Max Y</td>
+<td>float32</td>
+<td>Max Y of the navmesh.
+</td></tr>
+<tr>
+<td>Max Z</td>
+<td>float32</td>
+<td>Max Z of the navmesh.
+</td></tr>
+<tr>
+<td>Triangles</td>
+<td>structure as follows:</td>
+<td>This is a repeating sequence of lists that occurs divisor^2 times. It appears to divide the navmesh into 2d segments.
+</td></tr>
+<tr>
+<td>Length</td>
+<td>uint32</td>
+<td>The number of indexes in this segment.
+</td></tr>
+<tr>
+<td>Triangle index</td>
+<td>uint16</td>
+<td>Index of triangle from the triangle list that belong to this segment.
+</td></tr>
+</tbody></table>
+</div>
