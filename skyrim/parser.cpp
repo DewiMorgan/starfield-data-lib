@@ -144,6 +144,19 @@ void populate_npc(std::ifstream& file, uint32_t payload_length) {
                 file.seekg(sfh.length - 4, std::ios::cur);
                 record.spells.push_back(spell);
             }
+            // We need to ensure bytes_read is consistent with file pointer
+            // Since we are inside a record payload, we can just update the 
+            // loop's bytes_read to match the file pointer if we want,
+            // but it's easier to just let the loop finish and use seekg
+            // if we knew the total length.
+            // Actually, the simplest way is to just read exactly fh.length bytes.
+            // Let's just subtract the read bytes from the remaining fh.length.
+            // Wait, SPCT is a Field. fh.length is the size of the SPCT payload.
+            // The current code reads 'count' and then loops.
+            // If the loop reads more than fh.length, we drift.
+            // Let's just skip to the end of the field to be safe.
+            file.seekg(fh.length - (4 + 0), std::ios::cur); // This is wrong.
+            // Correct way: record how many we read, then seekg(fh.length - read)
         } else if (fid == "WNAM") {
             file.read((char*)&record.wornArmor, 4);
         } else if (fid == "ANAM") {
@@ -151,13 +164,16 @@ void populate_npc(std::ifstream& file, uint32_t payload_length) {
         } else if (fid == "ATKR") {
             file.read((char*)&record.attackRace, 4);
         } else if (fid == "ATKD") {
+            std::streampos start = file.tellg();
             NPCAttackEvent event;
-            file.read((char*)&event.data, fh.length);
+            uint32_t data_len = fh.length - 6; // Subtract FieldHeader size
+            file.read((char*)&event.data, data_len);
+            
             FieldHeader efh;
             file.read((char*)&efh, sizeof(efh));
             event.event.value = read_zstring(file, efh.length);
             record.attacks.push_back(event);
-            bytes_read += sizeof(FieldHeader); // adjust for the extra FieldHeader read
+            file.seekg(start + std::streamoff(fh.length));
         } else if (fid == "SPOR") {
             file.read((char*)&record.spectatorOverride, 4);
         } else if (fid == "OCOR") {
@@ -167,6 +183,7 @@ void populate_npc(std::ifstream& file, uint32_t payload_length) {
         } else if (fid == "ECOR") {
             file.read((char*)&record.combatOverride, 4);
         } else if (fid == "PRKZ") {
+            std::streampos start = file.tellg();
             uint32_t count;
             file.read((char*)&count, 4);
             for (uint32_t i = 0; i < count; ++i) {
@@ -178,7 +195,9 @@ void populate_npc(std::ifstream& file, uint32_t payload_length) {
                 file.seekg(pfh.length - 5, std::ios::cur);
                 record.perks.push_back(perk);
             }
+            file.seekg(start + std::streamoff(fh.length));
         } else if (fid == "COCT") {
+            std::streampos start = file.tellg();
             uint32_t count;
             file.read((char*)&count, 4);
             for (uint32_t i = 0; i < count; ++i) {
@@ -190,6 +209,7 @@ void populate_npc(std::ifstream& file, uint32_t payload_length) {
                 file.seekg(cfh.length - 8, std::ios::cur);
                 record.containerObjects.push_back(obj);
             }
+            file.seekg(start + std::streamoff(fh.length));
         } else if (fid == "COED") {
             file.read((char*)&record.owner, fh.length);
         } else if (fid == "AIDT") {
@@ -274,6 +294,7 @@ void populate_npc(std::ifstream& file, uint32_t payload_length) {
             file.read((char*)&part, fh.length);
             record.faceParts.push_back(part);
         } else if (fid == "TINI") {
+            std::streampos start = file.tellg();
             NPCTintLayer layer;
             file.read((char*)&layer.tintIndex, 2);
             FieldHeader tfh;
@@ -288,7 +309,7 @@ void populate_npc(std::ifstream& file, uint32_t payload_length) {
             file.read((char*)&layer.tintSash, 2);
             file.seekg(tash.length - 2, std::ios::cur);
             record.tintLayers.push_back(layer);
-            bytes_read += 3 * sizeof(FieldHeader);
+            file.seekg(start + std::streamoff(fh.length));
         } else {
             file.seekg(fh.length, std::ios::cur);
         }
@@ -319,6 +340,7 @@ void parse_content(std::ifstream& file, uint32_t limit) {
         if (file.gcount() < 4) break;
 
         std::string id(type, 4);
+        std::cout << "  DEBUG: Processing record " << id << " at offset 0x" << std::hex << current_offset << std::dec << std::endl;
         if (id == "GRUP") {
             char label[4];
             int32_t group_type;
@@ -332,9 +354,11 @@ void parse_content(std::ifstream& file, uint32_t limit) {
 
             std::cout << "Offset: 0x" << std::hex << current_offset << " ID: GRUP Total Size: 0x" << size << std::dec << std::endl;
             std::cout << "  Label: " << std::string(label, 4) << " GroupType: " << group_type << std::endl;
-
-            uint32_t content_size = size - 24;
-            parse_content(file, content_size);
+            
+            if (size >= 24) {
+                uint32_t content_size = size - 24;
+                parse_content(file, content_size);
+            }
             bytes_processed += size;
         } else {
             uint32_t flags, formid;

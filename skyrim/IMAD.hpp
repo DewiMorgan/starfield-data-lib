@@ -1,15 +1,17 @@
-#ifndef IMAD_H
-#define IMAD_H
+#ifndef IMAD_HPP
+#define IMAD_HPP
 
+#include "core.hpp"
 #include "base_types.hpp"
-#include <vector>
 
 struct IMADPair {
     float timestamp;
     float value;
 };
 
-struct IMAD {
+class IMAD : public Record {
+public:
+    static const RecordSchema schema;
     zstring editorId;
     uint32 flag;
     float duration;
@@ -61,6 +63,11 @@ struct IMAD {
     std::vector<IMADPair> contrastAdd;
     std::vector<IMADPair> unknown11;
     std::vector<IMADPair> unknown12;
+
+    IMAD() : Record("IMAD") {}
+    const RecordSchema& getSchema() const override { return schema; }
+    void populate(std::istream& is) override;
+    bool validate() override;
 };
 
 #endif

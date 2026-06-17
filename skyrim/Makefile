@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++20 -Wall -Wextra -O3
 TARGET = parser
-SRC = parser.cpp
+SRC = parser.cpp core.cpp ASTP.cpp AVIF.cpp CAMS.cpp CELL.cpp CLAS.cpp CLFM.cpp COLL.cpp CSTY.cpp DIAL.cpp DLBR.cpp DOBJ.cpp ECZN.cpp EFSH.cpp EQUP.cpp EYES.cpp FACT.cpp FLST.cpp FSTP.cpp FSTS.cpp GMST.cpp GRUP.cpp IMAD.cpp IMGS.cpp IPDS.cpp KYWD.cpp
 
 all: $(TARGET)
 

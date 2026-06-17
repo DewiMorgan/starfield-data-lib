@@ -1,7 +1,12 @@
-#ifndef EFSH_H
-#define EFSH_H
+#ifndef EFSH_HPP
+#define EFSH_HPP
 
-struct EFSH {
+#include "core.hpp"
+#include "base_types.hpp"
+
+class EFSH : public Record {
+public:
+    static const RecordSchema schema;
     zstring editorId;
     zstring startEffect;
     zstring loopedEffect;
@@ -9,7 +14,11 @@ struct EFSH {
     zstring loopedGradient;
     zstring endGradient;
     EFSHData data;
-};
 
+    EFSH() : Record("EFSH") {}
+    const RecordSchema& getSchema() const override { return schema; }
+    void populate(std::istream& is) override;
+    bool validate() override;
+};
 
 #endif
