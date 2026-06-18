@@ -3,42 +3,40 @@
 
 const RecordSchema COLL::schema = {
     {
-        FieldSchema{"EDID", 0, 1, [](Record* r, Field* f) {
+        FieldSchema{"EDID", 1, 1, [](Record* r, Field* f) {
             static_cast<COLL*>(r)->editorId.value = static_cast<ZStringField*>(f)->value;
         }},
-        FieldSchema{"DESC", 0, 1, [](Record* r, Field* f) {
-            static_cast<COLL*>(r)->description.value = static_cast<ZStringField*>(f)->value;
+        FieldSchema{"DESC", 1, 1, [](Record* r, Field* f) {
+            auto* rec = static_cast<COLL*>(r);
+            auto raw = static_cast<RawField*>(f)->raw_data;
+            auto it = std::find(raw.begin(), raw.end(), uint8_t(0x1C));
+            rec->description.value = std::string(raw.begin(), it != raw.end() ? it : raw.end());
         }},
-        FieldSchema{"BNAM", 0, 1, [](Record* r, Field* f) {
-            static_cast<COLL*>(r)->uniqueId = static_cast<NumericField<uint32>*>(f)->value;
+        FieldSchema{"BNAM", 1, 1, [](Record* r, Field* f) {
+            auto* rec = static_cast<COLL*>(r);
+            memcpy(&rec->uniqueId, static_cast<RawField*>(f)->raw_data.data(), sizeof(rec->uniqueId));
         }},
-        FieldSchema{"FNAM", 0, 1, [](Record* r, Field* f) {
-            std::memcpy(&static_cast<COLL*>(r)->debugColor, f->raw_data.data(), std::min((size_t)3, f->raw_data.size()));
+        FieldSchema{"FNAM", 1, 1, [](Record* r, Field* f) {
+            auto* rec = static_cast<COLL*>(r);
+            auto raw = static_cast<RawField*>(f)->raw_data;
+            memcpy(&rec->debugColor.r, raw.data(), std::min(sizeof(rec->debugColor), raw.size()));
         }},
-        FieldSchema{"GNAM", 0, 1, [](Record* r, Field* f) {
-            static_cast<COLL*>(r)->flags = static_cast<NumericField<uint32>*>(f)->value;
+        FieldSchema{"GNAM", 1, 1, [](Record* r, Field* f) {
+            auto* rec = static_cast<COLL*>(r);
+            memcpy(&rec->flags, static_cast<RawField*>(f)->raw_data.data(), sizeof(rec->flags));
         }},
-        FieldSchema{"MNAM", 0, 1, [](Record* r, Field* f) {
+        FieldSchema{"MNAM", 1, 1, [](Record* r, Field* f) {
             static_cast<COLL*>(r)->name.value = static_cast<ZStringField*>(f)->value;
         }},
-        FieldSchema{"INTV", 0, 1, [](Record* r, Field* f) {
-            static_cast<COLL*>(r)->interactablesCount = static_cast<NumericField<uint32>*>(f)->value;
+        FieldSchema{"INTV", 1, 1, [](Record* r, Field* f) {
+            auto* rec = static_cast<COLL*>(r);
+            memcpy(&rec->interactablesCount, static_cast<RawField*>(f)->raw_data.data(), sizeof(rec->interactablesCount));
         }},
-        FieldSchema{"CNAM", 0, 1, [](Record* r, Field* f) {
-            size_t count = f->raw_data.size() / sizeof(FormID);
-            for (size_t i = 0; i < count; ++i) {
-                FormID fid;
-                std::memcpy(&fid, f->raw_data.data() + i * sizeof(FormID), sizeof(FormID));
-                static_cast<COLL*>(r)->interactables.push_back(fid);
-            }
+        FieldSchema{"CNAM", 0, -1, [](Record* r, Field* f) {
+            auto* rec = static_cast<COLL*>(r);
+            formid fid;
+            memcpy(&fid, static_cast<RawField*>(f)->raw_data.data(), sizeof(fid));
+            rec->interactables.push_back(fid);
         }},
     }
 };
-
-void COLL::populate(std::istream& is) {
-    Record::populate(is);
-}
-
-bool COLL::validate() {
-    return Record::validate();
-}

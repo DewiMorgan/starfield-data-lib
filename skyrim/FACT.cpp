@@ -7,69 +7,85 @@ const RecordSchema FACT::schema = {
             static_cast<FACT*>(r)->edid.value = static_cast<ZStringField*>(f)->value;
         }},
         FieldSchema{"FULL", 0, 1, [](Record* r, Field* f) {
-            static_cast<FACT*>(r)->full.value = static_cast<ZStringField*>(f)->value;
+            auto* rec = static_cast<FACT*>(r);
+            auto raw = static_cast<RawField*>(f)->raw_data;
+            auto it = std::find(raw.begin(), raw.end(), uint8_t(0x1C));
+            rec->full.value = std::string(raw.begin(), it != raw.end() ? it : raw.end());
         }},
-        FieldSchema{"XNAM", 0, UNLIMITED, [](Record* r, Field* f) {}},
-        FieldSchema{"DATA", 1, 1, [](Record* r, Field* f) {
-            static_cast<FACT*>(r)->data = static_cast<NumericField<uint32>*>(f)->value;
+        FieldSchema{"DATA", 0, 1, [](Record* r, Field* f) {
+            auto* rec = static_cast<FACT*>(r);
+            memcpy(&rec->data, static_cast<RawField*>(f)->raw_data.data(), sizeof(rec->data));
+        }},
+        FieldSchema{"XNAM", 0, 1, [](Record* r, Field* f) {
+            auto* rec = static_cast<FACT*>(r);
+            auto raw = static_cast<RawField*>(f)->raw_data;
+            memcpy(&rec->stol, raw.data(), std::min(sizeof(rec->stol), raw.size()));
         }},
         FieldSchema{"JAIL", 0, 1, [](Record* r, Field* f) {
-            static_cast<FACT*>(r)->jail = static_cast<NumericField<FormID>*>(f)->value;
+            auto* rec = static_cast<FACT*>(r);
+            memcpy(&rec->jail, static_cast<RawField*>(f)->raw_data.data(), sizeof(rec->jail));
         }},
         FieldSchema{"WAIT", 0, 1, [](Record* r, Field* f) {
-            static_cast<FACT*>(r)->wait = static_cast<NumericField<FormID>*>(f)->value;
-        }},
-        FieldSchema{"STOL", 0, 1, [](Record* r, Field* f) {
-            static_cast<FACT*>(r)->stol = static_cast<NumericField<FormID>*>(f)->value;
+            auto* rec = static_cast<FACT*>(r);
+            memcpy(&rec->wait, static_cast<RawField*>(f)->raw_data.data(), sizeof(rec->wait));
         }},
         FieldSchema{"PLCN", 0, 1, [](Record* r, Field* f) {
-            static_cast<FACT*>(r)->plcn = static_cast<NumericField<FormID>*>(f)->value;
+            auto* rec = static_cast<FACT*>(r);
+            memcpy(&rec->plcn, static_cast<RawField*>(f)->raw_data.data(), sizeof(rec->plcn));
         }},
         FieldSchema{"CRGR", 0, 1, [](Record* r, Field* f) {
-            static_cast<FACT*>(r)->crgr = static_cast<NumericField<FormID>*>(f)->value;
+            auto* rec = static_cast<FACT*>(r);
+            memcpy(&rec->crgr, static_cast<RawField*>(f)->raw_data.data(), sizeof(rec->crgr));
         }},
         FieldSchema{"JOUT", 0, 1, [](Record* r, Field* f) {
-            static_cast<FACT*>(r)->jout = static_cast<NumericField<FormID>*>(f)->value;
+            auto* rec = static_cast<FACT*>(r);
+            memcpy(&rec->jout, static_cast<RawField*>(f)->raw_data.data(), sizeof(rec->jout));
         }},
-        FieldSchema{"CRVA", 0, 1, [](Record* r, Field* f) {
-            static_cast<FACT*>(r)->crva = f->raw_data;
+        FieldSchema{"CRVA", 0, -1, [](Record* r, Field* f) {
+            auto* rec = static_cast<FACT*>(r);
+            auto raw = static_cast<RawField*>(f)->raw_data;
+            for (auto b : raw) rec->crva.push_back(b);
         }},
-        GroupSchema{
-            {
-                FieldSchema{"RNAM", 1, 1, [](Record* r, Field* f) {}},
-                FieldSchema{"MNAM", 1, 1, [](Record* r, Field* f) {}},
-                FieldSchema{"FNAM", 1, 1, [](Record* r, Field* f) {}},
-            },
-            0, UNLIMITED, [](Record* r, const std::vector<Field*>& fields) {
-                FACT::Rank rank;
-                for (auto* f : fields) {
-                    if (f->type == "RNAM") rank.rankId = static_cast<NumericField<uint32>*>(f)->value;
-                    else if (f->type == "MNAM") rank.maleTitle.value = static_cast<ZStringField*>(f)->value;
-                    else if (f->type == "FNAM") rank.femaleTitle.value = static_cast<ZStringField*>(f)->value;
-                }
-                static_cast<FACT*>(r)->ranks.push_back(rank);
-            }
-        },
         FieldSchema{"VEND", 0, 1, [](Record* r, Field* f) {
-            static_cast<FACT*>(r)->vend = static_cast<NumericField<FormID>*>(f)->value;
+            auto* rec = static_cast<FACT*>(r);
+            memcpy(&rec->vend, static_cast<RawField*>(f)->raw_data.data(), sizeof(rec->vend));
+        }},
+        FieldSchema{"VMAD", 0, -1, [](Record* r, Field* f) {
+            auto* rec = static_cast<FACT*>(r);
+            auto raw = static_cast<RawField*>(f)->raw_data;
+            for (size_t i = 0; i < raw.size() && i < 12; ++i) {
+                rec->venv[i] = raw[i];
+            }
+        }},
+        FieldSchema{"VNAM", 0, 1, [](Record* r, Field* f) {
+            auto* rec = static_cast<FACT*>(r);
+            memcpy(&rec->venc, static_cast<RawField*>(f)->raw_data.data(), sizeof(rec->venc));
         }},
         FieldSchema{"VENC", 0, 1, [](Record* r, Field* f) {
-            static_cast<FACT*>(r)->venc = static_cast<NumericField<FormID>*>(f)->value;
+            auto* rec = static_cast<FACT*>(r);
+            float val;
+            memcpy(&val, static_cast<RawField*>(f)->raw_data.data(), sizeof(val));
+            uint8_t* p = reinterpret_cast< uint8_t*>(rec->venv + 8);
+            memcpy(p, &val, sizeof(float));
         }},
         FieldSchema{"VENV", 0, 1, [](Record* r, Field* f) {
-            std::memcpy(static_cast<FACT*>(r)->venv, f->raw_data.data(), std::min((size_t)12, f->raw_data.size()));
+            auto* rec = static_cast<FACT*>(r);
+            float val;
+            memcpy(&val, static_cast<RawField*>(f)->raw_data.data(), sizeof(val));
+            uint8_t* p = reinterpret_cast< uint8_t*>(rec->venv + 8);
+            if (rec->venv[11] == 0) {
+                memcpy(p, &val, sizeof(float));
+            }
         }},
-        FieldSchema{"PLVD", 0, 1, [](Record* r, Field* f) {
-            std::memcpy(static_cast<FACT*>(r)->plvd, f->raw_data.data(), std::min((size_t)12, f->raw_data.size()));
+        FieldSchema{"PLVD", 0, -1, [](Record* r, Field* f) {
+            auto* rec = static_cast<FACT*>(r);
+            auto raw = static_cast<RawField*>(f)->raw_data;
+            auto sz = std::min(raw.size(), sizeof(rec->plvd));
+            memcpy(rec->plvd, raw.data(), sz);
         }},
-        FieldSchema{"CTDA", 0, 1, [](Record* r, Field* f) {}},
+        FieldSchema{"CTDA", 0, -1, [](Record* r, Field* f) {
+            // CTDA is a repeating condition entry — handled as raw data for now
+            (void)r; (void)f;
+        }},
     }
 };
-
-void FACT::populate(std::istream& is) {
-    Record::populate(is);
-}
-
-bool FACT::validate() {
-    return Record::validate();
-}

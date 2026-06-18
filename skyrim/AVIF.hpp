@@ -1,6 +1,7 @@
-#ifndef AVIF_H
-#define AVIF_H
+#ifndef AVIF_HPP
+#define AVIF_HPP
 
+#include "core.hpp"
 #include "base_types.hpp"
 #include <vector>
 
@@ -16,7 +17,8 @@ struct PerkSection {
     uint32 index_number;
 };
 
-struct AVIF {
+class AVIF : public Record {
+public:
     zstring editorId;
     lstring name;
     lstring description;
@@ -24,6 +26,10 @@ struct AVIF {
     uint32 data;
     float avData[4];
     std::vector<PerkSection> perkTree;
+
+    AVIF() : Record("AVIF") {}
+    const RecordSchema& getSchema() const override { return schema; }
+    static const RecordSchema schema;
 };
 
 #endif

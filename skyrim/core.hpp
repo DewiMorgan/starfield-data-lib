@@ -34,17 +34,19 @@ struct FieldSchema {
     std::function<void(Record*, Field*)> assign = nullptr;
 };
 
+// Forward declaration — SchemaElement uses variant which includes GroupSchema
+using SchemaElement = std::variant<FieldSchema, struct GroupSchema>;
+
 struct GroupSchema {
-    std::vector<FieldSchema> members;
+    std::vector<SchemaElement> members;
     int min = 0;
     int max = UNLIMITED;
     std::function<void(Record*, const std::vector<Field*>&)> assign = nullptr;
 };
 
-using SchemaElement = std::variant<FieldSchema, GroupSchema>;
-
 struct RecordSchema {
     std::vector<SchemaElement> elements;
+    RecordSchema(std::initializer_list<SchemaElement> elems) : elements(elems) {}
 };
 
 class Field : public Form {
@@ -72,6 +74,12 @@ public:
 class FieldFactory {
 public:
     static std::unique_ptr<Field> create(const std::string& type);
+    static bool is_raw_field(const std::string& type);
+};
+
+class RecordFactory {
+public:
+    static std::unique_ptr<Record> create(const std::string& type);
 };
 
 class ZStringField : public Field {
@@ -80,6 +88,19 @@ public:
     ZStringField(const std::string& t) : Field(t) {}
     void populate_from_data() override;
     void serialize(std::ostream& os) const override;
+};
+
+class RawField : public Field {
+public:
+    RawField(const std::string& t) : Field(t) {}
+    void populate_from_data() override { /* raw bytes already in raw_data */ }
+    void serialize(std::ostream& os) const override {
+        if (!raw_data.empty()) {
+            uint16_t len = static_cast<uint16_t>(raw_data.size());
+            os.write(reinterpret_cast<const char*>(&len), sizeof(len));
+            os.write(reinterpret_cast<const char*>(raw_data.data()), raw_data.size());
+        }
+    }
 };
 
 template <typename T>

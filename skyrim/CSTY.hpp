@@ -1,7 +1,12 @@
-#ifndef CSTY_H
-#define CSTY_H
+#ifndef CSTY_HPP
+#define CSTY_HPP
 
-struct CSTY {
+#include "core.hpp"
+#include "base_types.hpp"
+#include <vector>
+
+class CSTY : public Record {
+public:
     zstring editorId;
     std::vector<float> general;
     std::vector<float> melee;
@@ -9,7 +14,10 @@ struct CSTY {
     float longRange;
     std::vector<float> flight;
     uint32 flags;
-};
 
+    CSTY() : Record("CSTY") {}
+    const RecordSchema& getSchema() const override { return schema; }
+    static const RecordSchema schema;
+};
 
 #endif

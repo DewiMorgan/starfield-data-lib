@@ -1,14 +1,20 @@
-#ifndef CLAS_H
-#define CLAS_H
+#ifndef CLAS_HPP
+#define CLAS_HPP
 
+#include "core.hpp"
 #include "base_types.hpp"
 
-struct CLAS {
-    ZString edid;
-    lstring full;
-    lstring desc;
-    ZString icon;
-    uint8 data[36];
+class CLAS : public Record {
+public:
+    zstring editorId;
+    std::string full;
+    std::string desc;
+    zstring icon;
+    uint8_t data[36];
+
+    CLAS() : Record("CLAS") {}
+    const RecordSchema& getSchema() const override { return schema; }
+    static const RecordSchema schema;
 };
 
 #endif

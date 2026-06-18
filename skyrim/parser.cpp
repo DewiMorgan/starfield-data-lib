@@ -48,7 +48,7 @@ void populate_tes4(std::ifstream& file, uint32_t payload_length) {
     while (bytes_read < payload_length) {
         FieldHeader fh;
         file.read((char*)&fh, sizeof(fh));
-        if (file.gcount() < sizeof(fh)) break;
+        if (file.gcount() < static_cast<std::streamsize>(sizeof(fh))) break;
 
         std::string fid(fh.type, 4);
 
@@ -99,7 +99,7 @@ void populate_npc(std::ifstream& file, uint32_t payload_length) {
     while (bytes_read < payload_length) {
         FieldHeader fh;
         file.read((char*)&fh, sizeof(fh));
-        if (file.gcount() < sizeof(fh)) break;
+        if (file.gcount() < static_cast<std::streamsize>(sizeof(fh))) break;
 
         if (!isValidType(fh.type)) {
             std::cerr << "FATAL: Invalid field type '" << std::string(fh.type, 4) 
@@ -385,7 +385,7 @@ void parse_content(std::ifstream& file, uint32_t limit) {
                 while (field_bytes < size) {
                     FieldHeader fh;
                     file.read((char*)&fh, sizeof(fh));
-                    if (file.gcount() < sizeof(fh)) break;
+                    if (file.gcount() < static_cast<std::streamsize>(sizeof(fh))) break;
                     if (!isValidType(fh.type)) {
                         std::cerr << "FATAL: Invalid field type '" << std::string(fh.type, 4) 
                                   << "' at offset 0x" << std::hex << file.tellg() << std::dec << std::endl;
@@ -399,8 +399,8 @@ void parse_content(std::ifstream& file, uint32_t limit) {
                         if (file.gcount() < 4) break;
 
                         FieldHeader next_fh;
-                        file.read((char*)&next_fh, sizeof(next_fh));
-                        if (file.gcount() < sizeof(next_fh)) break;
+                        file.read((char*)&next_fh, static_cast<std::streamsize>(sizeof(next_fh)));
+                        if (file.gcount() < static_cast<std::streamsize>(sizeof(next_fh))) break;
                         if (!isValidType(next_fh.type)) {
                             std::cerr << "FATAL: Invalid field type '" << std::string(next_fh.type, 4) 
                                       << "' at offset 0x" << std::hex << file.tellg() << std::dec << std::endl;

@@ -3,6 +3,7 @@ starfield_reader
 sdl_search
 bin/
 vendor/
+skyrim/parser
 *.o
 *.out
 

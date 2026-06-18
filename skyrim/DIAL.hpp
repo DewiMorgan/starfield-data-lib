@@ -1,7 +1,11 @@
-#ifndef DIAL_H
-#define DIAL_H
+#ifndef DIAL_HPP
+#define DIAL_HPP
 
-struct DIAL {
+#include "core.hpp"
+#include "base_types.hpp"
+
+class DIAL : public Record {
+public:
     zstring editorId;
     dlstring playerDialogue;
     float priority;
@@ -10,7 +14,10 @@ struct DIAL {
     DIALData data;
     char subtype[4];
     uint32 infoCount;
-};
 
+    DIAL() : Record("DIAL") {}
+    const RecordSchema& getSchema() const override { return schema; }
+    static const RecordSchema schema;
+};
 
 #endif

@@ -1,14 +1,21 @@
-#ifndef ASTP_H
-#define ASTP_H
+#ifndef ASTP_HPP
+#define ASTP_HPP
 
-struct ASTP {
+#include "core.hpp"
+#include "base_types.hpp"
+
+class ASTP : public Record {
+public:
     zstring editorId;
     zstring maleParentLabel;
     zstring femaleParentLabel;
     zstring maleChildLabel;
     zstring femaleChildLabel;
     uint32 flags;
-};
 
+    ASTP() : Record("ASTP") {}
+    const RecordSchema& getSchema() const override { return schema; }
+    static const RecordSchema schema;
+};
 
 #endif
