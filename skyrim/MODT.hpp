@@ -1,12 +1,11 @@
-#ifndef MODT_H
-#define MODT_H
+#ifndef MODT_HPP
+#define MODT_HPP
 
-#pragma once
-#include "base_types.hpp"
+#include "core.hpp"
 
-struct MODT {
-    uint8 value;
+// MODT: Model Texture Data - exactly 12 bytes of raw binary data
+struct MODT : public RawField {
+    MODT() : RawField("MODT") {}
 };
-
 
 #endif

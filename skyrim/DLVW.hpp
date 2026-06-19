@@ -1,16 +1,19 @@
-#ifndef DLVW_H
-#define DLVW_H
+#ifndef DLVW_HPP
+#define DLVW_HPP
 
 #include "base_types.hpp"
-#include "BYTE.hpp"
+#include "core.hpp"
 
-struct DLVW {
-    ZString edid;
+struct DLVW : public Record {
+    zstring edid;
     FormID qnam;
-    FormID bnam;
-    FormID tnam;
+    std::vector<FormID> bnam; // repeating branches
+    std::vector<FormID> tnam; // repeating topics
     uint32 enam;
-    BYTE dnam;
+    uint8 dnam;
+
+    static const RecordSchema schema;
+    const RecordSchema& getSchema() const override { return schema; }
 };
 
 #endif

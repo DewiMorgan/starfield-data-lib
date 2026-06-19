@@ -1,20 +1,19 @@
-#ifndef HDPT_H
-#define HDPT_H
+#ifndef HDPT_HPP
+#define HDPT_HPP
 
 #include "base_types.hpp"
-#include <vector>
-#include <string>
+#include "core.hpp"
 
 struct HDPTOption {
     uint32 optionType;
-    ZString triFile;
+    zstring triFile;
 };
 
-struct HDPT {
+struct HDPT : public Record {
     zstring editorId;
     lstring name;
     zstring model;
-    MODT modelTextureData;
+    uint8 modelTextureData[12]; // MODT: 12 bytes raw
     uint8 flags;
     uint32 type;
     std::vector<FormID> additionalParts;
@@ -22,6 +21,9 @@ struct HDPT {
     FormID baseTexture;
     FormID resourceList;
     FormID color;
+
+    static const RecordSchema schema;
+    const RecordSchema& getSchema() const override { return schema; }
 };
 
 #endif

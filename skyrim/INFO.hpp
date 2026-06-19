@@ -1,43 +1,30 @@
-#ifndef INFO_H
-#define INFO_H
+#ifndef INFO_HPP
+#define INFO_HPP
 
 #include "base_types.hpp"
-#include "CTDA.hpp"
-#include <vector>
-#include <string>
+#include "core.hpp"
 
-struct INFOResponse {
-    uint32 emotionType;
-    uint32 emotionValue;
-    int32 unknown1;
-    uint8 responseId;
-    uint8 junk[3];
-    FormID soundFile;
-    uint8 useEmoAnim;
-    uint8 junk2[3];
-    ZString text;
-    ZString notes;
-    ZString edits;
-    FormID speakerIdleAnims;
-    FormID listenerIdleAnims;
-    std::vector<CTDA> conditions;
-};
-
-struct INFO {
-    ZString edid;
-    VMAD vmad;
+struct INFO : public Record {
+    zstring edid;
+    uint8 vmadRaw[32]; // VMAD: Papyrus script info (approximate size)
     uint16 dialogueTab;
     uint16 flags;
-    float resetTime;
+    union {
+        float resetTimeFloat; // DATA version
+        uint16 resetTimeU16;  // ENAM version
+    } resetTime;
     FormID previousInfo;
     uint8 favorLevel;
     std::vector<FormID> topicLinks;
     FormID sharedInfo;
-    std::vector<INFOResponse> responses;
+    std::vector<uint8> responseRawData; // raw TRDT responses
     lstring playerResponse;
     FormID speaker;
     FormID walkAwayTopic;
     FormID audioOutputOverride;
+
+    static const RecordSchema schema;
+    const RecordSchema& getSchema() const override { return schema; }
 };
 
 #endif

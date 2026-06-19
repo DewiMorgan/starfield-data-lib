@@ -1,19 +1,22 @@
-#ifndef DEBR_H
-#define DEBR_H
+#ifndef DEBR_HPP
+#define DEBR_HPP
 
 #include "base_types.hpp"
-#include <vector>
+#include "core.hpp"
 
 struct DEBRData {
     uint8 percentage;
-    ZString modelPath;
+    zstring modelPath;
     uint8 flags;
 };
 
-struct DEBR {
+struct DEBR : public Record {
     zstring editorId;
     std::vector<DEBRData> directionalData;
-    std::vector<MODT> modelData;
+    std::vector<uint8> modelDataRaw; // raw MODT bytes
+
+    static const RecordSchema schema;
+    const RecordSchema& getSchema() const override { return schema; }
 };
 
 #endif

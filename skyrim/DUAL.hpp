@@ -1,11 +1,17 @@
-#ifndef DUAL_H
-#define DUAL_H
+#ifndef DUAL_HPP
+#define DUAL_HPP
 
-struct DUAL {
+#include "base_types.hpp"
+#include "OBND.hpp"
+#include "core.hpp"
+
+struct DUAL : public Record {
     zstring editorId;
     OBND objectBounds;
-    DUALData data;
-};
+    uint8 dataRaw[24]; // 5 FormIDs (20 bytes) + uint32 flags
 
+    static const RecordSchema schema;
+    const RecordSchema& getSchema() const override { return schema; }
+};
 
 #endif

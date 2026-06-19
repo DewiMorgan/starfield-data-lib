@@ -1,9 +1,9 @@
-#ifndef BPTD_H
-#define BPTD_H
+#ifndef BPTD_HPP
+#define BPTD_HPP
 
 #include "base_types.hpp"
-#include <vector>
-#include <string>
+#include "OBND.hpp"
+#include "core.hpp"
 
 struct BPTDPart {
     lstring body_part_name;
@@ -16,11 +16,14 @@ struct BPTDPart {
     std::vector<uint32> hashes;
 };
 
-struct BPTD {
+struct BPTD : public Record {
     zstring editorId;
-    MODL model;
+    OBND model;
     std::vector<BPTDPart> parts;
     FormID ragdoll;
+
+    static const RecordSchema schema;
+    const RecordSchema& getSchema() const override { return schema; }
 };
 
 #endif

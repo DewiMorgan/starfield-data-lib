@@ -1,14 +1,19 @@
-#ifndef CPTH_H
-#define CPTH_H
+#ifndef CPTH_HPP
+#define CPTH_HPP
 
-struct CPTH {
+#include "base_types.hpp"
+#include "core.hpp"
+
+struct CPTH : public Record {
     zstring editorId;
-    std::vector<CTDA> conditions;
+    std::vector<uint8> ctdaData; // raw CTDA entries
     zstring ctdaVariable;
-    formid unknown[2];
+    FormID cameraPaths[2];
     uint8 flags;
-    std::vector<formid> cameras;
-};
+    std::vector<FormID> cameras;
 
+    static const RecordSchema schema;
+    const RecordSchema& getSchema() const override { return schema; }
+};
 
 #endif

@@ -1,10 +1,11 @@
-#ifndef BYTE_H
-#define BYTE_H
+#ifndef BYTE_HPP
+#define BYTE_HPP
 
-// Undocumented field. Guessing at what it might contain.
-struct BYTE {
-    uint8 value;
+#include "core.hpp"
+
+// BYTE: Single raw byte field — inherits from RawField for automatic populate_from_data() and serialize()
+struct BYTE : public RawField {
+    BYTE() : RawField("BYTE") {}
 };
-
 
 #endif

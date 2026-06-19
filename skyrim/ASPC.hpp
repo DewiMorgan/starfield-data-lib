@@ -1,13 +1,19 @@
-#ifndef ASPC_H
-#define ASPC_H
+#ifndef ASPC_HPP
+#define ASPC_HPP
 
-struct ASPC {
+#include "base_types.hpp"
+#include "core.hpp"
+#include "OBND.hpp"
+
+struct ASPC : public Record {
     zstring editorId;
     OBND objectBounds;
-    formid ambient;
-    formid regionData;
-    formid reverb;
-};
+    FormID ambient;
+    FormID regionData;
+    FormID reverb;
 
+    static const RecordSchema schema;
+    const RecordSchema& getSchema() const override { return schema; }
+};
 
 #endif

@@ -1,121 +1,34 @@
-#ifndef CTDA_H
-#define CTDA_H
+#ifndef CTDA_HPP
+#define CTDA_HPP
 
-#pragma once
+#include "core.hpp"
 
-#include "base_types.hpp"
-#include <array>
-#include <vector>
-
-struct CTDA {
+// CTDA: Condition data field - variable length depending on function used
+struct CTDA : public Field {
     uint8 operator_id;
-    std::array<uint8, 3> field_1;
-    uint32 ComparisonValue;
-    uint16 FunctionIndex;
-    std::array<uint8, 2> padding;
-    uint32 All_Functions_Except_GetEventData;
-    uint32 param1;
-    uint32 param2;
-    uint32 GetEventData;
-    uint16 event_param1;
-    std::array<uint8, 2> event_param2;
-    FormID param3;
-    uint32 RunOnType;
-    FormID reference;
-    int32 field_14;
-    uint32 field_15;
-    uint32 field_16;
-    uint32 field_17;
-    uint32 field_18;
-    uint32 field_19;
-    uint32 field_20;
-    uint32 field_21;
-    uint32 field_22;
-    uint32 field_23;
-    uint32 field_24;
-    uint32 field_25;
-    uint32 field_26;
-    uint32 field_27;
-    uint32 field_28;
-    uint32 field_29;
-    uint32 field_30;
-    uint32 field_31;
-    uint32 field_32;
-    uint32 field_33;
-    uint32 field_34;
-    uint32 field_35;
-    uint32 field_36;
-    uint32 field_37;
-    uint32 field_38;
-    uint32 field_39;
-    uint32 field_40;
-    uint32 field_41;
-    uint32 field_42;
-    uint32 field_43;
-    uint32 field_44;
-    uint32 field_45;
-    uint32 field_46;
-    uint32 field_47;
-    uint32 field_48;
-    uint32 field_49;
-    uint32 field_50;
-    uint32 field_51;
-    uint32 field_52;
-    uint32 field_53;
-    uint32 field_54;
-    uint32 field_55;
-    uint32 field_56;
-    uint32 field_57;
-    uint32 field_58;
-    uint32 field_59;
-    uint32 field_60;
-    uint32 field_61;
-    uint32 field_62;
-    uint32 field_63;
-    uint32 field_64;
-    uint32 field_65;
-    uint32 field_66;
-    uint32 field_67;
-    uint32 field_68;
-    uint32 field_69;
-    uint32 field_70;
-    uint32 field_71;
-    uint32 field_72;
-    uint32 field_73;
-    uint32 field_74;
-    uint32 field_75;
-    uint32 field_76;
-    uint32 field_77;
-    uint32 field_78;
-    uint32 field_79;
-    uint32 field_80;
-    uint32 field_81;
-    uint32 field_82;
-    uint32 field_83;
-    uint32 field_84;
-    std::vector<uint32> field_85;
-    uint32 field_86;
-    uint32 field_87;
-    uint32 field_88;
-    uint32 field_89;
-    uint32 field_90;
-    uint32 field_91;
-    uint32 field_92;
-    uint32 field_93;
-    uint32 field_94;
-    uint32 field_95;
-    uint32 field_96;
-    uint32 field_97;
-    uint32 field_98;
-    uint32 field_99;
-    uint32 field_100;
-    uint32 field_101;
-    uint32 field_102;
-    uint32 field_103;
-    uint32 field_104;
-    uint32 field_105;
-    uint32 field_106;
-};
+    float comparisonValue;
+    uint16 functionIndex;
 
+    CTDA() : Field("CTDA"), operator_id(0), comparisonValue(0), functionIndex(0) {}
+
+    void populate_from_data() override {
+        if (raw_data.size() >= 12) {
+            std::memcpy(&operator_id, raw_data.data(), 1);
+            std::memcpy(&comparisonValue, raw_data.data() + 4, sizeof(float));
+            std::memcpy(&functionIndex, raw_data.data() + 8, sizeof(uint16_t));
+        }
+    }
+
+    void serialize(std::ostream& os) const override {
+        uint8_t buf[12];
+        std::memcpy(buf, &operator_id, 4); // operator + unknown(3 bytes)
+        std::memcpy(buf + 4, &comparisonValue, sizeof(float));
+        std::memcpy(buf + 8, &functionIndex, sizeof(uint16_t));
+        os.write(reinterpret_cast<const char*>(buf), 12);
+        if (raw_data.size() > 12) {
+            os.write(reinterpret_cast<const char*>(raw_data.data() + 12), raw_data.size() - 12);
+        }
+    }
+};
 
 #endif

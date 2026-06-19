@@ -17,8 +17,22 @@
 #include "GRUP.hpp"
 #include "IMGS.hpp"
 #include "IPDS.hpp"
+#include "IPCT.hpp"
 #include "KYWD.hpp"
-// I'll add others as I convert them
+#include "LAND.hpp"
+#include "LCRT.hpp"
+#include "LGTM.hpp"
+#include "LTEX.hpp"
+#include "MATO.hpp"
+#include "MATT.hpp"
+#include "MOVT.hpp"
+#include "MUSC.hpp"
+#include "OTFT.hpp"
+#include "ASPC.hpp"
+#include "WOOP.hpp"
+#include "REVB.hpp"
+#include "SNCT.hpp"
+#include "VTYP.hpp"
 
 std::string Form::read_zstring(std::istream& is, uint16_t length) {
     if (length == 0) return "";
@@ -80,7 +94,7 @@ void Record::populate(std::istream& is) {
         }
         bytesRead += sizeof(FieldHeader) + fh.length;
     }
-    const RecordSchema&schema = getSchema();
+    const RecordSchema& schema = getSchema();
 
     // Match FieldSchema elements
     for (const auto& element : schema.elements) {
@@ -133,6 +147,25 @@ std::unique_ptr<Record> RecordFactory::create(const std::string& type) {
     if (type == "GRUP") return std::make_unique<GRUP>();
     if (type == "IMGS") return std::make_unique<IMGS>();
     if (type == "IPDS") return std::make_unique<IPDS>();
+    if (type == "IPCT") return std::make_unique<IPCT>();
     if (type == "KYWD") return std::make_unique<KYWD>();
+    if (type == "LAND") return std::make_unique<LAND>();
+    if (type == "LCRT") return std::make_unique<LCRT>();
+    if (type == "LGTM") return std::make_unique<LGTM>();
+    if (type == "LTEX") return std::make_unique<LTEX>();
+    if (type == "MATO") return std::make_unique<MATO>();
+    if (type == "MATT") return std::make_unique<MATT>();
+    if (type == "MOVT") return std::make_unique<MOVT>();
+    if (type == "MUSC") return std::make_unique<MUSC>();
+    if (type == "OTFT") return std::make_unique<OTFT>();
+    if (type == "ASPC") return std::make_unique<ASPC>();
+    if (type == "WOOP") return std::make_unique<WOOP>();
+    if (type == "REVB") return std::make_unique<REVB>();
+    if (type == "SNCT") return std::make_unique<SNCT>();
+    if (type == "VTYP") return std::make_unique<VTYP>();
+    if (type == "LTEX") return std::make_unique<LTEX>();
+    if (type == "MATO") return std::make_unique<MATO>();
+    if (type == "MATT") return std::make_unique<MATT>();
+    if (type == "MOVT") return std::make_unique<MOVT>();
     return nullptr;
 }

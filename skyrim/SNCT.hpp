@@ -1,14 +1,18 @@
 #ifndef SNCT_H
 #define SNCT_H
 
-struct SNCT {
-    ZString editorId;
-    lstring full_name;
-    uint32 flags;
-    FormID parent_name;
-    uint16 static_volume_mult;
-    uint16 default_menu_value;
-};
+#include "core.hpp"
 
+struct SNCT : public Record {
+    ZString editorId;
+    std::string fullName;
+    uint32 flags;
+    FormID parentName;
+    uint16 staticVolumeMult;
+    uint16 defaultMenuValue;
+
+    static const RecordSchema schema;
+    const RecordSchema& getSchema() const override;
+};
 
 #endif

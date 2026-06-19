@@ -65,6 +65,7 @@ public:
     std::vector<std::unique_ptr<Field>> fields;
     
     Record(const std::string& t) : Form(t) {}
+    Record() : Form("UNKNOWN") {}
     
     virtual const RecordSchema& getSchema() const = 0;
     virtual void populate(std::istream& is);

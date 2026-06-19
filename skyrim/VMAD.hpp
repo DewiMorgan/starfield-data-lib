@@ -1,12 +1,12 @@
-#ifndef VMAD_H
-#define VMAD_H
+#ifndef VMAD_HPP
+#define VMAD_HPP
 
-#pragma once
-#include "base_types.hpp"
+#include "core.hpp"
 
-struct VMAD {
-    uint8 value;
+// VMAD: Papyrus Virtual Machine arguments - variable length binary data containing script names, properties, and fragments.
+// Inherits from RawField for automatic populate_from_data() and serialize().
+struct VMAD : public RawField {
+    VMAD() : RawField("VMAD") {}
 };
-
 
 #endif

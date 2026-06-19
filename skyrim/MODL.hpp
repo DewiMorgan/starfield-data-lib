@@ -1,15 +1,11 @@
-#ifndef MODL_H
-#define MODL_H
+#ifndef MODL_HPP
+#define MODL_HPP
 
-#pragma once
+#include "core.hpp"
 
-#include "base_types.hpp"
-#include <array>
-#include <vector>
-
-struct MODL {
-    ZString model;
+// MODL is just a zstring field for model filename.
+struct MODL : public ZStringField {
+    MODL() : ZStringField("MODL") {}
 };
-
 
 #endif
